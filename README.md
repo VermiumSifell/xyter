@@ -24,4 +24,4 @@ We have a official bot for this repository. [Invite bot!](https://discord.com/ap
 
 ## Contribute
 
-We require developers to sign their work with a GPG key. [How do I sign my work?](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work)
+We require developers to sign their work with a GPG key. [How do I sign my work?](https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key)
