@@ -46,5 +46,14 @@
     "titleBar.inactiveBackground": "#33669999",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "cSpell.words": ["Controlpanel", "discordjs", "pino", "runned", "Timout", "upsert", "uuidv"]
+  "cSpell.words": [
+    "Controlpanel",
+    "discordjs",
+    "pino",
+    "runned",
+    "Timout",
+    "upsert",
+    "uuidv"
+  ],
+  "git.enableCommitSigning": true
 }
