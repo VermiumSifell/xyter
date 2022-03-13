@@ -5,6 +5,7 @@ const {
   guilds,
   experiences,
   credits,
+  counters,
   timeouts,
 } = require('../helpers/database/models');
 
@@ -16,6 +17,30 @@ module.exports = {
 
     // If message author is bot
     if (message.author.bot) return;
+
+    // Get counter object
+    const counter = await counters.findOne({
+      guildId: message.guild.id,
+      channelId: message.channel.id,
+    });
+
+    // If counter for the message channel
+    if (counter) {
+      // If message content is not strictly the same as counter word
+      if (message.content !== counter.word) {
+        // Delete the message
+        await message.delete();
+      } else {
+        // Add 1 to the counter object
+        await counters.findOneAndUpdate(
+          {
+            guildId: message.guild.id,
+            channelId: message.channel.id,
+          },
+          { $inc: { counter: 1 } }
+        );
+      }
+    }
 
     // Create user if not already created
     await users.findOne(

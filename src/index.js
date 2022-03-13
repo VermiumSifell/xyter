@@ -1,37 +1,21 @@
-const fs = require('fs');
-const { Client, Collection, Intents } = require('discord.js');
+// Dependencies
+const { Client, Intents } = require('discord.js'); // discord.js
 
-require('./deploy-commands')();
-require('./helpers/database')();
-require('./handlers/locale')();
+const { database } = require('./helpers'); // helpers
+const { events, commands, locale } = require('./handlers'); // handlers
 
-const config = require('../config.json');
+const config = require('../config.json'); // config.json
 
-const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
-});
+(async () => {
+  // Initialize discord.js client
+  const client = new Client({
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+  });
 
-const eventFiles = fs
-  .readdirSync('./src/events')
-  .filter((file) => file.endsWith('.js'));
+  await database();
+  await locale();
+  await events(client);
+  await commands(client);
 
-client.commands = new Collection();
-const commandFiles = fs.readdirSync('./src/commands');
-
-for (const file of commandFiles) {
-  // eslint-disable-next-line import/no-dynamic-require, global-require
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.data.name, command);
-}
-
-for (const file of eventFiles) {
-  // eslint-disable-next-line import/no-dynamic-require, global-require
-  const event = require(`./events/${file}`);
-  if (event.once) {
-    client.once(event.name, (...args) => event.execute(...args));
-  } else {
-    client.on(event.name, (...args) => event.execute(...args));
-  }
-}
-
-client.login(config.bot.token);
+  await client.login(config.bot.token);
+})();

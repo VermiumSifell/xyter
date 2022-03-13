@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const credits = require('./credits');
+const counter = require('./counter');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -84,12 +85,54 @@ module.exports = {
                 .setRequired(true)
             )
         )
+    )
+    .addSubcommandGroup((group) =>
+      group
+        .setName('counter')
+        .setDescription('Manage counters.')
+        .addSubcommand((command) =>
+          command
+            .setName('add')
+            .setDescription('Add a counter')
+            .addChannelOption((option) =>
+              option
+                .setName('channel')
+                .setDescription('The counter channel.')
+                .setRequired(true)
+            )
+            .addStringOption((option) =>
+              option
+                .setName('word')
+                .setDescription('The counter word.')
+                .setRequired(true)
+            )
+            .addNumberOption((option) =>
+              option.setName('start').setDescription('Start at number X.')
+            )
+        )
+        .addSubcommand((command) =>
+          command
+            .setName('remove')
+            .setDescription('Remove a counter')
+            .addChannelOption((option) =>
+              option
+                .setName('channel')
+                .setDescription('The counter channel.')
+                .setRequired(true)
+            )
+        )
     ),
   async execute(interaction) {
     // If subcommand group is credits
     if (interaction.options.getSubcommandGroup() === 'credits') {
       // Execute credits group
       await credits(interaction);
+    }
+
+    // If subcommand group is credits
+    else if (interaction.options.getSubcommandGroup() === 'counter') {
+      // Execute credits group
+      await counter(interaction);
     }
   },
 };

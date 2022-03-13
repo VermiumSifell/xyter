@@ -1,5 +1,7 @@
 const logger = require('../handlers/logger');
 
+const { database, deployCommands } = require('../helpers');
+
 module.exports = {
   name: 'ready',
   once: true,
@@ -14,5 +16,7 @@ module.exports = {
       ],
       status: 'online',
     });
+
+    await deployCommands();
   },
 };

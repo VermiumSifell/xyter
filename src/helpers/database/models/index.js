@@ -4,6 +4,7 @@ const users = require('./userSchema');
 const guilds = require('./guildSchema');
 const apis = require('./apiSchema');
 const timeouts = require('./timeoutSchema');
+const counters = require('./counterSchema');
 
 module.exports = {
   credits,
@@ -12,4 +13,5 @@ module.exports = {
   guilds,
   apis,
   timeouts,
+  counters,
 };
