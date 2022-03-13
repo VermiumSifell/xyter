@@ -6,12 +6,11 @@ const { pterodactyl, credits } = require('./addons');
 
 module.exports = async (interaction) => {
   // Destructure member
-
   const { member } = interaction;
 
   // Check permission
-
   if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+    // Create embed object
     const embed = {
       title: 'Settings',
       color: config.colors.error,
@@ -19,23 +18,24 @@ module.exports = async (interaction) => {
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
+
+    // Send interaction reply
     await interaction.editReply({ embeds: [embed], ephemeral: true });
   }
 
-  // Command handler
-
+  // If subcommand is pterodactyl
   if (interaction.options.getSubcommand() === 'pterodactyl') {
     // Execute pterodactyl addon
-
     await pterodactyl(interaction);
-  } else if (interaction.options.getSubcommand() === 'credits') {
-    // Execute credits addon
+  }
 
+  // If subcommand is credits
+  else if (interaction.options.getSubcommand() === 'credits') {
+    // Execute credits addon
     await credits(interaction);
   }
 
   // Send debug message
-
   await logger.debug(
     `Guild: ${member.guild.id} User: ${member.id} executed /${
       interaction.commandName

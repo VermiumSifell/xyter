@@ -29,18 +29,15 @@ module.exports = {
     ),
   async execute(interaction) {
     // Destructure member
-
     const { member } = interaction;
 
-    // Command handler
-
+    // If subcommand is give
     if (interaction.options.getSubcommand() === 'give') {
       // Execute give addon
-
       await give(interaction);
     }
-    // Send debug message
 
+    // Send debug message
     await logger.debug(
       `Guild: ${member.guild.id} User: ${member.id} executed /${
         interaction.commandName

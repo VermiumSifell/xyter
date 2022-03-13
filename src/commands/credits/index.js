@@ -1,14 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Permissions } = require('discord.js');
 
-const config = require('../../../config.json');
-const guilds = require('../../helpers/database/models/guildSchema');
-
-const balance = require('./addons/balance');
-const gift = require('./addons/gift');
-const redeem = require('./addons/redeem');
-const top = require('./addons/top');
-const work = require('./addons/work');
+const { balance, gift, top, work } = require('./addons');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -23,16 +15,6 @@ module.exports = {
             .setName('user')
             .setDescription('The user whose balance you want to check.')
             .setRequired(false)
-        )
-    )
-    .addSubcommand((subcommand) =>
-      subcommand
-        .setName('redeem')
-        .setDescription('Redeem your credits.')
-        .addIntegerOption((option) =>
-          option
-            .setName('amount')
-            .setDescription('How much credit you want to withdraw.')
         )
     )
     .addSubcommand((subcommand) =>
@@ -62,35 +44,28 @@ module.exports = {
       subcommand.setName('work').setDescription('Work for credits.')
     ),
   async execute(interaction) {
-    const guild = await guilds.findOne({
-      guildId: interaction.member.guild.id,
-    });
-
-    if (
-      guild.credits.status === false &&
-      interaction.options.getSubcommand() !== 'settings'
-    ) {
-      const embed = {
-        title: 'Credits',
-        description: 'Please enable credits by ``/credits settings``',
-        color: config.colors.error,
-        timestamp: new Date(),
-        footer: { iconURL: config.footer.icon, text: config.footer.text },
-      };
-      return interaction.editReply({ embeds: [embed], ephemeral: true });
+    // If subcommand is balance
+    if (interaction.options.getSubcommand() === 'balance') {
+      // Execute balance addon
+      await balance(interaction);
     }
 
-    if (interaction.options.getSubcommand() === 'balance') {
-      await balance(interaction);
-    } else if (interaction.options.getSubcommand() === 'gift') {
+    // If subcommand is gift
+    else if (interaction.options.getSubcommand() === 'gift') {
+      // Execute gift addon
       await gift(interaction);
-    } else if (interaction.options.getSubcommand() === 'redeem') {
-      await redeem(interaction);
-    } else if (interaction.options.getSubcommand() === 'top') {
+    }
+
+    // If subcommand is top
+    else if (interaction.options.getSubcommand() === 'top') {
+      // Execute top addon
       await top(interaction);
-    } else if (interaction.options.getSubcommand() === 'work') {
+    }
+
+    // If subcommand is work
+    else if (interaction.options.getSubcommand() === 'work') {
+      // Execute work addon
       await work(interaction);
     }
-    return true;
   },
 };

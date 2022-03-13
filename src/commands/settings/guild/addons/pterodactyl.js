@@ -8,12 +8,11 @@ const { apis } = require('../../../../helpers/database/models');
 
 module.exports = async (interaction) => {
   // Destructure member
-
   const { member } = interaction;
 
   // Check permission
-
   if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+    // Create embed object
     const embed = {
       title: 'Settings',
       color: config.colors.error,
@@ -21,6 +20,8 @@ module.exports = async (interaction) => {
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
+
+    // Send interaction reply
     return interaction.editReply({ embeds: [embed], ephemeral: true });
   }
 

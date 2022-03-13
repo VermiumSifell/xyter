@@ -17,9 +17,10 @@ module.exports = {
         )
     ),
   async execute(interaction) {
+    // If subcommand is view
     if (interaction.options.getSubcommand() === 'view') {
+      // Execute view addon
       await view(interaction);
     }
-    return true;
   },
 };
