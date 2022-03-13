@@ -1,22 +1,16 @@
-/* eslint-disable no-restricted-syntax */
-const config = require('../config.json');
-
-const logger = require('./handlers/logger');
+const config = require('../../config.json');
+const logger = require('../handlers/logger');
+const fs = require('fs');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
 
 module.exports = async () => {
-  // eslint-disable-next-line global-require
-  const fs = require('fs');
-  // eslint-disable-next-line global-require
-  const { REST } = require('@discordjs/rest');
-  // eslint-disable-next-line global-require
-  const { Routes } = require('discord-api-types/v9');
-
   const commands = [];
   const commandFiles = fs.readdirSync('./src/commands');
 
   for (const file of commandFiles) {
     // eslint-disable-next-line import/no-dynamic-require, global-require
-    const command = require(`./commands/${file}`);
+    const command = require(`../commands/${file}`);
     commands.push(command.data.toJSON());
   }
 
