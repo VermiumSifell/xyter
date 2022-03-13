@@ -5,9 +5,6 @@ const logger = require('../../../../handlers/logger');
 // Database models
 const { counters } = require('../../../../helpers/database/models');
 
-const creditNoun = require('../../../../helpers/creditNoun');
-const { count } = require('../../../../helpers/database/models/apiSchema');
-
 module.exports = async (interaction) => {
   // Destructure member
   const { member } = interaction;
