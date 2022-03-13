@@ -14,6 +14,7 @@ module.exports = {
           option
             .setName('channel')
             .setDescription('The counter channel you want to view')
+            .setRequired(true)
         )
     ),
   async execute(interaction) {
