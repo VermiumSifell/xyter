@@ -46,14 +46,14 @@ module.exports = async (interaction) => {
   const counterExist = await counters.findOne({
     guildId: member.guild.id,
     channelId: channel.id,
-    word: word,
+    word,
   });
 
   if (!counterExist) {
     await counters.create({
       guildId: member.guild.id,
       channelId: channel.id,
-      word: word,
+      word,
       counter: start || 0,
     });
     // Create embed object
@@ -74,17 +74,16 @@ module.exports = async (interaction) => {
 
     // Send interaction reply
     return await interaction.editReply({ embeds: [embed] });
-  } else {
-    // Create embed object
-    const embed = {
-      title: 'Admin - Counter',
-      description: `${channel} is already a counting channel.`,
-      timestamp: new Date(),
-      color: config.colors.error,
-      footer: { iconURL: config.footer.icon, text: config.footer.text },
-    };
-
-    // Send interaction reply
-    return await interaction.editReply({ embeds: [embed] });
   }
+  // Create embed object
+  const embed = {
+    title: 'Admin - Counter',
+    description: `${channel} is already a counting channel.`,
+    timestamp: new Date(),
+    color: config.colors.error,
+    footer: { iconURL: config.footer.icon, text: config.footer.text },
+  };
+
+  // Send interaction reply
+  return await interaction.editReply({ embeds: [embed] });
 };
