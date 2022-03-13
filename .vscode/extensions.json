@@ -32,7 +32,15 @@
     "ms-vscode.js-debug-companion",
     "ms-vscode.references-view",
     "ms-vscode.vscode-js-profile-table",
-    "pflannery.vscode-versionlens"
+    "pflannery.vscode-versionlens",
+    "adpyke.codesnap",
+    "Anan.devdocstab",
+    "axosoft.gitkraken-glo",
+    "Gruntfuggly.todo-tree",
+    "kiteco.kite",
+    "lkytal.pomodoro",
+    "wayou.vscode-todo-highlight",
+    "johnpapa.vscode-peacock"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []
