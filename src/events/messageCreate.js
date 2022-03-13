@@ -12,29 +12,24 @@ module.exports = {
   name: 'messageCreate',
   async execute(message) {
     // Get guild object
-
     const guild = await guilds.findOne({ guildId: message.guild.id });
 
-    // Stop if message author is bot
-
+    // If message author is bot
     if (message.author.bot) return;
 
     // Create user if not already created
-
     await users.findOne(
       { userId: message.author.id },
       { new: true, upsert: true }
     );
 
-    // Stop if message content is shorter than guild configured minimum length
-
+    // If message length is below guild minimum length
     if (message.content.length < guild.credits.minimumLength) return;
 
     // Needs to be updated for multi-guild to function properly
     // if (config.credits.excludedChannels.includes(message.channel.id)) return;
 
     // Check if user has a timeout
-
     const isTimeout = await timeouts.findOne({
       guildId: message.guild.id,
       userId: message.author.id,
@@ -42,44 +37,52 @@ module.exports = {
     });
 
     // If user is not on timeout
-
     if (!isTimeout) {
       // Add credits to user
-
       await credits
         .findOneAndUpdate(
           { userId: message.author.id, guildId: message.guild.id },
           { $inc: { balance: guild.credits.rate } },
           { new: true, upsert: true }
         )
-        .then(async () =>
+
+        // If successful
+        .then(async () => {
+          // Send debug message
           logger.debug(
             `Guild: ${message.guild.id} Credits added to user: ${message.author.id}`
-          )
-        )
+          );
+        })
+
+        // If error
         .catch(async (err) => {
+          // Send error message
           await logger.error(err);
         });
 
       // Add points to user
-
       await experiences
         .findOneAndUpdate(
           { userId: message.author.id, guildId: message.guild.id },
           { $inc: { points: guild.points.rate } },
           { new: true, upsert: true }
         )
-        .then(async () =>
+
+        // If successful
+        .then(async () => {
+          // Send debug message
           logger.debug(
             `Guild: ${message.guild.id} Points added to user: ${message.author.id}`
-          )
-        )
+          );
+        })
+
+        // If error
         .catch(async (err) => {
+          // Send error message
           await logger.error(err);
         });
 
       // Create a timeout for the user
-
       await timeouts.create({
         guildId: message.guild.id,
         userId: message.author.id,
@@ -87,6 +90,7 @@ module.exports = {
       });
 
       setTimeout(async () => {
+        // Send debug message
         await logger.debug(
           `Guild: ${message.guild.id} User: ${
             message.author.id
@@ -96,7 +100,6 @@ module.exports = {
         );
 
         // When timeout is out, remove it from the database
-
         await timeouts.deleteOne({
           guildId: message.guild.id,
           userId: message.author.id,
@@ -104,6 +107,7 @@ module.exports = {
         });
       }, guild.credits.timeout);
     } else {
+      // Sned debug message
       await logger.debug(
         `Guild: ${message.guild.id} User: ${
           message.author.id

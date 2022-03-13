@@ -10,32 +10,35 @@ const {
 
 module.exports = async (interaction) => {
   try {
+    // Destructure member
     const { member } = await interaction;
 
-    // Options
+    // Get options
     const target = await interaction.options.getUser('target');
 
+    // Get discord user object
     const discordUser = await interaction.client.users.fetch(
       `${target ? target.id : member.id}`
     );
 
-    // Databases
-    //   Fetch user from user
+    // Get user object
     const user = await users.findOne({ userId: await discordUser.id });
 
-    //   Fetch credit from user and guild
+    // Get experience object
     const experience = await experiences.findOne({
       userId: await discordUser.id,
       guildId: await member.guild.id,
     });
 
-    //   Fetch credit from user and guild
+    // Get credit object
     const credit = await credits.findOne({
       userId: await discordUser.id,
       guildId: await member.guild.id,
     });
 
+    // If any of the objects return is null
     if (user === null || experience === null || credit === null) {
+      // Create embed object
       const embed = {
         title: 'Profile',
         description: `${
@@ -48,6 +51,7 @@ module.exports = async (interaction) => {
         footer: { iconURL: config.footer.icon, text: config.footer.text },
       };
 
+      // Send interaction reply
       return await interaction.editReply({ embeds: [embed] });
     }
 
@@ -80,7 +84,7 @@ module.exports = async (interaction) => {
       }
     );
 
-    // Create embed
+    // Create embed object
     const embed = {
       author: {
         name: `${await discordUser.username}#${await discordUser.discriminator}`,
@@ -118,10 +122,10 @@ module.exports = async (interaction) => {
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
-    // Send reply
+    // Send interaction reply
     return await interaction.editReply({ embeds: [embed], ephemeral: true });
   } catch (e) {
+    // Send debug message
     await logger.error(e);
   }
-  return true;
 };

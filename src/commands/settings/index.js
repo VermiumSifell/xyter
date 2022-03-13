@@ -87,11 +87,15 @@ module.exports = {
         )
     ),
   async execute(interaction) {
+    // If subcommand group is guild
     if (interaction.options.getSubcommandGroup() === 'guild') {
+      // Execute guild group
       await guild(interaction);
-    } else if (interaction.options.getSubcommandGroup() === 'user') {
+    }
+    // If subcommand group is user
+    else if (interaction.options.getSubcommandGroup() === 'user') {
+      // Execute user group
       await user(interaction);
     }
-    return true;
   },
 };

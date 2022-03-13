@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Permissions } = require('discord.js');
 
 const credits = require('./credits');
 
@@ -87,9 +86,10 @@ module.exports = {
         )
     ),
   async execute(interaction) {
+    // If subcommand group is credits
     if (interaction.options.getSubcommandGroup() === 'credits') {
+      // Execute credits group
       await credits(interaction);
     }
-    return true;
   },
 };

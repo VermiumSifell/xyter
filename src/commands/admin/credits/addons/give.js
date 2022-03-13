@@ -3,18 +3,17 @@ const config = require('../../../../../config.json');
 const logger = require('../../../../handlers/logger');
 
 // Database models
-
 const { credits } = require('../../../../helpers/database/models');
+
 const creditNoun = require('../../../../helpers/creditNoun');
 
 module.exports = async (interaction) => {
   // Destructure member
-
   const { member } = interaction;
 
   // Check permission
-
   if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+    // Create embed object
     const embed = {
       title: 'Admin',
       color: config.colors.error,
@@ -22,17 +21,18 @@ module.exports = async (interaction) => {
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
+
+    // Send interaction reply
     return interaction.editReply({ embeds: [embed], ephemeral: true });
   }
 
   // Get options
-
   const user = await interaction.options.getUser('user');
   const amount = await interaction.options.getInteger('amount');
 
-  // Stop if given amount is zero or below
-
+  // If amount is zero or below
   if (amount <= 0) {
+    // Create embed object
     const embed = {
       title: 'Give',
       description: "You can't give zero or below.",
@@ -40,19 +40,20 @@ module.exports = async (interaction) => {
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
+
+    // Send interaction reply
     return interaction.editReply({ embeds: [embed], ephemeral: true });
   }
 
   // Get toUser object
-
   const toUser = await credits.findOne({
     userId: user.id,
     guildId: interaction.member.guild.id,
   });
 
-  // Stop if user has zero or below credits
-
+  // If toUser has no credits
   if (!toUser) {
+    // Create embed object
     const embed = {
       title: 'Give',
       description:
@@ -61,38 +62,44 @@ module.exports = async (interaction) => {
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
+
+    // Send interaction reply
     return interaction.editReply({ embeds: [embed], ephemeral: true });
   }
 
-  // Increase toUser with amount
-
+  // Deposit amount to toUser
   toUser.balance += amount;
 
   // Save toUser
+  await toUser
+    .save()
 
-  await toUser.save().then(async () => {
-    const embed = {
-      title: 'Give',
-      description: `Gave ${creditNoun(amount)} to ${user}.`,
-      color: 0x22bb33,
-      timestamp: new Date(),
-      footer: { iconURL: config.footer.icon, text: config.footer.text },
-    };
-    await logger.debug(
-      `Administrator: ${interaction.user.username} gave ${
-        amount <= 1 ? `${amount} credit` : `${amount} credits`
-      } to ${user.username}`
-    );
-    // Send reply
+    // If successful
+    .then(async () => {
+      // Create embed object
+      const embed = {
+        title: 'Give',
+        description: `Gave ${creditNoun(amount)} to ${user}.`,
+        color: 0x22bb33,
+        timestamp: new Date(),
+        footer: { iconURL: config.footer.icon, text: config.footer.text },
+      };
 
-    await interaction.editReply({ embeds: [embed], ephemeral: true });
+      // Send debug message
+      await logger.debug(
+        `Administrator: ${interaction.user.username} gave ${
+          amount <= 1 ? `${amount} credit` : `${amount} credits`
+        } to ${user.username}`
+      );
 
-    // Send debug message
+      // Send interaction reply
+      await interaction.editReply({ embeds: [embed], ephemeral: true });
 
-    await logger.debug(
-      `Guild: ${member.guild.id} User: ${member.id} gave ${
-        user.id
-      } ${creditNoun(amount)}.`
-    );
-  });
+      // Send debug message
+      await logger.debug(
+        `Guild: ${member.guild.id} User: ${member.id} gave ${
+          user.id
+        } ${creditNoun(amount)}.`
+      );
+    });
 };

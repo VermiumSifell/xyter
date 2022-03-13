@@ -3,29 +3,28 @@ const config = require('../../../../../config.json');
 const logger = require('../../../../handlers/logger');
 
 // Database models
-
 const { guilds } = require('../../../../helpers/database/models');
 
 module.exports = async (interaction) => {
   // Destructure member
-
   const { member } = interaction;
 
   // Check permission
-
   if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+    // Create embed object
     const embed = {
       title: 'Settings',
       color: config.colors.error,
-      description: 'You do not have permission to manage this!',
+      description: `You don't have permission to manage this!`,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
+
+    // Send interaction reply
     return interaction.editReply({ embeds: [embed], ephemeral: true });
   }
 
   // Get options
-
   const status = await interaction.options.getBoolean('status');
   const rate = await interaction.options.getNumber('rate');
   const timeout = await interaction.options.getNumber('timeout');
@@ -34,11 +33,9 @@ module.exports = async (interaction) => {
   const workTimeout = await interaction.options.getNumber('work-timeout');
 
   // Get guild object
-
   const guild = await guilds.findOne({ guildId: interaction.member.guild.id });
 
   // Modify values
-
   guild.credits.status = status !== null ? status : guild.credits.status;
   guild.credits.rate = rate !== null ? rate : guild.credits.rate;
   guild.credits.timeout = timeout !== null ? timeout : guild.credits.timeout;
@@ -50,10 +47,8 @@ module.exports = async (interaction) => {
     minimumLength !== null ? minimumLength : guild.credits.minimumLength;
 
   // Save guild
-
   await guild.save().then(async () => {
-    // Build embed
-
+    // Create embed object
     const embed = {
       title: 'Credits',
       description: 'Following settings is set!',
@@ -82,12 +77,10 @@ module.exports = async (interaction) => {
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
-    // Send reply
-
+    // Send interaction reply
     await interaction.editReply({ embeds: [embed], ephemeral: true });
 
     // Send debug message
-
     await logger.debug(
       `Guild: ${member.guild.id} User: ${member.id} has changed credit details.`
     );

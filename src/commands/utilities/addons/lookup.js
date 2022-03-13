@@ -5,12 +5,19 @@ const logger = require('../../../handlers/logger');
 
 module.exports = async (interaction) => {
   try {
-    const target = await interaction.options.getString('target');
+    // Get lookup query
+    const query = await interaction.options.getString('query');
 
+    // Make API request
     await axios
-      .get(`http://ip-api.com/json/${target}`)
+      // Make a get request
+      .get(`http://ip-api.com/json/${query}`)
+
+      // If successful
       .then(async (res) => {
+        // If query failed
         if (res.data.status === 'fail') {
+          // Create embed object
           const embed = {
             title: 'Lookup',
             description: `${res.data.message}: ${res.data.query}`,
@@ -18,8 +25,14 @@ module.exports = async (interaction) => {
             timestamp: new Date(),
             footer: { iconURL: config.footer.icon, text: config.footer.text },
           };
+
+          // Send interaction reply
           await interaction.editReply({ embeds: [embed] });
-        } else if (res.data.status === 'success') {
+        }
+
+        // If query is successful
+        else if (res.data.status === 'success') {
+          // Create embed object
           const embed = {
             title: 'Lookup',
             fields: [
@@ -61,13 +74,15 @@ module.exports = async (interaction) => {
             timestamp: new Date(),
             footer: { iconURL: config.footer.icon, text: config.footer.text },
           };
+
+          // Send interaction reply
           await interaction.editReply({ embeds: [embed] });
         }
       })
-      .catch(async (err) => {
-        await logger.error(err);
+      .catch(async (e) => {
+        await logger.error(e);
       });
-  } catch {
-    await logger.error();
+  } catch (e) {
+    await logger.error(e);
   }
 };

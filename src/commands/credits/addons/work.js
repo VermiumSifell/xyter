@@ -7,14 +7,11 @@ const {
 } = require('../../../helpers/database/models');
 const creditNoun = require('../../../helpers/creditNoun');
 
-const workedRecently = new Set();
-
-// eslint-disable-next-line consistent-return
 module.exports = async (interaction) => {
+  // Destructure member
   const { member } = interaction;
 
   // Check if user has a timeout
-
   const isTimeout = await timeouts.findOne({
     guildId: member.guild.id,
     userId: member.id,
@@ -22,13 +19,15 @@ module.exports = async (interaction) => {
   });
 
   // If user is not on timeout
-
   if (!isTimeout) {
     const guild = await guilds.findOne({
       guildId: interaction.member.guild.id,
     });
 
+    // Make a variable of how much credits user will earn based on random multiplied with work rate
     const creditsEarned = Math.floor(Math.random() * guild.credits.workRate);
+
+    // Add credits to user
     await credits
       .findOneAndUpdate(
         {
@@ -38,8 +37,13 @@ module.exports = async (interaction) => {
         { $inc: { balance: creditsEarned } },
         { new: true, upsert: true }
       )
+
+      // If successful
       .then(async () => {
+        // Send debug message
         logger.debug(`Credits added to user: ${interaction.member.id}`);
+
+        // Create embed object
         const embed = {
           title: 'Work',
           description: `You earned ${creditNoun(creditsEarned)}`,
@@ -48,11 +52,11 @@ module.exports = async (interaction) => {
           footer: { iconURL: config.footer.icon, text: config.footer.text },
         };
 
+        // Send interaction reply
         return interaction.editReply({ embeds: [embed], ephemeral: true });
       });
 
     // Create a timeout for the user
-
     await timeouts.create({
       guildId: member.guild.id,
       userId: member.id,
@@ -60,6 +64,7 @@ module.exports = async (interaction) => {
     });
 
     setTimeout(async () => {
+      // Send debug message
       await logger.debug(
         `Guild: ${member.guild.id} User: ${
           member.id
@@ -69,7 +74,6 @@ module.exports = async (interaction) => {
       );
 
       // When timeout is out, remove it from the database
-
       await timeouts.deleteOne({
         guildId: member.guild.id,
         userId: member.id,
@@ -77,6 +81,7 @@ module.exports = async (interaction) => {
       });
     }, 86400000);
   } else {
+    // Create embed object
     const embed = {
       title: 'Work',
       description: `You have worked within the last ${
@@ -87,8 +92,10 @@ module.exports = async (interaction) => {
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
+    // Send interaction reply
     await interaction.editReply({ embeds: [embed] });
 
+    // Send debug message
     await logger.debug(
       `Guild: ${member.guild.id} User: ${member.id} has worked within last day, no work can be done`
     );
