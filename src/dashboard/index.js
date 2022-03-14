@@ -16,8 +16,8 @@ module.exports = async (client) => {
       secret: config.bot.clientSecret,
     },
     acceptPrivacyPolicy: true,
-    redirectUri: 'http://localhost:3000/discord/callback',
-    domain: 'http://localhost',
+    redirectUri: `${config.dashboard.url}/discord/callback`,
+    domain: `${config.dashboard.url}`,
     bot: client,
     theme: DarkDashboard({
       information: {
@@ -25,7 +25,7 @@ module.exports = async (client) => {
         websiteTitle: 'Xyter',
         websiteName: 'Xyter',
         websiteUrl: 'https://zyner.org',
-        dashboardUrl: 'http://localhost:3000/',
+        dashboardUrl: `${config.dashboard.url}`,
         supporteMail: 'contact@zyner.org',
         supportServer: 'https://discord.gg/Ve9ug2zkbt',
         imageFavicon:

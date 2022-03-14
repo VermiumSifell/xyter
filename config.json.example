@@ -6,6 +6,7 @@
     "clientSecret": "required"
   },
   "dashboard": {
+    "url": "https://xyter.zyner.org",
     "port": 80,
     "licenseKey": "required"
   },
