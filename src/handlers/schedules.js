@@ -10,7 +10,7 @@ module.exports = async (client) => {
   schedule.scheduleJob('*/30 * * * *', async () => {
     shopRoles.find().then(async (data) => {
       data.map(async (role) => {
-        var payed = new Date(role.lastPayed);
+        const payed = new Date(role.lastPayed);
 
         oneHourAfterPayed = payed.setHours(payed.getHours() + 1);
 
@@ -24,16 +24,16 @@ module.exports = async (client) => {
             userId: role.userId,
             guildId: role.guildId,
           });
-          const pricePerHour = guild.shop.roles.pricePerHour;
+          const { pricePerHour } = guild.shop.roles;
 
           if (userObject.balance < pricePerHour) {
             const rGuild = await client.guilds.cache.get(`${role.guildId}`);
-            let rMember = await rGuild.members.fetch(`${role.userId}`);
+            const rMember = await rGuild.members.fetch(`${role.userId}`);
 
             await rMember.roles
               .remove(`${role.roleId}`)
               .then(console.log)
-              .catch(console.error); //Removes all roles
+              .catch(console.error); // Removes all roles
           }
 
           role.lastPayed = new Date();
