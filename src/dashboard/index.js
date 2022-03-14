@@ -218,13 +218,15 @@ module.exports = async (client) => {
             optionType: DBD.formTypes.input('https://bg.zyner.org/api/'),
             getActualSet: async ({ guild, user }) => {
               const api = await apis.findOne({ guildId: guild.id });
+
+              if (!api) {
+                apis.create({ guildId: guild.id });
+              }
+
               return api.url;
             },
             setNew: async ({ guild, newData }) => {
-              const api = await apis.findOne(
-                { guildId: guild.id },
-                { new: true, upsert: true }
-              );
+              const api = await apis.findOne({ guildId: guild.id });
 
               api.url = newData || api.url;
 
@@ -239,10 +241,10 @@ module.exports = async (client) => {
             optionDescription: 'Configure your controlpanel.gg Token',
             optionType: DBD.formTypes.input('1'),
             getActualSet: async ({ guild, user }) => {
-              const api = await apis.findOne(
-                { guildId: guild.id },
-                { new: true, upsert: true }
-              );
+              const api = await apis.findOne({ guildId: guild.id });
+              if (!api) {
+                apis.create({ guildId: guild.id });
+              }
               return api.token;
             },
             setNew: async ({ guild, newData }) => {
