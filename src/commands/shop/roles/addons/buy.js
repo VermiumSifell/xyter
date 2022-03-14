@@ -32,7 +32,7 @@ module.exports = async (interaction) => {
         userId: member.id,
         guildId: interaction.member.guild.id,
       });
-      const pricePerHour = guild.shop.roles.pricePerHour;
+      const { pricePerHour } = guild.shop.roles;
 
       userObject.balance -= pricePerHour;
 
