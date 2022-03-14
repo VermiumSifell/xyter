@@ -12,7 +12,7 @@ module.exports = async (interaction) => {
   if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
     // Create embed object
     const embed = {
-      title: 'Settings',
+      title: 'Settings - User',
       color: config.colors.error,
       description: `You don't have permission to manage this!`,
       timestamp: new Date(),

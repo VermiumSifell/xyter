@@ -19,7 +19,7 @@ module.exports = async (interaction) => {
         if (res.data.status === 'fail') {
           // Create embed object
           const embed = {
-            title: 'Lookup',
+            title: ':hammer: Utilities - Lookup',
             description: `${res.data.message}: ${res.data.query}`,
             color: config.colors.error,
             timestamp: new Date(),
@@ -34,7 +34,7 @@ module.exports = async (interaction) => {
         else if (res.data.status === 'success') {
           // Create embed object
           const embed = {
-            title: 'Lookup',
+            title: ':hammer: Utilities - Lookup',
             fields: [
               { name: 'AS', value: `${res.data.as || 'Not available'}` },
               {

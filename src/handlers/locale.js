@@ -24,21 +24,21 @@ module.exports = async () => {
               give: {
                 version01: {
                   embed: {
-                    title: 'Reputation',
+                    title: ':medal: Reputation',
                     description:
                       'You have given reputation within the last day, you can not repute now!',
                   },
                 },
                 version02: {
                   embed: {
-                    title: 'Reputation',
+                    title: ':medal: Reputation',
                     description:
                       'You have given {{user}} a {{type}} reputation!',
                   },
                 },
                 version03: {
                   embed: {
-                    title: 'Reputation',
+                    title: ':medal: Reputation',
                     description: 'You can not repute yourself.',
                   },
                 },
@@ -86,20 +86,20 @@ module.exports = async () => {
               give: {
                 version01: {
                   embed: {
-                    title: 'Omdöme',
+                    title: ':medal: Omdöme',
                     description:
                       'Du har redan gett omdöme inom den senaste dagen, du kan inte ge ett omdöme just nu!',
                   },
                 },
                 version02: {
                   embed: {
-                    title: 'Omdöme',
+                    title: ':medal: Omdöme',
                     description: 'Du har gett {{user}} ett {{type}} omdöme!',
                   },
                 },
                 version03: {
                   embed: {
-                    title: 'Omdöme',
+                    title: ':medal: Omdöme',
                     description: 'Du kan inte ge dig själv ett omdöme.',
                   },
                 },

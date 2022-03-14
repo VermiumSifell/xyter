@@ -14,7 +14,7 @@ module.exports = async (interaction) => {
   if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
     // Create embed object
     const embed = {
-      title: 'Settings',
+      title: 'Settings - Guild - Pterodactyl',
       color: config.colors.error,
       description: 'You do not have permission to manage this!',
       timestamp: new Date(),
@@ -42,7 +42,7 @@ module.exports = async (interaction) => {
       // Build embed
 
       const embed = {
-        title: 'Settings',
+        title: 'Settings - Guild - Pterodactyl',
         color: config.colors.success,
         description: 'Pterodactyl settings is saved!',
         timestamp: new Date(),

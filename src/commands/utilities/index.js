@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-const lookup = require('./addons/lookup');
+const { lookup, about, stats } = require('./addons');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -20,13 +20,26 @@ module.exports = {
         )
     )
     .addSubcommand((subcommand) =>
-      subcommand.setName('users').setDescription('Iterate all users (ADMIN)')
+      subcommand.setName('about').setDescription('About this bot!)')
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName('stats').setDescription('Check bot statistics!)')
     ),
   async execute(interaction) {
     // If subcommand is lookup
     if (interaction.options.getSubcommand() === 'lookup') {
       // Execute lookup addon
       await lookup(interaction);
+    }
+    // If subcommand is about
+    else if (interaction.options.getSubcommand() === 'about') {
+      // Execute about addon
+      await about(interaction);
+    }
+    // If subcommand is stats
+    else if (interaction.options.getSubcommand() === 'stats') {
+      // Execute stats addon
+      await stats(interaction);
     }
   },
 };

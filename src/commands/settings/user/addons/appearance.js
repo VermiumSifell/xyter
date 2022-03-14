@@ -21,7 +21,7 @@ module.exports = async (interaction) => {
   await user.save().then(async () => {
     // Create embed object
     const embed = {
-      title: 'Appearance',
+      title: 'Settings - User - Appearance',
       description: 'Following settings is set!',
       color: config.colors.success,
       fields: [
