@@ -218,7 +218,7 @@ module.exports = async (client) => {
             optionType: DBD.formTypes.input('https://bg.zyner.org/api/'),
             getActualSet: async ({ guild, user }) => {
               const api = await apis.findOne({ guildId: guild.id });
-              return api.url;
+              return api.url || null;
             },
             setNew: async ({ guild, newData }) => {
               const api = await apis.findOne({ guildId: guild.id });
@@ -237,7 +237,7 @@ module.exports = async (client) => {
             optionType: DBD.formTypes.input('1'),
             getActualSet: async ({ guild, user }) => {
               const api = await apis.findOne({ guildId: guild.id });
-              return api.token;
+              return api.token || null;
             },
             setNew: async ({ guild, newData }) => {
               const api = await apis.findOne({ guildId: guild.id });
