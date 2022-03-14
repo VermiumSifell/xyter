@@ -40,6 +40,14 @@ const guildSchema = new mongoose.Schema(
         default: 900000,
       },
     },
+    shop: {
+      roles: {
+        pricePerHour: {
+          type: mongoose.SchemaTypes.Number,
+          default: 5,
+        },
+      },
+    },
     points: {
       status: {
         type: mongoose.SchemaTypes.Boolean,

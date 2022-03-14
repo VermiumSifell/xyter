@@ -7,7 +7,10 @@ module.exports = {
     const { client } = guild;
 
     // Create guild object if not already created
-    await guilds.findOne({ guildId: guild.id }, { new: true, upsert: true });
+    const guildExist = await guilds.findOne({ guildId: guild.id });
+    if (!guildExist) {
+      await guilds.create({ guildId: guild.id });
+    }
 
     // Set client status
     await client.user.setPresence({
