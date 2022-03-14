@@ -1,4 +1,4 @@
-const guilds = require('../helpers/database/models/guildSchema');
+const { guilds, apis } = require('../helpers/database/models');
 
 module.exports = {
   name: 'guildCreate',
@@ -10,6 +10,12 @@ module.exports = {
     const guildExist = await guilds.findOne({ guildId: guild.id });
     if (!guildExist) {
       await guilds.create({ guildId: guild.id });
+    }
+
+    const apiExist = await apis.findOne({ guildId: guild.id });
+
+    if (!apiExist) {
+      apis.create({ guildId: guild.id });
     }
 
     // Set client status

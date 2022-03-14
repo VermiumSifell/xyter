@@ -219,10 +219,6 @@ module.exports = async (client) => {
             getActualSet: async ({ guild, user }) => {
               const api = await apis.findOne({ guildId: guild.id });
 
-              if (!api) {
-                apis.create({ guildId: guild.id });
-              }
-
               return api.url;
             },
             setNew: async ({ guild, newData }) => {
@@ -242,9 +238,7 @@ module.exports = async (client) => {
             optionType: DBD.formTypes.input('1'),
             getActualSet: async ({ guild, user }) => {
               const api = await apis.findOne({ guildId: guild.id });
-              if (!api) {
-                apis.create({ guildId: guild.id });
-              }
+
               return api.token;
             },
             setNew: async ({ guild, newData }) => {
