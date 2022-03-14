@@ -4,6 +4,8 @@ const { Client, Intents } = require('discord.js'); // discord.js
 const { database } = require('./helpers'); // helpers
 const { events, commands, locale, schedules } = require('./handlers'); // handlers
 
+const dashboard = require('./dashboard');
+
 const config = require('../config.json'); // config.json
 
 (async () => {
@@ -12,6 +14,7 @@ const config = require('../config.json'); // config.json
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
   });
 
+  await dashboard(client);
   await database();
   await locale();
   await events(client);
