@@ -2,7 +2,7 @@
 const { Client, Intents } = require('discord.js'); // discord.js
 
 const { database } = require('./helpers'); // helpers
-const { events, commands, locale } = require('./handlers'); // handlers
+const { events, commands, locale, schedules } = require('./handlers'); // handlers
 
 const config = require('../config.json'); // config.json
 
@@ -16,6 +16,7 @@ const config = require('../config.json'); // config.json
   await locale();
   await events(client);
   await commands(client);
+  await schedules(client);
 
   await client.login(config.bot.token);
 })();

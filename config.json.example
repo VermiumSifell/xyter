@@ -19,5 +19,9 @@
   "disable": {
     "redeem": false
   },
+  "hoster": {
+    "name": "someone",
+    "url": "scheme://domain.tld"
+  },
   "debug": false
 }

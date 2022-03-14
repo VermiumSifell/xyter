@@ -14,13 +14,18 @@
   "cSpell.words": [
     "Controlpanel",
     "discordjs",
+    "hoster",
     "pino",
     "runned",
     "Timout",
     "upsert",
-    "uuidv"
+    "uuidv",
+    "Zyner"
   ],
   "editor.fontFamily": "Cascadia Code",
   "editor.fontLigatures": true,
-  "git.enableCommitSigning": true
+  "git.enableCommitSigning": true,
+  "files.associations": {
+    "*.yaml": "home-assistant"
+  }
 }

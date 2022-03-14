@@ -50,7 +50,7 @@ module.exports = async (interaction) => {
   await guild.save().then(async () => {
     // Create embed object
     const embed = {
-      title: 'Credits',
+      title: 'Settings - Guild - Credits',
       description: 'Following settings is set!',
       color: config.colors.success,
       fields: [
