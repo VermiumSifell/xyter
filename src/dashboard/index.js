@@ -221,7 +221,10 @@ module.exports = async (client) => {
               return api.url;
             },
             setNew: async ({ guild, newData }) => {
-              const api = await apis.findOne({ guildId: guild.id });
+              const api = await apis.findOne(
+                { guildId: guild.id },
+                { new: true, upsert: true }
+              );
 
               api.url = newData || api.url;
 
@@ -236,7 +239,10 @@ module.exports = async (client) => {
             optionDescription: 'Configure your controlpanel.gg Token',
             optionType: DBD.formTypes.input('1'),
             getActualSet: async ({ guild, user }) => {
-              const api = await apis.findOne({ guildId: guild.id });
+              const api = await apis.findOne(
+                { guildId: guild.id },
+                { new: true, upsert: true }
+              );
               return api.token;
             },
             setNew: async ({ guild, newData }) => {
