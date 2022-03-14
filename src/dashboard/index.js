@@ -223,7 +223,7 @@ module.exports = async (client) => {
             setNew: async ({ guild, newData }) => {
               const api = await apis.findOne({ guildId: guild.id });
 
-              api.url = newData || url;
+              api.url = newData || api.url;
 
               await api.save();
 
@@ -242,7 +242,7 @@ module.exports = async (client) => {
             setNew: async ({ guild, newData }) => {
               const api = await apis.findOne({ guildId: guild.id });
 
-              api.token = newData || token;
+              api.token = newData || api.token;
 
               await api.save();
 
