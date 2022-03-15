@@ -1,6 +1,6 @@
 const logger = require('../handlers/logger');
 
-const { deployCommands } = require('../helpers');
+const { deployCommands, dbGuildFix, dbMemberFix } = require('../helpers');
 
 module.exports = {
   name: 'ready',
@@ -16,6 +16,17 @@ module.exports = {
       ],
       status: 'online',
     });
+
+    // const guilds = client.guilds.cache;
+    // await guilds.map(async (guild) => {
+    //   await guild.members.fetch().then(async (members) => {
+    //     await members.forEach(async (member) => {
+    //       const { user } = member;
+    //       dbMemberFix(user, guild);
+    //     });
+    //   });
+    //   await dbGuildFix(guild);
+    // });
 
     await deployCommands();
   },
