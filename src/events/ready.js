@@ -1,4 +1,5 @@
 const logger = require('../handlers/logger');
+const config = require('../../config.json');
 
 const { deployCommands, dbGuildFix, dbMemberFix } = require('../helpers');
 
