@@ -1,4 +1,4 @@
-let DBD = require('discord-dashboard');
+const DBD = require('discord-dashboard');
 const config = require('../../config.json');
 
 const DarkDashboard = require('dbd-dark-dashboard');
@@ -83,10 +83,9 @@ module.exports = async (client) => {
             setNew: async ({ guild, newData }) => {
               const guildData = await guilds.findOne({ guildId: guild.id });
 
-              guildData.credits.status = newData ? true : false;
+              guildData.credits.status = !!newData;
 
               await guildData.save();
-              return;
             },
           },
           {
@@ -108,8 +107,6 @@ module.exports = async (client) => {
 
               guildData.credits.rate = newData;
               await guildData.save();
-
-              return;
             },
           },
           {
@@ -131,8 +128,6 @@ module.exports = async (client) => {
 
               guildData.credits.minimumLength = newData;
               await guildData.save();
-
-              return;
             },
           },
           {
@@ -154,8 +149,6 @@ module.exports = async (client) => {
 
               guildData.credits.timeout = newData;
               await guildData.save();
-
-              return;
             },
           },
           {
@@ -177,8 +170,6 @@ module.exports = async (client) => {
 
               guildData.credits.workRate = newData;
               await guildData.save();
-
-              return;
             },
           },
           {
@@ -200,8 +191,6 @@ module.exports = async (client) => {
 
               guildData.credits.workTimeout = newData;
               await guildData.save();
-
-              return;
             },
           },
         ],
@@ -227,8 +216,6 @@ module.exports = async (client) => {
               api.url = newData || api.url;
 
               await api.save();
-
-              return;
             },
           },
           {
@@ -247,8 +234,6 @@ module.exports = async (client) => {
               api.token = newData || api.token;
 
               await api.save();
-
-              return;
             },
           },
         ],
