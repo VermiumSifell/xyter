@@ -66,14 +66,7 @@ module.exports = async (interaction) => {
             lng: await user.language,
           }
         ),
-        description: i18next.t(
-          'commands:reputation:addons:give:version02:embed:description',
-          {
-            lng: await user.language,
-            user: target,
-            type,
-          }
-        ),
+        description: `You have given ${target} a ${type} reputation!`,
         timestamp: new Date(),
         color: config.colors.success,
         footer: { iconURL: config.footer.icon, text: config.footer.text },

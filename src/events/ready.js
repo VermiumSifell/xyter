@@ -1,6 +1,6 @@
 const logger = require('../handlers/logger');
 
-const { database, deployCommands } = require('../helpers');
+const { deployCommands } = require('../helpers');
 
 module.exports = {
   name: 'ready',

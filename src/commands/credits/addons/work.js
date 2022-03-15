@@ -18,12 +18,12 @@ module.exports = async (interaction) => {
     timeoutId: 3,
   });
 
+  const guild = await guilds.findOne({
+    guildId: interaction.member.guild.id,
+  });
+
   // If user is not on timeout
   if (!isTimeout) {
-    const guild = await guilds.findOne({
-      guildId: interaction.member.guild.id,
-    });
-
     // Make a variable of how much credits user will earn based on random multiplied with work rate
     const creditsEarned = Math.floor(Math.random() * guild.credits.workRate);
 
