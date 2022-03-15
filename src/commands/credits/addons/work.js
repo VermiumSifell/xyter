@@ -85,7 +85,7 @@ module.exports = async (interaction) => {
     const embed = {
       title: 'Work',
       description: `You have worked within the last ${
-        guild.work.timeout / 1000
+        guild.workTimeout / 1000
       } seconds, you can not work now!`,
       timestamp: new Date(),
       color: config.colors.error,
