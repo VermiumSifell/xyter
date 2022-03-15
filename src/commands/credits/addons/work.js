@@ -19,7 +19,7 @@ module.exports = async (interaction) => {
   });
 
   const guild = await guilds.findOne({
-    guildId: interaction.member.guild.id,
+    guildId: member.guild.id,
   });
 
   // If user is not on timeout
@@ -85,7 +85,7 @@ module.exports = async (interaction) => {
     const embed = {
       title: 'Work',
       description: `You have worked within the last ${
-        guild.workTimeout / 1000
+        guild.credits.workTimeout / 1000
       } seconds, you can not work now!`,
       timestamp: new Date(),
       color: config.colors.error,

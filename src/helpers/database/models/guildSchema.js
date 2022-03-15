@@ -71,14 +71,6 @@ const guildSchema = new mongoose.Schema(
         type: mongoose.SchemaTypes.Number,
         default: 5000,
       },
-      workRate: {
-        type: mongoose.SchemaTypes.Number,
-        default: 15,
-      },
-      workTimeout: {
-        type: mongoose.SchemaTypes.Number,
-        default: 900000,
-      },
     },
   },
   { timestamps: true }
