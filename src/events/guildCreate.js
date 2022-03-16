@@ -1,4 +1,4 @@
-const { dbGuildFix } = require('../helpers');
+const { dbGuildFix, dbMemberFix } = require('../helpers');
 
 module.exports = {
   name: 'guildCreate',
@@ -6,6 +6,12 @@ module.exports = {
     // Destructure client
     const { client } = guild;
 
+    await guild.members.fetch().then(async (members) => {
+      await members.forEach(async (member) => {
+        const { user } = member;
+        dbMemberFix(user, guild);
+      });
+    });
     await dbGuildFix(guild);
 
     // Set client status
