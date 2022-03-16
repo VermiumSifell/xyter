@@ -1,10 +1,6 @@
 const config = require('../../../../config.json');
 const logger = require('../../../handlers/logger');
-const {
-  guilds,
-  credits,
-  timeouts,
-} = require('../../../helpers/database/models');
+const { guilds, users, timeouts } = require('../../../helpers/database/models');
 const creditNoun = require('../../../helpers/creditNoun');
 
 module.exports = async (interaction) => {
