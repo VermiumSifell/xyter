@@ -85,5 +85,5 @@ module.exports = async (interaction) => {
   };
 
   // Send interaction reply
-  return await interaction.editReply({ embeds: [embed] });
+  return interaction.editReply({ embeds: [embed] });
 };
