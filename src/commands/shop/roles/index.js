@@ -1,4 +1,3 @@
-const config = require('../../../../config.json');
 const logger = require('../../../handlers/logger');
 
 const { buy, cancel } = require('./addons');
