@@ -13,6 +13,7 @@ module.exports = async (interaction) => {
   const { guild } = member;
 
   const guildDB = await guilds.findOne({ guildId: guild.id });
+  const userDB = await users.findOne({ userId: member.id, guildId: guild.id });
 
   guild.roles
     .create({
