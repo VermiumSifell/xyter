@@ -54,7 +54,7 @@ module.exports = async (interaction) => {
           timestamp: new Date(),
           footer: { iconURL: config.footer.icon, text: config.footer.text },
         };
-        return await interaction.editReply({
+        return interaction.editReply({
           embeds: [embed],
           ephemeral: true,
         });
