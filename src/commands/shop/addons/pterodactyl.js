@@ -64,7 +64,7 @@ module.exports = async (interaction) => {
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
-    return await interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed], ephemeral: true });
   }
 
   // Generate a unique voucher for the user
