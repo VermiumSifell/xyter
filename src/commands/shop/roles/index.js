@@ -1,4 +1,3 @@
-const { Permissions } = require('discord.js');
 const config = require('../../../../config.json');
 const logger = require('../../../handlers/logger');
 
