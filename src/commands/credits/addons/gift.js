@@ -38,7 +38,7 @@ module.exports = async (interaction) => {
     };
 
     // Send interaction reply
-    return await interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed], ephemeral: true });
   }
 
   // If amount is zero or below
@@ -53,7 +53,7 @@ module.exports = async (interaction) => {
     };
 
     // Send interaction reply
-    return await interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed], ephemeral: true });
   }
 
   // If user has below gifting amount
@@ -68,7 +68,7 @@ module.exports = async (interaction) => {
     };
 
     // Send interaction reply
-    return await interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed], ephemeral: true });
   }
 
   // If toUserDB has no credits
