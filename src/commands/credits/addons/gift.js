@@ -132,7 +132,7 @@ module.exports = async (interaction) => {
       );
 
       // Send interaction reply
-      return await interaction.editReply({
+      return interaction.editReply({
         embeds: [interactionEmbed],
         ephemeral: true,
       });
