@@ -2,7 +2,7 @@
   "name": "xyter",
   "version": "3.1.0",
   "description": "Earn credits while chatting! And more",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon | pino-pretty -i pid,hostname -t yyyy-mm-dd HH:MM:s"
@@ -28,6 +28,7 @@
     "@discordjs/rest": "^0.3.0",
     "axios": "^0.26.0",
     "better-sqlite3": "^7.5.0",
+    "common": "^0.2.5",
     "dbd-dark-dashboard": "^1.6.45",
     "discord-api-types": "^0.28.0",
     "discord-dashboard": "^2.3.14",
@@ -42,9 +43,13 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "eslint": "8.11.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-import": "2.25.4"
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.0"
   }
 }
