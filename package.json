@@ -29,7 +29,7 @@
     "axios": "^0.26.0",
     "better-sqlite3": "^7.5.0",
     "dbd-dark-dashboard": "^1.6.45",
-    "discord-api-types": "^0.30.0",
+    "discord-api-types": "^0.31.0",
     "discord-dashboard": "^2.3.14",
     "discord-easy-dashboard": "^1.2.1",
     "discord.js": "^13.6.0",
