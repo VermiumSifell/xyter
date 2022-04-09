@@ -1,10 +1,15 @@
+// Dependencies
 import { SlashCommandBuilder } from '@discordjs/builders';
-import view from './addons/view';
 import { CommandInteraction } from 'discord.js';
+
+// Modules
+import view from './modules/view';
+
+// Function
 export default {
   data: new SlashCommandBuilder()
     .setName('profile')
-    .setDescription('Your profile.')
+    .setDescription('Check a profile.')
     .addSubcommand((subcommand) =>
       subcommand
         .setName('view')
@@ -16,9 +21,9 @@ export default {
         )
     ),
   async execute(interaction: CommandInteraction) {
-    // If subcommand is view
+    // Module - View
     if (interaction.options.getSubcommand() === 'view') {
-      // Execute view addon
+      // Execute Module - View
       await view(interaction);
     }
   },
