@@ -1,7 +1,8 @@
 import logger from '../../../handlers/logger';
-import { buy, cancel } from './addons';
-
-export default async (interaction) => {
+import buy from './addons/buy';
+import cancel from './addons/cancel';
+import { CommandInteraction } from 'discord.js';
+export default async (interaction: CommandInteraction) => {
   // Destructure member
   const { member } = interaction;
 
@@ -19,7 +20,9 @@ export default async (interaction) => {
 
   // Send debug message
   await logger.debug(
-    `Guild: ${member.guild.id} User: ${member.id} executed /${
+    `Guild: ${interaction?.guild?.id} User: ${
+      interaction?.user?.id
+    } executed /${
       interaction.commandName
     } ${interaction.options.getSubcommandGroup()} ${interaction.options.getSubcommand()}`
   );

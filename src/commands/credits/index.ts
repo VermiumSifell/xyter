@@ -1,6 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { balance, gift, top, work } from './addons';
-
+import balance from './addons/balance';
+import gift from './addons/gift';
+import top from './addons/top';
+import work from './addons/work';
+import { CommandInteraction } from 'discord.js';
 export default {
   data: new SlashCommandBuilder()
     .setName('credits')
@@ -42,7 +45,7 @@ export default {
     .addSubcommand((subcommand) =>
       subcommand.setName('work').setDescription('Work for credits.')
     ),
-  async execute(interaction) {
+  async execute(interaction: CommandInteraction) {
     // If subcommand is balance
     if (interaction.options.getSubcommand() === 'balance') {
       // Execute balance addon

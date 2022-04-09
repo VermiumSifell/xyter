@@ -7,9 +7,13 @@ export default async (client: Client) => {
   for (const file of eventFiles) {
     const event = require(`../events/${file}`);
     if (event.once) {
-      client.once(event.name, (...args) => event.execute(...args));
+      client.once(event.default.name, (...args) =>
+        event.default.execute(...args)
+      );
     } else {
-      client.on(event.name, (...args) => event.execute(...args));
+      client.on(event.default.name, (...args) =>
+        event.default.execute(...args)
+      );
     }
   }
 };

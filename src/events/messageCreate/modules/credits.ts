@@ -1,7 +1,7 @@
 import logger from '../../../handlers/logger';
-import { users, guilds, experiences, credits, counters, timeouts } from '../../../helpers/database/models';
-
-export default async (guildDB, userDB, message) => {
+import timeouts from '../../../helpers/database/models/timeoutSchema';
+import { Message } from 'discord.js';
+export default async (guildDB: any, userDB: any, message: Message) => {
   const { guild, author, channel, content } = message;
 
   // If message length is below guild minimum length
@@ -9,7 +9,7 @@ export default async (guildDB, userDB, message) => {
 
   // Check if user has a timeout
   const isTimeout = await timeouts.findOne({
-    guildId: guild.id,
+    guildId: guild?.id,
     userId: author.id,
     timeoutId: '2022-03-15-17-42',
   });
@@ -25,17 +25,17 @@ export default async (guildDB, userDB, message) => {
       .then(async () => {
         // Send debug message
         await logger.debug(
-          `Guild: ${guild.id} User: ${author.id} Channel: ${channel.id} credits add ${guildDB.credits.rate} balance: ${userDB.credits}`
+          `Guild: ${guild?.id} User: ${author.id} Channel: ${channel.id} credits add ${guildDB.credits.rate} balance: ${userDB.credits}`
         );
       })
-      .catch(async (e) => {
+      .catch(async (e: any) => {
         // Send error message
         await logger.error(e);
       });
 
     // Create a timeout for the user
     await timeouts.create({
-      guildId: guild.id,
+      guildId: guild?.id,
       userId: author.id,
       timeoutId: '2022-03-15-17-42',
     });
@@ -43,7 +43,7 @@ export default async (guildDB, userDB, message) => {
     setTimeout(async () => {
       // Send debug message
       await logger.debug(
-        `Guild: ${guild.id} User: ${author.id} Channel: ${
+        `Guild: ${guild?.id} User: ${author.id} Channel: ${
           channel.id
         } has not talked within last ${
           guildDB.credits.timeout / 1000
@@ -52,7 +52,7 @@ export default async (guildDB, userDB, message) => {
 
       // When timeout is out, remove it from the database
       await timeouts.deleteOne({
-        guildId: guild.id,
+        guildId: guild?.id,
         userId: author.id,
         timeoutId: '2022-03-15-17-42',
       });
@@ -60,7 +60,7 @@ export default async (guildDB, userDB, message) => {
   } else {
     // Send debug message
     await logger.debug(
-      `Guild: ${guild.id} User: ${author.id} Channel: ${
+      `Guild: ${guild?.id} User: ${author.id} Channel: ${
         channel.id
       } has talked within last ${
         guildDB.credits.timeout / 1000

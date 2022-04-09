@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Permissions } from 'discord.js';
+import { Permissions, CommandInteraction } from 'discord.js';
 import logger from '../../handlers/logger';
 import give from './addons/give';
 
@@ -26,7 +26,7 @@ export default {
             .addChoice('Negative', 'negative')
         )
     ),
-  async execute(interaction) {
+  async execute(interaction: CommandInteraction) {
     // Destructure member
     const { member } = interaction;
 
@@ -38,7 +38,9 @@ export default {
 
     // Send debug message
     await logger.debug(
-      `Guild: ${member.guild.id} User: ${member.id} executed /${
+      `Guild: ${interaction?.guild?.id} User: ${
+        interaction?.user?.id
+      } executed /${
         interaction.commandName
       } ${interaction.options.getSubcommand()}`
     );

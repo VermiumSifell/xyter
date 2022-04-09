@@ -1,11 +1,11 @@
 import config from '../../../../config.json';
-import { users } from '../../../helpers/database/models';
+import users from '../../../helpers/database/models/userSchema';
 import creditNoun from '../../../helpers/creditNoun';
-
-export default async (interaction) => {
+import { CommandInteraction } from 'discord.js';
+export default async (interaction: CommandInteraction) => {
   // Get all users in the guild
 
-  const usersDB = await users.find({ guildId: interaction.member.guild.id });
+  const usersDB = await users.find({ guildId: interaction?.guild?.id });
 
   const topTen = usersDB
 
@@ -16,7 +16,7 @@ export default async (interaction) => {
     .slice(0, 10);
 
   // Create entry object
-  const entry = (x, index) =>
+  const entry = (x: any, index: any) =>
     `**Top ${index + 1}** - <@${x.userId}> ${creditNoun(x.credits)}`;
 
   // Create embed object
@@ -25,11 +25,11 @@ export default async (interaction) => {
     description: `Below are the top ten.\n${topTen
       .map((x, index) => entry(x, index))
       .join('\n')}`,
-    color: 0x22bb33,
+    color: config.colors.success as any,
     timestamp: new Date(),
     footer: { iconURL: config.footer.icon, text: config.footer.text },
   };
 
   // Send interaction reply
-  return interaction.editReply({ embeds: [embed], ephemeral: true });
+  return interaction.editReply({ embeds: [embed] });
 };

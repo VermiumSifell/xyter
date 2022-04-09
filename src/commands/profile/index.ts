@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import view from './addons/view';
-
+import { CommandInteraction } from 'discord.js';
 export default {
   data: new SlashCommandBuilder()
     .setName('profile')
@@ -15,7 +15,7 @@ export default {
             .setDescription('The profile you wish to view')
         )
     ),
-  async execute(interaction) {
+  async execute(interaction: CommandInteraction) {
     // If subcommand is view
     if (interaction.options.getSubcommand() === 'view') {
       // Execute view addon

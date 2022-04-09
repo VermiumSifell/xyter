@@ -2,47 +2,52 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import config from '../../../../../config.json';
 import logger from '../../../../handlers/logger';
-import { users, shopRoles, guilds } from '../../../../helpers/database/models';
+import users from '../../../../helpers/database/models/userSchema';
+import shopRoles from '../../../../helpers/database/models/shopRolesSchema';
+import guilds from '../../../../helpers/database/models/guildSchema';
 import creditNoun from '../../../../helpers/creditNoun';
-
-export default async (interaction) => {
+import { CommandInteraction, GuildMemberRoleManager } from 'discord.js';
+export default async (interaction: CommandInteraction) => {
   const { member } = interaction;
-  const { guild } = member;
 
   const role = await interaction.options.getRole('role');
 
+  if (role === null) return;
+
   const roleExist = await shopRoles.find({
-    guildId: guild.id,
-    userId: member.id,
-    roleId: role.id,
+    guildId: interaction?.guild?.id,
+    userId: interaction?.user?.id,
+    roleId: role?.id,
   });
 
   if (roleExist) {
-    await member.roles.remove(role.id);
+    await (interaction?.member?.roles as GuildMemberRoleManager).remove(
+      role?.id
+    );
 
-    await interaction.guild.roles
-      .delete(role.id, `${interaction.member.id} canceled from shop`)
+    await interaction?.guild?.roles
+      .delete(role?.id, `${interaction?.user?.id} canceled from shop`)
       .then(async () => {
         // Get guild object
         const guildDB = await guilds.findOne({
-          guildId: interaction.member.guild.id,
+          guildId: interaction?.guild?.id,
         });
 
         const userDB = await users.findOne({
-          userId: member.id,
-          guildId: guild.id,
+          userId: interaction?.user?.id,
+          guildId: interaction?.guild?.id,
         });
 
         await shopRoles.deleteOne({
-          roleId: role.id,
-          userId: member.id,
-          guildId: guild.id,
+          roleId: role?.id,
+          userId: interaction?.user?.id,
+          guildId: interaction?.guild?.id,
         });
 
         const embed = {
           title: ':shopping_cart: Shop - Roles [Buy]',
           description: `You have canceled ${role.name}.`,
-          color: config.colors.success,
+          color: config.colors.success as any,
           fields: [
             { name: 'Your balance', value: `${creditNoun(userDB.credits)}` },
           ],
@@ -51,7 +56,6 @@ export default async (interaction) => {
         };
         return interaction.editReply({
           embeds: [embed],
-          ephemeral: true,
         });
       })
       .catch(console.error);

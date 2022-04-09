@@ -1,8 +1,8 @@
 import axios from 'axios';
 import config from '../../../../config.json';
 import logger from '../../../handlers/logger';
-
-export default async (interaction) => {
+import { CommandInteraction } from 'discord.js';
+export default async (interaction: CommandInteraction) => {
   try {
     // Get lookup query
     const query = await interaction.options.getString('query');
@@ -20,7 +20,7 @@ export default async (interaction) => {
           const embed = {
             title: ':hammer: Utilities - Lookup',
             description: `${res.data.message}: ${res.data.query}`,
-            color: config.colors.error,
+            color: config.colors.error as any,
             timestamp: new Date(),
             footer: { iconURL: config.footer.icon, text: config.footer.text },
           };
@@ -69,7 +69,7 @@ export default async (interaction) => {
                 value: `${res.data.org || 'Not available'}`,
               },
             ],
-            color: config.colors.success,
+            color: config.colors.success as any,
             timestamp: new Date(),
             footer: { iconURL: config.footer.icon, text: config.footer.text },
           };

@@ -1,38 +1,39 @@
-import { Permissions } from 'discord.js';
+import { Permissions, CommandInteraction } from 'discord.js';
 import config from '../../../../../config.json';
 import logger from '../../../../handlers/logger';
 
 // Database models
-import { users } from '../../../../helpers/database/models';
+import users from '../../../../helpers/database/models/userSchema';
 
 import creditNoun from '../../../../helpers/creditNoun';
 
-export default async (interaction) => {
+export default async (interaction: CommandInteraction) => {
   // Destructure member
-  const { member } = interaction;
-  const { guild } = member;
+  const { guild, user } = interaction;
 
   // Check permission
-  if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+  if (!interaction?.memberPermissions?.has(Permissions.FLAGS.MANAGE_GUILD)) {
     // Create embed object
     const embed = {
       title: ':toolbox: Admin - Credits [Give]',
-      color: config.colors.error,
+      color: config.colors.error as any,
       description: 'You do not have permission to manage this!',
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Get options
-  const user = await interaction.options.getUser('user');
+  const userOption = await interaction.options.getUser('user');
   const amount = await interaction.options.getInteger('amount');
 
-  // If amount is zero or below
+  if (amount === null) return;
+
   if (amount <= 0) {
+    // If amount is zero or below
     // Create embed object
     const embed = {
       title: ':toolbox: Admin - Credits [Give]',
@@ -43,13 +44,13 @@ export default async (interaction) => {
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Get toUserDB object
   const toUserDB = await users.findOne({
-    userId: user.id,
-    guildId: interaction.member.guild.id,
+    userId: userOption?.id,
+    guildId: interaction?.guild?.id,
   });
 
   // If toUserDB has no credits
@@ -58,14 +59,14 @@ export default async (interaction) => {
     const embed = {
       title: ':toolbox: Admin - Credits [Give]',
       description:
-        'That user has no credits, I can not give credits to the user',
-      color: config.colors.error,
+        'That userOption has no credits, I can not give credits to the userOption',
+      color: config.colors.error as any,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Deposit amount to toUserDB
@@ -80,7 +81,7 @@ export default async (interaction) => {
       // Create embed object
       const embed = {
         title: ':toolbox: Admin - Credits [Give]',
-        description: `Gave ${creditNoun(amount)} to ${user}.`,
+        description: `Gave ${creditNoun(amount)} to ${userOption}.`,
         color: 0x22bb33,
         timestamp: new Date(),
         footer: { iconURL: config.footer.icon, text: config.footer.text },
@@ -90,17 +91,17 @@ export default async (interaction) => {
       await logger.debug(
         `Administrator: ${interaction.user.username} gave ${
           amount <= 1 ? `${amount} credit` : `${amount} credits`
-        } to ${user.username}`
+        } to ${userOption?.username}`
       );
 
       // Send interaction reply
-      await interaction.editReply({ embeds: [embed], ephemeral: true });
+      await interaction.editReply({ embeds: [embed] });
 
       // Send debug message
       await logger.debug(
-        `Guild: ${guild.id} User: ${member.id} gave ${user.id} ${creditNoun(
-          amount
-        )}.`
+        `Guild: ${guild?.id} User: ${user?.id} gave ${
+          userOption?.id
+        } ${creditNoun(amount)}.`
       );
     });
 };

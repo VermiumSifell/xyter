@@ -1,17 +1,17 @@
-const config = require('../../config.json');
-const logger = require('../handlers/logger');
-const fs = require('fs');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+import config from '../../config.json';
+import logger from '../handlers/logger';
+import fs from 'fs';
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v9';
 
-module.exports = async () => {
+export default async () => {
   const commands = [];
   const commandFiles = fs.readdirSync('./src/commands');
 
   for (const file of commandFiles) {
     // eslint-disable-next-line import/no-dynamic-require, global-require
     const command = require(`../commands/${file}`);
-    commands.push(command.data.toJSON());
+    commands.push(command.default.data.toJSON());
   }
 
   const rest = new REST({ version: '9' }).setToken(config.bot.token);

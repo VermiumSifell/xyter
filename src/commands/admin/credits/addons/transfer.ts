@@ -1,31 +1,31 @@
-import { Permissions } from 'discord.js';
+import { Permissions, CommandInteraction } from 'discord.js';
 import config from '../../../../../config.json';
 import logger from '../../../../handlers/logger';
 
 // Database models
 
-import { users } from '../../../../helpers/database/models';
+import users from '../../../../helpers/database/models/userSchema';
 
 import creditNoun from '../../../../helpers/creditNoun';
 import saveUser from '../../../../helpers/saveUser';
 
-export default async (interaction) => {
+export default async (interaction: CommandInteraction) => {
   // Destructure member
   const { member } = interaction;
 
   // Check permission
-  if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+  if (!interaction?.memberPermissions?.has(Permissions.FLAGS.MANAGE_GUILD)) {
     // Create embed object
     const embed = {
       title: ':toolbox: Admin - Credits [Transfer]',
-      color: config.colors.error,
+      color: config.colors.error as any,
       description: 'You do not have permission to manage this!',
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Get options
@@ -35,14 +35,14 @@ export default async (interaction) => {
 
   // Get fromUser object
   const fromUser = await users.findOne({
-    userId: from.id,
-    guildId: interaction.member.guild.id,
+    userId: from?.id,
+    guildId: interaction?.guild?.id,
   });
 
   // Get toUser object
   const toUser = await users.findOne({
-    userId: to.id,
-    guildId: interaction.member.guild.id,
+    userId: to?.id,
+    guildId: interaction?.guild?.id,
   });
 
   // If fromUser has no credits
@@ -52,13 +52,13 @@ export default async (interaction) => {
       title: ':toolbox: Admin - Credits [Transfer]',
       description:
         'That user has no credits, I can not transfer credits from the user',
-      color: config.colors.error,
+      color: config.colors.error as any,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // If toUser has no credits
@@ -68,14 +68,16 @@ export default async (interaction) => {
       title: ':toolbox: Admin - Credits [Transfer]',
       description:
         'That user has no credits, I can not transfer credits to the user',
-      color: config.colors.error,
+      color: config.colors.error as any,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
+
+  if (amount === null) return;
 
   // If amount is zero or below
   if (amount <= 0) {
@@ -83,13 +85,13 @@ export default async (interaction) => {
     const embed = {
       title: ':toolbox: Admin - Credits [Transfer]',
       description: "You can't transfer zero or below.",
-      color: config.colors.error,
+      color: config.colors.error as any,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Withdraw amount from fromUser
@@ -106,15 +108,15 @@ export default async (interaction) => {
       const embed = {
         title: ':toolbox: Admin - Credits [Transfer]',
         description: `You sent ${creditNoun(amount)} from ${from} to ${to}.`,
-        color: config.colors.success,
+        color: config.colors.success as any,
         fields: [
           {
-            name: `${from.username} Balance`,
+            name: `${from?.username} Balance`,
             value: `${fromUser.credits}`,
             inline: true,
           },
           {
-            name: `${to.username} Balance`,
+            name: `${to?.username} Balance`,
             value: `${toUser.credits}`,
             inline: true,
           },
@@ -124,13 +126,13 @@ export default async (interaction) => {
       };
 
       // Send interaction reply
-      await interaction.editReply({ embeds: [embed], ephemeral: true });
+      await interaction.editReply({ embeds: [embed] });
 
       // Send debug message
       await logger.debug(
-        `Guild: ${member.guild.id} User: ${member.id} transferred ${creditNoun(
-          amount
-        )} from ${from.id} to ${to.id}.`
+        `Guild: ${interaction?.guild?.id} User: ${
+          interaction?.user?.id
+        } transferred ${creditNoun(amount)} from ${from?.id} to ${to?.id}.`
       );
     });
 };

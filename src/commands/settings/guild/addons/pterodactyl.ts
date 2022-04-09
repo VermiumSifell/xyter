@@ -1,29 +1,28 @@
-import { Permissions } from 'discord.js';
+import { Permissions, CommandInteraction } from 'discord.js';
 import config from '../../../../../config.json';
 import logger from '../../../../handlers/logger';
 
 // Database models
 
-import { apis } from '../../../../helpers/database/models';
+import apis from '../../../../helpers/database/models/apiSchema';
 
-export default async (interaction) => {
+export default async (interaction: CommandInteraction) => {
   // Destructure member
   const { member } = interaction;
-  const { guild } = member;
 
   // Check permission
-  if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+  if (!interaction?.memberPermissions?.has(Permissions.FLAGS.MANAGE_GUILD)) {
     // Create embed object
     const embed = {
       title: ':hammer: Settings - Guild [Pterodactyl]',
-      color: config.colors.error,
+      color: config.colors.error as any,
       description: 'You do not have permission to manage this!',
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Get options
@@ -35,7 +34,7 @@ export default async (interaction) => {
 
   await apis
     .findOneAndUpdate(
-      { guildId: guild.id },
+      { guildId: interaction?.guild?.id },
       { url, token },
       { new: true, upsert: true }
     )
@@ -44,7 +43,7 @@ export default async (interaction) => {
 
       const embed = {
         title: ':hammer: Settings - Guild [Pterodactyl]',
-        color: config.colors.success,
+        color: config.colors.success as any,
         description: 'Pterodactyl settings is saved!',
         timestamp: new Date(),
         footer: { iconURL: config.footer.icon, text: config.footer.text },
@@ -52,12 +51,12 @@ export default async (interaction) => {
 
       // Send reply
 
-      await interaction.editReply({ embeds: [embed], ephemeral: true });
+      await interaction.editReply({ embeds: [embed] });
 
       // Send debug message
 
       await logger.debug(
-        `Guild: ${guild.id} User: ${member.id} has changed api credentials.`
+        `Guild: ${interaction?.guild?.id} User: ${interaction?.user?.id} has changed api credentials.`
       );
     });
 };

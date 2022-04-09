@@ -1,44 +1,45 @@
 import config from '../../../../config.json';
 import logger from '../../../handlers/logger';
-import { users } from '../../../helpers/database/models';
+import users from '../../../helpers/database/models/userSchema';
 import saveUser from '../../../helpers/saveUser';
 import creditNoun from '../../../helpers/creditNoun';
-
-export default async (interaction) => {
+import { CommandInteraction } from 'discord.js';
+export default async (interaction: CommandInteraction) => {
   // Get options
   const user = await interaction.options.getUser('user');
   const amount = await interaction.options.getInteger('amount');
   const reason = await interaction.options.getString('reason');
 
   const { member } = interaction;
-  const { guild } = member;
 
   // Get fromUserDB object
   const fromUserDB = await users.findOne({
-    userId: interaction.user.id,
-    guildId: interaction.member.guild.id,
+    userId: interaction?.user?.id,
+    guildId: interaction?.guild?.id,
   });
 
   // Get toUserDB object
   const toUserDB = await users.findOne({
-    userId: user.id,
-    guildId: interaction.member.guild.id,
+    userId: user?.id,
+    guildId: interaction?.guild?.id,
   });
 
   // If receiver is same as sender
-  if (user.id === interaction.user.id) {
+  if (user?.id === interaction?.user?.id) {
     // Create embed object
     const embed = {
       title: ':dollar: Credits - Gift',
       description: "You can't pay yourself.",
-      color: 0xbb2124,
+      color: config.colors.error as any,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
+
+  if (amount === null) return;
 
   // If amount is zero or below
   if (amount <= 0) {
@@ -46,13 +47,13 @@ export default async (interaction) => {
     const embed = {
       title: ':dollar: Credits - Gift',
       description: "You can't pay zero or below.",
-      color: 0xbb2124,
+      color: config.colors.error as any,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // If user has below gifting amount
@@ -61,13 +62,13 @@ export default async (interaction) => {
     const embed = {
       title: ':dollar: Credits - Gift',
       description: `You have insufficient credits. Your credits is ${fromUserDB.credits}`,
-      color: 0xbb2124,
+      color: config.colors.error as any,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // If toUserDB has no credits
@@ -77,13 +78,13 @@ export default async (interaction) => {
       title: ':dollar: Credits - Gift',
       description:
         'That user has no credits, I can not gift credits to the user',
-      color: config.colors.error,
+      color: config.colors.error as any,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Withdraw amount from fromUserDB
@@ -119,20 +120,21 @@ export default async (interaction) => {
     };
 
     // Get DM user object
-    const dmUser = await interaction.client.users.cache.get(user.id);
+    const dmUser = await interaction.client.users.cache.get(
+      interaction?.user?.id
+    );
 
     // Send DM to user
-    await dmUser.send({ embeds: [dmEmbed] });
+    await dmUser?.send({ embeds: [dmEmbed] });
 
     // Send debug message
     await logger.debug(
-      `Guild: ${guild.id} User: ${member.id} gift sent from: ${interaction.user.id} to: ${user.id}`
+      `Guild: ${interaction?.guild?.id} User: ${interaction?.user?.id} gift sent from: ${interaction?.user?.id} to: ${user?.id}`
     );
 
     // Send interaction reply
     return interaction.editReply({
       embeds: [interactionEmbed],
-      ephemeral: true,
     });
   });
 };

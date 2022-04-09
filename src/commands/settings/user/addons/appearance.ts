@@ -1,19 +1,21 @@
 import config from '../../../../../config.json';
 import logger from '../../../../handlers/logger';
-
+import { CommandInteraction } from 'discord.js';
 // Database models
-import { users } from '../../../../helpers/database/models';
+import users from '../../../../helpers/database/models/userSchema';
 
-export default async (interaction) => {
+export default async (interaction: CommandInteraction) => {
   // Destructure member
   const { member } = interaction;
-  const { guild } = member;
 
   // Get options
   const language = await interaction.options.getString('language');
 
   // Get user object
-  const userDB = await users.findOne({ userId: member.id, guildId: guild.id });
+  const userDB = await users.findOne({
+    userId: interaction?.user?.id,
+    guildId: interaction?.guild?.id,
+  });
 
   // Modify values
   userDB.language = language !== null ? language : userDB.language;
@@ -24,7 +26,7 @@ export default async (interaction) => {
     const embed = {
       title: ':hammer: Settings - User [Appearance]',
       description: 'Following settings is set!',
-      color: config.colors.success,
+      color: config.colors.success as any,
       fields: [
         {
           name: '🏳️‍🌈 Language',
@@ -37,11 +39,11 @@ export default async (interaction) => {
     };
 
     // Send interaction reply
-    await interaction.editReply({ embeds: [embed], ephemeral: true });
+    await interaction.editReply({ embeds: [embed] });
 
     // Send debug message
     await logger.debug(
-      `Guild: ${member.guild.id} User: ${member.id} has changed appearance settings.`
+      `Guild: ${interaction?.guild?.id} User: ${interaction?.user?.id} has changed appearance settings.`
     );
   });
 };

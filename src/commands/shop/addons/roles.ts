@@ -2,25 +2,28 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import config from '../../../../config.json';
 import logger from '../../../handlers/logger';
-import { guilds, users } from '../../../helpers/database/models';
+import guilds from '../../../helpers/database/models/guildSchema';
+import users from '../../../helpers/database/models/userSchema';
 import creditNoun from '../../../helpers/creditNoun';
-
-export default async (interaction) => {
+import { CommandInteraction, RoleManager } from 'discord.js';
+export default async (interaction: CommandInteraction) => {
   const name = interaction.options.getString('name');
 
   const { member } = interaction;
-  const { guild } = member;
 
-  const guildDB = await guilds.findOne({ guildId: guild.id });
-  const userDB = await users.findOne({ userId: member.id, guildId: guild.id });
+  const guildDB = await guilds.findOne({ guildId: interaction?.guild?.id });
+  const userDB = await users.findOne({
+    userId: interaction?.user?.id,
+    guildId: interaction?.guild?.id,
+  });
 
-  guild.roles
+  if (name === null) return;
+
+  (interaction?.guild?.roles as RoleManager)
     .create({
-      data: {
-        name,
-        color: 'BLUE',
-      },
-      reason: `${interaction.member.id} bought from shop`,
+      name,
+      color: 'BLUE',
+      reason: `${interaction?.user?.id} bought from shop`,
     })
     .then(async (role) => {
       console.log(role);
@@ -29,7 +32,7 @@ export default async (interaction) => {
         const embed = {
           title: ':shopping_cart: Shop - Roles',
           description: `You have bought ${role.name} for ${guildDB.shop.roles.pricePerHour} per hour.`,
-          color: config.colors.error,
+          color: config.colors.error as any,
           fields: [
             { name: 'Your balance', value: `${creditNoun(userDB.credits)}` },
           ],
@@ -38,7 +41,6 @@ export default async (interaction) => {
         };
         return interaction.editReply({
           embeds: [embed],
-          ephemeral: true,
         });
       });
     })

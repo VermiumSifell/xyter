@@ -1,21 +1,25 @@
-import { guilds, users } from '../../helpers/database/models';
-import { points, credits, counter } from './modules';
+import guilds from '../../helpers/database/models/guildSchema';
+import users from '../../helpers/database/models/userSchema';
+import points from './modules/points';
+import credits from './modules/credits';
+import counter from './modules/counter';
 
+import { Message } from 'discord.js';
 export default {
   name: 'messageCreate',
-  async execute(message) {
+  async execute(message: Message) {
     const { guild, author } = message;
 
     // If message author is bot
     if (author.bot) return;
 
     // Get guild object
-    const guildDB = await guilds.findOne({ guildId: guild.id });
+    const guildDB = await guilds.findOne({ guildId: guild?.id });
 
     // Get guild object
     const userDB = await users.findOne({
-      guildId: guild.id,
-      userId: author.id,
+      guildId: guild?.id,
+      userId: author?.id,
     });
 
     // Manage credits

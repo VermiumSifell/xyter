@@ -3,6 +3,7 @@ import { Client, Intents } from 'discord.js'; // discord.js
 
 import database from './helpers/database/index';
 import events from './handlers/events';
+import commands from './handlers/commands';
 // import { database } from './helpers'; // helpers
 // import { events, commands, locale, schedules } from './handlers'; // handlers
 
@@ -21,7 +22,7 @@ import config from '../config.json'; // config.json
   await database();
   // await locale();
   await events(client);
-  // await commands(client);
+  await commands(client);
   // await schedules(client);
   await client.login(config.bot.token);
 })();

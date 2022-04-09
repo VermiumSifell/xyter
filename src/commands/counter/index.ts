@@ -1,6 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import view from './addons/view';
 
+import { CommandInteraction } from 'discord.js';
+
 export default {
   data: new SlashCommandBuilder()
     .setName('counter')
@@ -16,7 +18,7 @@ export default {
             .setRequired(true)
         )
     ),
-  async execute(interaction) {
+  async execute(interaction: CommandInteraction) {
     // If subcommand is view
     if (interaction.options.getSubcommand() === 'view') {
       // Execute view addon

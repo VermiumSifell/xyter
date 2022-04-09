@@ -1,14 +1,14 @@
-import { counters } from '../helpers/database/models';
-
+import counters from '../helpers/database/models/counterSchema';
+import { Message } from 'discord.js';
 export default {
   name: 'messageUpdate',
-  async execute(oldMessage, newMessage) {
+  async execute(oldMessage: Message, newMessage: Message) {
     // If message author is bot
     if (newMessage.author.bot) return;
 
     // Get counter object
     const counter = await counters.findOne({
-      guildId: newMessage.guild.id,
+      guildId: newMessage.guild?.id,
       channelId: newMessage.channel.id,
     });
 

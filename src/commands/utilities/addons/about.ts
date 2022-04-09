@@ -1,6 +1,6 @@
 import config from '../../../../config.json';
-
-export default async (interaction) => {
+import { CommandInteraction } from 'discord.js';
+export default async (interaction: CommandInteraction) => {
   const interactionEmbed = {
     title: ':hammer: Utilities - About',
     description: `This bot is hosted by ${
@@ -10,9 +10,9 @@ export default async (interaction) => {
     }, the bot is developed by [Zyner](https://github.com/ZynerOrg)!
 
     If you are interested in contributing, then just [fork it](https://github.com/ZynerOrg/xyter) yourself, we :heart: Open Source.`,
-    color: config.colors.success,
+    color: config.colors.success as any,
     timestamp: new Date(),
     footer: { iconURL: config.footer.icon, text: config.footer.text },
   };
-  interaction.editReply({ embeds: [interactionEmbed], ephemeral: true });
+  interaction.editReply({ embeds: [interactionEmbed] });
 };

@@ -1,26 +1,25 @@
 import i18next from 'i18next';
 import config from '../../../../config.json';
 import logger from '../../../handlers/logger';
-import { users, credits, experiences } from '../../../helpers/database/models';
-
-export default async (interaction) => {
+import users from '../../../helpers/database/models/userSchema';
+import { CommandInteraction } from 'discord.js';
+export default async (interaction: CommandInteraction) => {
   try {
     // Destructure member
     const { member } = await interaction;
-    const { guild } = member;
 
     // Get options
     const target = await interaction.options.getUser('target');
 
     // Get discord user object
     const discordUser = await interaction.client.users.fetch(
-      `${target ? target.id : member.id}`
+      `${target ? target.id : interaction?.user?.id}`
     );
 
     // Get user object
     const userDB = await users.findOne({
-      userId: await discordUser.id,
-      guildId: guild.id,
+      userId: await discordUser?.id,
+      guildId: interaction?.guild?.id,
     });
 
     // Create embed object
@@ -29,7 +28,7 @@ export default async (interaction) => {
         name: `${await discordUser.username}#${await discordUser.discriminator}`,
         icon_url: await discordUser.displayAvatarURL(),
       },
-      color: config.colors.success,
+      color: config.colors.success as any,
       fields: [
         {
           name: `:dollar: Credits`,
@@ -62,7 +61,7 @@ export default async (interaction) => {
     };
 
     // Send interaction reply
-    return await interaction.editReply({ embeds: [embed], ephemeral: true });
+    return await interaction.editReply({ embeds: [embed] });
   } catch (e) {
     // Send debug message
     await logger.error(e);

@@ -2,6 +2,8 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import credits from './credits';
 import counter from './counter';
 
+import { CommandInteraction } from 'discord.js';
+
 export default {
   data: new SlashCommandBuilder()
     .setName('admin')
@@ -121,7 +123,7 @@ export default {
             )
         )
     ),
-  async execute(interaction) {
+  async execute(interaction: CommandInteraction) {
     // If subcommand group is credits
     if (interaction.options.getSubcommandGroup() === 'credits') {
       // Execute credits group

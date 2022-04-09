@@ -1,12 +1,14 @@
 import logger from '../../../handlers/logger';
-import { users, guilds, experiences, credits, counters, timeouts } from '../../../helpers/database/models';
+import counters from '../../../helpers/database/models/counterSchema';
 
-export default async (guildDB, userDB, message) => {
+import { Message } from 'discord.js';
+
+export default async (guildDB: any, userDB: any, message: Message) => {
   const { guild, channel, content } = message;
 
   // Get counter object
   const counter = await counters.findOne({
-    guildId: guild.id,
+    guildId: guild?.id,
     channelId: channel.id,
   });
 
@@ -20,7 +22,7 @@ export default async (guildDB, userDB, message) => {
       // Add 1 to the counter object
       await counters.findOneAndUpdate(
         {
-          guildId: guild.id,
+          guildId: guild?.id,
           channelId: channel.id,
         },
         { $inc: { counter: 1 } }

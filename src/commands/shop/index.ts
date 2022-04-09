@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Permissions } from 'discord.js';
+import { Permissions, CommandInteraction } from 'discord.js';
 import guilds from '../../helpers/database/models/guildSchema';
 import pterodactyl from './addons/pterodactyl';
 import roles from './roles';
@@ -43,7 +43,7 @@ export default {
             )
         )
     ),
-  async execute(interaction) {
+  async execute(interaction: CommandInteraction) {
     // If subcommand is pterodactyl
     if (interaction.options.getSubcommand() === 'pterodactyl') {
       // Execute pterodactyl addon

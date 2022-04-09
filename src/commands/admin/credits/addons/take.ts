@@ -1,35 +1,37 @@
-import { Permissions } from 'discord.js';
+import { Permissions, CommandInteraction } from 'discord.js';
 import config from '../../../../../config.json';
 import logger from '../../../../handlers/logger';
 
 // Database models
 
-import { users } from '../../../../helpers/database/models';
+import users from '../../../../helpers/database/models/userSchema';
 
 import creditNoun from '../../../../helpers/creditNoun';
 
-export default async (interaction) => {
+export default async (interaction: CommandInteraction) => {
   // Destructure member
-  const { member } = interaction;
+  const { guild, user } = interaction;
 
   // Check permission
-  if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+  if (!interaction?.memberPermissions?.has(Permissions.FLAGS.MANAGE_GUILD)) {
     // Create embed object
     const embed = {
       title: ':toolbox: Admin - Credits [Take]',
-      color: config.colors.error,
+      color: config.colors.error as any,
       description: 'You do not have permission to manage this!',
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Get options
-  const user = await interaction.options.getUser('user');
+  const userOption = await interaction.options.getUser('userOption');
   const amount = await interaction.options.getInteger('amount');
+
+  if (amount === null) return;
 
   // If amount is zero or below
   if (amount <= 0) {
@@ -37,19 +39,19 @@ export default async (interaction) => {
     const embed = {
       title: ':toolbox: Admin - Credits [Take]',
       description: "You can't take zero or below.",
-      color: 0xbb2124,
+      color: config.colors.error as any,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Get toUser object
   const toUser = await users.findOne({
-    userId: user.id,
-    guildId: interaction.member.guild.id,
+    userId: userOption?.id,
+    guildId: interaction?.guild?.id,
   });
 
   // If toUser has no credits
@@ -58,14 +60,14 @@ export default async (interaction) => {
     const embed = {
       title: ':toolbox: Admin - Credits [Take]',
       description:
-        'That user has no credits, I can not take credits from the user',
-      color: config.colors.error,
+        'That userOption has no credits, I can not take credits from the userOption',
+      color: config.colors.error as any,
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Withdraw amount from toUser
@@ -80,7 +82,7 @@ export default async (interaction) => {
       // Create embed object
       const embed = {
         title: ':toolbox: Admin - Credits [Take]',
-        description: `You took ${creditNoun(amount)} to ${user}.`,
+        description: `You took ${creditNoun(amount)} to ${userOption}.`,
         color: 0x22bb33,
         timestamp: new Date(),
         footer: { iconURL: config.footer.icon, text: config.footer.text },
@@ -90,15 +92,15 @@ export default async (interaction) => {
       await logger.debug(
         `Administrator: ${interaction.user.username} took ${
           amount <= 1 ? `${amount} credit` : `${amount} credits`
-        } from ${user.username}`
+        } from ${userOption?.username}`
       );
 
       // Send interaction reply
-      await interaction.editReply({ embeds: [embed], ephemeral: true });
+      await interaction.editReply({ embeds: [embed] });
 
       // Send debug message
       await logger.debug(
-        `Guild: ${member.guild.id} User: ${member.id} took ${creditNoun(
+        `Guild: ${guild?.id} User: ${user?.id} took ${creditNoun(
           amount
         )} from ${user.id}.`
       );

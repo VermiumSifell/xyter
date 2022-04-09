@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Permissions } from 'discord.js';
+import { Permissions, CommandInteraction } from 'discord.js';
 import guild from './guild';
 import user from './user';
 
@@ -112,7 +112,7 @@ export default {
             )
         )
     ),
-  async execute(interaction) {
+  async execute(interaction: CommandInteraction) {
     // If subcommand group is guild
     if (interaction.options.getSubcommandGroup() === 'guild') {
       // Execute guild group

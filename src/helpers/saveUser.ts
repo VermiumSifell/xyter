@@ -1,12 +1,11 @@
-const sleep = require('./sleep');
+import sleep from './sleep';
+import logger from '../handlers/logger';
 
-const logger = require('../handlers/logger');
-
-module.exports = async function saveUser(data, data2) {
+export default async function saveUser(data: any, data2: any) {
   process.nextTick(
     async () => {
       await sleep(Math.floor(Math.random() * 10 + 1) * 100); // 100 - 1000 random  Number generator
-      data.save((_) =>
+      data.save((_: any) =>
         _
           ? logger.error(
               `ERROR Occurred while saving data (saveUser) \n${'='.repeat(
@@ -16,7 +15,7 @@ module.exports = async function saveUser(data, data2) {
           : 'No Error'
       );
       if (data2) {
-        data2.save((_) =>
+        data2.save((_: any) =>
           _
             ? logger.error(
                 `ERROR Occurred while saving data (saveUser) \n${'='.repeat(
@@ -30,4 +29,4 @@ module.exports = async function saveUser(data, data2) {
     data,
     data2
   );
-};
+}

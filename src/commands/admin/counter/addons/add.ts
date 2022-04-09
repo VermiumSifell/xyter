@@ -1,27 +1,27 @@
-import { Permissions } from 'discord.js';
+import { Permissions, CommandInteraction } from 'discord.js';
 import config from '../../../../../config.json';
 import logger from '../../../../handlers/logger';
 
 // Database models
-import { counters } from '../../../../helpers/database/models';
+import counters from '../../../../helpers/database/models/counterSchema';
 
-export default async (interaction) => {
+export default async (interaction: CommandInteraction) => {
   // Destructure member
   const { member } = interaction;
 
   // Check permission
-  if (!member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+  if (!interaction?.memberPermissions?.has(Permissions.FLAGS.MANAGE_GUILD)) {
     // Create embed object
     const embed = {
       title: 'Admin',
-      color: config.colors.error,
+      color: config.colors.error as any,
       description: 'You do not have permission to manage this!',
       timestamp: new Date(),
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send interaction reply
-    return interaction.editReply({ embeds: [embed], ephemeral: true });
+    return interaction.editReply({ embeds: [embed] });
   }
 
   // Get options
@@ -29,13 +29,13 @@ export default async (interaction) => {
   const word = await interaction.options.getString('word');
   const start = await interaction.options.getNumber('start');
 
-  if (channel.type !== 'GUILD_TEXT') {
+  if (channel?.type !== 'GUILD_TEXT') {
     // Create embed object
     const embed = {
       title: 'Admin - Counter',
       description: `That channel is not supported, it needs to be a text channel.`,
       timestamp: new Date(),
-      color: config.colors.error,
+      color: config.colors.error as any,
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
@@ -44,15 +44,15 @@ export default async (interaction) => {
   }
 
   const counterExist = await counters.findOne({
-    guildId: member.guild.id,
-    channelId: channel.id,
+    guildId: interaction?.guild?.id,
+    channelId: channel?.id,
     word,
   });
 
   if (!counterExist) {
     await counters.create({
-      guildId: member.guild.id,
-      channelId: channel.id,
+      guildId: interaction?.guild?.id,
+      channelId: channel?.id,
       word,
       counter: start || 0,
     });
@@ -63,13 +63,13 @@ export default async (interaction) => {
         start || 0
       }.`,
       timestamp: new Date(),
-      color: config.colors.success,
+      color: config.colors.success as any,
       footer: { iconURL: config.footer.icon, text: config.footer.text },
     };
 
     // Send debug message
     await logger.debug(
-      `Guild: ${member.guild.id} User: ${member.id} added ${channel.id} as a counter using word "${word}" for counting.`
+      `Guild: ${interaction?.guild?.id} User: ${interaction?.user?.id} added ${channel.id} as a counter using word "${word}" for counting.`
     );
 
     // Send interaction reply
@@ -80,7 +80,7 @@ export default async (interaction) => {
     title: 'Admin - Counter',
     description: `${channel} is already a counting channel.`,
     timestamp: new Date(),
-    color: config.colors.error,
+    color: config.colors.error as any,
     footer: { iconURL: config.footer.icon, text: config.footer.text },
   };
 

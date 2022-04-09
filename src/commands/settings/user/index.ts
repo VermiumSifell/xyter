@@ -1,9 +1,9 @@
-import { Permissions } from 'discord.js';
+import { Permissions, CommandInteraction } from 'discord.js';
 import config from '../../../../config.json';
 import logger from '../../../handlers/logger';
-import { appearance } from './addons';
+import appearance from './addons/appearance';
 
-export default async (interaction) => {
+export default async (interaction: CommandInteraction) => {
   // Destructure member
   const { member } = interaction;
 
@@ -15,7 +15,9 @@ export default async (interaction) => {
 
   // Send debug message
   await logger.debug(
-    `Guild: ${member.guild.id} User: ${member.id} executed /${
+    `Guild: ${interaction?.guild?.id} User: ${
+      interaction?.user?.id
+    } executed /${
       interaction.commandName
     } ${interaction.options.getSubcommandGroup()} ${interaction.options.getSubcommand()}`
   );

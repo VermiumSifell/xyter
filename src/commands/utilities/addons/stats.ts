@@ -1,7 +1,8 @@
 import config from '../../../../config.json';
-
-export default async (interaction) => {
-  let totalSeconds = interaction.client.uptime / 1000;
+import { CommandInteraction } from 'discord.js';
+export default async (interaction: CommandInteraction) => {
+  if (interaction?.client?.uptime === null) return;
+  let totalSeconds = interaction?.client?.uptime / 1000;
   const days = Math.floor(totalSeconds / 86400);
   totalSeconds %= 86400;
   const hours = Math.floor(totalSeconds / 3600);
@@ -44,9 +45,9 @@ export default async (interaction) => {
         inline: true,
       },
     ],
-    color: config.colors.success,
+    color: config.colors.success as any,
     timestamp: new Date(),
     footer: { iconURL: config.footer.icon, text: config.footer.text },
   };
-  interaction.editReply({ embeds: [interactionEmbed], ephemeral: true });
+  interaction.editReply({ embeds: [interactionEmbed] });
 };

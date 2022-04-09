@@ -1,6 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { lookup, about, stats } from './addons';
-
+import lookup from './addons/lookup';
+import about from './addons/about';
+import stats from './addons/stats';
+import { CommandInteraction } from 'discord.js';
 export default {
   data: new SlashCommandBuilder()
     .setName('utilities')
@@ -24,7 +26,7 @@ export default {
     .addSubcommand((subcommand) =>
       subcommand.setName('stats').setDescription('Check bot statistics!)')
     ),
-  async execute(interaction) {
+  async execute(interaction: CommandInteraction) {
     // If subcommand is lookup
     if (interaction.options.getSubcommand() === 'lookup') {
       // Execute lookup addon
