@@ -1,20 +1,20 @@
 // Dependencies
-import { Message } from 'discord.js';
+import { Message } from "discord.js";
 
 // Models
-import userSchema from '../../helpers/database/models/userSchema';
-import guildSchema from '../../helpers/database/models/guildSchema';
+import userSchema from "../../helpers/database/models/userSchema";
+import guildSchema from "../../helpers/database/models/guildSchema";
 
 // Modules
-import points from './modules/points';
-import credits from './modules/credits';
-import counters from './modules/counters';
-import fetchUser from '../../helpers/fetchUser';
-import fetchGuild from '../../helpers/fetchGuild';
+import points from "./modules/points";
+import credits from "./modules/credits";
+import counters from "./modules/counters";
+import fetchUser from "../../helpers/fetchUser";
+import fetchGuild from "../../helpers/fetchGuild";
 
 // Function
 export default {
-  name: 'messageCreate',
+  name: "messageCreate",
   async execute(message: Message) {
     const { author, guild } = message;
 

@@ -1,12 +1,12 @@
-import users from '../../helpers/database/models/userSchema';
-import logger from '../../handlers/logger';
+import users from "../../helpers/database/models/userSchema";
+import logger from "../../handlers/logger";
 
-import { GuildMember } from 'discord.js';
-import updatePresence from '../../helpers/updatePresence';
-import fetchUser from '../../helpers/fetchUser';
+import { GuildMember } from "discord.js";
+import updatePresence from "../../helpers/updatePresence";
+import fetchUser from "../../helpers/fetchUser";
 
 export default {
-  name: 'guildMemberAdd',
+  name: "guildMemberAdd",
   async execute(member: GuildMember) {
     const { client, user, guild } = member;
 
