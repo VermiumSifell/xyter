@@ -1,14 +1,14 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from 'discord.js';
+import { CommandInteraction, ColorResolvable } from "discord.js";
 
 // Configurations
-import config from '../../../../config.json';
+import config from "../../../../config.json";
 
 // Models
-import userSchema from '../../../helpers/database/models/userSchema';
+import userSchema from "../../../helpers/database/models/userSchema";
 
 // helpers
-import creditNoun from '../../../helpers/creditNoun';
+import creditNoun from "../../../helpers/creditNoun";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -30,10 +30,10 @@ export default async (interaction: CommandInteraction) => {
 
   // Create embed object
   const embed = {
-    title: ':dollar: Credits [Top]' as string,
+    title: ":dollar: Credits [Top]" as string,
     description: `Below are the top ten.\n${topTen
       ?.map((x, index) => entry(x, index))
-      ?.join('\n')}` as string,
+      ?.join("\n")}` as string,
     color: config?.colors?.success as ColorResolvable,
     timestamp: new Date(),
     footer: {

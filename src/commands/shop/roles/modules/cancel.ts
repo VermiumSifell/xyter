@@ -3,30 +3,30 @@ import {
   CommandInteraction,
   ColorResolvable,
   GuildMemberRoleManager,
-} from 'discord.js';
+} from "discord.js";
 
 // Configurations
-import config from '../../../../../config.json';
+import config from "../../../../../config.json";
 
 // Models
-import shopRolesSchema from '../../../../helpers/database/models/shopRolesSchema';
+import shopRolesSchema from "../../../../helpers/database/models/shopRolesSchema";
 
 // Helpers
-import creditNoun from '../../../../helpers/creditNoun';
-import fetchUser from '../../../../helpers/fetchUser';
+import creditNoun from "../../../../helpers/creditNoun";
+import fetchUser from "../../../../helpers/fetchUser";
 
 // Function
 export default async (interaction: CommandInteraction) => {
   const { options, guild, user, member } = interaction;
 
-  const optionRole = options.getRole('role');
+  const optionRole = options.getRole("role");
 
   // If amount is null
   if (optionRole === null) {
     // Embed object
     const embed = {
-      title: ':dollar: Shop - Roles [Cancel]' as string,
-      description: 'We could not read your requested role.' as string,
+      title: ":dollar: Shop - Roles [Cancel]" as string,
+      description: "We could not read your requested role." as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date(),
       footer: {
@@ -62,12 +62,12 @@ export default async (interaction: CommandInteraction) => {
         });
 
         const embed = {
-          title: ':shopping_cart: Shop - Roles [Cancel]' as string,
+          title: ":shopping_cart: Shop - Roles [Cancel]" as string,
           description: `You have canceled ${optionRole.name}.` as string,
           color: config?.colors?.success as ColorResolvable,
           fields: [
             {
-              name: 'Your balance' as string,
+              name: "Your balance" as string,
               value: `${creditNoun(userDB?.credits)}` as string,
             },
           ],
