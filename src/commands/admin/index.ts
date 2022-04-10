@@ -1,9 +1,18 @@
+//Dependencies
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { CommandInteraction, ColorResolvable, Permissions } from 'discord.js';
+
+// Configurations
+import config from '../../../config.json';
+
+// Handlers
+import logger from '../../handlers/logger';
+
+// Groups
 import credits from './credits';
-import counter from './counter';
+import counters from './counters';
 
-import { CommandInteraction } from 'discord.js';
-
+// Function
 export default {
   data: new SlashCommandBuilder()
     .setName('admin')
@@ -89,7 +98,7 @@ export default {
     )
     .addSubcommandGroup((group) =>
       group
-        .setName('counter')
+        .setName('counters')
         .setDescription('Manage counters.')
         .addSubcommand((command) =>
           command
@@ -124,16 +133,45 @@ export default {
         )
     ),
   async execute(interaction: CommandInteraction) {
-    // If subcommand group is credits
-    if (interaction.options.getSubcommandGroup() === 'credits') {
-      // Execute credits group
-      await credits(interaction);
+    // Destructure
+    const { memberPermissions, options, user, commandName, guild } =
+      interaction;
+
+    // Check permission
+    if (!memberPermissions?.has(Permissions?.FLAGS?.MANAGE_GUILD)) {
+      // Embed object
+      const embed = {
+        title: ':toolbox: Admin' as string,
+        color: config?.colors?.error as ColorResolvable,
+        description: 'You do not have permission to manage this!' as string,
+        timestamp: new Date() as Date,
+        footer: {
+          iconURL: config?.footer?.icon as string,
+          text: config?.footer?.text as string,
+        },
+      };
+
+      // Return interaction reply
+      return interaction?.editReply({ embeds: [embed] });
     }
 
-    // If subcommand group is credits
-    else if (interaction.options.getSubcommandGroup() === 'counter') {
-      // Execute credits group
-      await counter(interaction);
+    // Group - Credits
+    if (options?.getSubcommandGroup() === 'credits') {
+      // Execute Group - Credits
+      return await credits(interaction);
     }
+
+    // Group - Counters
+    else if (options?.getSubcommandGroup() === 'counters') {
+      // Execute Group - Counters
+      return await counters(interaction);
+    }
+
+    // Send debug message
+    return logger?.debug(
+      `Guild: ${guild?.id} User: ${
+        user?.id
+      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
+    );
   },
 };
