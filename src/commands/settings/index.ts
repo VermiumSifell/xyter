@@ -1,8 +1,15 @@
+// Dependencies
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Permissions, CommandInteraction } from 'discord.js';
-import guild from './guild';
-import user from './user';
+import { CommandInteraction } from 'discord.js';
 
+// Groups
+import guildGroup from './guild';
+import userGroup from './user';
+
+// Handlers
+import logger from '../../handlers/logger';
+
+// Function
 export default {
   data: new SlashCommandBuilder()
     .setName('settings')
@@ -113,15 +120,25 @@ export default {
         )
     ),
   async execute(interaction: CommandInteraction) {
-    // If subcommand group is guild
-    if (interaction.options.getSubcommandGroup() === 'guild') {
-      // Execute guild group
-      await guild(interaction);
+    // Destructure
+    const { options, commandName, user, guild } = interaction;
+
+    // Group - Guild
+    if (options.getSubcommandGroup() === 'guild') {
+      // Execute Group - Guild
+      await guildGroup(interaction);
     }
-    // If subcommand group is user
-    else if (interaction.options.getSubcommandGroup() === 'user') {
-      // Execute user group
-      await user(interaction);
+    // Group - User
+    else if (options.getSubcommandGroup() === 'user') {
+      // Execute Group - User
+      await userGroup(interaction);
     }
+
+    // Send debug message
+    return logger?.debug(
+      `Guild: ${guild?.id} User: ${
+        user?.id
+      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
+    );
   },
 };

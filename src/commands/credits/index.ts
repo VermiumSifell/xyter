@@ -1,9 +1,17 @@
+// Dependencies
 import { SlashCommandBuilder } from '@discordjs/builders';
-import balance from './addons/balance';
-import gift from './addons/gift';
-import top from './addons/top';
-import work from './addons/work';
 import { CommandInteraction } from 'discord.js';
+
+// Handlers
+import logger from '../../handlers/logger';
+
+// Modules
+import balance from './modules/balance';
+import gift from './modules/gift';
+import top from './modules/top';
+import work from './modules/work';
+
+// Function
 export default {
   data: new SlashCommandBuilder()
     .setName('credits')
@@ -46,28 +54,37 @@ export default {
       subcommand.setName('work').setDescription('Work for credits.')
     ),
   async execute(interaction: CommandInteraction) {
-    // If subcommand is balance
-    if (interaction.options.getSubcommand() === 'balance') {
-      // Execute balance addon
-      await balance(interaction);
+    const { options, user, guild, commandName } = interaction;
+
+    // Module - Balance
+    if (options?.getSubcommand() === 'balance') {
+      // Execute Module - Balance
+      return await balance(interaction);
     }
 
-    // If subcommand is gift
-    else if (interaction.options.getSubcommand() === 'gift') {
-      // Execute gift addon
-      await gift(interaction);
+    // Module - Gift
+    else if (options?.getSubcommand() === 'gift') {
+      // Execute Module - Gift
+      return await gift(interaction);
     }
 
-    // If subcommand is top
-    else if (interaction.options.getSubcommand() === 'top') {
-      // Execute top addon
-      await top(interaction);
+    // Module - Top
+    else if (options?.getSubcommand() === 'top') {
+      // Execute Module - Top
+      return await top(interaction);
     }
 
-    // If subcommand is work
-    else if (interaction.options.getSubcommand() === 'work') {
-      // Execute work addon
-      await work(interaction);
+    // Module - Work
+    else if (options?.getSubcommand() === 'work') {
+      // Execute Module - Work
+      return await work(interaction);
     }
+
+    // Send debug message
+    return logger?.debug(
+      `Guild: ${guild?.id} User: ${
+        user?.id
+      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
+    );
   },
 };

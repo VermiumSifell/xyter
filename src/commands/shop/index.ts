@@ -1,9 +1,17 @@
+// Dependencies
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Permissions, CommandInteraction } from 'discord.js';
-import guilds from '../../helpers/database/models/guildSchema';
-import pterodactyl from './addons/pterodactyl';
+import { CommandInteraction } from 'discord.js';
+
+// Modules
+import pterodactyl from './modules/pterodactyl';
+
+// Groups
 import roles from './roles';
 
+// Handlers
+import logger from '../../handlers/logger';
+
+// Function
 export default {
   data: new SlashCommandBuilder()
     .setName('shop')
@@ -44,16 +52,26 @@ export default {
         )
     ),
   async execute(interaction: CommandInteraction) {
-    // If subcommand is pterodactyl
-    if (interaction.options.getSubcommand() === 'pterodactyl') {
-      // Execute pterodactyl addon
-      await pterodactyl(interaction);
+    // Destructure
+    const { options, commandName, user, guild } = interaction;
+
+    // Module - Pterodactyl
+    if (options?.getSubcommand() === 'pterodactyl') {
+      // Execute Module - Pterodactyl
+      return await pterodactyl(interaction);
     }
 
-    // If subcommand group is roles
-    else if (interaction.options.getSubcommandGroup() === 'roles') {
-      // Execute roles addon
-      await roles(interaction);
+    // Group - Roles
+    else if (options?.getSubcommandGroup() === 'roles') {
+      // Execute Group - Roles
+      return await roles(interaction);
     }
+
+    // Send debug message
+    return logger?.debug(
+      `Guild: ${guild?.id} User: ${
+        user?.id
+      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
+    );
   },
 };

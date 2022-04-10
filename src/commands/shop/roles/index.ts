@@ -1,29 +1,34 @@
-import logger from '../../../handlers/logger';
-import buy from './addons/buy';
-import cancel from './addons/cancel';
+// Dependencies
 import { CommandInteraction } from 'discord.js';
+
+// Handlers
+import logger from '../../../handlers/logger';
+
+// Modules
+import buy from './modules/buy';
+import cancel from './modules/cancel';
+
+// Function
 export default async (interaction: CommandInteraction) => {
   // Destructure member
-  const { member } = interaction;
+  const { options, commandName, guild, user } = interaction;
 
-  // If subcommand is buy
-  if (interaction.options.getSubcommand() === 'buy') {
-    // Execute buy addon
+  // Module - Buy
+  if (options?.getSubcommand() === 'buy') {
+    // Execute Module - Buy
     await buy(interaction);
   }
 
-  // If subcommand is cancel
-  if (interaction.options.getSubcommand() === 'cancel') {
-    // Execute cancel addon
+  // Module - Cancel
+  if (options?.getSubcommand() === 'cancel') {
+    // Execute Module - Cancel
     await cancel(interaction);
   }
 
   // Send debug message
-  await logger.debug(
-    `Guild: ${interaction?.guild?.id} User: ${
-      interaction?.user?.id
-    } executed /${
-      interaction.commandName
-    } ${interaction.options.getSubcommandGroup()} ${interaction.options.getSubcommand()}`
+  return logger?.debug(
+    `Guild: ${guild?.id} User: ${
+      user?.id
+    } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
   );
 };

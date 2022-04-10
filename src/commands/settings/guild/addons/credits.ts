@@ -1,95 +1,97 @@
-import { Permissions, CommandInteraction } from 'discord.js';
+// Dependencies
+import { ColorResolvable, CommandInteraction } from 'discord.js';
+
+// Configurations
 import config from '../../../../../config.json';
+
+//Handlers
 import logger from '../../../../handlers/logger';
 
-// Database models
-import guilds from '../../../../helpers/database/models/guildSchema';
+// Models
+import guildSchema from '../../../../helpers/database/models/guildSchema';
 
+// Function
 export default async (interaction: CommandInteraction) => {
   // Destructure member
-  const { guild, user } = interaction;
-
-  // Check permission
-  if (!interaction?.memberPermissions?.has(Permissions.FLAGS.MANAGE_GUILD)) {
-    // Create embed object
-    const embed = {
-      title: ':hammer: Settings - Guild [Credits]',
-      color: config.colors.error as any,
-      description: `You don't have permission to manage this!`,
-      timestamp: new Date(),
-      footer: { iconURL: config.footer.icon, text: config.footer.text },
-    };
-
-    // Send interaction reply
-    return interaction.editReply({ embeds: [embed] });
-  }
+  const { guild, user, options } = interaction;
 
   // Get options
-  const status = await interaction.options.getBoolean('status');
-  const rate = await interaction.options.getNumber('rate');
-  const timeout = await interaction.options.getNumber('timeout');
-  const minimumLength = await interaction.options.getNumber('minimum-length');
-  const workRate = await interaction.options.getNumber('work-rate');
-  const workTimeout = await interaction.options.getNumber('work-timeout');
+  const status = options?.getBoolean('status');
+  const rate = options?.getNumber('rate');
+  const timeout = options?.getNumber('timeout');
+  const minimumLength = options?.getNumber('minimum-length');
+  const workRate = options?.getNumber('work-rate');
+  const workTimeout = options?.getNumber('work-timeout');
 
   // Get guild object
-  const guildDB = await guilds.findOne({
+  const guildDB = await guildSchema?.findOne({
     guildId: guild?.id,
   });
 
   // Modify values
-  guildDB.credits.status = status !== null ? status : guildDB.credits.status;
-  guildDB.credits.rate = rate !== null ? rate : guildDB.credits.rate;
+  guildDB.credits.status = status !== null ? status : guildDB?.credits?.status;
+  guildDB.credits.rate = rate !== null ? rate : guildDB?.credits?.rate;
   guildDB.credits.timeout =
-    timeout !== null ? timeout : guildDB.credits.timeout;
+    timeout !== null ? timeout : guildDB?.credits?.timeout;
   guildDB.credits.workRate =
-    workRate !== null ? workRate : guildDB.credits.workRate;
+    workRate !== null ? workRate : guildDB?.credits?.workRate;
   guildDB.credits.workTimeout =
-    workTimeout !== null ? workTimeout : guildDB.credits.workTimeout;
+    workTimeout !== null ? workTimeout : guildDB?.credits?.workTimeout;
   guildDB.credits.minimumLength =
-    minimumLength !== null ? minimumLength : guildDB.credits.minimumLength;
+    minimumLength !== null ? minimumLength : guildDB?.credits?.minimumLength;
 
   // Save guild
-  await guildDB.save().then(async () => {
-    // Create embed object
+  await guildDB?.save()?.then(async () => {
+    // Embed object
     const embed = {
-      title: ':hammer: Settings - Guild [Credits]',
-      description: 'Following settings is set!',
-      color: config.colors.success as any,
+      title: ':tools: Settings - Guild [Credits]' as string,
+      description: 'Following settings is set!' as string,
+      color: config?.colors?.success as ColorResolvable,
       fields: [
-        { name: '🤖 Status', value: `${guildDB.credits.status}`, inline: true },
-        { name: '📈 Rate', value: `${guildDB.credits.rate}`, inline: true },
         {
-          name: '📈 Work Rate',
-          value: `${guildDB.credits.workRate}`,
+          name: '🤖 Status' as string,
+          value: `${guildDB?.credits?.status}` as string,
           inline: true,
         },
         {
-          name: '🔨 Minimum Length',
-          value: `${guildDB.credits.minimumLength}`,
+          name: '📈 Rate' as string,
+          value: `${guildDB?.credits?.rate}` as string,
           inline: true,
         },
         {
-          name: '⏰ Timeout',
-          value: `${guildDB.credits.timeout}`,
+          name: '📈 Work Rate' as string,
+          value: `${guildDB?.credits?.workRate}` as string,
           inline: true,
         },
         {
-          name: '⏰ Work Timeout',
-          value: `${guildDB.credits.workTimeout}`,
+          name: '🔨 Minimum Length' as string,
+          value: `${guildDB?.credits?.minimumLength}` as string,
+          inline: true,
+        },
+        {
+          name: '⏰ Timeout' as string,
+          value: `${guildDB?.credits?.timeout}` as string,
+          inline: true,
+        },
+        {
+          name: '⏰ Work Timeout' as string,
+          value: `${guildDB?.credits?.workTimeout}` as string,
           inline: true,
         },
       ],
-      timestamp: new Date(),
-      footer: { iconURL: config.footer.icon, text: config.footer.text },
+      timestamp: new Date() as Date,
+      footer: {
+        iconURL: config?.footer?.icon as string,
+        text: config?.footer?.text as string,
+      },
     };
 
-    // Send interaction reply
-    await interaction.editReply({ embeds: [embed] });
-
     // Send debug message
-    await logger.debug(
+    logger?.debug(
       `Guild: ${guild?.id} User: ${user.id} has changed credit details.`
     );
+
+    // Return interaction reply
+    return await interaction?.editReply({ embeds: [embed] });
   });
 };
