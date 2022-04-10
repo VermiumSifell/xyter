@@ -1,19 +1,19 @@
-import i18next from 'i18next';
-import { CommandInteraction } from 'discord.js';
-import config from '../../../../config.json';
-import logger from '../../../handlers/logger';
-import users from '../../../helpers/database/models/userSchema';
-import timeouts from '../../../helpers/database/models/timeoutSchema';
+import i18next from "i18next";
+import { CommandInteraction } from "discord.js";
+import config from "../../../../config.json";
+import logger from "../../../handlers/logger";
+import users from "../../../helpers/database/models/userSchema";
+import timeouts from "../../../helpers/database/models/timeoutSchema";
 
 export default async (interaction: CommandInteraction) => {
   // Destructure
   const { options, user, guild } = interaction;
 
   // Target information
-  const target = options.getUser('target');
+  const target = options.getUser("target");
 
   // Type information
-  const type = options.getString('type');
+  const type = options.getString("type");
 
   // User information
   const userObj = await users.findOne({
@@ -34,8 +34,8 @@ export default async (interaction: CommandInteraction) => {
     if (target?.id === user?.id) {
       // Embed object
       const embed = {
-        title: ':loudspeaker: Reputation - Give',
-        description: 'You can not repute yourself.',
+        title: ":loudspeaker: Reputation - Give",
+        description: "You can not repute yourself.",
         timestamp: new Date(),
         color: config.colors.error as any,
         footer: { iconURL: config.footer.icon, text: config.footer.text },
@@ -46,12 +46,12 @@ export default async (interaction: CommandInteraction) => {
     }
 
     // If type is positive
-    if (type === 'positive') {
+    if (type === "positive") {
       userObj.reputation += 1;
     }
 
     // If type is negative
-    if (type === 'negative') {
+    if (type === "negative") {
       userObj.reputation -= 1;
     }
 
@@ -59,7 +59,7 @@ export default async (interaction: CommandInteraction) => {
     await userObj.save().then(async () => {
       // Embed object
       const embed = {
-        title: ':loudspeaker: Reputation - Give',
+        title: ":loudspeaker: Reputation - Give",
         description: `You have given ${target} a ${type} reputation!`,
         timestamp: new Date(),
         color: config.colors.success as any,
@@ -100,7 +100,7 @@ export default async (interaction: CommandInteraction) => {
   } else {
     // Create embed object
     const embed = {
-      title: ':loudspeaker: Reputation - Give',
+      title: ":loudspeaker: Reputation - Give",
       description: `You have given reputation within the last ${
         config.reputation.timeout / 1000
       } seconds, you can not repute now!`,
