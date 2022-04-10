@@ -9,6 +9,7 @@ import logger from "../../../../handlers/logger";
 
 // Models
 import apiSchema from "../../../../helpers/database/models/apiSchema";
+import encryption from "../../../../handlers/encryption";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -17,7 +18,7 @@ export default async (interaction: CommandInteraction) => {
 
   // Get options
   const url = options?.getString("url");
-  const token = options?.getString("token");
+  const token = encryption.encrypt(options?.getString("token"));
 
   // Update API credentials
   await apiSchema

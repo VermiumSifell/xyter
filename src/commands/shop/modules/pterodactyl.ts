@@ -8,6 +8,7 @@ import config from "../../../../config.json";
 
 // Handlers
 import logger from "../../../handlers/logger";
+import encryption from "../../../handlers/encryption";
 
 // Helpers
 import creditNoun from "../../../helpers/creditNoun";
@@ -127,7 +128,9 @@ export default async (interaction: CommandInteraction) => {
   // Create a api instance
   const api = axios?.create({
     baseURL: apiCredentials?.url,
-    headers: { Authorization: `Bearer ${apiCredentials?.token}` },
+    headers: {
+      Authorization: `Bearer ${encryption.decrypt(apiCredentials?.token)}`,
+    },
   });
 
   // Get shop URL
