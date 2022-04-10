@@ -1,7 +1,7 @@
 // Dependencies
 import { Client, Intents } from 'discord.js'; // discord.js
 
-import database from './helpers/database/index';
+import database from './helpers/database';
 import events from './handlers/events';
 import commands from './handlers/commands';
 import locale from './handlers/locale';

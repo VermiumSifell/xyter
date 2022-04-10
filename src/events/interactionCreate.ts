@@ -23,7 +23,7 @@ export default {
 
       try {
         // Defer reply
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
 
         // Execute command
         await command.execute(interaction);
