@@ -1,13 +1,13 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from 'discord.js';
+import { CommandInteraction, ColorResolvable } from "discord.js";
 
 // Configurations
-import config from '../../../../config.json';
+import config from "../../../../config.json";
 
 // Function
 export default async (interaction: CommandInteraction) => {
   const interactionEmbed = {
-    title: ':hammer: Utilities [About]' as string,
+    title: ":hammer: Utilities [About]" as string,
     description: `This bot is hosted by ${
       config?.hoster?.url
         ? `[${config?.hoster?.name}](${config?.hoster?.url})`

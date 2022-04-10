@@ -1,14 +1,14 @@
 // Dependencies
-import { ColorResolvable, CommandInteraction } from 'discord.js';
+import { ColorResolvable, CommandInteraction } from "discord.js";
 
 // Configurations
-import config from '../../../../../config.json';
+import config from "../../../../../config.json";
 
 //Handlers
-import logger from '../../../../handlers/logger';
+import logger from "../../../../handlers/logger";
 
 // Models
-import guildSchema from '../../../../helpers/database/models/guildSchema';
+import guildSchema from "../../../../helpers/database/models/guildSchema";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -16,12 +16,12 @@ export default async (interaction: CommandInteraction) => {
   const { guild, user, options } = interaction;
 
   // Get options
-  const status = options?.getBoolean('status');
-  const rate = options?.getNumber('rate');
-  const timeout = options?.getNumber('timeout');
-  const minimumLength = options?.getNumber('minimum-length');
-  const workRate = options?.getNumber('work-rate');
-  const workTimeout = options?.getNumber('work-timeout');
+  const status = options?.getBoolean("status");
+  const rate = options?.getNumber("rate");
+  const timeout = options?.getNumber("timeout");
+  const minimumLength = options?.getNumber("minimum-length");
+  const workRate = options?.getNumber("work-rate");
+  const workTimeout = options?.getNumber("work-timeout");
 
   // Get guild object
   const guildDB = await guildSchema?.findOne({
@@ -44,37 +44,37 @@ export default async (interaction: CommandInteraction) => {
   await guildDB?.save()?.then(async () => {
     // Embed object
     const embed = {
-      title: ':tools: Settings - Guild [Credits]' as string,
-      description: 'Following settings is set!' as string,
+      title: ":tools: Settings - Guild [Credits]" as string,
+      description: "Following settings is set!" as string,
       color: config?.colors?.success as ColorResolvable,
       fields: [
         {
-          name: '🤖 Status' as string,
+          name: "🤖 Status" as string,
           value: `${guildDB?.credits?.status}` as string,
           inline: true,
         },
         {
-          name: '📈 Rate' as string,
+          name: "📈 Rate" as string,
           value: `${guildDB?.credits?.rate}` as string,
           inline: true,
         },
         {
-          name: '📈 Work Rate' as string,
+          name: "📈 Work Rate" as string,
           value: `${guildDB?.credits?.workRate}` as string,
           inline: true,
         },
         {
-          name: '🔨 Minimum Length' as string,
+          name: "🔨 Minimum Length" as string,
           value: `${guildDB?.credits?.minimumLength}` as string,
           inline: true,
         },
         {
-          name: '⏰ Timeout' as string,
+          name: "⏰ Timeout" as string,
           value: `${guildDB?.credits?.timeout}` as string,
           inline: true,
         },
         {
-          name: '⏰ Work Timeout' as string,
+          name: "⏰ Work Timeout" as string,
           value: `${guildDB?.credits?.workTimeout}` as string,
           inline: true,
         },

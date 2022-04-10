@@ -1,14 +1,14 @@
 // Dependencies
-import { ColorResolvable, CommandInteraction } from 'discord.js';
+import { ColorResolvable, CommandInteraction } from "discord.js";
 
 // Configurations
-import config from '../../../../../config.json';
+import config from "../../../../../config.json";
 
 // Handlers
-import logger from '../../../../handlers/logger';
+import logger from "../../../../handlers/logger";
 
 // Models
-import apiSchema from '../../../../helpers/database/models/apiSchema';
+import apiSchema from "../../../../helpers/database/models/apiSchema";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -16,8 +16,8 @@ export default async (interaction: CommandInteraction) => {
   const { options, guild, user } = interaction;
 
   // Get options
-  const url = options?.getString('url');
-  const token = options?.getString('token');
+  const url = options?.getString("url");
+  const token = options?.getString("token");
 
   // Update API credentials
   await apiSchema
@@ -29,9 +29,9 @@ export default async (interaction: CommandInteraction) => {
     .then(async () => {
       // Embed object
       const embed = {
-        title: ':hammer: Settings - Guild [Pterodactyl]' as string,
+        title: ":hammer: Settings - Guild [Pterodactyl]" as string,
         color: config?.colors?.success as ColorResolvable,
-        description: 'Pterodactyl settings is saved!' as string,
+        description: "Pterodactyl settings is saved!" as string,
         timestamp: new Date(),
         footer: {
           iconURL: config?.footer?.icon as string,

@@ -1,20 +1,20 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from 'discord.js';
-import Chance from 'chance';
+import { CommandInteraction, ColorResolvable } from "discord.js";
+import Chance from "chance";
 
 // Configurations
-import config from '../../../../config.json';
+import config from "../../../../config.json";
 
 // Handlers
-import logger from '../../../handlers/logger';
+import logger from "../../../handlers/logger";
 
 // Models
-import timeouts from '../../../helpers/database/models/timeoutSchema';
+import timeouts from "../../../helpers/database/models/timeoutSchema";
 
 // Helpers
-import creditNoun from '../../../helpers/creditNoun';
-import fetchUser from '../../../helpers/fetchUser';
-import fetchGuild from '../../../helpers/fetchGuild';
+import creditNoun from "../../../helpers/creditNoun";
+import fetchUser from "../../../helpers/fetchUser";
+import fetchGuild from "../../../helpers/fetchGuild";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -28,7 +28,7 @@ export default async (interaction: CommandInteraction) => {
   const isTimeout = await timeouts?.findOne({
     guildId: guild?.id,
     userId: user?.id,
-    timeoutId: '2022-03-15-19-16',
+    timeoutId: "2022-03-15-19-16",
   });
 
   if (guild === null) return;
@@ -54,7 +54,7 @@ export default async (interaction: CommandInteraction) => {
 
       // Create embed object
       const embed = {
-        title: ':dollar: Credits [Work]' as string,
+        title: ":dollar: Credits [Work]" as string,
         description: `You have earned ${creditNoun(creditsEarned)}` as string,
         color: config?.colors?.success as ColorResolvable,
         timestamp: new Date(),
@@ -72,7 +72,7 @@ export default async (interaction: CommandInteraction) => {
     await timeouts?.create({
       guildId: guild?.id,
       userId: user?.id,
-      timeoutId: '2022-03-15-19-16',
+      timeoutId: "2022-03-15-19-16",
     });
 
     setTimeout(async () => {
@@ -87,13 +87,13 @@ export default async (interaction: CommandInteraction) => {
       await timeouts?.deleteOne({
         guildId: guild?.id,
         userId: user?.id,
-        timeoutId: '2022-03-15-19-16',
+        timeoutId: "2022-03-15-19-16",
       });
     }, guildDB?.credits?.workTimeout);
   } else {
     // Create embed object
     const embed = {
-      title: ':dollar: Credits [Work]' as string,
+      title: ":dollar: Credits [Work]" as string,
       description: `You have worked within the last ${
         guildDB?.credits?.workTimeout / 1000
       } seconds, you can not work now!` as string,
