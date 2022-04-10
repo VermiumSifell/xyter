@@ -30,7 +30,7 @@
     "better-sqlite3": "^7.5.0",
     "common": "^0.2.5",
     "dbd-dark-dashboard": "^1.6.45",
-    "discord-api-types": "^0.28.0",
+    "discord-api-types": "^0.31.0",
     "discord-dashboard": "^2.3.14",
     "discord-easy-dashboard": "^1.2.1",
     "discord.js": "^13.6.0",
@@ -48,10 +48,10 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
-    "eslint": "^8.11.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint": "8.13.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0"
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.0"
   }

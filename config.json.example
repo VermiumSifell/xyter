@@ -2,13 +2,7 @@
   "bot": {
     "token": "required",
     "clientId": "required",
-    "guildId": "required",
-    "clientSecret": "required"
-  },
-  "dashboard": {
-    "url": "https://xyter.zyner.org",
-    "port": 80,
-    "licenseKey": "required"
+    "guildId": "required"
   },
   "colors": {
     "success": "0x22bb33",

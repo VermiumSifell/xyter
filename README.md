@@ -1,27 +1,72 @@
-# Xyter
+<h1 align="center">
+  <br>
+  Xyter
+  <br>
+</h1>
 
-## Installation
+<h3 align=center>An multi-purpose bot built with <a href=https://github.com/discordjs/discord.js>discord.js</a></h3>
 
-Rename config.json.example to config.json and fill in the fields.
+<div align=center>
 
-_Please note that mongodb.url needs to be inside of double quotes ("YourURL")._
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ZynerOrg_xyter&metric=ncloc)](https://sonarcloud.io/dashboard?id=ZynerOrg_xyter)
+[![CodeFactor](https://www.codefactor.io/repository/github/ZynerOrg/xyter/badge/main)](https://www.codefactor.io/repository/github/ZynerOrg/xyter/overview/main)
 
-You can leave any of the **footer** fields empty, it will not impact the bot.
+</div>
 
-Then run **node deploy-commands.js** the first time then you can start the bot by **node src/index.js**
+<p align="center">
+  <a href="#about">About</a>
+  •
+  <a href="#Features">Features</a>
+  •
+  <a href="https://github.com/ZynerOrg/xyter/blob/master/docs/INSTALLATION.md">Installation</a>
+  •
+  <a href="#license">License</a>
+  •
+  <a href="#credits">Credits</a>
+</p>
 
-**Free MongoDB hosting**
+## ❓ About
 
-- https://atlas.mongodb.com/
+Xyter is an open source, multi-purpose Discord bot that is develoepd by students. You can invite it to your Discord server using [this](https://bot.zyner.org) link! It comes packaged with a variety of commands and a multitude of settings that can be tailored to your server's specific needs.
 
-## Credits
+If you liked this repository, feel free to leave a star ⭐ to help promote Xyter!
 
-**Please leave of some credits or if anyone ask about the bot, give them a link to the repository. Thanks!**
+## ❗ Features
 
-## Add it to your server
+**10+** commands and counting across **13** different categories!
 
-We have a official bot for this repository. [Invite bot!](https://discord.com/api/oauth2/authorize?client_id=949998000401436673&permissions=8&scope=bot%20applications.commands)
+- 💰 **Credits**: `balance`, `gift`, `top`, `work`, `give`, `take`, `set` and `transfer`!
+- 💬 **Counters**: `view`, `add`, `remove`!
+- 🔨 **Settings**: `guild credits`, `guild pterodactyl`, `guild points` and `user appearence`!
+- 👑 **Profile**: `view`!
+- 🖼 **Reputation**: `give`!
+- 💰 **Shop**: `roles buy`, `roles cancel` and `pterodactyl`!
+- ❔ **Utilities**: `lookup`, `about` and `stats`!
+- **Full list** of commands: [here](https://github.com/ZynerOrg/xyter/blob/master/docs/COMMANDS.md).
 
-## Contribute
+Xyter also comes packed with a variety of features, such as:
 
-We require developers to sign their work with a GPG key. [How do I sign my work?](https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key)
+- **Slash Commands**
+- **Multi-language support**.
+- And much more! There are over **5+** settings to tweak!
+
+## 📝 To-Do
+
+- Bug fixes
+- Code optimisation
+- New discord features
+- Suggestions we deem very good.
+- Rewrite to TypeScript
+- Make it API-driven
+
+Some more is available in issues
+
+## 📖 License
+
+Released under the [GPL-3.0 License](https://github.com/ZynerOrg/xyter/blob/master/LICENSE) license.
+
+## 📜 Credits
+
+- **[Vermium#9649](https://github.com/VermiumSifell)** - Founder, creator, hoster.
+- **[Mastergamer433#5762](https://github.com/Mastergamer433)** - Work command for credits.
+- Want to be on this list, aswell? - Check out the [Contributing page](https://github.com/ZynerOrg/xyter/blob/master/docs/CONTRIBUTING.md).
