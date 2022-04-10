@@ -25,20 +25,22 @@ export default async (interaction: CommandInteraction) => {
   const optionStart = options?.getNumber("start");
 
   if (optionChannel?.type !== "GUILD_TEXT") {
-    const embed = {
-      title: ":toolbox: Admin - Counters [Add]" as string,
-      description:
-        "That channel is not supported, it needs to be a text channel." as string,
-      timestamp: new Date(),
-      color: config?.colors?.error as ColorResolvable,
-      footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
-      },
-    };
-
     // Return interaction reply
-    return interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({
+      embeds: [
+        {
+          title: ":toolbox: Admin - Counters [Add]" as string,
+          description:
+            "That channel is not supported, it needs to be a text channel." as string,
+          timestamp: new Date(),
+          color: config?.colors?.error as ColorResolvable,
+          footer: {
+            iconURL: config?.footer?.icon as string,
+            text: config?.footer?.text as string,
+          },
+        },
+      ],
+    });
   }
 
   const counterExist = await counterSchema?.findOne({
@@ -55,40 +57,43 @@ export default async (interaction: CommandInteraction) => {
       counter: optionStart || 0,
     });
 
-    const embed = {
-      title: ":toolbox: Admin - Counters [Add]" as string,
-      description: `${optionChannel} is now counting when hearing word ${optionWord} and it starts at number ${
-        optionStart || 0
-      }.`,
-      timestamp: new Date(),
-      color: config?.colors?.success as ColorResolvable,
-      footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
-      },
-    };
-
     // Log debug message
     logger?.debug(
       `Guild: ${guild?.id} User: ${user?.id} added ${optionChannel?.id} as a counter using word "${optionWord}" for counting.`
     );
 
     // Return interaction reply
-    return interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({
+      embeds: [
+        {
+          title: ":toolbox: Admin - Counters [Add]" as string,
+          description: `${optionChannel} is now counting when hearing word ${optionWord} and it starts at number ${
+            optionStart || 0
+          }.`,
+          timestamp: new Date(),
+          color: config?.colors?.success as ColorResolvable,
+          footer: {
+            iconURL: config?.footer?.icon as string,
+            text: config?.footer?.text as string,
+          },
+        },
+      ],
+    });
   }
 
-  // Embed object
-  const embed = {
-    title: ":toolbox: Admin - Counters [Add]" as string,
-    description: `${optionChannel} is already a counting channel.`,
-    timestamp: new Date(),
-    color: config?.colors?.error as ColorResolvable,
-    footer: {
-      iconURL: config?.footer?.icon as string,
-      text: config?.footer?.text as string,
-    },
-  };
-
   // Return interaction reply
-  return interaction?.editReply({ embeds: [embed] });
+  return interaction?.editReply({
+    embeds: [
+      {
+        title: ":toolbox: Admin - Counters [Add]" as string,
+        description: `${optionChannel} is already a counting channel.`,
+        timestamp: new Date(),
+        color: config?.colors?.error as ColorResolvable,
+        footer: {
+          iconURL: config?.footer?.icon as string,
+          text: config?.footer?.text as string,
+        },
+      },
+    ],
+  });
 };
