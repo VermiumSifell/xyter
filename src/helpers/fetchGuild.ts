@@ -1,11 +1,11 @@
 // Dependencies
-import { Guild } from 'discord.js';
+import { Guild } from "discord.js";
 
 // Models
-import guildSchema from './database/models/guildSchema';
+import guildSchema from "./database/models/guildSchema";
 
 // Handlers
-import logger from '../handlers/logger';
+import logger from "../handlers/logger";
 
 // Function
 export default async (guild: Guild) => {
