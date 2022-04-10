@@ -41,17 +41,17 @@ export default {
     // Module - Lookup
     if (options?.getSubcommand() === "lookup") {
       // Execute Module - Lookup
-      return await lookup(interaction);
+      return lookup(interaction);
     }
     // Module - About
     else if (options?.getSubcommand() === "about") {
       // Execute Module - About
-      return await about(interaction);
+      return about(interaction);
     }
     // Module - Stats
     else if (options?.getSubcommand() === "stats") {
       // Execute Module - Stats
-      return await stats(interaction);
+      return stats(interaction);
     }
 
     // Send debug message

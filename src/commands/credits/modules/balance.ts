@@ -32,7 +32,7 @@ export default async (interaction: CommandInteraction) => {
         optionUser || "you"
       } in our database.` as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -52,7 +52,7 @@ export default async (interaction: CommandInteraction) => {
         optionUser || "you"
       } in our database.` as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -69,7 +69,7 @@ export default async (interaction: CommandInteraction) => {
         optionUser ? `${optionUser} has` : "You have"
       } ${creditNoun(userDB.credits)}.` as string,
       color: config?.colors?.success as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,

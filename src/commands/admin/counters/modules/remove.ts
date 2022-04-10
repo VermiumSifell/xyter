@@ -27,9 +27,8 @@ export default async (interaction: CommandInteraction) => {
       // Embed object
       const embed = {
         title: ":toolbox: Admin - Counters [Remove]" as string,
-        description:
-          `${optionChannel} is no longer an counting channel.` as string,
-        timestamp: new Date() as Date,
+        description: `${optionChannel} is no longer an counting channel.`,
+        timestamp: new Date(),
         color: config?.colors?.success as ColorResolvable,
         footer: {
           iconURL: config?.footer?.icon as string,

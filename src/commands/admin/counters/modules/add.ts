@@ -25,12 +25,11 @@ export default async (interaction: CommandInteraction) => {
   const optionStart = options?.getNumber("start");
 
   if (optionChannel?.type !== "GUILD_TEXT") {
-    // Embed object
     const embed = {
       title: ":toolbox: Admin - Counters [Add]" as string,
       description:
         "That channel is not supported, it needs to be a text channel." as string,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       color: config?.colors?.error as ColorResolvable,
       footer: {
         iconURL: config?.footer?.icon as string,
@@ -39,7 +38,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   const counterExist = await counterSchema?.findOne({
@@ -56,14 +55,12 @@ export default async (interaction: CommandInteraction) => {
       counter: optionStart || 0,
     });
 
-    // Embed object
     const embed = {
       title: ":toolbox: Admin - Counters [Add]" as string,
-      description:
-        `${optionChannel} is now counting when hearing word ${optionWord} and it starts at number ${
-          optionStart || 0
-        }.` as string,
-      timestamp: new Date() as Date,
+      description: `${optionChannel} is now counting when hearing word ${optionWord} and it starts at number ${
+        optionStart || 0
+      }.`,
+      timestamp: new Date(),
       color: config?.colors?.success as ColorResolvable,
       footer: {
         iconURL: config?.footer?.icon as string,
@@ -83,8 +80,8 @@ export default async (interaction: CommandInteraction) => {
   // Embed object
   const embed = {
     title: ":toolbox: Admin - Counters [Add]" as string,
-    description: `${optionChannel} is already a counting channel.` as string,
-    timestamp: new Date() as Date,
+    description: `${optionChannel} is already a counting channel.`,
+    timestamp: new Date(),
     color: config?.colors?.error as ColorResolvable,
     footer: {
       iconURL: config?.footer?.icon as string,

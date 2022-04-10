@@ -16,7 +16,7 @@ export default async (interaction: CommandInteraction) => {
 
     If you are interested in contributing, then just [fork it](https://github.com/ZynerOrg/xyter) yourself, we :heart: Open Source.` as string,
     color: config?.colors?.success as ColorResolvable,
-    timestamp: new Date() as Date,
+    timestamp: new Date(),
     footer: {
       iconURL: config?.footer?.icon as string,
       text: config?.footer?.text as string,

@@ -57,7 +57,7 @@ export default async (interaction: CommandInteraction) => {
         title: ":dollar: Credits [Work]" as string,
         description: `You have earned ${creditNoun(creditsEarned)}` as string,
         color: config?.colors?.success as ColorResolvable,
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         footer: {
           iconURL: config?.footer?.icon as string,
           text: config?.footer?.text as string,
@@ -65,7 +65,7 @@ export default async (interaction: CommandInteraction) => {
       };
 
       // Send interaction reply
-      return await interaction?.editReply({ embeds: [embed] });
+      return interaction?.editReply({ embeds: [embed] });
     });
 
     // Create a timeout for the user
@@ -97,7 +97,7 @@ export default async (interaction: CommandInteraction) => {
       description: `You have worked within the last ${
         guildDB?.credits?.workTimeout / 1000
       } seconds, you can not work now!` as string,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       color: config?.colors?.error as ColorResolvable,
       footer: {
         iconURL: config?.footer?.icon as string,
@@ -111,6 +111,6 @@ export default async (interaction: CommandInteraction) => {
     );
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 };

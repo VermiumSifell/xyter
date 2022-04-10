@@ -16,13 +16,13 @@ export default async (interaction: CommandInteraction) => {
   // Module - Add
   if (options?.getSubcommand() === "add") {
     // Execute Module - Add
-    return await add(interaction);
+    return add(interaction);
   }
 
   // Module - Remove
   else if (options?.getSubcommand() === "remove") {
     // Execute Module - Remove
-    return await remove(interaction);
+    return remove(interaction);
   }
 
   // Log debug message

@@ -58,13 +58,13 @@ export default {
     // Module - Pterodactyl
     if (options?.getSubcommand() === "pterodactyl") {
       // Execute Module - Pterodactyl
-      return await pterodactyl(interaction);
+      return pterodactyl(interaction);
     }
 
     // Group - Roles
     else if (options?.getSubcommandGroup() === "roles") {
       // Execute Group - Roles
-      return await roles(interaction);
+      return roles(interaction);
     }
 
     // Send debug message

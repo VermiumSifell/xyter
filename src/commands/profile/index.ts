@@ -30,7 +30,7 @@ export default {
     // Module - View
     if (options?.getSubcommand() === "view") {
       // Execute Module - View
-      return await view(interaction);
+      return view(interaction);
     }
 
     // Send debug message

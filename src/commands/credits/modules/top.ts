@@ -35,7 +35,7 @@ export default async (interaction: CommandInteraction) => {
       ?.map((x, index) => entry(x, index))
       ?.join("\n")}` as string,
     color: config?.colors?.success as ColorResolvable,
-    timestamp: new Date() as Date,
+    timestamp: new Date(),
     footer: {
       iconURL: config?.footer?.icon as string,
       text: config?.footer?.text as string,
@@ -43,5 +43,5 @@ export default async (interaction: CommandInteraction) => {
   };
 
   // Return interaction reply
-  return await interaction?.editReply({ embeds: [embed] });
+  return interaction?.editReply({ embeds: [embed] });
 };

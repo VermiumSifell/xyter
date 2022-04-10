@@ -30,7 +30,7 @@ export default async (interaction: CommandInteraction) => {
       title: ":dollar: Credits [Gift]" as string,
       description: "We could not read your requested amount." as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -38,7 +38,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Send interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   if (guild === null) return;
@@ -64,7 +64,7 @@ export default async (interaction: CommandInteraction) => {
           value: `${creditNoun(userDB?.credits)}` as string,
         },
       ],
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -86,7 +86,7 @@ export default async (interaction: CommandInteraction) => {
           value: `${creditNoun(userDB?.credits)}` as string,
         },
       ],
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -107,7 +107,7 @@ export default async (interaction: CommandInteraction) => {
           value: `${creditNoun(userDB?.credits)}` as string,
         },
       ],
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -159,7 +159,7 @@ export default async (interaction: CommandInteraction) => {
           },
         ],
         color: config?.colors?.success as ColorResolvable,
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         footer: {
           iconURL: config?.footer?.icon as string,
           text: config?.footer?.text as string,
@@ -171,7 +171,7 @@ export default async (interaction: CommandInteraction) => {
         title: ":shopping_cart: Shop [Pterodactyl]" as string,
         description: "I have sent you the code in DM!" as string,
         color: config?.colors?.success as ColorResolvable,
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         footer: {
           iconURL: config?.footer?.icon as string,
           text: config?.footer?.text as string,
@@ -208,7 +208,7 @@ export default async (interaction: CommandInteraction) => {
             description:
               "Something went wrong, please try again later." as string,
             color: config?.colors?.error as ColorResolvable,
-            timestamp: new Date() as Date,
+            timestamp: new Date(),
             footer: {
               iconURL: config?.footer?.icon as string,
               text: config?.footer?.text as string,
@@ -225,7 +225,7 @@ export default async (interaction: CommandInteraction) => {
         title: ":shopping_cart: Shop [Pterodactyl]" as string,
         description: "Something went wrong, please try again later." as string,
         color: config?.colors?.error as ColorResolvable,
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         footer: {
           iconURL: config?.footer?.icon as string,
           text: config?.footer?.text as string,

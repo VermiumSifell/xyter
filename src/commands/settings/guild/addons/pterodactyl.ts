@@ -32,7 +32,7 @@ export default async (interaction: CommandInteraction) => {
         title: ":hammer: Settings - Guild [Pterodactyl]" as string,
         color: config?.colors?.success as ColorResolvable,
         description: "Pterodactyl settings is saved!" as string,
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         footer: {
           iconURL: config?.footer?.icon as string,
           text: config?.footer?.text as string,
@@ -45,6 +45,6 @@ export default async (interaction: CommandInteraction) => {
       );
 
       // Return interaction reply
-      return await interaction?.editReply({ embeds: [embed] });
+      return interaction?.editReply({ embeds: [embed] });
     });
 };

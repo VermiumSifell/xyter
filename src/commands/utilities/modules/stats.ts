@@ -48,7 +48,7 @@ export default async (interaction: CommandInteraction) => {
       },
     ],
     color: config?.colors?.success as ColorResolvable,
-    timestamp: new Date() as Date,
+    timestamp: new Date(),
     footer: {
       iconURL: config?.footer?.icon as string,
       text: config?.footer?.text as string,

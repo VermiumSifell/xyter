@@ -25,7 +25,7 @@ export default async (interaction: CommandInteraction) => {
     const embed = {
       title: ":1234: Counters [View]" as string,
       description: `${optionChannel} is not a counting channel.` as string,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       color: config?.colors?.error as ColorResolvable,
       footer: {
         iconURL: config?.footer?.icon as string,
@@ -34,7 +34,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Send interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // Embed object
@@ -42,7 +42,7 @@ export default async (interaction: CommandInteraction) => {
     title: ":1234: Counters [View]" as string,
     color: config.colors.success as ColorResolvable,
     description: `${optionChannel} is currently at number ${counter?.counter}.`,
-    timestamp: new Date() as Date,
+    timestamp: new Date(),
     footer: {
       iconURL: config?.footer?.icon as string,
       text: config?.footer?.text as string,
@@ -50,5 +50,5 @@ export default async (interaction: CommandInteraction) => {
   };
 
   // Send interaction reply
-  return await interaction?.editReply({ embeds: [embed] });
+  return interaction?.editReply({ embeds: [embed] });
 };

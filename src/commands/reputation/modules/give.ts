@@ -44,7 +44,7 @@ export default async (interaction: CommandInteraction) => {
       const embed = {
         title: ":loudspeaker: Reputation [Give]" as string,
         description: "You can not repute yourself." as string,
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         color: config?.colors?.error as ColorResolvable,
         footer: {
           iconURL: config?.footer?.icon as string,
@@ -53,7 +53,7 @@ export default async (interaction: CommandInteraction) => {
       };
 
       // Return interaction reply
-      return await interaction?.editReply({ embeds: [embed] });
+      return interaction?.editReply({ embeds: [embed] });
     }
 
     // If type is positive
@@ -73,7 +73,7 @@ export default async (interaction: CommandInteraction) => {
         title: ":loudspeaker: Reputation [Give]" as string,
         description:
           `You have given ${optionTarget} a ${optionType} reputation!` as string,
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         color: config?.colors?.success as ColorResolvable,
         footer: {
           iconURL: config?.footer?.icon as string,
@@ -93,7 +93,7 @@ export default async (interaction: CommandInteraction) => {
         timeoutId: "2022-04-10-16-42",
       });
       // Return interaction reply
-      return await interaction?.editReply({ embeds: [embed] });
+      return interaction?.editReply({ embeds: [embed] });
     });
 
     setTimeout(async () => {
@@ -118,7 +118,7 @@ export default async (interaction: CommandInteraction) => {
       description: `You have given reputation within the last ${
         config?.reputation?.timeout / 1000
       } seconds, you can not repute now!` as string,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       color: config.colors.error as ColorResolvable,
       footer: {
         iconURL: config?.footer?.icon as string,
@@ -134,6 +134,6 @@ export default async (interaction: CommandInteraction) => {
     );
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 };

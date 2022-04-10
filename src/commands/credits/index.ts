@@ -59,25 +59,25 @@ export default {
     // Module - Balance
     if (options?.getSubcommand() === "balance") {
       // Execute Module - Balance
-      return await balance(interaction);
+      return balance(interaction);
     }
 
     // Module - Gift
     else if (options?.getSubcommand() === "gift") {
       // Execute Module - Gift
-      return await gift(interaction);
+      return gift(interaction);
     }
 
     // Module - Top
     else if (options?.getSubcommand() === "top") {
       // Execute Module - Top
-      return await top(interaction);
+      return top(interaction);
     }
 
     // Module - Work
     else if (options?.getSubcommand() === "work") {
       // Execute Module - Work
-      return await work(interaction);
+      return work(interaction);
     }
 
     // Send debug message

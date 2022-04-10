@@ -29,7 +29,7 @@ export default async (interaction: CommandInteraction) => {
       title: ":dollar: Shop - Roles [Buy]" as string,
       description: "We could not read your requested name." as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -37,7 +37,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Send interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   await guild?.roles
@@ -84,7 +84,7 @@ export default async (interaction: CommandInteraction) => {
             value: `${creditNoun(userDB?.credits)}` as string,
           },
         ],
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         footer: {
           iconURL: config?.footer?.icon as string,
           text: config?.footer?.text as string,

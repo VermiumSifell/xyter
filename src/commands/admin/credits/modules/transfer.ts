@@ -31,7 +31,7 @@ export default async (interaction: CommandInteraction) => {
       title: ":toolbox: Admin - Credits [Transfer]" as string,
       description: "We could not read your requested amount." as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -39,7 +39,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Send interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   if (guild === null) return;
@@ -57,10 +57,9 @@ export default async (interaction: CommandInteraction) => {
     // Embed object
     const embed = {
       title: ":toolbox: Admin - Credits [Transfer]" as string,
-      description:
-        `We could not find ${optionFromUser} in our database.` as string,
+      description: `We could not find ${optionFromUser} in our database.`,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -68,7 +67,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // If toUser.credits does not exist
@@ -76,10 +75,9 @@ export default async (interaction: CommandInteraction) => {
     // Embed object
     const embed = {
       title: ":toolbox: Admin - Credits [Transfer]" as string,
-      description:
-        `We could not find credits for ${optionFromUser} in our database.` as string,
+      description: `We could not find credits for ${optionFromUser} in our database.`,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -87,7 +85,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // If toUser does not exist
@@ -95,10 +93,9 @@ export default async (interaction: CommandInteraction) => {
     // Embed object
     const embed = {
       title: ":toolbox: Admin - Credits [Transfer]" as string,
-      description:
-        `We could not find ${optionToUser} in our database.` as string,
+      description: `We could not find ${optionToUser} in our database.`,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -106,7 +103,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // If toUser.credits does not exist
@@ -114,10 +111,9 @@ export default async (interaction: CommandInteraction) => {
     // Embed object
     const embed = {
       title: ":toolbox: Admin - Credits [Transfer]" as string,
-      description:
-        `We could not find credits for ${optionToUser} in our database.` as string,
+      description: `We could not find credits for ${optionToUser} in our database.`,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -125,7 +121,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // Withdraw amount from fromUser
@@ -141,7 +137,7 @@ export default async (interaction: CommandInteraction) => {
       title: ":toolbox: Admin - Credits [Transfer]" as string,
       description: `You sent ${creditNoun(
         optionAmount
-      )} from ${optionFromUser} to ${optionToUser}.` as string,
+      )} from ${optionFromUser} to ${optionToUser}.`,
       color: config?.colors?.success as ColorResolvable,
       fields: [
         {
@@ -155,7 +151,7 @@ export default async (interaction: CommandInteraction) => {
           inline: true,
         },
       ],
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -170,6 +166,6 @@ export default async (interaction: CommandInteraction) => {
     );
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   });
 };

@@ -47,7 +47,7 @@ export default async (interaction: CommandInteraction) => {
       title: ":dollar: Credits [Gift]" as string,
       description: "You can't pay yourself." as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -55,7 +55,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // If amount is null
@@ -65,7 +65,7 @@ export default async (interaction: CommandInteraction) => {
       title: ":dollar: Credits [Gift]" as string,
       description: "We could not read your requested amount." as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -73,7 +73,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Send interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // If amount is zero or below
@@ -83,7 +83,7 @@ export default async (interaction: CommandInteraction) => {
       title: ":dollar: Credits [Gift]" as string,
       description: "You can't pay zero or below." as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -91,7 +91,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // If user has below gifting amount
@@ -102,7 +102,7 @@ export default async (interaction: CommandInteraction) => {
       description:
         `You have insufficient credits. Your credits is ${fromUserDB?.credits}` as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -110,7 +110,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // If toUserDB has no credits
@@ -121,7 +121,7 @@ export default async (interaction: CommandInteraction) => {
       description:
         `That user has no credits, I can not gift credits to ${optionUser}` as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -129,7 +129,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Send interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // Withdraw amount from fromUserDB
@@ -147,7 +147,7 @@ export default async (interaction: CommandInteraction) => {
         optionReason ? ` with reason: ${optionReason}` : ""
       }. Your new credits is ${creditNoun(fromUserDB?.credits)}.`,
       color: config?.colors?.success as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -161,7 +161,7 @@ export default async (interaction: CommandInteraction) => {
         optionReason ? ` with reason: ${optionReason}` : ""
       }. Your new credits is ${creditNoun(toUserDB?.credits)}.` as string,
       color: config?.colors?.success as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -180,7 +180,7 @@ export default async (interaction: CommandInteraction) => {
     );
 
     // Send interaction reply
-    return await interaction.editReply({
+    return interaction.editReply({
       embeds: [interactionEmbed],
     });
   });

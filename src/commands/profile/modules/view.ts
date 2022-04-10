@@ -59,7 +59,7 @@ export default async (interaction: CommandInteraction) => {
         inline: true,
       },
     ],
-    timestamp: new Date() as Date,
+    timestamp: new Date(),
     footer: {
       iconURL: config?.footer?.icon as string,
       text: config?.footer?.text as string,
@@ -67,5 +67,5 @@ export default async (interaction: CommandInteraction) => {
   };
 
   // Return interaction reply
-  return await interaction?.editReply({ embeds: [embed] });
+  return interaction?.editReply({ embeds: [embed] });
 };

@@ -28,7 +28,7 @@ export default async (interaction: CommandInteraction) => {
           title: ":hammer: Utilities - Lookup" as string,
           description: `${res?.data?.message}: ${res?.data?.query}` as string,
           color: config?.colors?.error as ColorResolvable,
-          timestamp: new Date() as Date,
+          timestamp: new Date(),
           footer: {
             iconURL: config?.footer?.icon as string,
             text: config?.footer?.text as string,
@@ -95,7 +95,7 @@ export default async (interaction: CommandInteraction) => {
             },
           ],
           color: config?.colors?.success as ColorResolvable,
-          timestamp: new Date() as Date,
+          timestamp: new Date(),
           footer: {
             iconURL: config?.footer?.icon as string,
             text: config?.footer?.text as string,

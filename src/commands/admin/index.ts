@@ -144,7 +144,7 @@ export default {
         title: ":toolbox: Admin" as string,
         color: config?.colors?.error as ColorResolvable,
         description: "You do not have permission to manage this!" as string,
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         footer: {
           iconURL: config?.footer?.icon as string,
           text: config?.footer?.text as string,
@@ -158,13 +158,13 @@ export default {
     // Group - Credits
     if (options?.getSubcommandGroup() === "credits") {
       // Execute Group - Credits
-      return await credits(interaction);
+      return credits(interaction);
     }
 
     // Group - Counters
     else if (options?.getSubcommandGroup() === "counters") {
       // Execute Group - Counters
-      return await counters(interaction);
+      return counters(interaction);
     }
 
     // Send debug message
