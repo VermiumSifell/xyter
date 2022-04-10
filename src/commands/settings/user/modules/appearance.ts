@@ -1,14 +1,14 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from 'discord.js';
+import { CommandInteraction, ColorResolvable } from "discord.js";
 
 // Configurations
-import config from '../../../../../config.json';
+import config from "../../../../../config.json";
 
 // Handlers
-import logger from '../../../../handlers/logger';
+import logger from "../../../../handlers/logger";
 
 // Models
-import userSchema from '../../../../helpers/database/models/userSchema';
+import userSchema from "../../../../helpers/database/models/userSchema";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -16,7 +16,7 @@ export default async (interaction: CommandInteraction) => {
   const { options, user, guild } = interaction;
 
   // Get options
-  const language = options?.getString('language');
+  const language = options?.getString("language");
 
   // Get user object
   const userDB = await userSchema?.findOne({
@@ -31,12 +31,12 @@ export default async (interaction: CommandInteraction) => {
   await userDB?.save()?.then(async () => {
     // Embed object
     const embed = {
-      title: ':hammer: Settings - User [Appearance]' as string,
-      description: 'Following settings is set!' as string,
+      title: ":hammer: Settings - User [Appearance]" as string,
+      description: "Following settings is set!" as string,
       color: config?.colors?.success as ColorResolvable,
       fields: [
         {
-          name: '🏳️‍🌈 Language' as string,
+          name: "🏳️‍🌈 Language" as string,
           value: `${userDB?.language}` as string,
           inline: true,
         },

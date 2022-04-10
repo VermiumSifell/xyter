@@ -1,14 +1,14 @@
 // Dependencies
-import { ColorResolvable, CommandInteraction } from 'discord.js';
+import { ColorResolvable, CommandInteraction } from "discord.js";
 
 // Configurations
-import config from '../../../../../config.json';
+import config from "../../../../../config.json";
 
 // Handlers
-import logger from '../../../../handlers/logger';
+import logger from "../../../../handlers/logger";
 
 // Models
-import counterSchema from '../../../../helpers/database/models/counterSchema';
+import counterSchema from "../../../../helpers/database/models/counterSchema";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -16,20 +16,20 @@ export default async (interaction: CommandInteraction) => {
   const { options, guild, user } = interaction;
 
   // Channel option
-  const optionChannel = options?.getChannel('channel');
+  const optionChannel = options?.getChannel("channel");
 
   // Word option
-  const optionWord = options?.getString('word');
+  const optionWord = options?.getString("word");
 
   // Start option
-  const optionStart = options?.getNumber('start');
+  const optionStart = options?.getNumber("start");
 
-  if (optionChannel?.type !== 'GUILD_TEXT') {
+  if (optionChannel?.type !== "GUILD_TEXT") {
     // Embed object
     const embed = {
-      title: ':toolbox: Admin - Counters [Add]' as string,
+      title: ":toolbox: Admin - Counters [Add]" as string,
       description:
-        'That channel is not supported, it needs to be a text channel.' as string,
+        "That channel is not supported, it needs to be a text channel." as string,
       timestamp: new Date() as Date,
       color: config?.colors?.error as ColorResolvable,
       footer: {
@@ -58,7 +58,7 @@ export default async (interaction: CommandInteraction) => {
 
     // Embed object
     const embed = {
-      title: ':toolbox: Admin - Counters [Add]' as string,
+      title: ":toolbox: Admin - Counters [Add]" as string,
       description:
         `${optionChannel} is now counting when hearing word ${optionWord} and it starts at number ${
           optionStart || 0
@@ -82,7 +82,7 @@ export default async (interaction: CommandInteraction) => {
 
   // Embed object
   const embed = {
-    title: ':toolbox: Admin - Counters [Add]' as string,
+    title: ":toolbox: Admin - Counters [Add]" as string,
     description: `${optionChannel} is already a counting channel.` as string,
     timestamp: new Date() as Date,
     color: config?.colors?.error as ColorResolvable,

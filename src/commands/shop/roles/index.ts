@@ -1,12 +1,12 @@
 // Dependencies
-import { CommandInteraction } from 'discord.js';
+import { CommandInteraction } from "discord.js";
 
 // Handlers
-import logger from '../../../handlers/logger';
+import logger from "../../../handlers/logger";
 
 // Modules
-import buy from './modules/buy';
-import cancel from './modules/cancel';
+import buy from "./modules/buy";
+import cancel from "./modules/cancel";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -14,13 +14,13 @@ export default async (interaction: CommandInteraction) => {
   const { options, commandName, guild, user } = interaction;
 
   // Module - Buy
-  if (options?.getSubcommand() === 'buy') {
+  if (options?.getSubcommand() === "buy") {
     // Execute Module - Buy
     await buy(interaction);
   }
 
   // Module - Cancel
-  if (options?.getSubcommand() === 'cancel') {
+  if (options?.getSubcommand() === "cancel") {
     // Execute Module - Cancel
     await cancel(interaction);
   }
