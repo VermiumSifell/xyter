@@ -5,6 +5,9 @@ import { CommandInteraction } from "discord.js";
 // Modules
 import give from "./modules/give";
 
+// Handlers
+import logger from "../../handlers/logger";
+
 // Function
 export default {
   data: new SlashCommandBuilder()
@@ -31,12 +34,19 @@ export default {
     ),
   async execute(interaction: CommandInteraction) {
     // Destructure
-    const { options } = interaction;
+    const { options, guild, user, commandName } = interaction;
 
     // Module - Give
-    if (options.getSubcommand() === "give") {
+    if (options?.getSubcommand() === "give") {
       // Execute Module - Give
       await give(interaction);
     }
+
+    // Send debug message
+    return logger?.debug(
+      `Guild: ${guild?.id} User: ${
+        user?.id
+      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
+    );
   },
 };

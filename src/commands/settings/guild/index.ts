@@ -1,53 +1,62 @@
-import { Permissions, CommandInteraction } from 'discord.js';
-import config from '../../../../config.json';
-import logger from '../../../handlers/logger';
-import pterodactyl from './addons/pterodactyl';
-import credits from './addons/credits';
-import points from './addons/points';
+// Dependencies
+import { Permissions, ColorResolvable, CommandInteraction } from "discord.js";
 
+// Configurations
+import config from "../../../../config.json";
+
+// Handlers
+import logger from "../../../handlers/logger";
+
+// Modules
+import pterodactyl from "./addons/pterodactyl";
+import credits from "./addons/credits";
+import points from "./addons/points";
+
+// Function
 export default async (interaction: CommandInteraction) => {
   // Destructure member
-  const { member } = interaction;
+  const { memberPermissions, options, commandName, user, guild } = interaction;
 
   // Check permission
-  if (!interaction?.memberPermissions?.has(Permissions.FLAGS.MANAGE_GUILD)) {
+  if (!memberPermissions?.has(Permissions?.FLAGS?.MANAGE_GUILD)) {
     // Create embed object
     const embed = {
-      title: 'Settings - Guild',
-      color: config.colors.error as any,
-      description: 'You do not have permission to manage this!',
-      timestamp: new Date(),
-      footer: { iconURL: config.footer.icon, text: config.footer.text },
+      title: ":tools: Settings - Guild" as string,
+      color: config?.colors?.error as ColorResolvable,
+      description: "You do not have permission to manage this!" as string,
+      timestamp: new Date() as Date,
+      footer: {
+        iconURL: config?.footer?.icon as string,
+        text: config?.footer?.text as string,
+      },
     };
 
-    // Send interaction reply
-    await interaction.editReply({ embeds: [embed] });
+    // Return interaction reply
+    return await interaction?.editReply({ embeds: [embed] });
   }
 
-  // If subcommand is pterodactyl
-  if (interaction.options.getSubcommand() === 'pterodactyl') {
-    // Execute pterodactyl addon
-    await pterodactyl(interaction);
+  // Module - Pterodactyl
+  if (options?.getSubcommand() === "pterodactyl") {
+    // Execute Module - Pterodactyl
+    return await pterodactyl(interaction);
   }
 
-  // If subcommand is credits
-  else if (interaction.options.getSubcommand() === 'credits') {
-    // Execute credits addon
-    await credits(interaction);
+  // Module - Credits
+  else if (options?.getSubcommand() === "credits") {
+    // Execute Module - Credits
+    return await credits(interaction);
   }
 
-  // If subcommand is points
-  else if (interaction.options.getSubcommand() === 'points') {
-    // Execute points addon
-    await points(interaction);
+  // Module - Points
+  else if (options?.getSubcommand() === "points") {
+    // Execute Module - Points
+    return await points(interaction);
   }
 
   // Send debug message
-  await logger.debug(
-    `Guild: ${interaction?.guild?.id} User: ${
-      interaction?.user?.id
-    } executed /${
-      interaction.commandName
-    } ${interaction.options.getSubcommandGroup()} ${interaction.options.getSubcommand()}`
+  return logger?.debug(
+    `Guild: ${guild?.id} User: ${
+      user?.id
+    } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
   );
 };

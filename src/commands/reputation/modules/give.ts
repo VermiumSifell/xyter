@@ -1,122 +1,138 @@
-import i18next from "i18next";
-import { CommandInteraction } from "discord.js";
-import config from "../../../../config.json";
-import logger from "../../../handlers/logger";
-import users from "../../../helpers/database/models/userSchema";
-import timeouts from "../../../helpers/database/models/timeoutSchema";
+// Dependencies
+import { CommandInteraction, ColorResolvable } from "discord.js";
 
+// Configurations
+import config from "../../../../config.json";
+
+// Handlers
+import logger from "../../../handlers/logger";
+
+// Models
+import userSchema from "../../../helpers/database/models/userSchema";
+import timeoutSchema from "../../../helpers/database/models/timeoutSchema";
+
+// Function
 export default async (interaction: CommandInteraction) => {
   // Destructure
   const { options, user, guild } = interaction;
 
-  // Target information
-  const target = options.getUser("target");
+  // Target option
+  const optionTarget = options?.getUser("target");
 
   // Type information
-  const type = options.getString("type");
+  const optionType = options?.getString("type");
 
   // User information
-  const userObj = await users.findOne({
+  const userObj = await userSchema?.findOne({
     userId: user?.id,
     guildId: guild?.id,
   });
 
   // Check if user has a timeout
-  const isTimeout = await timeouts.findOne({
+  const isTimeout = await timeoutSchema?.findOne({
     guildId: guild?.id,
     userId: user?.id,
-    timeoutId: 2,
+    timeoutId: "2022-04-10-16-42",
   });
 
   // If user is not on timeout
   if (!isTimeout) {
     // Do not allow self reputation
-    if (target?.id === user?.id) {
+    if (optionTarget?.id === user?.id) {
       // Embed object
       const embed = {
-        title: ":loudspeaker: Reputation - Give",
-        description: "You can not repute yourself.",
-        timestamp: new Date(),
-        color: config.colors.error as any,
-        footer: { iconURL: config.footer.icon, text: config.footer.text },
+        title: ":loudspeaker: Reputation [Give]" as string,
+        description: "You can not repute yourself." as string,
+        timestamp: new Date() as Date,
+        color: config?.colors?.error as ColorResolvable,
+        footer: {
+          iconURL: config?.footer?.icon as string,
+          text: config?.footer?.text as string,
+        },
       };
 
       // Return interaction reply
-      return interaction.editReply({ embeds: [embed] });
+      return await interaction?.editReply({ embeds: [embed] });
     }
 
     // If type is positive
-    if (type === "positive") {
+    if (optionType === "positive") {
       userObj.reputation += 1;
     }
 
     // If type is negative
-    if (type === "negative") {
+    else if (optionType === "negative") {
       userObj.reputation -= 1;
     }
 
     // Save user
-    await userObj.save().then(async () => {
+    await userObj?.save()?.then(async () => {
       // Embed object
       const embed = {
-        title: ":loudspeaker: Reputation - Give",
-        description: `You have given ${target} a ${type} reputation!`,
-        timestamp: new Date(),
-        color: config.colors.success as any,
-        footer: { iconURL: config.footer.icon, text: config.footer.text },
+        title: ":loudspeaker: Reputation [Give]" as string,
+        description:
+          `You have given ${optionTarget} a ${optionType} reputation!` as string,
+        timestamp: new Date() as Date,
+        color: config?.colors?.success as ColorResolvable,
+        footer: {
+          iconURL: config?.footer?.icon as string,
+          text: config?.footer?.text as string,
+        },
       };
 
-      // Send interaction reply
-      await interaction.editReply({ embeds: [embed] });
-
       // Log debug message
-      logger.debug(
-        `Guild: ${guild?.id} User: ${user?.id} has given ${target?.id} a ${type} reputation.`
+      logger?.debug(
+        `Guild: ${guild?.id} User: ${user?.id} has given ${optionTarget?.id} a ${optionType} reputation.`
       );
 
       // Create a timeout for the user
-      await timeouts.create({
+      await timeoutSchema?.create({
         guildId: guild?.id,
         userId: user?.id,
-        timeoutId: 2,
+        timeoutId: "2022-04-10-16-42",
       });
+      // Return interaction reply
+      return await interaction?.editReply({ embeds: [embed] });
     });
 
     setTimeout(async () => {
       // send debug message
-      logger.debug(
+      logger?.debug(
         `Guild: ${guild?.id} User: ${user?.id} has not repute within last ${
-          config.reputation.timeout / 1000
+          config?.reputation?.timeout / 1000
         } seconds, reputation can be given`
       );
 
       // When timeout is out, remove it from the database
-      await timeouts.deleteOne({
+      await timeoutSchema?.deleteOne({
         guildId: guild?.id,
         userId: user?.id,
-        timeoutId: 2,
+        timeoutId: "2022-04-10-16-42",
       });
-    }, config.reputation.timeout);
+    }, config?.reputation?.timeout);
   } else {
     // Create embed object
     const embed = {
-      title: ":loudspeaker: Reputation - Give",
+      title: ":loudspeaker: Reputation [Give]" as string,
       description: `You have given reputation within the last ${
-        config.reputation.timeout / 1000
-      } seconds, you can not repute now!`,
-      timestamp: new Date(),
-      color: config.colors.error as any,
-      footer: { iconURL: config.footer.icon, text: config.footer.text },
+        config?.reputation?.timeout / 1000
+      } seconds, you can not repute now!` as string,
+      timestamp: new Date() as Date,
+      color: config.colors.error as ColorResolvable,
+      footer: {
+        iconURL: config?.footer?.icon as string,
+        text: config?.footer?.text as string,
+      },
     };
 
-    // Send interaction reply
-    await interaction.editReply({ embeds: [embed] });
-
     // Log debug message
-    logger.debug(
+    logger?.debug(
       `Guild: ${guild?.id} User: ${user?.id} has repute within last ${
-        config.reputation.timeout / 1000
+        config?.reputation?.timeout / 1000
       } seconds, no reputation can be given`
     );
+
+    // Return interaction reply
+    return await interaction?.editReply({ embeds: [embed] });
   }
 };

@@ -1,6 +1,6 @@
 // Dependencies
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 // Modules
 import view from "./modules/view";
@@ -11,20 +11,20 @@ import logger from "../../handlers/logger";
 // Function
 export default {
   data: new SlashCommandBuilder()
-    .setName("profile")
-    .setDescription("Check a profile.")
+    .setName("counters")
+    .setDescription("Manage counters.")
     .addSubcommand((subcommand) =>
       subcommand
         .setName("view")
-        .setDescription("View a profile.")
-        .addUserOption((option) =>
+        .setDescription("View a counter.")
+        .addChannelOption((option) =>
           option
-            .setName("target")
-            .setDescription("The profile you wish to view")
+            .setName("channel")
+            .setDescription("The counter channel you want to view")
+            .setRequired(true)
         )
     ),
   async execute(interaction: CommandInteraction) {
-    // Destructure
     const { options, guild, user, commandName } = interaction;
 
     // Module - View

@@ -1,79 +1,81 @@
-import { Permissions, CommandInteraction } from 'discord.js';
-import config from '../../../../../config.json';
-import logger from '../../../../handlers/logger';
+// Dependencies
+import { ColorResolvable, CommandInteraction } from "discord.js";
 
-// Database models
-import guilds from '../../../../helpers/database/models/guildSchema';
+// Configurations
+import config from "../../../../../config.json";
 
+// Handlers
+import logger from "../../../../handlers/logger";
+
+// Models
+import guildSchema from "../../../../helpers/database/models/guildSchema";
+
+// Function
 export default async (interaction: CommandInteraction) => {
   // Destructure member
-  const { member } = interaction;
-
-  // Check permission
-  if (!interaction?.memberPermissions?.has(Permissions.FLAGS.MANAGE_GUILD)) {
-    // Create embed object
-    const embed = {
-      title: ':hammer: Settings - Guild [Points]',
-      color: config.colors.error as any,
-      description: `You don't have permission to manage this!`,
-      timestamp: new Date(),
-      footer: { iconURL: config.footer.icon, text: config.footer.text },
-    };
-
-    // Send interaction reply
-    return interaction.editReply({ embeds: [embed] });
-  }
+  const { options, guild, user } = interaction;
 
   // Get options
-  const status = await interaction.options.getBoolean('status');
-  const rate = await interaction.options.getNumber('rate');
-  const timeout = await interaction.options.getNumber('timeout');
-  const minimumLength = await interaction.options.getNumber('minimum-length');
+  const status = options?.getBoolean("status");
+  const rate = options?.getNumber("rate");
+  const timeout = options?.getNumber("timeout");
+  const minimumLength = options?.getNumber("minimum-length");
 
   // Get guild object
-  const guildDB = await guilds.findOne({
-    guildId: interaction?.guild?.id,
+  const guildDB = await guildSchema?.findOne({
+    guildId: guild?.id,
   });
 
   // Modify values
-  guildDB.credits.status = status !== null ? status : guildDB.credits.status;
-  guildDB.credits.rate = rate !== null ? rate : guildDB.credits.rate;
-  guildDB.credits.timeout =
-    timeout !== null ? timeout : guildDB.credits.timeout;
-  guildDB.credits.minimumLength =
-    minimumLength !== null ? minimumLength : guildDB.credits.minimumLength;
+  guildDB.points.status = status !== null ? status : guildDB?.points?.status;
+  guildDB.points.rate = rate !== null ? rate : guildDB?.points?.rate;
+  guildDB.points.timeout =
+    timeout !== null ? timeout : guildDB?.points?.timeout;
+  guildDB.points.minimumLength =
+    minimumLength !== null ? minimumLength : guildDB?.points?.minimumLength;
 
   // Save guild
-  await guildDB.save().then(async () => {
+  await guildDB?.save()?.then(async () => {
     // Create embed object
     const embed = {
-      title: ':hammer: Settings - Guild [Points]',
-      description: 'Following settings is set!',
-      color: config.colors.success as any,
+      title: ":hammer: Settings - Guild [Points]" as string,
+      description: "Following settings is set!" as string,
+      color: config.colors.success as ColorResolvable,
       fields: [
-        { name: '🤖 Status', value: `${guildDB.credits.status}`, inline: true },
-        { name: '📈 Rate', value: `${guildDB.credits.rate}`, inline: true },
         {
-          name: '🔨 Minimum Length',
-          value: `${guildDB.credits.minimumLength}`,
+          name: "🤖 Status" as string,
+          value: `${guildDB?.points?.status}` as string,
           inline: true,
         },
         {
-          name: '⏰ Timeout',
-          value: `${guildDB.credits.timeout}`,
+          name: "📈 Rate" as string,
+          value: `${guildDB?.points?.rate}` as string,
+          inline: true,
+        },
+        {
+          name: "🔨 Minimum Length" as string,
+          value: `${guildDB?.points?.minimumLength}` as string,
+          inline: true,
+        },
+        {
+          name: "⏰ Timeout" as string,
+          value: `${guildDB?.points?.timeout}` as string,
           inline: true,
         },
       ],
-      timestamp: new Date(),
-      footer: { iconURL: config.footer.icon, text: config.footer.text },
+      timestamp: new Date() as Date,
+      footer: {
+        iconURL: config?.footer?.icon as string,
+        text: config?.footer?.text as string,
+      },
     };
 
-    // Send interaction reply
-    await interaction.editReply({ embeds: [embed] });
-
     // Send debug message
-    await logger.debug(
-      `Guild: ${interaction?.guild?.id} User: ${interaction?.user?.id} has changed credit details.`
+    logger?.debug(
+      `Guild: ${guild?.id} User: ${user?.id} has changed credit details.`
     );
+
+    // Return interaction reply
+    return await interaction?.editReply({ embeds: [embed] });
   });
 };

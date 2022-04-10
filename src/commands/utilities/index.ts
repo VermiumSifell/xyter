@@ -1,46 +1,64 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import lookup from './addons/lookup';
-import about from './addons/about';
-import stats from './addons/stats';
-import { CommandInteraction } from 'discord.js';
+// Dependencies
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { CommandInteraction } from "discord.js";
+
+// Modules
+import lookup from "./modules/lookup";
+import about from "./modules/about";
+import stats from "./modules/stats";
+
+// Handlers
+import logger from "../../handlers/logger";
+
+// Function
 export default {
   data: new SlashCommandBuilder()
-    .setName('utilities')
-    .setDescription('Common utilities.')
+    .setName("utilities")
+    .setDescription("Common utilities.")
     .addSubcommand((subcommand) =>
       subcommand
-        .setName('lookup')
+        .setName("lookup")
         .setDescription(
-          'Lookup a domain or ip. (Request sent over HTTP, proceed with caution!)'
+          "Lookup a domain or ip. (Request sent over HTTP, proceed with caution!)"
         )
         .addStringOption((option) =>
           option
-            .setName('query')
-            .setDescription('The query you want to look up.')
+            .setName("query")
+            .setDescription("The query you want to look up.")
             .setRequired(true)
         )
     )
     .addSubcommand((subcommand) =>
-      subcommand.setName('about').setDescription('About this bot!)')
+      subcommand.setName("about").setDescription("About this bot!)")
     )
     .addSubcommand((subcommand) =>
-      subcommand.setName('stats').setDescription('Check bot statistics!)')
+      subcommand.setName("stats").setDescription("Check bot statistics!)")
     ),
   async execute(interaction: CommandInteraction) {
-    // If subcommand is lookup
-    if (interaction.options.getSubcommand() === 'lookup') {
-      // Execute lookup addon
-      await lookup(interaction);
+    // Destructure
+    const { options, guild, user, commandName } = interaction;
+
+    // Module - Lookup
+    if (options?.getSubcommand() === "lookup") {
+      // Execute Module - Lookup
+      return await lookup(interaction);
     }
-    // If subcommand is about
-    else if (interaction.options.getSubcommand() === 'about') {
-      // Execute about addon
-      await about(interaction);
+    // Module - About
+    else if (options?.getSubcommand() === "about") {
+      // Execute Module - About
+      return await about(interaction);
     }
-    // If subcommand is stats
-    else if (interaction.options.getSubcommand() === 'stats') {
-      // Execute stats addon
-      await stats(interaction);
+    // Module - Stats
+    else if (options?.getSubcommand() === "stats") {
+      // Execute Module - Stats
+      return await stats(interaction);
     }
+
+    // Send debug message
+    return logger?.debug(
+      `Guild: ${guild?.id} User: ${
+        user?.id
+      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
+    );
   },
 };
