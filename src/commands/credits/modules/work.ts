@@ -1,5 +1,6 @@
 // Dependencies
 import { CommandInteraction, ColorResolvable } from 'discord.js';
+import Chance from 'chance';
 
 // Configurations
 import config from '../../../../config.json';
@@ -20,6 +21,9 @@ export default async (interaction: CommandInteraction) => {
   // Destructure member
   const { guild, user } = interaction;
 
+  // Chance module
+  const chance = new Chance();
+
   // Check if user has a timeout
   const isTimeout = await timeouts?.findOne({
     guildId: guild?.id,
@@ -33,10 +37,10 @@ export default async (interaction: CommandInteraction) => {
 
   // If user is not on timeout
   if (!isTimeout) {
-    // Make a variable of how much credits user will earn based on random multiplied with work rate
-    const creditsEarned = Math?.floor(
-      Math?.random() * guildDB?.credits?.workRate
-    );
+    const creditsEarned = chance.integer({
+      min: 0,
+      max: guildDB?.credits?.workRate,
+    });
 
     const userDB = await userSchema?.findOne({
       userId: user?.id,
