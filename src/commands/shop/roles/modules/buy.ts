@@ -3,33 +3,33 @@ import {
   CommandInteraction,
   ColorResolvable,
   GuildMemberRoleManager,
-} from "discord.js";
+} from 'discord.js';
 
 // Configurations
-import config from "../../../../../config.json";
+import config from '../../../../../config.json';
 
 // Models
-import shopRolesSchema from "../../../../helpers/database/models/shopRolesSchema";
-import guildSchema from "../../../../helpers/database/models/guildSchema";
+import shopRolesSchema from '../../../../helpers/database/models/shopRolesSchema';
+import guildSchema from '../../../../helpers/database/models/guildSchema';
 
 // Helpers
-import creditNoun from "../../../../helpers/creditNoun";
-import fetchUser from "../../../../helpers/fetchUser";
+import creditNoun from '../../../../helpers/creditNoun';
+import fetchUser from '../../../../helpers/fetchUser';
 
 // Function
 export default async (interaction: CommandInteraction) => {
   const { options, guild, user, member } = interaction;
 
-  const optionName = options?.getString("name");
+  const optionName = options?.getString('name');
 
   // If amount is null
   if (optionName === null) {
     // Embed object
     const embed = {
-      title: ":dollar: Shop - Roles [Buy]" as string,
-      description: "We could not read your requested name." as string,
+      title: ':dollar: Shop - Roles [Buy]' as string,
+      description: 'We could not read your requested name.' as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -37,13 +37,13 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Send interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   await guild?.roles
     .create({
       name: optionName,
-      color: "RED",
+      color: 'RED',
       reason: `${user?.id} bought from shop`,
     })
     .then(async (role) => {
@@ -74,17 +74,17 @@ export default async (interaction: CommandInteraction) => {
       await shopRolesSchema?.find()?.then((role: any) => console.log(role));
 
       const embed = {
-        title: ":shopping_cart: Shop - Roles [Buy]" as string,
+        title: ':shopping_cart: Shop - Roles [Buy]' as string,
         description:
           `You have bought ${role?.name} for ${guildDB?.shop?.roles?.pricePerHour} per hour.` as string,
         color: config?.colors?.success as ColorResolvable,
         fields: [
           {
-            name: "Your balance" as string,
+            name: 'Your balance' as string,
             value: `${creditNoun(userDB?.credits)}` as string,
           },
         ],
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         footer: {
           iconURL: config?.footer?.icon as string,
           text: config?.footer?.text as string,

@@ -1,26 +1,26 @@
 // Dependencies
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { CommandInteraction } from 'discord.js';
 
 // Modules
-import view from "./modules/view";
+import view from './modules/view';
 
 // Handlers
-import logger from "../../handlers/logger";
+import logger from '../../handlers/logger';
 
 // Function
 export default {
   data: new SlashCommandBuilder()
-    .setName("profile")
-    .setDescription("Check a profile.")
+    .setName('profile')
+    .setDescription('Check a profile.')
     .addSubcommand((subcommand) =>
       subcommand
-        .setName("view")
-        .setDescription("View a profile.")
+        .setName('view')
+        .setDescription('View a profile.')
         .addUserOption((option) =>
           option
-            .setName("target")
-            .setDescription("The profile you wish to view")
+            .setName('target')
+            .setDescription('The profile you wish to view')
         )
     ),
   async execute(interaction: CommandInteraction) {
@@ -28,9 +28,9 @@ export default {
     const { options, guild, user, commandName } = interaction;
 
     // Module - View
-    if (options?.getSubcommand() === "view") {
+    if (options?.getSubcommand() === 'view') {
       // Execute Module - View
-      return await view(interaction);
+      return view(interaction);
     }
 
     // Send debug message

@@ -1,14 +1,14 @@
 // Dependencies
-import { ColorResolvable, CommandInteraction } from "discord.js";
+import { ColorResolvable, CommandInteraction } from 'discord.js';
 
 // Configurations
-import config from "../../../../../config.json";
+import config from '../../../../../config.json';
 
 // Handlers
-import logger from "../../../../handlers/logger";
+import logger from '../../../../handlers/logger';
 
 // Models
-import guildSchema from "../../../../helpers/database/models/guildSchema";
+import guildSchema from '../../../../helpers/database/models/guildSchema';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -16,10 +16,10 @@ export default async (interaction: CommandInteraction) => {
   const { options, guild, user } = interaction;
 
   // Get options
-  const status = options?.getBoolean("status");
-  const rate = options?.getNumber("rate");
-  const timeout = options?.getNumber("timeout");
-  const minimumLength = options?.getNumber("minimum-length");
+  const status = options?.getBoolean('status');
+  const rate = options?.getNumber('rate');
+  const timeout = options?.getNumber('timeout');
+  const minimumLength = options?.getNumber('minimum-length');
 
   // Get guild object
   const guildDB = await guildSchema?.findOne({
@@ -38,32 +38,32 @@ export default async (interaction: CommandInteraction) => {
   await guildDB?.save()?.then(async () => {
     // Create embed object
     const embed = {
-      title: ":hammer: Settings - Guild [Points]" as string,
-      description: "Following settings is set!" as string,
+      title: ':hammer: Settings - Guild [Points]' as string,
+      description: 'Following settings is set!' as string,
       color: config.colors.success as ColorResolvable,
       fields: [
         {
-          name: "🤖 Status" as string,
+          name: '🤖 Status' as string,
           value: `${guildDB?.points?.status}` as string,
           inline: true,
         },
         {
-          name: "📈 Rate" as string,
+          name: '📈 Rate' as string,
           value: `${guildDB?.points?.rate}` as string,
           inline: true,
         },
         {
-          name: "🔨 Minimum Length" as string,
+          name: '🔨 Minimum Length' as string,
           value: `${guildDB?.points?.minimumLength}` as string,
           inline: true,
         },
         {
-          name: "⏰ Timeout" as string,
+          name: '⏰ Timeout' as string,
           value: `${guildDB?.points?.timeout}` as string,
           inline: true,
         },
       ],
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -76,6 +76,6 @@ export default async (interaction: CommandInteraction) => {
     );
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   });
 };

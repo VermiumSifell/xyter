@@ -1,5 +1,5 @@
-import config from "../../../../config.json";
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import config from '../../../../config.json';
+import { CommandInteraction, ColorResolvable } from 'discord.js';
 export default async (interaction: CommandInteraction) => {
   const { client } = interaction;
   if (client?.uptime === null) return;
@@ -14,32 +14,32 @@ export default async (interaction: CommandInteraction) => {
   const uptime = `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
 
   const interactionEmbed = {
-    title: ":hammer: Utilities - Stats" as string,
+    title: ':hammer: Utilities - Stats' as string,
     description:
-      "Below you can see a list of statistics about the bot." as string,
+      'Below you can see a list of statistics about the bot.' as string,
     fields: [
       {
-        name: "⏰ Latency" as string,
+        name: '⏰ Latency' as string,
         value: `${Date?.now() - interaction?.createdTimestamp} ms` as string,
         inline: true,
       },
       {
-        name: "⏰ API Latency" as string,
+        name: '⏰ API Latency' as string,
         value: `${Math?.round(client?.ws?.ping)} ms` as string,
         inline: true,
       },
       {
-        name: "⏰ Uptime" as string,
+        name: '⏰ Uptime' as string,
         value: `${uptime}` as string,
         inline: false,
       },
       {
-        name: "📈 Guilds" as string,
+        name: '📈 Guilds' as string,
         value: `${client?.guilds?.cache?.size}` as string,
         inline: true,
       },
       {
-        name: "📈 Users (non-unique)" as string,
+        name: '📈 Users (non-unique)' as string,
         value: `${client?.guilds?.cache?.reduce(
           (acc, guild) => acc + guild?.memberCount,
           0
@@ -48,7 +48,7 @@ export default async (interaction: CommandInteraction) => {
       },
     ],
     color: config?.colors?.success as ColorResolvable,
-    timestamp: new Date() as Date,
+    timestamp: new Date(),
     footer: {
       iconURL: config?.footer?.icon as string,
       text: config?.footer?.text as string,

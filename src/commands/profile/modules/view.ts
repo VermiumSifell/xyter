@@ -1,11 +1,11 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import { CommandInteraction, ColorResolvable } from 'discord.js';
 
 // Configurations
-import config from "../../../../config.json";
+import config from '../../../../config.json';
 
 // Models
-import fetchUser from "../../../helpers/fetchUser";
+import fetchUser from '../../../helpers/fetchUser';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -13,7 +13,7 @@ export default async (interaction: CommandInteraction) => {
   const { client, options, user, guild } = interaction;
 
   // Target information
-  const target = options?.getUser("target");
+  const target = options?.getUser('target');
 
   // Discord User Information
   const discordUser = await client?.users?.fetch(
@@ -35,31 +35,31 @@ export default async (interaction: CommandInteraction) => {
     fields: [
       {
         name: `:dollar: Credits` as string,
-        value: `${userObj?.credits || "Not found"}` as string,
+        value: `${userObj?.credits || 'Not found'}` as string,
         inline: true,
       },
       {
         name: `:squeeze_bottle: Level` as string,
-        value: `${userObj?.level || "Not found"}` as string,
+        value: `${userObj?.level || 'Not found'}` as string,
         inline: true,
       },
       {
         name: `:squeeze_bottle: Points` as string,
-        value: `${userObj?.points || "Not found"}` as string,
+        value: `${userObj?.points || 'Not found'}` as string,
         inline: true,
       },
       {
         name: `:loudspeaker: Reputation` as string,
-        value: `${userObj?.reputation || "Not found"}` as string,
+        value: `${userObj?.reputation || 'Not found'}` as string,
         inline: true,
       },
       {
         name: `:rainbow_flag: Language` as string,
-        value: `${userObj?.language || "Not found"}` as string,
+        value: `${userObj?.language || 'Not found'}` as string,
         inline: true,
       },
     ],
-    timestamp: new Date() as Date,
+    timestamp: new Date(),
     footer: {
       iconURL: config?.footer?.icon as string,
       text: config?.footer?.text as string,
@@ -67,5 +67,5 @@ export default async (interaction: CommandInteraction) => {
   };
 
   // Return interaction reply
-  return await interaction?.editReply({ embeds: [embed] });
+  return interaction?.editReply({ embeds: [embed] });
 };

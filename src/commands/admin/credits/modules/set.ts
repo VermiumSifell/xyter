@@ -1,17 +1,17 @@
 // Dependencies
-import { Permissions, CommandInteraction, ColorResolvable } from "discord.js";
+import { CommandInteraction, ColorResolvable } from 'discord.js';
 
 // Configurations
-import config from "../../../../../config.json";
+import config from '../../../../../config.json';
 
 // Handlers
-import logger from "../../../../handlers/logger";
+import logger from '../../../../handlers/logger';
 
 // Helpers
-import creditNoun from "../../../../helpers/creditNoun";
+import creditNoun from '../../../../helpers/creditNoun';
 
 // Models
-import fetchUser from "../../../../helpers/fetchUser";
+import fetchUser from '../../../../helpers/fetchUser';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -19,19 +19,19 @@ export default async (interaction: CommandInteraction) => {
   const { options, user, guild } = interaction;
 
   // User Option
-  const optionUser = options.getUser("user");
+  const optionUser = options.getUser('user');
 
   // Amount Option
-  const optionAmount = options.getInteger("amount");
+  const optionAmount = options.getInteger('amount');
 
   // If amount is null
   if (optionAmount === null) {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Set]" as string,
-      description: "We could not read your requested amount." as string,
+      title: ':toolbox: Admin - Credits [Set]' as string,
+      description: 'We could not read your requested amount.' as string,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -39,7 +39,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Send interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   if (optionUser === null) return;
@@ -52,10 +52,10 @@ export default async (interaction: CommandInteraction) => {
   if (!toUser) {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Set]" as string,
-      description: `We could not find ${optionUser} in our database.` as string,
+      title: ':toolbox: Admin - Credits [Set]' as string,
+      description: `We could not find ${optionUser} in our database.`,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -63,18 +63,17 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // If toUser.credits does not exist
   if (!toUser?.credits) {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Set]" as string,
-      description:
-        `We could not find credits for ${optionUser} in our database.` as string,
+      title: ':toolbox: Admin - Credits [Set]' as string,
+      description: `We could not find credits for ${optionUser} in our database.`,
       color: config?.colors?.error as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -82,7 +81,7 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // Set toUser with amount
@@ -92,12 +91,10 @@ export default async (interaction: CommandInteraction) => {
   await toUser?.save()?.then(async () => {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Set]" as string,
-      description: `We have set ${optionUser} to ${creditNoun(
-        optionAmount
-      )}` as string,
+      title: ':toolbox: Admin - Credits [Set]' as string,
+      description: `We have set ${optionUser} to ${creditNoun(optionAmount)}`,
       color: config?.colors?.success as ColorResolvable,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -112,6 +109,6 @@ export default async (interaction: CommandInteraction) => {
     );
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   });
 };

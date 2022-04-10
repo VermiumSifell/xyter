@@ -1,16 +1,16 @@
 // Dependencies
-import { Permissions, ColorResolvable, CommandInteraction } from "discord.js";
+import { Permissions, ColorResolvable, CommandInteraction } from 'discord.js';
 
 // Configurations
-import config from "../../../../config.json";
+import config from '../../../../config.json';
 
 // Handlers
-import logger from "../../../handlers/logger";
+import logger from '../../../handlers/logger';
 
 // Modules
-import pterodactyl from "./addons/pterodactyl";
-import credits from "./addons/credits";
-import points from "./addons/points";
+import pterodactyl from './addons/pterodactyl';
+import credits from './addons/credits';
+import points from './addons/points';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -21,10 +21,10 @@ export default async (interaction: CommandInteraction) => {
   if (!memberPermissions?.has(Permissions?.FLAGS?.MANAGE_GUILD)) {
     // Create embed object
     const embed = {
-      title: ":tools: Settings - Guild" as string,
+      title: ':tools: Settings - Guild' as string,
       color: config?.colors?.error as ColorResolvable,
-      description: "You do not have permission to manage this!" as string,
-      timestamp: new Date() as Date,
+      description: 'You do not have permission to manage this!' as string,
+      timestamp: new Date(),
       footer: {
         iconURL: config?.footer?.icon as string,
         text: config?.footer?.text as string,
@@ -32,25 +32,25 @@ export default async (interaction: CommandInteraction) => {
     };
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 
   // Module - Pterodactyl
-  if (options?.getSubcommand() === "pterodactyl") {
+  if (options?.getSubcommand() === 'pterodactyl') {
     // Execute Module - Pterodactyl
-    return await pterodactyl(interaction);
+    return pterodactyl(interaction);
   }
 
   // Module - Credits
-  else if (options?.getSubcommand() === "credits") {
+  else if (options?.getSubcommand() === 'credits') {
     // Execute Module - Credits
-    return await credits(interaction);
+    return credits(interaction);
   }
 
   // Module - Points
-  else if (options?.getSubcommand() === "points") {
+  else if (options?.getSubcommand() === 'points') {
     // Execute Module - Points
-    return await points(interaction);
+    return points(interaction);
   }
 
   // Send debug message

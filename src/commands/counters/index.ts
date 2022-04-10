@@ -1,26 +1,26 @@
 // Dependencies
-import { CommandInteraction } from "discord.js";
-import { SlashCommandBuilder } from "@discordjs/builders";
+import { CommandInteraction } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 
 // Modules
-import view from "./modules/view";
+import view from './modules/view';
 
 // Handlers
-import logger from "../../handlers/logger";
+import logger from '../../handlers/logger';
 
 // Function
 export default {
   data: new SlashCommandBuilder()
-    .setName("counters")
-    .setDescription("Manage counters.")
+    .setName('counters')
+    .setDescription('Manage counters.')
     .addSubcommand((subcommand) =>
       subcommand
-        .setName("view")
-        .setDescription("View a counter.")
+        .setName('view')
+        .setDescription('View a counter.')
         .addChannelOption((option) =>
           option
-            .setName("channel")
-            .setDescription("The counter channel you want to view")
+            .setName('channel')
+            .setDescription('The counter channel you want to view')
             .setRequired(true)
         )
     ),
@@ -28,9 +28,9 @@ export default {
     const { options, guild, user, commandName } = interaction;
 
     // Module - View
-    if (options?.getSubcommand() === "view") {
+    if (options?.getSubcommand() === 'view') {
       // Execute Module - View
-      return await view(interaction);
+      return view(interaction);
     }
 
     // Send debug message

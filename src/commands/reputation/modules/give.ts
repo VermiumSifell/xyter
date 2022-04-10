@@ -1,15 +1,15 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import { CommandInteraction, ColorResolvable } from 'discord.js';
 
 // Configurations
-import config from "../../../../config.json";
+import config from '../../../../config.json';
 
 // Handlers
-import logger from "../../../handlers/logger";
+import logger from '../../../handlers/logger';
 
 // Models
-import timeoutSchema from "../../../helpers/database/models/timeoutSchema";
-import fetchUser from "../../../helpers/fetchUser";
+import timeoutSchema from '../../../helpers/database/models/timeoutSchema';
+import fetchUser from '../../../helpers/fetchUser';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -17,10 +17,10 @@ export default async (interaction: CommandInteraction) => {
   const { options, user, guild } = interaction;
 
   // Target option
-  const optionTarget = options?.getUser("target");
+  const optionTarget = options?.getUser('target');
 
   // Type information
-  const optionType = options?.getString("type");
+  const optionType = options?.getString('type');
 
   if (guild === null) return;
 
@@ -33,7 +33,7 @@ export default async (interaction: CommandInteraction) => {
   const isTimeout = await timeoutSchema?.findOne({
     guildId: guild?.id,
     userId: user?.id,
-    timeoutId: "2022-04-10-16-42",
+    timeoutId: '2022-04-10-16-42',
   });
 
   // If user is not on timeout
@@ -42,9 +42,9 @@ export default async (interaction: CommandInteraction) => {
     if (optionTarget?.id === user?.id) {
       // Embed object
       const embed = {
-        title: ":loudspeaker: Reputation [Give]" as string,
-        description: "You can not repute yourself." as string,
-        timestamp: new Date() as Date,
+        title: ':loudspeaker: Reputation [Give]' as string,
+        description: 'You can not repute yourself.' as string,
+        timestamp: new Date(),
         color: config?.colors?.error as ColorResolvable,
         footer: {
           iconURL: config?.footer?.icon as string,
@@ -53,16 +53,16 @@ export default async (interaction: CommandInteraction) => {
       };
 
       // Return interaction reply
-      return await interaction?.editReply({ embeds: [embed] });
+      return interaction?.editReply({ embeds: [embed] });
     }
 
     // If type is positive
-    if (optionType === "positive") {
+    if (optionType === 'positive') {
       userObj.reputation += 1;
     }
 
     // If type is negative
-    else if (optionType === "negative") {
+    else if (optionType === 'negative') {
       userObj.reputation -= 1;
     }
 
@@ -70,10 +70,10 @@ export default async (interaction: CommandInteraction) => {
     await userObj?.save()?.then(async () => {
       // Embed object
       const embed = {
-        title: ":loudspeaker: Reputation [Give]" as string,
+        title: ':loudspeaker: Reputation [Give]' as string,
         description:
           `You have given ${optionTarget} a ${optionType} reputation!` as string,
-        timestamp: new Date() as Date,
+        timestamp: new Date(),
         color: config?.colors?.success as ColorResolvable,
         footer: {
           iconURL: config?.footer?.icon as string,
@@ -90,10 +90,10 @@ export default async (interaction: CommandInteraction) => {
       await timeoutSchema?.create({
         guildId: guild?.id,
         userId: user?.id,
-        timeoutId: "2022-04-10-16-42",
+        timeoutId: '2022-04-10-16-42',
       });
       // Return interaction reply
-      return await interaction?.editReply({ embeds: [embed] });
+      return interaction?.editReply({ embeds: [embed] });
     });
 
     setTimeout(async () => {
@@ -108,17 +108,17 @@ export default async (interaction: CommandInteraction) => {
       await timeoutSchema?.deleteOne({
         guildId: guild?.id,
         userId: user?.id,
-        timeoutId: "2022-04-10-16-42",
+        timeoutId: '2022-04-10-16-42',
       });
     }, config?.reputation?.timeout);
   } else {
     // Create embed object
     const embed = {
-      title: ":loudspeaker: Reputation [Give]" as string,
+      title: ':loudspeaker: Reputation [Give]' as string,
       description: `You have given reputation within the last ${
         config?.reputation?.timeout / 1000
       } seconds, you can not repute now!` as string,
-      timestamp: new Date() as Date,
+      timestamp: new Date(),
       color: config.colors.error as ColorResolvable,
       footer: {
         iconURL: config?.footer?.icon as string,
@@ -134,6 +134,6 @@ export default async (interaction: CommandInteraction) => {
     );
 
     // Return interaction reply
-    return await interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({ embeds: [embed] });
   }
 };
