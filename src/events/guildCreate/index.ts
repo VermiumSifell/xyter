@@ -1,13 +1,13 @@
 // Dependencies
-import { Guild } from 'discord.js';
+import { Guild } from "discord.js";
 
 // Helpers
-import updatePresence from '../../helpers/updatePresence';
-import fetchGuild from '../../helpers/fetchGuild';
+import updatePresence from "../../helpers/updatePresence";
+import fetchGuild from "../../helpers/fetchGuild";
 
 // Function
 export default {
-  name: 'guildCreate',
+  name: "guildCreate",
   async execute(guild: Guild) {
     // Destructure
     const { client } = guild;

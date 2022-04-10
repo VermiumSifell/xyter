@@ -1,5 +1,5 @@
-import { Snowflake } from 'discord.js';
-import { Schema, model } from 'mongoose';
+import { Snowflake } from "discord.js";
+import { Schema, model } from "mongoose";
 
 export interface IUser {
   guildId: Snowflake;
@@ -29,7 +29,7 @@ const userSchema = new Schema(
     },
     language: {
       type: String,
-      default: 'en',
+      default: "en",
     },
     reputation: { type: Number, default: 0 },
     credits: { type: Number, default: 0 },
@@ -39,4 +39,4 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-export default model<IUser>('user', userSchema);
+export default model<IUser>("user", userSchema);
