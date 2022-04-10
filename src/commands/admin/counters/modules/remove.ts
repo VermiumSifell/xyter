@@ -1,14 +1,14 @@
 // Dependencies
-import { ColorResolvable, CommandInteraction } from "discord.js";
+import { ColorResolvable, CommandInteraction } from 'discord.js';
 
 // Configurations
-import config from "../../../../../config.json";
+import config from '../../../../../config.json';
 
 // Handlers
-import logger from "../../../../handlers/logger";
+import logger from '../../../../handlers/logger';
 
 // Models
-import counterSchema from "../../../../helpers/database/models/counterSchema";
+import counterSchema from '../../../../helpers/database/models/counterSchema';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -16,7 +16,7 @@ export default async (interaction: CommandInteraction) => {
   const { options, guild, user } = interaction;
 
   // Get options
-  const optionChannel = options?.getChannel("channel");
+  const optionChannel = options?.getChannel('channel');
 
   await counterSchema
     ?.deleteOne({
@@ -26,10 +26,9 @@ export default async (interaction: CommandInteraction) => {
     ?.then(async () => {
       // Embed object
       const embed = {
-        title: ":toolbox: Admin - Counters [Remove]" as string,
-        description:
-          `${optionChannel} is no longer an counting channel.` as string,
-        timestamp: new Date() as Date,
+        title: ':toolbox: Admin - Counters [Remove]' as string,
+        description: `${optionChannel} is no longer an counting channel.`,
+        timestamp: new Date(),
         color: config?.colors?.success as ColorResolvable,
         footer: {
           iconURL: config?.footer?.icon as string,
