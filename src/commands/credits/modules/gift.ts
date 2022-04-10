@@ -1,18 +1,18 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import { CommandInteraction, ColorResolvable } from 'discord.js';
 
 // Configurations
-import config from "../../../../config.json";
+import config from '../../../../config.json';
 
 // Handlers
-import logger from "../../../handlers/logger";
+import logger from '../../../handlers/logger';
 
 // Helpers
-import saveUser from "../../../helpers/saveUser";
-import creditNoun from "../../../helpers/creditNoun";
+import saveUser from '../../../helpers/saveUser';
+import creditNoun from '../../../helpers/creditNoun';
 
 // Models
-import userSchema from "../../../helpers/database/models/userSchema";
+import fetchUser from '../../../helpers/fetchUser';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -20,31 +20,31 @@ export default async (interaction: CommandInteraction) => {
   const { options, user, guild, client } = interaction;
 
   // User option
-  const optionUser = options?.getUser("user");
+  const optionUser = options?.getUser('user');
 
   // Amount option
-  const optionAmount = options?.getInteger("amount");
+  const optionAmount = options?.getInteger('amount');
 
   // Reason option
-  const optionReason = options?.getString("reason");
+  const optionReason = options?.getString('reason');
+
+  if (guild === null) return;
+  if (optionUser === null) return;
 
   // Get fromUserDB object
-  const fromUserDB = await userSchema?.findOne({
-    userId: user?.id,
-    guildId: guild?.id,
-  });
+  const fromUserDB = await fetchUser(user, guild);
 
   // Get toUserDB object
-  const toUserDB = await userSchema?.findOne({
-    userId: optionUser?.id,
-    guildId: guild?.id,
-  });
+  const toUserDB = await fetchUser(optionUser, guild);
+
+  if (fromUserDB === null) return;
+  if (toUserDB === null) return;
 
   // If receiver is same as sender
   if (optionUser?.id === user?.id) {
     // Create embed object
     const embed = {
-      title: ":dollar: Credits [Gift]" as string,
+      title: ':dollar: Credits [Gift]' as string,
       description: "You can't pay yourself." as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date() as Date,
@@ -62,8 +62,8 @@ export default async (interaction: CommandInteraction) => {
   if (optionAmount === null) {
     // Embed object
     const embed = {
-      title: ":dollar: Credits [Gift]" as string,
-      description: "We could not read your requested amount." as string,
+      title: ':dollar: Credits [Gift]' as string,
+      description: 'We could not read your requested amount.' as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date() as Date,
       footer: {
@@ -80,7 +80,7 @@ export default async (interaction: CommandInteraction) => {
   if (optionAmount <= 0) {
     // Embed object
     const embed = {
-      title: ":dollar: Credits [Gift]" as string,
+      title: ':dollar: Credits [Gift]' as string,
       description: "You can't pay zero or below." as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date() as Date,
@@ -98,7 +98,7 @@ export default async (interaction: CommandInteraction) => {
   if (fromUserDB?.credits < optionAmount) {
     // Embed object
     const embed = {
-      title: ":dollar: Credits [Gift]" as string,
+      title: ':dollar: Credits [Gift]' as string,
       description:
         `You have insufficient credits. Your credits is ${fromUserDB?.credits}` as string,
       color: config?.colors?.error as ColorResolvable,
@@ -117,7 +117,7 @@ export default async (interaction: CommandInteraction) => {
   if (!toUserDB) {
     // Embed object
     const embed = {
-      title: ":dollar: Credits [Gift]" as string,
+      title: ':dollar: Credits [Gift]' as string,
       description:
         `That user has no credits, I can not gift credits to ${optionUser}` as string,
       color: config?.colors?.error as ColorResolvable,
@@ -142,9 +142,9 @@ export default async (interaction: CommandInteraction) => {
   await saveUser(fromUserDB, toUserDB)?.then(async () => {
     // Interaction embed object
     const interactionEmbed = {
-      title: ":dollar: Credits [Gift]",
+      title: ':dollar: Credits [Gift]',
       description: `You sent ${creditNoun(optionAmount)} to ${optionUser}${
-        optionReason ? ` with reason: ${optionReason}` : ""
+        optionReason ? ` with reason: ${optionReason}` : ''
       }. Your new credits is ${creditNoun(fromUserDB?.credits)}.`,
       color: config?.colors?.success as ColorResolvable,
       timestamp: new Date() as Date,
@@ -156,9 +156,9 @@ export default async (interaction: CommandInteraction) => {
 
     // DM embed object
     const dmEmbed = {
-      title: ":dollar: Credits [Gift]" as string,
+      title: ':dollar: Credits [Gift]' as string,
       description: `You received ${creditNoun(optionAmount)} from ${user}${
-        optionReason ? ` with reason: ${optionReason}` : ""
+        optionReason ? ` with reason: ${optionReason}` : ''
       }. Your new credits is ${creditNoun(toUserDB?.credits)}.` as string,
       color: config?.colors?.success as ColorResolvable,
       timestamp: new Date() as Date,

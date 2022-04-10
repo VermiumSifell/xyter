@@ -9,12 +9,12 @@ import config from '../../../../config.json';
 import logger from '../../../handlers/logger';
 
 // Models
-import guildSchema from '../../../helpers/database/models/guildSchema';
-import userSchema from '../../../helpers/database/models/userSchema';
 import timeouts from '../../../helpers/database/models/timeoutSchema';
 
 // Helpers
 import creditNoun from '../../../helpers/creditNoun';
+import fetchUser from '../../../helpers/fetchUser';
+import fetchGuild from '../../../helpers/fetchGuild';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -31,9 +31,9 @@ export default async (interaction: CommandInteraction) => {
     timeoutId: '2022-03-15-19-16',
   });
 
-  const guildDB = await guildSchema?.findOne({
-    guildId: guild?.id,
-  });
+  if (guild === null) return;
+
+  const guildDB = await fetchGuild(guild);
 
   // If user is not on timeout
   if (!isTimeout) {
@@ -42,10 +42,9 @@ export default async (interaction: CommandInteraction) => {
       max: guildDB?.credits?.workRate,
     });
 
-    const userDB = await userSchema?.findOne({
-      userId: user?.id,
-      guildId: guild?.id,
-    });
+    const userDB = await fetchUser(user, guild);
+
+    if (userDB === null) return;
 
     userDB.credits += creditsEarned;
 
@@ -80,7 +79,7 @@ export default async (interaction: CommandInteraction) => {
       // Send debug message
       logger?.debug(
         `Guild: ${guild?.id} User: ${user?.id} has not worked within the last ${
-          guildDB?.work?.timeout / 1000
+          guildDB?.credits?.workTimeout / 1000
         } seconds, work can be done`
       );
 

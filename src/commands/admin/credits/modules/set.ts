@@ -1,17 +1,17 @@
 // Dependencies
-import { Permissions, CommandInteraction, ColorResolvable } from "discord.js";
+import { Permissions, CommandInteraction, ColorResolvable } from 'discord.js';
 
 // Configurations
-import config from "../../../../../config.json";
+import config from '../../../../../config.json';
 
 // Handlers
-import logger from "../../../../handlers/logger";
+import logger from '../../../../handlers/logger';
 
 // Helpers
-import creditNoun from "../../../../helpers/creditNoun";
+import creditNoun from '../../../../helpers/creditNoun';
 
 // Models
-import userSchema from "../../../../helpers/database/models/userSchema";
+import fetchUser from '../../../../helpers/fetchUser';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -19,17 +19,17 @@ export default async (interaction: CommandInteraction) => {
   const { options, user, guild } = interaction;
 
   // User Option
-  const optionUser = options.getUser("user");
+  const optionUser = options.getUser('user');
 
   // Amount Option
-  const optionAmount = options.getInteger("amount");
+  const optionAmount = options.getInteger('amount');
 
   // If amount is null
   if (optionAmount === null) {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Set]" as string,
-      description: "We could not read your requested amount." as string,
+      title: ':toolbox: Admin - Credits [Set]' as string,
+      description: 'We could not read your requested amount.' as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date() as Date,
       footer: {
@@ -42,17 +42,17 @@ export default async (interaction: CommandInteraction) => {
     return await interaction?.editReply({ embeds: [embed] });
   }
 
+  if (optionUser === null) return;
+  if (guild === null) return;
+
   // toUser Information
-  const toUser = await userSchema?.findOne({
-    userId: optionUser?.id,
-    guildId: guild?.id,
-  });
+  const toUser = await fetchUser(optionUser, guild);
 
   // If toUser does not exist
   if (!toUser) {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Set]" as string,
+      title: ':toolbox: Admin - Credits [Set]' as string,
       description: `We could not find ${optionUser} in our database.` as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date() as Date,
@@ -70,7 +70,7 @@ export default async (interaction: CommandInteraction) => {
   if (!toUser?.credits) {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Set]" as string,
+      title: ':toolbox: Admin - Credits [Set]' as string,
       description:
         `We could not find credits for ${optionUser} in our database.` as string,
       color: config?.colors?.error as ColorResolvable,
@@ -92,7 +92,7 @@ export default async (interaction: CommandInteraction) => {
   await toUser?.save()?.then(async () => {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Set]" as string,
+      title: ':toolbox: Admin - Credits [Set]' as string,
       description: `We have set ${optionUser} to ${creditNoun(
         optionAmount
       )}` as string,

@@ -1,14 +1,14 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import { CommandInteraction, ColorResolvable } from 'discord.js';
 
 // Configurations
-import config from "../../../../config.json";
+import config from '../../../../config.json';
 
 // Helpers
-import creditNoun from "../../../helpers/creditNoun";
+import creditNoun from '../../../helpers/creditNoun';
 
 // Models
-import userSchema from "../../../helpers/database/models/userSchema";
+import fetchUser from '../../../helpers/fetchUser';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -16,21 +16,20 @@ export default async (interaction: CommandInteraction) => {
   const { options, user, guild } = interaction;
 
   // User option
-  const optionUser = options?.getUser("user");
+  const optionUser = options?.getUser('user');
+
+  if (guild === null) return;
 
   // Get credit object
-  const userDB = await userSchema?.findOne({
-    userId: optionUser ? optionUser?.id : user?.id,
-    guildId: guild?.id,
-  });
+  const userDB = await fetchUser(optionUser || user, guild);
 
   // If userDB does not exist
-  if (!userDB) {
+  if (userDB === null) {
     // Embed object
     const embed = {
-      title: ":dollar: Credits [Balance]" as string,
+      title: ':dollar: Credits [Balance]' as string,
       description: `We can not find ${
-        optionUser || "you"
+        optionUser || 'you'
       } in our database.` as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date() as Date,
@@ -45,12 +44,12 @@ export default async (interaction: CommandInteraction) => {
   }
 
   // If userDB.credits does not exist
-  if (!userDB.credits) {
+  if (userDB.credits === null) {
     // Embed object
     const embed = {
-      title: ":dollar: Credits [Balance]" as string,
+      title: ':dollar: Credits [Balance]' as string,
       description: `We can not find credits for ${
-        optionUser || "you"
+        optionUser || 'you'
       } in our database.` as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date() as Date,
@@ -65,9 +64,9 @@ export default async (interaction: CommandInteraction) => {
   } else {
     // Embed object
     const embed = {
-      title: ":dollar: Credits [Balance]" as string,
+      title: ':dollar: Credits [Balance]' as string,
       description: `${
-        optionUser ? `${optionUser} has` : "You have"
+        optionUser ? `${optionUser} has` : 'You have'
       } ${creditNoun(userDB.credits)}.` as string,
       color: config?.colors?.success as ColorResolvable,
       timestamp: new Date() as Date,
