@@ -27,6 +27,7 @@
   "reputation": {
     "timeout": 86400000
   },
+  "secretKey": "SET A LONG RANDOM PASSWORD HERE, ITS FOR USE OF ENCRYPTION WITH LENGTH OF 32",
   "importToDB": false,
   "clearUnused": false
 }

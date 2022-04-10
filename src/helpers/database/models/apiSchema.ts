@@ -16,11 +16,20 @@ const apiSchema = new mongoose.Schema(
       default: 'https://localhost/api/',
     },
     token: {
-      type: mongoose.SchemaTypes.String,
-      required: true,
-      unique: false,
-      index: true,
-      default: 'token',
+      iv: {
+        type: mongoose.SchemaTypes.String,
+        required: true,
+        unique: false,
+        index: true,
+        default: 'token',
+      },
+      content: {
+        type: mongoose.SchemaTypes.String,
+        required: true,
+        unique: false,
+        index: true,
+        default: 'token',
+      },
     },
   },
   { timestamps: true }
