@@ -4,8 +4,9 @@ import shopRoles from '../helpers/database/models/shopRolesSchema';
 import guilds from '../helpers/database/models/guildSchema';
 import logger from './logger';
 import { Client } from 'discord.js';
+
 export default async (client: Client) => {
-  schedule.scheduleJob('*/30 * * * *', async () => {
+  schedule.scheduleJob('*/5 * * * *', async () => {
     shopRoles.find().then(async (shopRoles: any) => {
       shopRoles.map(async (shopRole: any) => {
         const payed = new Date(shopRole.lastPayed);
@@ -13,6 +14,12 @@ export default async (client: Client) => {
         const oneHourAfterPayed = payed.setHours(payed.getHours() + 1);
 
         if (new Date() > new Date(oneHourAfterPayed)) {
+          logger.debug(
+            `Role: ${shopRole.roleId} Expires: ${
+              new Date() < new Date(oneHourAfterPayed)
+            } Last Payed: ${shopRole.lastPayed}`
+          );
+
           // Get guild object
           const guild = await guilds.findOne({
             guildId: shopRole.guildId,
@@ -24,14 +31,16 @@ export default async (client: Client) => {
           });
           const { pricePerHour } = guild.shop.roles;
 
+          if (userDB === null) return;
+
           if (userDB.credits < pricePerHour) {
             const rGuild = await client.guilds.cache.get(`${shopRole.guildId}`);
             const rMember = await rGuild?.members.fetch(`${shopRole.userId}`);
 
             await rMember?.roles
               .remove(`${shopRole.roleId}`)
-              .then(console.log)
-              .catch(console.error); // Removes all roles
+              .then(async (test) => console.log('4', test))
+              .catch(async (test) => console.log('5', test)); // Removes all roles
           }
 
           shopRole.lastPayed = new Date();
@@ -45,6 +54,6 @@ export default async (client: Client) => {
       });
     });
 
-    await logger.debug('Checking schedules! (Every 30 minutes)');
+    await logger.debug('Checking schedules! (Every 5 minutes)');
   });
 };

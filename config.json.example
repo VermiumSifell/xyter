@@ -27,5 +27,6 @@
   "reputation": {
     "timeout": 86400000
   },
-  "importToDB": false
+  "importToDB": false,
+  "clearUnused": false
 }

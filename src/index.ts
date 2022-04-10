@@ -1,21 +1,21 @@
 // Dependencies
-import { Client, Intents } from "discord.js"; // discord.js
+import { Client, Intents } from 'discord.js'; // discord.js
 
-import database from "./helpers/database";
-import events from "./handlers/events";
-import commands from "./handlers/commands";
-import locale from "./handlers/locale";
-import schedules from "./handlers/schedules";
+import database from './helpers/database';
+import events from './handlers/events';
+import commands from './handlers/commands';
+import locale from './handlers/locale';
+import schedules from './handlers/schedules';
 
-import config from "../config.json"; // config.json
+import config from '../config.json'; // config.json
 
 (async () => {
   // Initialize discord.js client
   const client = new Client({
     intents: [
-      Intents.FLAGS.GUILDS,
-      Intents.FLAGS.GUILD_MESSAGES,
-      Intents.FLAGS.GUILD_MEMBERS,
+      Intents?.FLAGS?.GUILDS,
+      Intents?.FLAGS?.GUILD_MESSAGES,
+      Intents?.FLAGS?.GUILD_MEMBERS,
     ],
   });
 
@@ -24,5 +24,5 @@ import config from "../config.json"; // config.json
   await events(client);
   await commands(client);
   await schedules(client);
-  await client.login(config.bot.token);
+  await client?.login(config?.bot?.token);
 })();

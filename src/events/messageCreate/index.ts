@@ -1,35 +1,41 @@
-import guilds from '../../helpers/database/models/guildSchema';
-import users from '../../helpers/database/models/userSchema';
+// Dependencies
+import { Message } from 'discord.js';
+
+// Models
+import userSchema from '../../helpers/database/models/userSchema';
+import guildSchema from '../../helpers/database/models/guildSchema';
+
+// Modules
 import points from './modules/points';
 import credits from './modules/credits';
-import counter from './modules/counter';
+import counters from './modules/counters';
+import fetchUser from '../../helpers/fetchUser';
+import fetchGuild from '../../helpers/fetchGuild';
 
-import { Message } from 'discord.js';
+// Function
 export default {
   name: 'messageCreate',
   async execute(message: Message) {
-    const { guild, author } = message;
+    const { author, guild } = message;
 
     // If message author is bot
-    if (author.bot) return;
+    if (author?.bot) return;
+
+    if (guild === null) return;
 
     // Get guild object
-    const guildDB = await guilds.findOne({ guildId: guild?.id });
+    const guildObj = await fetchGuild(guild);
 
     // Get guild object
-    const userDB = await users.findOne({
-      guildId: guild?.id,
-      userId: author?.id,
-    });
+    const userObj = await fetchUser(author, guild);
 
-    // Manage credits
+    // Execute Module - Credits
+    await credits(guildObj, userObj, message);
 
-    await credits(guildDB, userDB, message);
+    // Execute Module - Points
+    await points(guildObj, userObj, message);
 
-    // Manage points
-    await points(guildDB, userDB, message);
-
-    // Manage counter
-    await counter(guildDB, userDB, message);
+    // Execute Module - Counters
+    await counters(guildObj, userObj, message);
   },
 };

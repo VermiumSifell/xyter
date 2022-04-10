@@ -1,11 +1,11 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import { CommandInteraction, ColorResolvable } from 'discord.js';
 
 // Configurations
-import config from "../../../../config.json";
+import config from '../../../../config.json';
 
 // Models
-import userSchema from "../../../helpers/database/models/userSchema";
+import fetchUser from '../../../helpers/fetchUser';
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -13,18 +13,17 @@ export default async (interaction: CommandInteraction) => {
   const { client, options, user, guild } = interaction;
 
   // Target information
-  const target = options?.getUser("target");
+  const target = options?.getUser('target');
 
   // Discord User Information
   const discordUser = await client?.users?.fetch(
     `${target ? target?.id : user?.id}`
   );
 
+  if (guild === null) return;
+
   // User Information
-  const userObj = await userSchema?.findOne({
-    userId: discordUser?.id,
-    guildId: guild?.id,
-  });
+  const userObj = await fetchUser(discordUser, guild);
 
   // Embed object
   const embed = {
@@ -36,27 +35,27 @@ export default async (interaction: CommandInteraction) => {
     fields: [
       {
         name: `:dollar: Credits` as string,
-        value: `${userObj?.credits || "Not found"}` as string,
+        value: `${userObj?.credits || 'Not found'}` as string,
         inline: true,
       },
       {
         name: `:squeeze_bottle: Level` as string,
-        value: `${userObj?.level || "Not found"}` as string,
+        value: `${userObj?.level || 'Not found'}` as string,
         inline: true,
       },
       {
         name: `:squeeze_bottle: Points` as string,
-        value: `${userObj?.points || "Not found"}` as string,
+        value: `${userObj?.points || 'Not found'}` as string,
         inline: true,
       },
       {
         name: `:loudspeaker: Reputation` as string,
-        value: `${userObj?.reputation || "Not found"}` as string,
+        value: `${userObj?.reputation || 'Not found'}` as string,
         inline: true,
       },
       {
         name: `:rainbow_flag: Language` as string,
-        value: `${userObj?.language || "Not found"}` as string,
+        value: `${userObj?.language || 'Not found'}` as string,
         inline: true,
       },
     ],

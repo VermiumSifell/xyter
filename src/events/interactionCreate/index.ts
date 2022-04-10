@@ -1,6 +1,6 @@
-import config from '../../config.json';
-import logger from '../handlers/logger';
-import guilds from '../helpers/database/models/guildSchema';
+import config from '../../../config.json';
+import logger from '../../handlers/logger';
+import guilds from '../../helpers/database/models/guildSchema';
 
 import { Interaction, ColorResolvable } from 'discord.js';
 
