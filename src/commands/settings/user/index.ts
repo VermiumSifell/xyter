@@ -1,11 +1,11 @@
 // Dependencies
-import { CommandInteraction } from 'discord.js';
+import { CommandInteraction } from "discord.js";
 
 // Handlers
-import logger from '../../../handlers/logger';
+import logger from "../../../handlers/logger";
 
 // Modules
-import appearance from './modules/appearance';
+import appearance from "./modules/appearance";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -13,7 +13,7 @@ export default async (interaction: CommandInteraction) => {
   const { guild, user, options, commandName } = interaction;
 
   // Module - Appearance
-  if (options?.getSubcommand() === 'appearance') {
+  if (options?.getSubcommand() === "appearance") {
     // Execute Module - Appearance
     await appearance(interaction);
   }

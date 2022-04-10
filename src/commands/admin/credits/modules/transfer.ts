@@ -1,18 +1,18 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from 'discord.js';
+import { CommandInteraction, ColorResolvable } from "discord.js";
 
 // Configurations
-import config from '../../../../../config.json';
+import config from "../../../../../config.json";
 
 // Handlers
-import logger from '../../../../handlers/logger';
+import logger from "../../../../handlers/logger";
 
 // Helpers
-import creditNoun from '../../../../helpers/creditNoun';
-import saveUser from '../../../../helpers/saveUser';
+import creditNoun from "../../../../helpers/creditNoun";
+import saveUser from "../../../../helpers/saveUser";
 
 // Models
-import userSchema from '../../../../helpers/database/models/userSchema';
+import userSchema from "../../../../helpers/database/models/userSchema";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -20,16 +20,16 @@ export default async (interaction: CommandInteraction) => {
   const { guild, options, user } = interaction;
 
   // Get options
-  const optionFromUser = options?.getUser('from');
-  const optionToUser = options?.getUser('to');
-  const optionAmount = options?.getInteger('amount');
+  const optionFromUser = options?.getUser("from");
+  const optionToUser = options?.getUser("to");
+  const optionAmount = options?.getInteger("amount");
 
   // If amount is null
   if (optionAmount === null) {
     // Embed object
     const embed = {
-      title: ':toolbox: Admin - Credits [Transfer]' as string,
-      description: 'We could not read your requested amount.' as string,
+      title: ":toolbox: Admin - Credits [Transfer]" as string,
+      description: "We could not read your requested amount." as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date() as Date,
       footer: {
@@ -58,7 +58,7 @@ export default async (interaction: CommandInteraction) => {
   if (!fromUser) {
     // Embed object
     const embed = {
-      title: ':toolbox: Admin - Credits [Transfer]' as string,
+      title: ":toolbox: Admin - Credits [Transfer]" as string,
       description:
         `We could not find ${optionFromUser} in our database.` as string,
       color: config?.colors?.error as ColorResolvable,
@@ -77,7 +77,7 @@ export default async (interaction: CommandInteraction) => {
   if (!fromUser?.credits) {
     // Embed object
     const embed = {
-      title: ':toolbox: Admin - Credits [Transfer]' as string,
+      title: ":toolbox: Admin - Credits [Transfer]" as string,
       description:
         `We could not find credits for ${optionFromUser} in our database.` as string,
       color: config?.colors?.error as ColorResolvable,
@@ -96,7 +96,7 @@ export default async (interaction: CommandInteraction) => {
   if (!toUser) {
     // Embed object
     const embed = {
-      title: ':toolbox: Admin - Credits [Transfer]' as string,
+      title: ":toolbox: Admin - Credits [Transfer]" as string,
       description:
         `We could not find ${optionToUser} in our database.` as string,
       color: config?.colors?.error as ColorResolvable,
@@ -115,7 +115,7 @@ export default async (interaction: CommandInteraction) => {
   if (!toUser?.credits) {
     // Embed object
     const embed = {
-      title: ':toolbox: Admin - Credits [Transfer]' as string,
+      title: ":toolbox: Admin - Credits [Transfer]" as string,
       description:
         `We could not find credits for ${optionToUser} in our database.` as string,
       color: config?.colors?.error as ColorResolvable,
@@ -140,7 +140,7 @@ export default async (interaction: CommandInteraction) => {
   await saveUser(fromUser, toUser)?.then(async () => {
     // Embed object
     const embed = {
-      title: ':toolbox: Admin - Credits [Transfer]' as string,
+      title: ":toolbox: Admin - Credits [Transfer]" as string,
       description: `You sent ${creditNoun(
         optionAmount
       )} from ${optionFromUser} to ${optionToUser}.` as string,

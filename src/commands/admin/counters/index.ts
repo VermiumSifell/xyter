@@ -1,12 +1,12 @@
 // Dependencies
-import { CommandInteraction } from 'discord.js';
+import { CommandInteraction } from "discord.js";
 
 // Handlers
-import logger from '../../../handlers/logger';
+import logger from "../../../handlers/logger";
 
 // Modules
-import add from './modules/add';
-import remove from './modules/remove';
+import add from "./modules/add";
+import remove from "./modules/remove";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -14,13 +14,13 @@ export default async (interaction: CommandInteraction) => {
   const { options, guild, user, commandName } = interaction;
 
   // Module - Add
-  if (options?.getSubcommand() === 'add') {
+  if (options?.getSubcommand() === "add") {
     // Execute Module - Add
     return await add(interaction);
   }
 
   // Module - Remove
-  else if (options?.getSubcommand() === 'remove') {
+  else if (options?.getSubcommand() === "remove") {
     // Execute Module - Remove
     return await remove(interaction);
   }
