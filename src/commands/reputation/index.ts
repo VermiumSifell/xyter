@@ -1,16 +1,19 @@
+// Dependencies
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Permissions, CommandInteraction } from 'discord.js';
-import logger from '../../handlers/logger';
-import give from './addons/give';
+import { CommandInteraction } from 'discord.js';
 
+// Modules
+import give from './modules/give';
+
+// Function
 export default {
   data: new SlashCommandBuilder()
     .setName('reputation')
-    .setDescription('Manage reputation.')
+    .setDescription('Give reputation.')
     .addSubcommand((subcommand) =>
       subcommand
         .setName('give')
-        .setDescription('Give reputation for a user')
+        .setDescription('Give reputation to a user')
         .addUserOption((option) =>
           option
             .setName('target')
@@ -27,22 +30,13 @@ export default {
         )
     ),
   async execute(interaction: CommandInteraction) {
-    // Destructure member
-    const { member } = interaction;
+    // Destructure
+    const { options } = interaction;
 
-    // If subcommand is give
-    if (interaction.options.getSubcommand() === 'give') {
-      // Execute give addon
+    // Module - Give
+    if (options.getSubcommand() === 'give') {
+      // Execute Module - Give
       await give(interaction);
     }
-
-    // Send debug message
-    await logger.debug(
-      `Guild: ${interaction?.guild?.id} User: ${
-        interaction?.user?.id
-      } executed /${
-        interaction.commandName
-      } ${interaction.options.getSubcommand()}`
-    );
   },
 };
