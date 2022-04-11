@@ -1,15 +1,15 @@
-import logger from "../../handlers/logger";
-import config from "../../../config.json";
-import deployCommands from "../../helpers/deployCommands";
-import dbGuildFix from "../../helpers/dbGuildFix";
-import dbMemberFix from "../../helpers/dbMemberFix";
+import logger from '../../handlers/logger';
+import config from '../../../config.json';
+import deployCommands from '../../helpers/deployCommands';
+import dbGuildFix from '../../helpers/dbGuildFix';
+import dbMemberFix from '../../helpers/dbMemberFix';
 
-import userSchema from "../../helpers/database/models/userSchema";
+import userSchema from '../../helpers/database/models/userSchema';
 
-import { Client } from "discord.js";
-import updatePresence from "../../helpers/updatePresence";
+import { Client } from 'discord.js';
+import updatePresence from '../../helpers/updatePresence';
 export default {
-  name: "ready",
+  name: 'ready',
   once: true,
   async execute(client: Client) {
     // Send info message
@@ -28,6 +28,19 @@ export default {
         });
         await dbGuildFix(guild);
       });
+    }
+
+    if (client === null) return;
+    if (client.application === null) return;
+
+    if (!config?.devMode) {
+      client?.application?.commands
+        ?.set([], config.bot.guildId)
+        .then(async (commands) => {
+          logger.info(
+            `Removed all guild based commands from ${config.bot.guildId}`
+          );
+        });
     }
 
     if (config.clearUnused) {

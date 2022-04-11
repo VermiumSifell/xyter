@@ -1,12 +1,12 @@
-import schedule from "node-schedule";
-import users from "../helpers/database/models/userSchema";
-import shopRoles from "../helpers/database/models/shopRolesSchema";
-import guilds from "../helpers/database/models/guildSchema";
-import logger from "./logger";
-import { Client } from "discord.js";
+import schedule from 'node-schedule';
+import users from '../helpers/database/models/userSchema';
+import shopRoles from '../helpers/database/models/shopRolesSchema';
+import guilds from '../helpers/database/models/guildSchema';
+import logger from './logger';
+import { Client } from 'discord.js';
 
 export default async (client: Client) => {
-  schedule.scheduleJob("*/5 * * * *", async () => {
+  schedule.scheduleJob('*/5 * * * *', async () => {
     shopRoles.find().then(async (shopRoles: any) => {
       shopRoles.map(async (shopRole: any) => {
         const payed = new Date(shopRole.lastPayed);
@@ -37,10 +37,12 @@ export default async (client: Client) => {
             const rGuild = await client.guilds.cache.get(`${shopRole.guildId}`);
             const rMember = await rGuild?.members.fetch(`${shopRole.userId}`);
 
+            shopRoles.deleteOne({ _id: shopRole._id });
+
             await rMember?.roles
               .remove(`${shopRole.roleId}`)
-              .then(async (test) => console.log("4", test))
-              .catch(async (test) => console.log("5", test)); // Removes all roles
+              .then(async (test) => console.log('4', test))
+              .catch(async (test) => console.log('5', test)); // Removes all roles
           }
 
           shopRole.lastPayed = new Date();
@@ -54,6 +56,6 @@ export default async (client: Client) => {
       });
     });
 
-    await logger.debug("Checking schedules! (Every 5 minutes)");
+    await logger.debug('Checking schedules! (Every 5 minutes)');
   });
 };

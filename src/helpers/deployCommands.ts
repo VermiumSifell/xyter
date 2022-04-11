@@ -20,17 +20,22 @@ export default async () => {
     body: commands,
   });
 
-  await rest
-    .put(
-      Routes.applicationGuildCommands(config.bot.clientId, config.bot.guildId),
-      {
-        body: commands,
-      }
-    )
-    .then(async () =>
-      logger.info('Successfully registered application commands.')
-    )
-    .catch(async (err) => {
-      await logger.error(err);
-    });
+  if (config?.devMode) {
+    await rest
+      .put(
+        Routes.applicationGuildCommands(
+          config.bot.clientId,
+          config.bot.guildId
+        ),
+        {
+          body: commands,
+        }
+      )
+      .then(async () =>
+        logger.info('Successfully registered application commands.')
+      )
+      .catch(async (err) => {
+        await logger.error(err);
+      });
+  }
 };
