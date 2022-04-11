@@ -39,7 +39,7 @@ export default async (interaction: CommandInteraction) => {
     return interaction?.editReply({ embeds: [embed] });
   }
 
-  const roleExist = await shopRolesSchema?.find({
+  const roleExist = await shopRolesSchema?.findOne({
     guildId: guild?.id,
     userId: user?.id,
     roleId: optionRole?.id,
