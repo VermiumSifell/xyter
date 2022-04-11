@@ -37,6 +37,8 @@ export default async (client: Client) => {
             const rGuild = await client.guilds.cache.get(`${shopRole.guildId}`);
             const rMember = await rGuild?.members.fetch(`${shopRole.userId}`);
 
+            shopRoles.deleteOne({ _id: shopRole._id });
+
             await rMember?.roles
               .remove(`${shopRole.roleId}`)
               .then(async (test) => console.log("4", test))

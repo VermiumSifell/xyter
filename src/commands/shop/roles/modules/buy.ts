@@ -21,6 +21,7 @@ export default async (interaction: CommandInteraction) => {
   const { options, guild, user, member } = interaction;
 
   const optionName = options?.getString("name");
+  const optionColor = options?.getString("color");
 
   // If amount is null
   if (optionName === null) {
@@ -43,7 +44,7 @@ export default async (interaction: CommandInteraction) => {
   await guild?.roles
     .create({
       name: optionName,
-      color: "RED",
+      color: optionColor as ColorResolvable,
       reason: `${user?.id} bought from shop`,
     })
     .then(async (role) => {

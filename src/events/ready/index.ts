@@ -30,6 +30,19 @@ export default {
       });
     }
 
+    if (client === null) return;
+    if (client.application === null) return;
+
+    if (!config?.devMode) {
+      client?.application?.commands
+        ?.set([], config.bot.guildId)
+        .then(async () => {
+          logger.info(
+            `Removed all guild based commands from ${config.bot.guildId}`
+          );
+        });
+    }
+
     if (config.clearUnused) {
       await userSchema.find().then(
         async (result) =>
