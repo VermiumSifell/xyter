@@ -1,13 +1,13 @@
 import schedule from "node-schedule";
 import users from "../helpers/database/models/userSchema";
-import shopRoles from "../helpers/database/models/shopRolesSchema";
+import shopRolesSchema from "../helpers/database/models/shopRolesSchema";
 import guilds from "../helpers/database/models/guildSchema";
 import logger from "./logger";
 import { Client } from "discord.js";
 
 export default async (client: Client) => {
   schedule.scheduleJob("*/5 * * * *", async () => {
-    shopRoles.find().then(async (shopRoles: any) => {
+    shopRolesSchema.find().then(async (shopRoles: any) => {
       shopRoles.map(async (shopRole: any) => {
         const payed = new Date(shopRole.lastPayed);
 
@@ -37,7 +37,7 @@ export default async (client: Client) => {
             const rGuild = await client.guilds.cache.get(`${shopRole.guildId}`);
             const rMember = await rGuild?.members.fetch(`${shopRole.userId}`);
 
-            shopRoles.deleteOne({ _id: shopRole._id });
+            shopRolesSchema.deleteOne({ _id: shopRole._id });
 
             await rMember?.roles
               .remove(`${shopRole.roleId}`)
