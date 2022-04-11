@@ -34,12 +34,16 @@ export default async (client: Client) => {
           if (userDB === null) return;
 
           if (userDB.credits < pricePerHour) {
-            const rGuild = await client.guilds.cache.get(`${shopRole.guildId}`);
-            const rMember = await rGuild?.members.fetch(`${shopRole.userId}`);
+            const rGuild = client?.guilds?.cache?.get(`${shopRole.guildId}`);
+            const rMember = await rGuild?.members?.fetch(`${shopRole.userId}`);
 
-            shopRolesSchema.deleteOne({ _id: shopRole._id });
+            shopRolesSchema
+              .deleteOne({ _id: shopRole._id })
+              .then(async () =>
+                logger.debug(`Removed ${shopRole._id} from shopRoles`)
+              );
 
-            await rMember?.roles
+            return await rMember?.roles
               .remove(`${shopRole.roleId}`)
               .then(async (test) => console.log("4", test))
               .catch(async (test) => console.log("5", test)); // Removes all roles
