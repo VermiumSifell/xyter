@@ -1,10 +1,6 @@
 // Dependencies
 import { Message } from "discord.js";
 
-// Models
-import userSchema from "../../helpers/database/models/userSchema";
-import guildSchema from "../../helpers/database/models/guildSchema";
-
 // Modules
 import points from "./modules/points";
 import credits from "./modules/credits";

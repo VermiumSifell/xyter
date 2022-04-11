@@ -1,4 +1,3 @@
-import logger from "../../../handlers/logger";
 import counters from "../../../helpers/database/models/counterSchema";
 
 import { Message } from "discord.js";
