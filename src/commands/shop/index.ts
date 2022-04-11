@@ -47,15 +47,15 @@ export default {
                 )
             )
         )
-    )
-    .addSubcommand((command) =>
-      command
-        .setName("cancel")
-        .setDescription("Cancel a custom role")
-        .addRoleOption((option) =>
-          option
-            .setName("role")
-            .setDescription("Name of the role you wish to cancel.")
+        .addSubcommand((command) =>
+          command
+            .setName("cancel")
+            .setDescription("Cancel a custom role")
+            .addRoleOption((option) =>
+              option
+                .setName("role")
+                .setDescription("Name of the role you wish to cancel.")
+            )
         )
     ),
   async execute(interaction: CommandInteraction) {
