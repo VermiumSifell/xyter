@@ -1,53 +1,26 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.wordWrapColumn": 100,
-  "editor.tabSize": 2,
-  "editor.formatOnSave": true,
-  "files.eol": "\n",
-  "prettier.endOfLine": "lf",
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "es5",
-  "peacock.color": "#369",
+  "editor.bracketPairColorization.enabled": true,
   "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"],
-  "cSpell.words": [
-    "Controlpanel",
-    "discordjs",
-    "hoster",
-    "pino",
-    "runned",
-    "Sifell",
-    "Timout",
-    "upsert",
-    "uuidv",
-    "Vermium",
-    "Xyter",
-    "Xyter's",
-    "Zyner"
-  ],
+  "editor.cursorBlinking": "phase",
+  "editor.cursorSmoothCaretAnimation": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.fontFamily": "Cascadia Code",
   "editor.fontLigatures": true,
-  "git.enableCommitSigning": true,
-  "typescript.tsdk": "node_modules\\typescript\\lib",
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#407fbf",
-    "activityBar.activeBorder": "#77284f",
-    "activityBar.background": "#407fbf",
-    "activityBar.foreground": "#e7e7e7",
-    "activityBar.inactiveForeground": "#e7e7e799",
-    "activityBarBadge.background": "#77284f",
-    "activityBarBadge.foreground": "#e7e7e7",
-    "sash.hoverBorder": "#407fbf",
-    "statusBar.background": "#336699",
-    "statusBar.foreground": "#e7e7e7",
-    "statusBarItem.hoverBackground": "#407fbf",
-    "statusBarItem.remoteBackground": "#336699",
-    "statusBarItem.remoteForeground": "#e7e7e7",
-    "titleBar.activeBackground": "#336699",
-    "titleBar.activeForeground": "#e7e7e7",
-    "titleBar.inactiveBackground": "#33669999",
-    "titleBar.inactiveForeground": "#e7e7e799"
+  "editor.formatOnSave": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.minimap.maxColumn": 200,
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.showSlider": "always",
+  "editor.tabSize": 2,
+  "editor.wordWrapColumn": 100,
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "cSpell.customDictionaries": {
+    "custom-dictionary-workspace": {
+      "name": "custom-dictionary-workspace",
+      "path": "${workspaceFolder:xyter}/.cspell/custom-dictionary-workspace.txt",
+      "addWords": true,
+      "scope": "workspace"
+    }
   }
 }

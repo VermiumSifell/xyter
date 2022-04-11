@@ -8,7 +8,6 @@ import timeouts from "../helpers/database/models/timeoutSchema";
 import logger from "../handlers/logger";
 
 import { Guild } from "discord.js";
-import updatePresence from "../helpers/updatePresence";
 
 export default async (guild: Guild) => {
   guilds

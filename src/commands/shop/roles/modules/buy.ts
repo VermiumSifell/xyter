@@ -56,8 +56,10 @@ export default async (interaction: CommandInteraction) => {
       const userDB = await fetchUser(user, guild);
 
       if (userDB === null) return;
+      if (guildDB === null) return;
+      if (guildDB.shop === null) return;
 
-      const { pricePerHour } = guildDB?.shop?.roles;
+      const { pricePerHour } = guildDB.shop.roles;
 
       userDB.credits -= pricePerHour;
 
