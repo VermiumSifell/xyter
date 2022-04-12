@@ -4,10 +4,10 @@ import { ChannelType } from "discord-api-types/v10";
 import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
 
 // Configurations
-import { colors, footer } from "../../../../config.json";
+import { colors, footer } from "../../../../../config.json";
 
 // Models
-import counterSchema from "../../../database/schemas/counter";
+import counterSchema from "../../../../database/schemas/counter";
 
 // Function
 export default {
