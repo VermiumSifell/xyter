@@ -40,7 +40,7 @@ export default {
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
-            .setTitle("[:toolbox:] Admin - Counters (Delete)")
+            .setTitle("[:toolbox:] Manage - Counters (Delete)")
             .setDescription(`${discordChannel} is not a counting channel!`)
             .setTimestamp(new Date())
             .setColor(colors?.error as ColorResolvable)
@@ -58,7 +58,7 @@ export default {
         return interaction?.editReply({
           embeds: [
             new MessageEmbed()
-              .setTitle("[:toolbox:] Admin - Counters (Delete)")
+              .setTitle("[:toolbox:] Manage - Counters (Delete)")
               .setDescription(
                 `${discordChannel} is no longer an counting channel.`
               )

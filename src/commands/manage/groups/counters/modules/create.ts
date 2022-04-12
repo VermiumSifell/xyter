@@ -53,7 +53,7 @@ export default {
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
-            .setTitle("[:toolbox:] Admin - Counters (Create)")
+            .setTitle("[:toolbox:] Manage - Counters (Create)")
             .setDescription(
               `${discordChannel} is already a counting channel, currently it's counting ${counter.word}!`
             )
@@ -79,7 +79,7 @@ export default {
         return interaction?.editReply({
           embeds: [
             new MessageEmbed()
-              .setTitle("[:toolbox:] Admin - Counters (Create)")
+              .setTitle("[:toolbox:] Manage - Counters (Create)")
               .setDescription(
                 `${discordChannel} is now counting when hearing word ${countingWord} and it starts at number ${
                   startValue || 0
