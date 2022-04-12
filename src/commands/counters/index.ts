@@ -3,41 +3,19 @@ import { CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 
 // Modules
-import view from "./modules/view";
-
-// Handlers
-import logger from "../../handlers/logger";
+import moduleView from "./modules/view";
 
 // Function
 export default {
   data: new SlashCommandBuilder()
     .setName("counters")
     .setDescription("Manage counters.")
-    .addSubcommand((subcommand) =>
-      subcommand
-        .setName("view")
-        .setDescription("View a counter.")
-        .addChannelOption((option) =>
-          option
-            .setName("channel")
-            .setDescription("The counter channel you want to view")
-            .setRequired(true)
-        )
-    ),
+    .addSubcommand(moduleView.data),
   async execute(interaction: CommandInteraction) {
-    const { options, guild, user, commandName } = interaction;
+    const { options } = interaction;
 
-    // Module - View
     if (options?.getSubcommand() === "view") {
-      // Execute Module - View
-      return view(interaction);
+      return moduleView.execute(interaction);
     }
-
-    // Send debug message
-    return logger?.debug(
-      `Guild: ${guild?.id} User: ${
-        user?.id
-      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
-    );
   },
 };

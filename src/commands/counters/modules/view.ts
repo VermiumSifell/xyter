@@ -1,54 +1,62 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import { ChannelType } from "discord-api-types/v10";
+import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
 
 // Configurations
-import config from "../../../../config.json";
+import { colors, footer } from "../../../../config.json";
 
 // Models
 import counterSchema from "../../../database/schemas/counter";
 
 // Function
-export default async (interaction: CommandInteraction) => {
-  // Destructure member
-  const { options, guild } = interaction;
+export default {
+  data: (command: SlashCommandSubcommandBuilder) => {
+    return command
+      .setName("view")
+      .setDescription("View a counter.")
+      .addChannelOption((option) =>
+        option
+          .setName("channel")
+          .setDescription("The counter channel you want to view")
+          .setRequired(true)
+          .addChannelType(ChannelType.GuildText as number)
+      );
+  },
+  execute: async (interaction: CommandInteraction) => {
+    const { options, guild } = interaction;
 
-  // Get options
-  const optionChannel = options?.getChannel("channel");
+    const discordChannel = options?.getChannel("channel");
 
-  const counter = await counterSchema?.findOne({
-    guildId: guild?.id,
-    channelId: optionChannel?.id,
-  });
+    const counter = await counterSchema?.findOne({
+      guildId: guild?.id,
+      channelId: discordChannel?.id,
+    });
 
-  if (!counter) {
-    // Create embed object
-    const embed = {
-      title: ":1234: Counters [View]" as string,
-      description: `${optionChannel} is not a counting channel.` as string,
-      timestamp: new Date(),
-      color: config?.colors?.error as ColorResolvable,
-      footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
-      },
-    };
+    if (counter === null) {
+      return interaction?.editReply({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("[:1234:] Counters (View)")
+            .setDescription(`${discordChannel} is not a counting channel!`)
+            .setTimestamp(new Date())
+            .setColor(colors?.error as ColorResolvable)
+            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+        ],
+      });
+    }
 
-    // Send interaction reply
-    return interaction?.editReply({ embeds: [embed] });
-  }
-
-  // Embed object
-  const embed = {
-    title: ":1234: Counters [View]" as string,
-    color: config.colors.success as ColorResolvable,
-    description: `${optionChannel} is currently at number ${counter?.counter}.`,
-    timestamp: new Date(),
-    footer: {
-      iconURL: config?.footer?.icon as string,
-      text: config?.footer?.text as string,
-    },
-  };
-
-  // Send interaction reply
-  return interaction?.editReply({ embeds: [embed] });
+    return interaction?.editReply({
+      embeds: [
+        new MessageEmbed()
+          .setTitle("[:1234:] Counters (View)")
+          .setDescription(
+            `${discordChannel} is currently at number ${counter?.counter}.`
+          )
+          .setTimestamp(new Date())
+          .setColor(colors?.success as ColorResolvable)
+          .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+      ],
+    });
+  },
 };
