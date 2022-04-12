@@ -28,6 +28,8 @@ export default async (interaction: CommandInteraction) => {
     guildId: guild?.id,
   });
 
+  if (guildDB === null) return;
+
   // Modify values
   guildDB.credits.status = status !== null ? status : guildDB?.credits?.status;
   guildDB.credits.rate = rate !== null ? rate : guildDB?.credits?.rate;
