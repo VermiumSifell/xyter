@@ -14,7 +14,6 @@ export default {
   async execute(message: Message) {
     const { author, guild } = message;
 
-    // If message author is bot
     if (author?.bot) return;
 
     if (guild === null) return;
