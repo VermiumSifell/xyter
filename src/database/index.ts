@@ -1,9 +1,15 @@
 import mongoose from "mongoose";
 
-import * as config from "../../config.json";
-import logger from "../handlers/logger";
+import { mongodb } from "../../config.json";
+import logger from "../logger";
 
 export default async () => {
-  await mongoose.connect(config.mongodb.url);
-  logger.info("Connected to the database");
+  await mongoose
+    .connect(mongodb?.url)
+    ?.then(async () => {
+      logger.database.info("Successfully connected!");
+    })
+    ?.catch(async () => {
+      logger.database.error("Error whilst connecting!");
+    });
 };
