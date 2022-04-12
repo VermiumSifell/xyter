@@ -32,6 +32,6 @@ export default {
     await points(guildObj, userObj, message);
 
     // Execute Module - Counters
-    await counters(guildObj, userObj, message);
+    await counters(message);
   },
 };
