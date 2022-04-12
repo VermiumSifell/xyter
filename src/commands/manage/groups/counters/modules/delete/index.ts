@@ -2,13 +2,13 @@
 import { ColorResolvable, CommandInteraction, MessageEmbed } from "discord.js";
 
 // Configurations
-import { colors, footer } from "../../../../../../config.json";
+import { colors, footer } from "../../../../../../../config.json";
 
 // Handlers
-import logger from "../../../../../logger";
+import logger from "../../../../../../logger";
 
 // Models
-import counterSchema from "../../../../../database/schemas/counter";
+import counterSchema from "../../../../../../database/schemas/counter";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 

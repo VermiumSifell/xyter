@@ -4,13 +4,13 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 
 // Configurations
-import { colors, footer } from "../../../../../../config.json";
+import { colors, footer } from "../../../../../../../config.json";
 
 // Handlers
-import logger from "../../../../../handlers/logger";
+import logger from "../../../../../../handlers/logger";
 
 // Models
-import counterSchema from "../../../../../database/schemas/counter";
+import counterSchema from "../../../../../../database/schemas/counter";
 
 // Function
 export default {
