@@ -7,9 +7,9 @@ export default async () => {
   await mongoose
     .connect(mongodb?.url)
     ?.then(async () => {
-      logger.database.info("Successfully connected!");
+      logger.info("Successfully connected to MongoDB!");
     })
     ?.catch(async () => {
-      logger.database.error("Error whilst connecting!");
+      logger.error("Error whilst connecting to MongoDB!");
     });
 };
