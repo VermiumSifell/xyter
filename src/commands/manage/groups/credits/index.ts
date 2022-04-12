@@ -13,37 +13,28 @@ export default {
   data: (group: SlashCommandSubcommandGroupBuilder) => {
     return group
       .setName("credits")
-      .setDescription("Manage guild credits.")
+      .setDescription("Manage guild member's credits.")
       .addSubcommand(moduleGive.data)
       .addSubcommand(moduleSet.data)
       .addSubcommand(moduleTake.data)
       .addSubcommand(moduleTransfer.data);
   },
   execute: async (interaction: CommandInteraction) => {
-    // Destructure
     const { options } = interaction;
 
-    // Module - Give
     if (options?.getSubcommand() === "give") {
-      // Execute Module - Give
       return moduleGive.execute(interaction);
     }
 
-    // Module - Set
-    else if (options?.getSubcommand() === "set") {
-      // Execute Module - Set
+    if (options?.getSubcommand() === "set") {
       return moduleSet.execute(interaction);
     }
 
-    // Module - Take
-    else if (options?.getSubcommand() === "take") {
-      // Execute Module - Take
+    if (options?.getSubcommand() === "take") {
       return moduleTake.execute(interaction);
     }
 
-    // Module - Transfer
-    else if (options?.getSubcommand() === "transfer") {
-      // Execute Module - Transfer
+    if (options?.getSubcommand() === "transfer") {
       return moduleTransfer.execute(interaction);
     }
   },
