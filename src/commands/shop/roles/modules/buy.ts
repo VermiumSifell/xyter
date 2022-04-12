@@ -13,7 +13,7 @@ import shopRolesSchema from "../../../../database/schemas/shopRole";
 import guildSchema from "../../../../database/schemas/guild";
 
 // Helpers
-import creditNoun from "../../../../helpers/creditNoun";
+import pluralize from "../../../../helpers/pluralize";
 import fetchUser from "../../../../helpers/fetchUser";
 
 // Function
@@ -84,7 +84,7 @@ export default async (interaction: CommandInteraction) => {
         fields: [
           {
             name: "Your balance" as string,
-            value: `${creditNoun(userDB?.credits)}` as string,
+            value: `${pluralize(userDB?.credits, "credit")}` as string,
           },
         ],
         timestamp: new Date(),

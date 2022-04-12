@@ -11,7 +11,7 @@ import logger from "../../../handlers/logger";
 import encryption from "../../../handlers/encryption";
 
 // Helpers
-import creditNoun from "../../../helpers/creditNoun";
+import pluralize from "../../../helpers/pluralize";
 
 // Models
 import apiSchema from "../../../database/schemas/api";
@@ -62,7 +62,7 @@ export default async (interaction: CommandInteraction) => {
       fields: [
         {
           name: "Your balance" as string,
-          value: `${creditNoun(userDB?.credits)}` as string,
+          value: `${pluralize(userDB?.credits, "credit")}` as string,
         },
       ],
       timestamp: new Date(),
@@ -84,7 +84,7 @@ export default async (interaction: CommandInteraction) => {
       fields: [
         {
           name: "Your balance" as string,
-          value: `${creditNoun(userDB?.credits)}` as string,
+          value: `${pluralize(userDB?.credits, "credit")}` as string,
         },
       ],
       timestamp: new Date(),
@@ -105,7 +105,7 @@ export default async (interaction: CommandInteraction) => {
       fields: [
         {
           name: "Your balance" as string,
-          value: `${creditNoun(userDB?.credits)}` as string,
+          value: `${pluralize(userDB?.credits, "credit")}` as string,
         },
       ],
       timestamp: new Date(),
@@ -191,7 +191,10 @@ export default async (interaction: CommandInteraction) => {
         ?.then(async () => {
           // Send debug message
           logger?.debug(
-            `User: ${user?.username} redeemed: ${creditNoun(optionAmount)}`
+            `User: ${user?.username} redeemed: ${pluralize(
+              optionAmount,
+              "credit"
+            )}`
           );
 
           // Send DM message

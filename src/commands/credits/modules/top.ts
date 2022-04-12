@@ -8,7 +8,7 @@ import config from "../../../../config.json";
 import userSchema from "../../../database/schemas/user";
 
 // helpers
-import creditNoun from "../../../helpers/creditNoun";
+import pluralize from "../../../helpers/pluralize";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -26,7 +26,7 @@ export default async (interaction: CommandInteraction) => {
 
   // Create entry object
   const entry = (x: any, index: number) =>
-    `**Top ${index + 1}** - <@${x?.userId}> ${creditNoun(x?.credits)}`;
+    `**Top ${index + 1}** - <@${x?.userId}> ${pluralize(x?.credits, "credit")}`;
 
   // Create embed object
   const embed = {

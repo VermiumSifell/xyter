@@ -2,17 +2,17 @@
 import { CommandInteraction, ColorResolvable } from "discord.js";
 
 // Configurations
-import config from "../../../../../config.json";
+import config from "../../../../../../config.json";
 
 // Handlers
-import logger from "../../../../handlers/logger";
+import logger from "../../../../../handlers/logger";
 
 // Helpers
-import creditNoun from "../../../../helpers/creditNoun";
-import saveUser from "../../../../helpers/saveUser";
+import pluralize from "../../../../../helpers/pluralize";
+import saveUser from "../../../../../helpers/saveUser";
 
 // Models
-import fetchUser from "../../../../helpers/fetchUser";
+import fetchUser from "../../../../../helpers/fetchUser";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -135,8 +135,9 @@ export default async (interaction: CommandInteraction) => {
     // Embed object
     const embed = {
       title: ":toolbox: Admin - Credits [Transfer]" as string,
-      description: `You sent ${creditNoun(
-        optionAmount
+      description: `You sent ${pluralize(
+        optionAmount,
+        "credit"
       )} from ${optionFromUser} to ${optionToUser}.`,
       color: config?.colors?.success as ColorResolvable,
       fields: [
@@ -160,8 +161,9 @@ export default async (interaction: CommandInteraction) => {
 
     // Log debug message
     logger?.debug(
-      `Guild: ${guild?.id} User: ${user?.id} transferred ${creditNoun(
-        optionAmount
+      `Guild: ${guild?.id} User: ${user?.id} transferred ${pluralize(
+        optionAmount,
+        "credit"
       )} from ${optionFromUser?.id} to ${optionToUser?.id}.`
     );
 

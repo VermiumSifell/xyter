@@ -5,7 +5,7 @@ import { CommandInteraction, ColorResolvable } from "discord.js";
 import config from "../../../../config.json";
 
 // Helpers
-import creditNoun from "../../../helpers/creditNoun";
+import pluralize from "../../../helpers/pluralize";
 
 // Models
 import fetchUser from "../../../helpers/fetchUser";
@@ -67,7 +67,7 @@ export default async (interaction: CommandInteraction) => {
       title: ":dollar: Credits [Balance]" as string,
       description: `${
         optionUser ? `${optionUser} has` : "You have"
-      } ${creditNoun(userDB.credits)}.` as string,
+      } ${pluralize(userDB.credits, "credit")}.` as string,
       color: config?.colors?.success as ColorResolvable,
       timestamp: new Date(),
       footer: {

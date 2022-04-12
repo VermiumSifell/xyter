@@ -12,7 +12,7 @@ import logger from "../../../handlers/logger";
 import timeouts from "../../../database/schemas/timeout";
 
 // Helpers
-import creditNoun from "../../../helpers/creditNoun";
+import pluralize from "../../../helpers/pluralize";
 import fetchUser from "../../../helpers/fetchUser";
 import fetchGuild from "../../../helpers/fetchGuild";
 
@@ -55,7 +55,10 @@ export default async (interaction: CommandInteraction) => {
       // Create embed object
       const embed = {
         title: ":dollar: Credits [Work]" as string,
-        description: `You have earned ${creditNoun(creditsEarned)}` as string,
+        description: `You have earned ${pluralize(
+          creditsEarned,
+          "credit"
+        )}` as string,
         color: config?.colors?.success as ColorResolvable,
         timestamp: new Date(),
         footer: {

@@ -1,5 +1,5 @@
 import config from "../../../config.json";
-import logger from "../../handlers/logger";
+import logger from "../../logger";
 import guilds from "../../database/schemas/guild";
 
 import { Interaction, ColorResolvable } from "discord.js";
@@ -21,21 +21,26 @@ export default {
       // Create guild if it does not exist already
       await guilds.findOne({ guildId: guild?.id }, { new: true, upsert: true });
 
-      try {
-        // Defer reply
-        await interaction.deferReply({ ephemeral: true });
+      // Defer reply
+      await interaction.deferReply({ ephemeral: true });
 
+      try {
         // Execute command
         await command.execute(interaction);
 
-        // Send debug message
-        logger.debug(`Executing command: ${interaction.commandName}`);
+        const { commandName, user, options } = interaction;
+
+        logger?.verbose(
+          `Guild: ${guild?.id} User: ${
+            user?.id
+          } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
+        );
       } catch (e) {
         // Send debug message
         logger.error(e);
 
         // Send interaction reply
-        await interaction.reply({
+        await interaction.editReply({
           embeds: [
             {
               author: {
@@ -49,7 +54,6 @@ export default {
               timestamp: new Date(),
             },
           ],
-          ephemeral: true,
         });
       }
     }

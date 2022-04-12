@@ -2,16 +2,16 @@
 import { CommandInteraction, ColorResolvable } from "discord.js";
 
 // Configurations
-import config from "../../../../../config.json";
+import config from "../../../../../../config.json";
 
 // Handlers
-import logger from "../../../../handlers/logger";
+import logger from "../../../../../handlers/logger";
 
 // Helpers
-import creditNoun from "../../../../helpers/creditNoun";
+import pluralize from "../../../../../helpers/pluralize";
 
 // Models
-import fetchUser from "../../../../helpers/fetchUser";
+import fetchUser from "../../../../../helpers/fetchUser";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -24,11 +24,11 @@ export default async (interaction: CommandInteraction) => {
   // Amount option
   const optionAmount = options?.getInteger("amount");
 
-  // If amount is null
+  // If amount option is null
   if (optionAmount === null) {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Take]" as string,
+      title: ":toolbox: Admin - Credits [Give]" as string,
       description: "We could not read your requested amount." as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date(),
@@ -38,7 +38,7 @@ export default async (interaction: CommandInteraction) => {
       },
     };
 
-    // Send interaction reply
+    // Return interaction reply
     return interaction?.editReply({ embeds: [embed] });
   }
 
@@ -46,8 +46,8 @@ export default async (interaction: CommandInteraction) => {
   if (optionAmount <= 0) {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Take]" as string,
-      description: "You can not take zero credits or below." as string,
+      title: ":toolbox: Admin - Credits [Give]" as string,
+      description: "You can not give zero credits or below." as string,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date(),
       footer: {
@@ -70,7 +70,7 @@ export default async (interaction: CommandInteraction) => {
   if (!toUser) {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Take]" as string,
+      title: ":toolbox: Admin - Credits [Give]" as string,
       description: `We could not find ${optionUser} in our database.`,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date(),
@@ -88,7 +88,7 @@ export default async (interaction: CommandInteraction) => {
   if (toUser?.credits === null) {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Take]" as string,
+      title: ":toolbox: Admin - Credits [Give]" as string,
       description: `We could not find credits for ${optionUser} in our database.`,
       color: config?.colors?.error as ColorResolvable,
       timestamp: new Date(),
@@ -102,17 +102,18 @@ export default async (interaction: CommandInteraction) => {
     return interaction?.editReply({ embeds: [embed] });
   }
 
-  // Withdraw amount from toUser
-  toUser.credits -= optionAmount;
+  // Deposit amount to toUser
+  toUser.credits += optionAmount;
 
   // Save toUser
   await toUser?.save()?.then(async () => {
     // Embed object
     const embed = {
-      title: ":toolbox: Admin - Credits [Set]" as string,
-      description: `We have taken ${creditNoun(
-        optionAmount
-      )} from ${optionUser}`,
+      title: ":toolbox: Admin - Credits [Give]" as string,
+      description: `We have given ${optionUser}, ${pluralize(
+        optionAmount,
+        "credit"
+      )}.`,
       color: config?.colors?.success as ColorResolvable,
       timestamp: new Date(),
       footer: {
@@ -123,9 +124,10 @@ export default async (interaction: CommandInteraction) => {
 
     // Log debug message
     logger?.debug(
-      `Guild: ${guild?.id} User: ${user?.id} set ${
-        optionUser?.id
-      } to ${creditNoun(optionAmount)}.`
+      `Guild: ${guild?.id} User: ${user?.id} gave ${optionUser?.id} ${pluralize(
+        optionAmount,
+        "credit"
+      )}.`
     );
 
     // Return interaction reply

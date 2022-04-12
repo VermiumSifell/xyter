@@ -9,7 +9,7 @@ import logger from "../../../handlers/logger";
 
 // Helpers
 import saveUser from "../../../helpers/saveUser";
-import creditNoun from "../../../helpers/creditNoun";
+import pluralize from "../../../helpers/pluralize";
 
 // Models
 import fetchUser from "../../../helpers/fetchUser";
@@ -143,9 +143,12 @@ export default async (interaction: CommandInteraction) => {
     // Interaction embed object
     const interactionEmbed = {
       title: ":dollar: Credits [Gift]",
-      description: `You sent ${creditNoun(optionAmount)} to ${optionUser}${
+      description: `You sent ${pluralize(
+        optionAmount,
+        "credit"
+      )} to ${optionUser}${
         optionReason ? ` with reason: ${optionReason}` : ""
-      }. Your new credits is ${creditNoun(fromUserDB?.credits)}.`,
+      }. Your new credits is ${pluralize(fromUserDB?.credits, "credit")}.`,
       color: config?.colors?.success as ColorResolvable,
       timestamp: new Date(),
       footer: {
@@ -157,9 +160,15 @@ export default async (interaction: CommandInteraction) => {
     // DM embed object
     const dmEmbed = {
       title: ":dollar: Credits [Gift]" as string,
-      description: `You received ${creditNoun(optionAmount)} from ${user}${
+      description: `You received ${pluralize(
+        optionAmount,
+        "credit"
+      )} from ${user}${
         optionReason ? ` with reason: ${optionReason}` : ""
-      }. Your new credits is ${creditNoun(toUserDB?.credits)}.` as string,
+      }. Your new credits is ${pluralize(
+        toUserDB?.credits,
+        "credit"
+      )}.` as string,
       color: config?.colors?.success as ColorResolvable,
       timestamp: new Date(),
       footer: {
