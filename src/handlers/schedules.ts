@@ -25,6 +25,7 @@ export default async (client: Client) => {
             guildId: shopRole.guildId,
           });
 
+          if (guild === null) return;
           const userDB = await users.findOne({
             userId: shopRole.userId,
             guildId: shopRole.guildId,
