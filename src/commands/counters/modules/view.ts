@@ -5,7 +5,7 @@ import { CommandInteraction, ColorResolvable } from "discord.js";
 import config from "../../../../config.json";
 
 // Models
-import counterSchema from "../../../helpers/database/models/counterSchema";
+import counterSchema from "../../../database/schemas/counter";
 
 // Function
 export default async (interaction: CommandInteraction) => {

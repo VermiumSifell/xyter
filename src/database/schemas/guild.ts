@@ -1,66 +1,85 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const guildSchema = new mongoose.Schema(
+interface IGuild {
+  guildId: string;
+  credits: {
+    status: boolean;
+    rate: number;
+    timeout: number;
+    workRate: number;
+    minimumLength: number;
+    workTimeout: number;
+  };
+  shop: { roles: { status: boolean; pricePerHour: number } };
+  points: {
+    status: boolean;
+    rate: number;
+    minimumLength: number;
+    timeout: number;
+  };
+}
+
+const guildSchema = new Schema<IGuild>(
   {
     guildId: {
-      type: mongoose.SchemaTypes.Decimal128,
+      type: String,
       required: true,
       unique: true,
       index: true,
     },
     credits: {
       status: {
-        type: mongoose.SchemaTypes.Boolean,
+        type: Boolean,
         default: true,
       },
       rate: {
-        type: mongoose.SchemaTypes.Number,
+        type: Number,
         default: 1,
       },
       minimumLength: {
-        type: mongoose.SchemaTypes.Number,
+        type: Number,
         default: 5,
       },
       timeout: {
-        type: mongoose.SchemaTypes.Number,
+        type: Number,
         default: 5000,
       },
       workRate: {
-        type: mongoose.SchemaTypes.Number,
+        type: Number,
         default: 15,
       },
       workTimeout: {
-        type: mongoose.SchemaTypes.Number,
+        type: Number,
         default: 900000,
       },
     },
     shop: {
       roles: {
         status: {
-          type: mongoose.SchemaTypes.Boolean,
+          type: Boolean,
           default: true,
         },
         pricePerHour: {
-          type: mongoose.SchemaTypes.Number,
+          type: Number,
           default: 5,
         },
       },
     },
     points: {
       status: {
-        type: mongoose.SchemaTypes.Boolean,
+        type: Boolean,
         default: false,
       },
       rate: {
-        type: mongoose.SchemaTypes.Number,
+        type: Number,
         default: 1,
       },
       minimumLength: {
-        type: mongoose.SchemaTypes.Number,
+        type: Number,
         default: 5,
       },
       timeout: {
-        type: mongoose.SchemaTypes.Number,
+        type: Number,
         default: 5000,
       },
     },
@@ -68,4 +87,4 @@ const guildSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("guild", guildSchema);
+export default model<IGuild>("guild", guildSchema);

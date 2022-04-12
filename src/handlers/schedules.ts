@@ -1,7 +1,7 @@
 import schedule from "node-schedule";
-import users from "../helpers/database/models/userSchema";
-import shopRolesSchema from "../helpers/database/models/shopRolesSchema";
-import guilds from "../helpers/database/models/guildSchema";
+import users from "../database/schemas/user";
+import shopRolesSchema from "../database/schemas/shopRole";
+import guilds from "../database/schemas/guild";
 import logger from "./logger";
 import { Client } from "discord.js";
 

@@ -9,7 +9,7 @@ import {
 import config from "../../../../../config.json";
 
 // Models
-import shopRolesSchema from "../../../../helpers/database/models/shopRolesSchema";
+import shopRolesSchema from "../../../../database/schemas/shopRole";
 
 // Helpers
 import creditNoun from "../../../../helpers/creditNoun";

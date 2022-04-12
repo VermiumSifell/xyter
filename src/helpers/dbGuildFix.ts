@@ -1,7 +1,7 @@
 // TODO This file will make sure that all guilds always has at least one entry in all collections with "guildId"
 
-import apis from "./database/models/apiSchema";
-import guilds from "./database/models/guildSchema";
+import apis from "../database/schemas/api";
+import guilds from "../database/schemas/guild";
 
 import logger from "../handlers/logger";
 import { Guild } from "discord.js";

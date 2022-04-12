@@ -8,7 +8,7 @@ import config from "../../../../../config.json";
 import logger from "../../../../handlers/logger";
 
 // Models
-import guildSchema from "../../../../helpers/database/models/guildSchema";
+import guildSchema from "../../../../database/schemas/guild";
 
 // Function
 export default async (interaction: CommandInteraction) => {

@@ -9,7 +9,7 @@ import config from "../../../../config.json";
 import logger from "../../../handlers/logger";
 
 // Models
-import timeouts from "../../../helpers/database/models/timeoutSchema";
+import timeouts from "../../../database/schemas/timeout";
 
 // Helpers
 import creditNoun from "../../../helpers/creditNoun";

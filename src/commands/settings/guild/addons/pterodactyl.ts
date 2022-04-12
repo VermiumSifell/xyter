@@ -8,7 +8,7 @@ import config from "../../../../../config.json";
 import logger from "../../../../handlers/logger";
 
 // Models
-import apiSchema from "../../../../helpers/database/models/apiSchema";
+import apiSchema from "../../../../database/schemas/api";
 import encryption from "../../../../handlers/encryption";
 
 // Function

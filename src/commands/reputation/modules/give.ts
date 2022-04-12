@@ -8,7 +8,7 @@ import config from "../../../../config.json";
 import logger from "../../../handlers/logger";
 
 // Models
-import timeoutSchema from "../../../helpers/database/models/timeoutSchema";
+import timeoutSchema from "../../../database/schemas/timeout";
 import fetchUser from "../../../helpers/fetchUser";
 
 // Function

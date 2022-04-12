@@ -9,8 +9,8 @@ import {
 import config from "../../../../../config.json";
 
 // Models
-import shopRolesSchema from "../../../../helpers/database/models/shopRolesSchema";
-import guildSchema from "../../../../helpers/database/models/guildSchema";
+import shopRolesSchema from "../../../../database/schemas/shopRole";
+import guildSchema from "../../../../database/schemas/guild";
 
 // Helpers
 import creditNoun from "../../../../helpers/creditNoun";

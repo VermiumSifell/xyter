@@ -4,7 +4,7 @@ import deployCommands from "../../helpers/deployCommands";
 import dbGuildFix from "../../helpers/dbGuildFix";
 import dbMemberFix from "../../helpers/dbMemberFix";
 
-import userSchema from "../../helpers/database/models/userSchema";
+import userSchema from "../../database/schemas/user";
 
 import { Client } from "discord.js";
 import updatePresence from "../../helpers/updatePresence";

@@ -1,4 +1,4 @@
-import users from "../helpers/database/models/userSchema";
+import users from "../database/schemas/user";
 
 import logger from "../handlers/logger";
 

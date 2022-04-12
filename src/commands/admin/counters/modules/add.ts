@@ -8,7 +8,7 @@ import config from "../../../../../config.json";
 import logger from "../../../../handlers/logger";
 
 // Models
-import counterSchema from "../../../../helpers/database/models/counterSchema";
+import counterSchema from "../../../../database/schemas/counter";
 
 // Function
 export default async (interaction: CommandInteraction) => {

@@ -5,7 +5,7 @@ import { CommandInteraction, ColorResolvable } from "discord.js";
 import config from "../../../../config.json";
 
 // Models
-import userSchema from "../../../helpers/database/models/userSchema";
+import userSchema from "../../../database/schemas/user";
 
 // helpers
 import creditNoun from "../../../helpers/creditNoun";

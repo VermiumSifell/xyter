@@ -14,7 +14,7 @@ import encryption from "../../../handlers/encryption";
 import creditNoun from "../../../helpers/creditNoun";
 
 // Models
-import apiSchema from "../../../helpers/database/models/apiSchema";
+import apiSchema from "../../../database/schemas/api";
 import fetchUser from "../../../helpers/fetchUser";
 
 // Function
