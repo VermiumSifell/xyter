@@ -44,25 +44,20 @@ export default {
     }
 
     if (config.clearUnused) {
-      await userSchema.find().then(
-        async (result) =>
-          await result.map(async (user) => {
-            if (
-              user.credits !== 0 ||
-              user.reputation !== 0 ||
-              user.points !== 0
-            ) {
-              logger.info(`Not removing user: ${user}`);
-            } else {
-              logger.warn(`Removing user: ${user}`);
-              console.log({ userId: user.userId, guildId: user.guildId });
-              await userSchema
-                .deleteOne({ _id: user._id })
-                .then(async (result) => {
-                  logger.error(`Removed user: ${user} ${result}`);
-                });
-            }
-          })
+      await userSchema.find().then(async (result) =>
+        result.map(async (user) => {
+          if (user.credits !== 0) {
+            logger.info(`Not removing user: ${user}`);
+          } else {
+            logger.warn(`Removing user: ${user}`);
+            console.log({ userId: user.userId, guildId: user.guildId });
+            await userSchema
+              .deleteOne({ _id: user._id })
+              .then(async (resultUser) => {
+                logger.error(`Removed user: ${user} ${resultUser}`);
+              });
+          }
+        })
       );
     }
 
