@@ -1,6 +1,11 @@
 //Dependencies
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, ColorResolvable, Permissions } from "discord.js";
+import {
+  CommandInteraction,
+  ColorResolvable,
+  Permissions,
+  MessageEmbed,
+} from "discord.js";
 
 // Configurations
 import { colors, footer } from "../../../config.json";
@@ -23,20 +28,16 @@ export default {
 
     // Check permission
     if (!memberPermissions?.has(Permissions?.FLAGS?.MANAGE_GUILD)) {
-      // Embed object
-      const embed = {
-        title: ":toolbox: Admin" as string,
-        color: colors?.error as ColorResolvable,
-        description: "You do not have permission to manage this!" as string,
-        timestamp: new Date(),
-        footer: {
-          iconURL: footer?.icon as string,
-          text: footer?.text as string,
-        },
-      };
-
-      // Return interaction reply
-      return interaction?.editReply({ embeds: [embed] });
+      return interaction?.editReply({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("[:toolbox:] Manage")
+            .setDescription(`You do not have permission to manage this!`)
+            .setTimestamp(new Date())
+            .setColor(colors?.error as ColorResolvable)
+            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+        ],
+      });
     }
 
     if (options?.getSubcommandGroup() === "credits") {
