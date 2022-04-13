@@ -9,11 +9,9 @@ import fetchGuild from "../../helpers/fetchGuild";
 export default {
   name: "guildCreate",
   async execute(guild: Guild) {
-    // Destructure
     const { client } = guild;
 
     await fetchGuild(guild);
-
     await updatePresence(client);
   },
 };
