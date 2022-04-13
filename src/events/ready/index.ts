@@ -15,5 +15,10 @@ export default {
     await updatePresence(client);
     await devMode(client);
     await deployCommands();
+
+    const guilds = client.guilds.cache;
+    guilds.map(async (guild) => {
+      logger.silly({ name: guild.name, members: guild.memberCount });
+    });
   },
 };
