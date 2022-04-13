@@ -33,41 +33,41 @@ export default async (interaction: CommandInteraction) => {
   // Embed object
   const embed = {
     author: {
-      name: `${discordUser?.username}#${discordUser?.discriminator}` as string,
-      icon_url: discordUser?.displayAvatarURL() as string,
+      name: `${discordUser?.username}#${discordUser?.discriminator}`,
+      icon_url: discordUser?.displayAvatarURL(),
     },
     color: successColor,
     fields: [
       {
-        name: `:dollar: Credits` as string,
-        value: `${userObj?.credits || "Not found"}` as string,
+        name: `:dollar: Credits`,
+        value: `${userObj?.credits || "Not found"}`,
         inline: true,
       },
       {
-        name: `:squeeze_bottle: Level` as string,
-        value: `${userObj?.level || "Not found"}` as string,
+        name: `:squeeze_bottle: Level`,
+        value: `${userObj?.level || "Not found"}`,
         inline: true,
       },
       {
-        name: `:squeeze_bottle: Points` as string,
-        value: `${userObj?.points || "Not found"}` as string,
+        name: `:squeeze_bottle: Points`,
+        value: `${userObj?.points || "Not found"}`,
         inline: true,
       },
       {
-        name: `:loudspeaker: Reputation` as string,
-        value: `${userObj?.reputation || "Not found"}` as string,
+        name: `:loudspeaker: Reputation`,
+        value: `${userObj?.reputation || "Not found"}`,
         inline: true,
       },
       {
-        name: `:rainbow_flag: Language` as string,
-        value: `${userObj?.language || "Not found"}` as string,
+        name: `:rainbow_flag: Language`,
+        value: `${userObj?.language || "Not found"}`,
         inline: true,
       },
     ],
     timestamp: new Date(),
     footer: {
-      iconURL: footerIcon as string,
-      text: footerText as string,
+      iconURL: footerIcon,
+      text: footerText,
     },
   };
 
