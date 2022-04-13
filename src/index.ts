@@ -8,7 +8,7 @@ import schedules from "./schedules";
 import events from "./handlers/events";
 import commands from "./handlers/commands";
 
-import config from "../config.json";
+import { bot } from "../config.json";
 
 const client = new Client({
   intents: [
@@ -25,4 +25,4 @@ schedules(client);
 commands(client);
 events(client);
 
-client?.login(config?.bot?.token);
+client?.login(bot?.token);
