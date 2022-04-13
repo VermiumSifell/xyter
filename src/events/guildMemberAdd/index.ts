@@ -1,7 +1,7 @@
-// Dependencies
+// 3rd party dependencies
 import { GuildMember } from "discord.js";
 
-// Helpers
+// Dependencies
 import updatePresence from "@helpers/updatePresence";
 import fetchUser from "@helpers/fetchUser";
 
