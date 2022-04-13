@@ -1,9 +1,9 @@
-// Dependencies
+// 3rd party dependencies
 import { GuildMember } from "discord.js";
 
-// Helpers
-import updatePresence from "../../helpers/updatePresence";
-import dropUser from "../../helpers/dropUser";
+// Dependencies
+import updatePresence from "@helpers/updatePresence";
+import dropUser from "@helpers/dropUser";
 
 export default {
   name: "guildMemberRemove",

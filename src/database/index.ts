@@ -1,7 +1,11 @@
-import { url } from "@config/database";
-
+// 3rd party dependencies
 import mongoose from "mongoose";
+
+// Dependencies
 import logger from "@logger";
+
+// Configuration
+import { url } from "@config/database";
 
 export default async () => {
   await mongoose

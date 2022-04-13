@@ -7,9 +7,9 @@ import logger from "@logger";
 import { devMode, guildId } from "@config/other";
 
 export default async (client: Client) => {
-  if (!devMode) {
-    client?.application?.commands?.set([], guildId).then(async () => {
-      logger.verbose(`Removed all guild based commands from ${guildId}`);
-    });
-  }
+  // if (!devMode) {
+  //   client?.application?.commands?.set([], guildId).then(async () => {
+  //     logger.verbose(`Removed all guild based commands from ${guildId}`);
+  //   });
+  // }
 };

@@ -1,11 +1,11 @@
 import crypto from "crypto";
-import config from "../../config.json";
 
-const algorithm = "aes-256-ctr";
+import { secretKey, algorithm } from "@config/encryption";
+
 const iv = crypto.randomBytes(16);
 
 const encrypt = (text: any) => {
-  const cipher = crypto.createCipheriv(algorithm, config.secretKey, iv);
+  const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
 
   const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
 
@@ -18,7 +18,7 @@ const encrypt = (text: any) => {
 const decrypt = (hash: any) => {
   const decipher = crypto.createDecipheriv(
     algorithm,
-    config.secretKey,
+    secretKey,
     Buffer.from(hash.iv, "hex")
   );
 

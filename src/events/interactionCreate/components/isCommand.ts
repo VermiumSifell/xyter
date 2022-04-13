@@ -3,7 +3,7 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 
 import logger from "@logger";
 
-import * as embed from "@config/embed";
+import { errorColor, footerText, footerIcon } from "@config/embed";
 
 import guildSchema from "@schemas/guild";
 
@@ -49,9 +49,9 @@ export default async (interaction: CommandInteraction) => {
             .setDescription(
               `There was an error executing the command: **${currentCommand.data.name}**.`
             )
-            .setColor(embed.errorColor)
+            .setColor(errorColor)
             .setTimestamp(new Date())
-            .setFooter({ text: embed.footerText, iconURL: embed.footerIcon }),
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     });
