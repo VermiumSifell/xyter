@@ -1,5 +1,5 @@
 import { successColor, footerText, footerIcon } from "@config/embed";
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import { CommandInteraction } from "discord.js";
 export default async (interaction: CommandInteraction) => {
   const { client } = interaction;
   if (client?.uptime === null) return;
