@@ -1,14 +1,16 @@
 // Dependencies
 import { Client, Intents } from "discord.js"; // discord.js
 
+// Configurations
+import { bot } from "../config.json";
+
 import database from "./database";
-import locale from "./handlers/locale";
 import schedules from "./schedules";
 
+// Handlers
 import events from "./handlers/events";
 import commands from "./handlers/commands";
-
-import { bot } from "../config.json";
+import locale from "./handlers/locale";
 
 const client = new Client({
   intents: [
