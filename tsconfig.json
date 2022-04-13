@@ -14,11 +14,15 @@
     "isolatedModules": true,
     // "removeComments": true,
     "outDir": "./build",
+    "baseUrl": "./src",
+    "typeRoots": ["/types/common", "./node_modules/@types"],
     "paths": {
-      "@interface/*": ["./src/Interfaces/*"]
-    },
-    "typeRoots": ["./src/types/common", "./node_modules/@types"]
+      "@interface/*": ["Interfaces/*"],
+      "@root/*": ["*"],
+      "@config/*": ["config/*"],
+      "@logger": ["logger"]
+    }
   },
-  "exclude": ["./node_modules", "./test"],
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["./node_modules", "./test"]
 }

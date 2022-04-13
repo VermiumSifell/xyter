@@ -1,4 +1,4 @@
-import helpers from "../helpers";
+import helpers from "@root/helpers";
 import config from "../../config.json";
 import schemas from "../database/schemas";
 

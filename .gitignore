@@ -4,6 +4,12 @@ node_modules
 config.json
 package-lock.json
 
+
+**/config/*.ts
+!**/config/index.ts
+!**/config/example.*.ts
+
+
 # Logs
 logs
 *.log

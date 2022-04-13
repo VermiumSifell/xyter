@@ -1,10 +1,11 @@
 // Dependencies
 import { Client, Intents } from "discord.js"; // discord.js
+import "tsconfig-paths/register";
 
 // Configurations
 import { bot } from "../config.json";
 
-import database from "./database";
+import database from "@root/database";
 import schedules from "./schedules";
 
 // Handlers

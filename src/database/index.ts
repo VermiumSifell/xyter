@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
+import { url } from "@config/database";
 
-import { mongodb } from "../../config.json";
-import logger from "../logger";
+import mongoose from "mongoose";
+import logger from "@logger";
 
 export default async () => {
   await mongoose
-    .connect(mongodb?.url)
+    .connect(url)
     ?.then(async () => {
       logger.info("Successfully connected to MongoDB!");
     })

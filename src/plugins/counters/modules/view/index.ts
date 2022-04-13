@@ -7,22 +7,22 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("view")
-      .setDescription("View a counter.")
+      .setDescription("View a counter's count.")
       .addChannelOption((option) =>
         option
           .setName("channel")
-          .setDescription("The counter channel you want to view")
+          .setDescription("The counter channel you want to view.")
           .setRequired(true)
           .addChannelType(ChannelType.GuildText as number)
       );
   },
   execute: async (interaction: CommandInteraction, tools: any) => {
     const { options, guild } = interaction;
-    const { colors, footer } = tools.config;
+    const { config, schemas } = tools;
 
     const discordChannel = options?.getChannel("channel");
 
-    const counter = await tools.schemas.counter?.findOne({
+    const counter = await schemas?.counter?.findOne({
       guildId: guild?.id,
       channelId: discordChannel?.id,
     });
@@ -34,8 +34,11 @@ export default {
             .setTitle("[:1234:] Counters (View)")
             .setDescription(`${discordChannel} is not a counting channel!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(config?.colors?.error as ColorResolvable)
+            .setFooter({
+              text: config?.footer?.text,
+              iconURL: config?.footer?.icon,
+            }),
         ],
       });
     }
@@ -48,8 +51,11 @@ export default {
             `${discordChannel} is currently at number ${counter?.counter}.`
           )
           .setTimestamp(new Date())
-          .setColor(colors?.success as ColorResolvable)
-          .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+          .setColor(config?.colors?.success as ColorResolvable)
+          .setFooter({
+            text: config?.footer?.text,
+            iconURL: config?.footer?.icon,
+          }),
       ],
     });
   },
