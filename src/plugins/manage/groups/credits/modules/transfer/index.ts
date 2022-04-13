@@ -1,5 +1,5 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 
 // Configurations
 import {
