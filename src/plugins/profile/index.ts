@@ -3,43 +3,35 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Modules
-import give from "./modules/give";
+import view from "./modules/view";
 
 // Handlers
 import logger from "../../logger";
 
 // Function
 export default {
+  metadata: { author: "Zyner" },
   data: new SlashCommandBuilder()
-    .setName("reputation")
-    .setDescription("Give reputation.")
+    .setName("profile")
+    .setDescription("Check a profile.")
     .addSubcommand((subcommand) =>
       subcommand
-        .setName("give")
-        .setDescription("Give reputation to a user")
+        .setName("view")
+        .setDescription("View a profile.")
         .addUserOption((option) =>
           option
             .setName("target")
-            .setDescription("The user you want to repute.")
-            .setRequired(true)
-        )
-        .addStringOption((option) =>
-          option
-            .setName("type")
-            .setDescription("What type of reputation you want to repute")
-            .setRequired(true)
-            .addChoice("Positive", "positive")
-            .addChoice("Negative", "negative")
+            .setDescription("The profile you wish to view")
         )
     ),
   async execute(interaction: CommandInteraction) {
     // Destructure
     const { options, guild, user, commandName } = interaction;
 
-    // Module - Give
-    if (options?.getSubcommand() === "give") {
-      // Execute Module - Give
-      await give(interaction);
+    // Module - View
+    if (options?.getSubcommand() === "view") {
+      // Execute Module - View
+      return view(interaction);
     }
 
     // Send debug message

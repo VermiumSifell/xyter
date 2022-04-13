@@ -10,6 +10,7 @@ import moduleWork from "./modules/work";
 
 // Function
 export default {
+  metadata: { author: "Zyner" },
   data: new SlashCommandBuilder()
     .setName("credits")
     .setDescription("Manage your credits.")
@@ -17,23 +18,23 @@ export default {
     .addSubcommand(moduleGift.data)
     .addSubcommand(moduleTop.data)
     .addSubcommand(moduleWork.data),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: CommandInteraction, tools: any) {
     const { options } = interaction;
 
     if (options?.getSubcommand() === "balance") {
-      return moduleBalance.execute(interaction);
+      return moduleBalance.execute(interaction, tools);
     }
 
     if (options?.getSubcommand() === "gift") {
-      return moduleGift.execute(interaction);
+      return moduleGift.execute(interaction, tools);
     }
 
     if (options?.getSubcommand() === "top") {
-      return moduleTop.execute(interaction);
+      return moduleTop.execute(interaction, tools);
     }
 
     if (options?.getSubcommand() === "work") {
-      return moduleWork.execute(interaction);
+      return moduleWork.execute(interaction, tools);
     }
   },
 };

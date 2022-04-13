@@ -16,7 +16,7 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("top").setDescription("Check the top balance.");
   },
-  execute: async (interaction: CommandInteraction) => {
+  execute: async (interaction: CommandInteraction, tools: any) => {
     // Get all users in the guild
 
     const usersDB = await userSchema.find({ guildId: interaction?.guild?.id });

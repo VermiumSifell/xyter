@@ -1,15 +1,8 @@
 // Dependencies
+import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
-import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
 
-// Configurations
-import { colors, footer } from "../../../../../config.json";
-
-// Models
-import counterSchema from "../../../../database/schemas/counter";
-
-// Function
 export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
@@ -23,12 +16,13 @@ export default {
           .addChannelType(ChannelType.GuildText as number)
       );
   },
-  execute: async (interaction: CommandInteraction) => {
+  execute: async (interaction: CommandInteraction, tools: any) => {
     const { options, guild } = interaction;
+    const { colors, footer } = tools.config;
 
     const discordChannel = options?.getChannel("channel");
 
-    const counter = await counterSchema?.findOne({
+    const counter = await tools.schemas.counter?.findOne({
       guildId: guild?.id,
       channelId: discordChannel?.id,
     });

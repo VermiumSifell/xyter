@@ -13,9 +13,10 @@ import logger from "../../logger";
 
 // Function
 export default {
+  metadata: { author: "Zyner" },
   data: new SlashCommandBuilder()
     .setName("shop")
-    .setDescription("Open our shop.")
+    .setDescription("Purchase some items using your credits.")
     .addSubcommand((subcommand) =>
       subcommand
         .setName("pterodactyl")

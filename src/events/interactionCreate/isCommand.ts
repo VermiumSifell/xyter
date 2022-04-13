@@ -3,6 +3,8 @@ import config from "../../../config.json";
 import logger from "../../logger";
 import guilds from "../../database/schemas/guild";
 
+import tools from "../../tools";
+
 export default async (interaction: CommandInteraction) => {
   if (!interaction.isCommand()) return;
 
@@ -22,7 +24,7 @@ export default async (interaction: CommandInteraction) => {
 
   try {
     // Execute command
-    await command.execute(interaction);
+    await command.execute(interaction, tools);
 
     const { commandName, user } = interaction;
 

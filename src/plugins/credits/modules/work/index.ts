@@ -22,7 +22,7 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("work").setDescription("Work for credits.");
   },
-  execute: async (interaction: CommandInteraction) => {
+  execute: async (interaction: CommandInteraction, tools: any) => {
     // Destructure member
     const { guild, user } = interaction;
 

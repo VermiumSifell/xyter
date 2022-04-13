@@ -16,6 +16,7 @@ import counters from "./groups/counters";
 
 // Function
 export default {
+  metadata: { author: "Zyner" },
   data: new SlashCommandBuilder()
     .setName("manage")
     .setDescription("Manage your guild.")

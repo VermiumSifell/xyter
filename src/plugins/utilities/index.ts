@@ -12,6 +12,7 @@ import logger from "../../logger";
 
 // Function
 export default {
+  metadata: { author: "Zyner" },
   data: new SlashCommandBuilder()
     .setName("utilities")
     .setDescription("Common utilities.")

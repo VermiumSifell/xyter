@@ -24,7 +24,7 @@ export default {
           .setRequired(false)
       );
   },
-  execute: async (interaction: CommandInteraction) => {
+  execute: async (interaction: CommandInteraction, tools: any) => {
     // Destructure
     const { options, user, guild } = interaction;
 

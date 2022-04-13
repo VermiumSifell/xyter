@@ -11,6 +11,7 @@ import logger from "../../logger";
 
 // Function
 export default {
+  metadata: { author: "Zyner" },
   data: new SlashCommandBuilder()
     .setName("settings")
     .setDescription("Manage settings.")

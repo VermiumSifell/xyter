@@ -37,7 +37,7 @@ export default {
         option.setName("reason").setDescription("Your reason.")
       );
   },
-  execute: async (interaction: CommandInteraction) => {
+  execute: async (interaction: CommandInteraction, tools: any) => {
     const { options, user, guild, client } = interaction;
 
     const optionUser = options?.getUser("user");

@@ -6,11 +6,11 @@ import { Routes } from "discord-api-types/v9";
 
 export default async () => {
   const commands = [];
-  const commandFiles = fs.readdirSync("./src/commands");
+  const commandFiles = fs.readdirSync("./src/plugins");
 
   for (const file of commandFiles) {
     // eslint-disable-next-line  global-require
-    const command = require(`../commands/${file}`);
+    const command = require(`../plugins/${file}`);
     commands.push(command.default.data.toJSON());
   }
 
