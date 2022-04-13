@@ -16,36 +16,46 @@ import fetchUser from "@helpers/fetchUser";
 
 export default {
   data: (command: SlashCommandSubcommandBuilder) => {
-    return command
-      .setName("balance")
-      .setDescription("Check a user's balance.")
-      .addUserOption((option) =>
-        option
-          .setName("user")
-          .setDescription("The user whose balance you want to check.")
-          .setRequired(false)
-      );
+    return (
+      command
+        .setName("balance")
+        .setDescription("Check a user's balance.")
+
+        // User
+        .addUserOption((option) =>
+          option
+            .setName("user")
+            .setDescription("The user whose balance you want to check.")
+        )
+    );
   },
   execute: async (interaction: CommandInteraction) => {
-    // Destructure
     const { options, user, guild } = interaction;
 
-    // User option
-    const optionUser = options?.getUser("user");
+    const discordUser = options?.getUser("user");
 
-    if (guild === null) return;
+    if (guild === null) {
+      return interaction?.editReply({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("[:dollar:] Credits (Balance)")
+            .setDescription(`We can not find your guild!`)
+            .setTimestamp(new Date())
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
+        ],
+      });
+    }
 
-    // Get credit object
-    const userObj = await fetchUser(optionUser || user, guild);
+    const userObj = await fetchUser(discordUser || user, guild);
 
-    // If userObj does not exist
     if (userObj === null) {
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:dollar:] Credits (Balance)")
             .setDescription(
-              `We can not find ${optionUser || "you"} in our database!`
+              `We can not find ${discordUser || "you"} in our database!`
             )
             .setTimestamp(new Date())
             .setColor(errorColor)
@@ -54,7 +64,6 @@ export default {
       });
     }
 
-    // If userObj.credits does not exist
     if (userObj.credits === null) {
       return interaction?.editReply({
         embeds: [
@@ -62,7 +71,7 @@ export default {
             .setTitle("[:dollar:] Credits (Balance)")
             .setDescription(
               `We can not find credits for ${
-                optionUser || "you"
+                discordUser || "you"
               } in our database!`
             )
             .setTimestamp(new Date())
@@ -77,7 +86,7 @@ export default {
         new MessageEmbed()
           .setTitle("[:dollar:] Credits (Balance)")
           .setDescription(
-            `${optionUser || "You"} have ${pluralize(
+            `${discordUser || "You"} have ${pluralize(
               userObj.credits,
               "credit"
             )}.`
