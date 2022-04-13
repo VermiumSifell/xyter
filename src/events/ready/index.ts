@@ -3,7 +3,7 @@ import { Client } from "discord.js";
 import logger from "../../logger";
 
 // Helpers
-import deployCommands from "../../helpers/deployCommands";
+import deployCommands from "../../handlers/deployCommands";
 import updatePresence from "../../helpers/updatePresence";
 import devMode from "../../helpers/devMode";
 
