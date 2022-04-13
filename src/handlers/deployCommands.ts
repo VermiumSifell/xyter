@@ -15,15 +15,17 @@ export default async () => {
 
     const pluginList = [] as any;
 
-    await plugins?.map(async (pluginName: any) => {
-      const plugin = await import(`../plugins/${pluginName}`);
+    await Promise.all(
+      plugins?.map(async (pluginName: any) => {
+        const plugin = await import(`../plugins/${pluginName}`);
 
-      pluginList.push(plugin.default.data.toJSON());
+        pluginList.push(plugin.default.data.toJSON());
 
-      logger?.debug(
-        `Successfully deployed plugin: ${plugin?.default?.data?.name} from ${plugin.default?.metadata?.author}`
-      );
-    });
+        logger?.debug(
+          `Successfully deployed plugin: ${plugin?.default?.data?.name} from ${plugin.default?.metadata?.author}`
+        );
+      })
+    );
 
     const rest = new REST({ version: "9" }).setToken(token);
 
@@ -31,9 +33,9 @@ export default async () => {
       .put(Routes.applicationCommands(clientId), {
         body: pluginList,
       })
-      .then(async () =>
-        logger.info("Successfully registered application commands.")
-      )
+      .then(async () => {
+        logger.info("Successfully registered application commands.");
+      })
       .catch(async (err: any) => {
         logger.error(err);
       });

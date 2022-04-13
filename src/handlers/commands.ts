@@ -11,13 +11,18 @@ export default async (client: Client) => {
       return logger?.error(new Error(error));
     }
 
-    await plugins?.map(async (pluginName: any) => {
-      const plugin = await import(`../plugins/${pluginName}`);
+    await Promise.all(
+      plugins?.map(async (pluginName: any) => {
+        const plugin = await import(`../plugins/${pluginName}`);
 
-      await client?.commands?.set(plugin?.default?.data?.name, plugin?.default);
-      logger?.debug(
-        `Successfully loaded plugin: ${plugin?.default?.data?.name} from ${plugin.default?.metadata?.author}`
-      );
-    });
+        await client?.commands?.set(
+          plugin?.default?.data?.name,
+          plugin?.default
+        );
+        logger?.debug(
+          `Successfully loaded plugin: ${plugin?.default?.data?.name} from ${plugin.default?.metadata?.author}`
+        );
+      })
+    );
   });
 };
