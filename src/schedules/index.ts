@@ -1,8 +1,8 @@
 import schedule from "node-schedule";
-import users from "../database/schemas/user";
-import shopRolesSchema from "../database/schemas/shopRole";
-import guilds from "../database/schemas/guild";
-import logger from "./logger";
+import users from "../../database/schemas/user";
+import shopRolesSchema from "../../database/schemas/shopRole";
+import guilds from "../../database/schemas/guild";
+import logger from "../logger";
 import { Client } from "discord.js";
 
 export default async (client: Client) => {

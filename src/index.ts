@@ -3,7 +3,7 @@ import { Client, Intents } from "discord.js"; // discord.js
 
 import database from "./database";
 import locale from "./handlers/locale";
-import schedules from "./handlers/schedules";
+import schedules from "./schedules";
 
 import events from "./handlers/events";
 import commands from "./handlers/commands";
