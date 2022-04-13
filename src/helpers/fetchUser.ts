@@ -14,12 +14,12 @@ export default async (user: User, guild: Guild) => {
     guildId: guild.id,
   });
   if (userObj === null) {
-    const userObj = new userSchema({
+    const newUserObj = new userSchema({
       userId: user.id,
       guildId: guild.id,
     });
 
-    await userObj
+    await newUserObj
       .save()
       .then(async () => {
         logger.debug(
@@ -30,7 +30,7 @@ export default async (user: User, guild: Guild) => {
         logger.error(err);
       });
 
-    return userObj;
+    return newUserObj;
   } else {
     return userObj;
   }
