@@ -2,8 +2,8 @@
 import { Guild } from "discord.js";
 
 // Helpers
-import updatePresence from "../../helpers/updatePresence";
-import fetchGuild from "../../helpers/fetchGuild";
+import updatePresence from "@helpers/updatePresence";
+import fetchGuild from "@helpers/fetchGuild";
 
 export default {
   name: "guildCreate",
