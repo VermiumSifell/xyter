@@ -1,5 +1,5 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import { CommandInteraction } from "discord.js";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
@@ -214,7 +214,8 @@ export default async (interaction: CommandInteraction) => {
           logger?.error(e);
           const embed = {
             title: ":shopping_cart: Shop [Pterodactyl]",
-            description: "Something went wrong, please try again later.",
+            description:
+              "Something went wrong while saving your credits, please try again later.",
             color: errorColor,
             timestamp: new Date(),
             footer: {
