@@ -30,14 +30,14 @@ export default async (interaction: CommandInteraction) => {
     .execute(interaction)
     .then(async () => {
       return logger.debug(
-        `Guild: ${guild?.id} (${guild?.name}) User: ${user?.tag} executed ${commandName}`
+        `Guild: ${guild?.id} (${guild?.name}) User: ${user?.id} (${user?.tag}) executed ${commandName}`
       );
     })
     .catch(async (error: any) => {
       console.log(error);
 
       logger.error(
-        `Guild: ${guild?.id} (${guild?.name}) User: ${user?.tag} There was an error executing the command: ${commandName}`
+        `Guild: ${guild?.id} (${guild?.name}) User: ${user?.id} (${user?.tag}) There was an error executing the command: ${commandName}`
       );
 
       logger.error(error);

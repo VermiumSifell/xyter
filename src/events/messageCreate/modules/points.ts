@@ -25,7 +25,7 @@ export default async (guildDB: any, userDB: any, message: Message) => {
       .then(async () => {
         // Send debug message
         await logger.debug(
-          `Guild: ${guild?.id} User: ${author.id} Channel: ${channel.id} points add: ${guildDB.points.rate} balance: ${userDB.points}`
+          `Guild: ${guild?.id} (${guild?.name}) User: ${author?.id} (${author?.tag}) Channel: ${channel.id} points add: ${guildDB.points.rate} balance: ${userDB.points}`
         );
       })
       .catch(async (e: any) => {
@@ -43,9 +43,9 @@ export default async (guildDB: any, userDB: any, message: Message) => {
     setTimeout(async () => {
       // Send debug message
       await logger.debug(
-        `Guild: ${guild?.id} User: ${author.id} Channel: ${
-          channel.id
-        } has not talked within last ${
+        `Guild: ${guild?.id} (${guild?.name}) User: ${author?.id} (${
+          author?.tag
+        }) Channel: ${channel.id} has not talked within last ${
           guildDB.points.timeout / 1000
         } seconds, points can be given`
       );
@@ -60,9 +60,9 @@ export default async (guildDB: any, userDB: any, message: Message) => {
   } else {
     // Send debug message
     await logger.debug(
-      `Guild: ${guild?.id} User: ${author.id} Channel: ${
-        channel.id
-      } has talked within last ${
+      `Guild: ${guild?.id} (${guild?.name}) User: ${author?.id} (${
+        author?.tag
+      }) Channel: ${channel?.id} has talked within last ${
         guildDB.points.timeout / 1000
       } seconds, no points given`
     );
