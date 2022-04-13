@@ -78,7 +78,6 @@ export default async (interaction: CommandInteraction) => {
       });
 
       await (member?.roles as GuildMemberRoleManager)?.add(role?.id);
-      await shopRolesSchema?.find()?.then((role: any) => console.log(role));
 
       const embed = {
         title: ":shopping_cart: Shop - Roles [Buy]",
