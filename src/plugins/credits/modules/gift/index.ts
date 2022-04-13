@@ -214,7 +214,7 @@ export default {
           ],
         })
         .catch(async () =>
-          logger.verbose(`Can not send DM to user ${optionUser?.id}`)
+          logger.debug(`Can not send DM to user ${optionUser?.id}`)
         );
 
       // Send debug message

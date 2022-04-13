@@ -10,7 +10,7 @@ export default {
   async execute(oldMessage: Message, newMessage: Message) {
     const { author } = newMessage;
 
-    logger.silly({ oldMessage, newMessage });
+    logger.debug({ oldMessage, newMessage });
 
     if (author?.bot) return;
 

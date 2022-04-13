@@ -1,32 +1,34 @@
+// Dependencies
 import { Client } from "discord.js";
 
-import logger from "../../logger";
+import logger from "@logger";
 
-import users from "../../database/schemas/user";
-import shopRoleSchema from "../../database/schemas/shopRole";
-import guilds from "../../database/schemas/guild";
+// Schemas
+import userSchema from "@schemas/user";
+import shopRoleSchema from "@schemas/shopRole";
+import guildSchema from "@schemas/guild";
 
 export default async (client: Client) => {
-  shopRoleSchema.find().then(async (shopRoles: any) => {
-    shopRoles.map(async (shopRole: any) => {
+  await shopRoleSchema?.find()?.then(async (shopRoles: any) => {
+    shopRoles?.map(async (shopRole: any) => {
       const payed = new Date(shopRole?.lastPayed);
 
       const oneHourAfterPayed = payed?.setHours(payed?.getHours() + 1);
 
       if (new Date() > new Date(oneHourAfterPayed)) {
-        logger.silly(
+        logger.debug(
           `Role: ${shopRole?.roleId} Expires: ${
             new Date() < new Date(oneHourAfterPayed)
           } Last Payed: ${shopRole?.lastPayed}`
         );
 
         // Get guild object
-        const guild = await guilds?.findOne({
+        const guild = await guildSchema?.findOne({
           guildId: shopRole?.guildId,
         });
 
         if (guild === null) return;
-        const userDB = await users?.findOne({
+        const userDB = await userSchema?.findOne({
           userId: shopRole?.userId,
           guildId: shopRole?.guildId,
         });
@@ -41,7 +43,7 @@ export default async (client: Client) => {
           shopRoleSchema
             ?.deleteOne({ _id: shopRole?._id })
             ?.then(async () =>
-              logger?.verbose(`Removed ${shopRole?._id} from collection.`)
+              logger?.debug(`Removed ${shopRole?._id} from collection.`)
             );
 
           return rMember?.roles?.remove(`${shopRole?.roleId}`);

@@ -1,55 +1,58 @@
-import { ColorResolvable, CommandInteraction } from "discord.js";
-import config from "../../../config.json";
-import logger from "../../logger";
-import guilds from "../../database/schemas/guild";
+// Dependencies
+import { CommandInteraction, MessageEmbed } from "discord.js";
 
-import tools from "../../tools";
+import logger from "@logger";
+
+import * as embed from "@config/embed";
+
+import guildSchema from "@schemas/guild";
 
 export default async (interaction: CommandInteraction) => {
   if (!interaction.isCommand()) return;
 
-  const { client, guild } = interaction;
+  const { client, guild, commandName, user } = interaction;
 
-  // Get command from collection
-  const command = client.commands.get(interaction.commandName);
+  const currentCommand = client.commands.get(commandName);
+  if (!currentCommand) return;
 
   // If command do not exist
-  if (!command) return;
 
   // Create guild if it does not exist already
-  await guilds.findOne({ guildId: guild?.id }, { new: true, upsert: true });
+  await guildSchema.findOne(
+    { guildId: guild?.id },
+    { new: true, upsert: true }
+  );
 
   // Defer reply
   await interaction.deferReply({ ephemeral: true });
 
-  try {
-    // Execute command
-    await command.execute(interaction, tools);
+  await currentCommand
+    .execute(interaction)
+    .then(async () => {
+      return logger.debug(
+        `Guild: ${guild?.id} (${guild?.name}) User: ${user?.tag} executed ${commandName}`
+      );
+    })
+    .catch(async (error: any) => {
+      console.log(error);
 
-    const { commandName, user } = interaction;
+      logger.error(
+        `Guild: ${guild?.id} (${guild?.name}) User: ${user?.tag} There was an error executing the command: ${commandName}`
+      );
 
-    return logger?.verbose(
-      `Guild: ${guild?.id} User: ${user?.tag} executed ${commandName}`
-    );
-  } catch (e) {
-    // Send debug message
-    logger.error(e);
+      logger.error(error);
 
-    // Send interaction reply
-    await interaction.editReply({
-      embeds: [
-        {
-          author: {
-            name: client?.user?.username,
-            icon_url: client?.user?.displayAvatarURL(),
-            url: "https://bot.zyner.org/",
-          },
-          title: "Error",
-          description: "There was an error while executing this command!",
-          color: config.colors.error as ColorResolvable,
-          timestamp: new Date(),
-        },
-      ],
+      return interaction.editReply({
+        embeds: [
+          new MessageEmbed()
+            .setTitle("Error")
+            .setDescription(
+              `There was an error executing the command: **${currentCommand.data.name}**.`
+            )
+            .setColor(embed.errorColor)
+            .setTimestamp(new Date())
+            .setFooter({ text: embed.footerText, iconURL: embed.footerIcon }),
+        ],
+      });
     });
-  }
 };

@@ -54,7 +54,7 @@ export default {
       userDB.credits += creditsEarned;
 
       await userDB?.save()?.then(async () => {
-        logger?.verbose(`Credits added to user: ${user?.id}`);
+        logger?.debug(`Credits added to user: ${user?.id}`);
 
         return interaction.editReply({
           embeds: [
@@ -78,7 +78,7 @@ export default {
       });
 
       setTimeout(async () => {
-        logger?.verbose(
+        logger?.debug(
           `Guild: ${guild?.id} User: ${
             user?.id
           } has not worked within the last ${

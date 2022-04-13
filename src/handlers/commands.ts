@@ -15,7 +15,7 @@ export default async (client: Client) => {
       const plugin = await import(`../plugins/${pluginName}`);
 
       await client?.commands?.set(plugin?.default?.data?.name, plugin?.default);
-      logger?.silly(
+      logger?.debug(
         `Successfully loaded plugin: ${plugin?.default?.data?.name} from ${plugin.default?.metadata?.author}`
       );
     });

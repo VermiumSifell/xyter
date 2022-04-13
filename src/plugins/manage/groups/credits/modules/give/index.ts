@@ -130,7 +130,7 @@ export default {
 
     // Save toUser
     await toUser?.save()?.then(async () => {
-      logger?.verbose(
+      logger?.debug(
         `Guild: ${guild?.id} User: ${user?.id} gave ${
           discordReceiver?.id
         } ${pluralize(creditAmount, "credit")}.`

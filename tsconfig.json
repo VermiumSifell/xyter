@@ -20,7 +20,13 @@
       "@interface/*": ["Interfaces/*"],
       "@root/*": ["*"],
       "@config/*": ["config/*"],
-      "@logger": ["logger"]
+      "@logger": ["logger"],
+      "@database": ["database"],
+      "@schedules": ["schedules"],
+      "@handlers/*": ["handlers/*"],
+      "@helpers/*": ["helpers/*"],
+      "@locale": ["locale"],
+      "@schemas/*": ["database/schemas/*"]
     }
   },
   "include": ["./src"],

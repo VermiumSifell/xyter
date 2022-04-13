@@ -18,7 +18,7 @@ export default {
 
     const guilds = client.guilds.cache;
     guilds.map(async (guild) => {
-      logger.silly({ name: guild.name, members: guild.memberCount });
+      logger.debug({ name: guild.name, members: guild.memberCount });
     });
   },
 };

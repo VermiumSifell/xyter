@@ -69,7 +69,7 @@ export default {
         });
       });
 
-    logger?.verbose(
+    logger?.debug(
       `Guild: ${guild?.id} User: ${user?.id} removed ${discordChannel?.id} as a counter.`
     );
   },

@@ -1,17 +1,16 @@
 // Dependencies
+import "tsconfig-paths/register"; // Allows using tsconfig.json paths during runtime
 import { Client, Intents } from "discord.js"; // discord.js
-import "tsconfig-paths/register";
+
+import locale from "@locale";
+import database from "@database";
+import schedules from "@schedules";
+
+import events from "@handlers/events";
+import commands from "@handlers/commands";
 
 // Configurations
-import { bot } from "../config.json";
-
-import database from "@root/database";
-import schedules from "./schedules";
-
-// Handlers
-import events from "./handlers/events";
-import commands from "./handlers/commands";
-import locale from "./handlers/locale";
+import { token } from "@config/discord";
 
 const client = new Client({
   intents: [
@@ -21,11 +20,11 @@ const client = new Client({
   ],
 });
 
-database();
 locale();
+database();
 schedules(client);
 
 commands(client);
 events(client);
 
-client?.login(bot?.token);
+client?.login(token);
