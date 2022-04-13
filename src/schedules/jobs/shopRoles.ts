@@ -14,7 +14,7 @@ export default async (client: Client) => {
       const oneHourAfterPayed = payed?.setHours(payed?.getHours() + 1);
 
       if (new Date() > new Date(oneHourAfterPayed)) {
-        logger.debug(
+        logger.silly(
           `Role: ${shopRole?.roleId} Expires: ${
             new Date() < new Date(oneHourAfterPayed)
           } Last Payed: ${shopRole?.lastPayed}`
