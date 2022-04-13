@@ -5,7 +5,7 @@ import { Permissions, ColorResolvable, CommandInteraction } from "discord.js";
 import config from "../../../../config.json";
 
 // Handlers
-import logger from "../../../handlers/logger";
+import logger from "../../../logger";
 
 // Modules
 import pterodactyl from "./addons/pterodactyl";

@@ -6,7 +6,7 @@ import { CommandInteraction, ColorResolvable } from "discord.js";
 import config from "../../../../config.json";
 
 // Handlers
-import logger from "../../../handlers/logger";
+import logger from "../../../logger";
 
 // Function
 export default async (interaction: CommandInteraction) => {

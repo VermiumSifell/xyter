@@ -7,7 +7,7 @@ import axios from "axios";
 import config from "../../../../config.json";
 
 // Handlers
-import logger from "../../../handlers/logger";
+import logger from "../../../logger";
 import encryption from "../../../handlers/encryption";
 
 // Helpers

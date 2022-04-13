@@ -6,7 +6,7 @@ import { CommandInteraction } from "discord.js";
 import view from "./modules/view";
 
 // Handlers
-import logger from "../../handlers/logger";
+import logger from "../../logger";
 
 // Function
 export default {

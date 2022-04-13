@@ -8,7 +8,7 @@ import about from "./modules/about";
 import stats from "./modules/stats";
 
 // Handlers
-import logger from "../../handlers/logger";
+import logger from "../../logger";
 
 // Function
 export default {

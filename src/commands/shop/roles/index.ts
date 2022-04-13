@@ -2,7 +2,7 @@
 import { CommandInteraction } from "discord.js";
 
 // Handlers
-import logger from "../../../handlers/logger";
+import logger from "../../../logger";
 
 // Modules
 import buy from "./modules/buy";

@@ -1,5 +1,5 @@
 import sleep from "./sleep";
-import logger from "../handlers/logger";
+import logger from "../logger";
 import Chance from "chance";
 
 export default async function saveUser(data: any, data2: any) {

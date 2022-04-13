@@ -7,7 +7,7 @@ import guildGroup from "./guild";
 import userGroup from "./user";
 
 // Handlers
-import logger from "../../handlers/logger";
+import logger from "../../logger";
 
 // Function
 export default {

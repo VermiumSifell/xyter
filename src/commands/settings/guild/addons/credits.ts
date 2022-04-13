@@ -5,7 +5,7 @@ import { ColorResolvable, CommandInteraction } from "discord.js";
 import config from "../../../../../config.json";
 
 //Handlers
-import logger from "../../../../handlers/logger";
+import logger from "../../../../logger";
 
 // Models
 import guildSchema from "../../../../database/schemas/guild";

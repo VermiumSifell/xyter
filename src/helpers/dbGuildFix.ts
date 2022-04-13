@@ -3,7 +3,7 @@
 import apis from "../database/schemas/api";
 import guilds from "../database/schemas/guild";
 
-import logger from "../handlers/logger";
+import logger from "../logger";
 import { Guild } from "discord.js";
 
 export default async (guild: Guild) => {

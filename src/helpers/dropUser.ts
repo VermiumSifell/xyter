@@ -1,6 +1,6 @@
 import users from "../database/schemas/user";
 
-import logger from "../handlers/logger";
+import logger from "../logger";
 
 import { Guild, User } from "discord.js";
 

@@ -9,7 +9,7 @@ import pterodactyl from "./modules/pterodactyl";
 import roles from "./roles";
 
 // Handlers
-import logger from "../../handlers/logger";
+import logger from "../../logger";
 
 // Function
 export default {
