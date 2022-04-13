@@ -1,27 +1,35 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
+import { Snowflake } from "discord.js";
 
-const counterSchema = new mongoose.Schema(
+export interface ICounter {
+  guildId: Snowflake;
+  channelId: Snowflake;
+  word: string;
+  counter: number;
+}
+
+const counterSchema = new Schema<ICounter>(
   {
     guildId: {
-      type: mongoose.SchemaTypes.Decimal128,
+      type: String,
       required: true,
       unique: false,
       index: true,
     },
     channelId: {
-      type: mongoose.SchemaTypes.String,
+      type: String,
       required: true,
       unique: true,
       index: true,
     },
     word: {
-      type: mongoose.SchemaTypes.String,
+      type: String,
       required: true,
       unique: false,
       index: true,
     },
     counter: {
-      type: mongoose.SchemaTypes.Number,
+      type: Number,
       required: true,
       unique: false,
       index: true,
@@ -31,4 +39,4 @@ const counterSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("counter", counterSchema);
+export default model<ICounter>("counter", counterSchema);

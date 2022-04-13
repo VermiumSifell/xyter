@@ -1,15 +1,22 @@
-import mongoose from "mongoose";
+import { Snowflake } from "discord.js";
+import { model, Schema } from "mongoose";
 
-const apiSchema = new mongoose.Schema(
+export interface IApi {
+  guildId: Snowflake;
+  url: string;
+  token: { iv: string; content: string };
+}
+
+const apiSchema = new Schema<IApi>(
   {
     guildId: {
-      type: mongoose.SchemaTypes.Decimal128,
+      type: String,
       required: true,
       unique: false,
       index: true,
     },
     url: {
-      type: mongoose.SchemaTypes.String,
+      type: String,
       required: true,
       unique: false,
       index: true,
@@ -17,14 +24,14 @@ const apiSchema = new mongoose.Schema(
     },
     token: {
       iv: {
-        type: mongoose.SchemaTypes.String,
+        type: String,
         required: true,
         unique: false,
         index: true,
         default: "token",
       },
       content: {
-        type: mongoose.SchemaTypes.String,
+        type: String,
         required: true,
         unique: false,
         index: true,
@@ -35,4 +42,4 @@ const apiSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("api", apiSchema);
+export default model<IApi>("api", apiSchema);

@@ -1,34 +1,43 @@
-import mongoose from "mongoose";
+import { Snowflake } from "discord.js";
+import { Schema, model } from "mongoose";
 
-const shopRoleSchema = new mongoose.Schema(
+export interface IShopRole {
+  roleId: Snowflake;
+  userId: Snowflake;
+  guildId: Snowflake;
+  pricePerHour: number;
+  lastPayed: Date;
+}
+
+const shopRoleSchema = new Schema<IShopRole>(
   {
     roleId: {
-      type: mongoose.SchemaTypes.Decimal128,
+      type: String,
       required: true,
       unique: false,
       index: true,
     },
     userId: {
-      type: mongoose.SchemaTypes.Decimal128,
+      type: String,
       required: true,
       unique: false,
       index: true,
     },
     guildId: {
-      type: mongoose.SchemaTypes.Decimal128,
+      type: String,
       required: true,
       unique: false,
       index: true,
     },
     pricePerHour: {
-      type: mongoose.SchemaTypes.Number,
+      type: Number,
       required: true,
       unique: false,
       index: true,
       default: 5,
     },
     lastPayed: {
-      type: mongoose.SchemaTypes.Date,
+      type: Date,
       unique: false,
       index: true,
     },
@@ -36,4 +45,4 @@ const shopRoleSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("shopRole", shopRoleSchema);
+export default model<IShopRole>("shopRole", shopRoleSchema);

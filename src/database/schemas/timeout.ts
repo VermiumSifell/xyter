@@ -1,22 +1,29 @@
-import mongoose from "mongoose";
+import { Snowflake } from "discord.js";
+import { Schema, model } from "mongoose";
 
-const timeoutSchema = new mongoose.Schema(
+export interface ITimeout {
+  userId: Snowflake;
+  guildId: Snowflake;
+  timeoutId: string;
+}
+
+const timeoutSchema = new Schema<ITimeout>(
   {
     userId: {
-      type: mongoose.SchemaTypes.Decimal128,
+      type: String,
       required: true,
       unique: false,
       index: true,
     },
     guildId: {
-      type: mongoose.SchemaTypes.Decimal128,
+      type: String,
       required: true,
       unique: false,
       index: true,
     },
-    timeoutId: { type: mongoose.SchemaTypes.String },
+    timeoutId: { type: String },
   },
   { timestamps: true }
 );
 
-export default mongoose.model("timeout", timeoutSchema);
+export default model<ITimeout>("timeout", timeoutSchema);
