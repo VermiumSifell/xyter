@@ -1,4 +1,7 @@
+// Dependencies
 import { GuildMember } from "discord.js";
+
+// Helpers
 import updatePresence from "../../helpers/updatePresence";
 import dropUser from "../../helpers/dropUser";
 
@@ -8,7 +11,6 @@ export default {
     const { client, user, guild } = member;
 
     await dropUser(user, guild);
-
     await updatePresence(client);
   },
 };

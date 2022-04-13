@@ -1,8 +1,8 @@
-import counters from "../../../helpers/database/models/counterSchema";
+import counters from "../../../database/schemas/counter";
 
 import { Message } from "discord.js";
 
-export default async (guildDB: any, userDB: any, message: Message) => {
+export default async (message: Message) => {
   const { guild, channel, content } = message;
 
   // Get counter object

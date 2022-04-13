@@ -1,11 +1,11 @@
-import guilds from "../helpers/database/models/guildSchema";
-import users from "../helpers/database/models/userSchema";
-import apis from "../helpers/database/models/apiSchema";
-import counters from "../helpers/database/models/counterSchema";
-import shopRoles from "../helpers/database/models/shopRolesSchema";
-import timeouts from "../helpers/database/models/timeoutSchema";
+import guilds from "../database/schemas/guild";
+import users from "../database/schemas/user";
+import apis from "../database/schemas/api";
+import counters from "../database/schemas/counter";
+import shopRoles from "../database/schemas/shopRole";
+import timeouts from "../database/schemas/timeout";
 
-import logger from "../handlers/logger";
+import logger from "../logger";
 
 import { Guild } from "discord.js";
 

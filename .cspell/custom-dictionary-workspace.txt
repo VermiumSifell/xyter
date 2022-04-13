@@ -1,5 +1,6 @@
 # Custom Dictionary Words
 Controlpanel
+cpgg
 dagen
 discordjs
 Följande
@@ -11,6 +12,7 @@ inom
 inställningar
 inte
 Krediter
+multistream
 Nivå
 omdöme
 Omdöme

@@ -1,28 +1,30 @@
 // Dependencies
+import "tsconfig-paths/register"; // Allows using tsconfig.json paths during runtime
 import { Client, Intents } from "discord.js"; // discord.js
 
-import database from "./helpers/database";
-import events from "./handlers/events";
-import commands from "./handlers/commands";
-import locale from "./handlers/locale";
-import schedules from "./handlers/schedules";
+import locale from "@locale";
+import database from "@database";
+import schedules from "@schedules";
 
-import config from "../config.json"; // config.json
+import events from "@handlers/events";
+import commands from "@handlers/commands";
 
-(async () => {
-  // Initialize discord.js client
-  const client = new Client({
-    intents: [
-      Intents?.FLAGS?.GUILDS,
-      Intents?.FLAGS?.GUILD_MESSAGES,
-      Intents?.FLAGS?.GUILD_MEMBERS,
-    ],
-  });
+// Configurations
+import { token } from "@config/discord";
 
-  await database();
-  await locale();
-  await events(client);
-  await commands(client);
-  await schedules(client);
-  await client?.login(config?.bot?.token);
-})();
+const client = new Client({
+  intents: [
+    Intents?.FLAGS?.GUILDS,
+    Intents?.FLAGS?.GUILD_MESSAGES,
+    Intents?.FLAGS?.GUILD_MEMBERS,
+  ],
+});
+
+locale();
+database();
+schedules(client);
+
+commands(client);
+events(client);
+
+client?.login(token);

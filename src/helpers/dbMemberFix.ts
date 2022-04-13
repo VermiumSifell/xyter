@@ -1,5 +1,5 @@
-import users from "./database/models/userSchema";
-import logger from "../handlers/logger";
+import users from "../database/schemas/user";
+import logger from "../logger";
 import { Guild, User } from "discord.js";
 
 export default async (user: User, guild: Guild) => {

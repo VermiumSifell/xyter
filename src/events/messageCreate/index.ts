@@ -14,7 +14,6 @@ export default {
   async execute(message: Message) {
     const { author, guild } = message;
 
-    // If message author is bot
     if (author?.bot) return;
 
     if (guild === null) return;
@@ -32,6 +31,6 @@ export default {
     await points(guildObj, userObj, message);
 
     // Execute Module - Counters
-    await counters(guildObj, userObj, message);
+    await counters(message);
   },
 };

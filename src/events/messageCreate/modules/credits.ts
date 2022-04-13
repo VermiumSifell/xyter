@@ -1,5 +1,5 @@
-import logger from "../../../handlers/logger";
-import timeouts from "../../../helpers/database/models/timeoutSchema";
+import logger from "../../../logger";
+import timeouts from "../../../database/schemas/timeout";
 import { Message } from "discord.js";
 export default async (guildDB: any, userDB: any, message: Message) => {
   const { guild, author, channel, content } = message;
