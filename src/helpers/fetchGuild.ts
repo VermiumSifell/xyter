@@ -11,9 +11,9 @@ import logger from "../logger";
 export default async (guild: Guild) => {
   const guildObj = await guildSchema?.findOne({ guildId: guild.id });
   if (guildObj === null) {
-    const guildObj = new guildSchema({ guildId: guild.id });
+    const newGuildObj = new guildSchema({ guildId: guild.id });
 
-    await guildObj
+    await newGuildObj
       .save()
       .then(async () => {
         logger.debug(
@@ -24,7 +24,7 @@ export default async (guild: Guild) => {
         logger.error(err);
       });
 
-    return guildObj;
+    return newGuildObj;
   } else {
     return guildObj;
   }
