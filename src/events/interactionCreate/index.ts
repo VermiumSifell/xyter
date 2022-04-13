@@ -28,12 +28,10 @@ export default {
         // Execute command
         await command.execute(interaction);
 
-        const { commandName, user, options } = interaction;
+        const { commandName, user } = interaction;
 
-        logger?.verbose(
-          `Guild: ${guild?.id} User: ${
-            user?.id
-          } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
+        return logger?.verbose(
+          `Guild: ${guild?.id} User: ${user?.tag} executed ${commandName}`
         );
       } catch (e) {
         // Send debug message
