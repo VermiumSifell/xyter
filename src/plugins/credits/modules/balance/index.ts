@@ -1,17 +1,19 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
-
-// Configurations
-import { colors, footer } from "../../../../../config.json";
-
-// Helpers
-import pluralize from "../../../../helpers/pluralize";
-
-// Models
-import fetchUser from "../../../../helpers/fetchUser";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
-// Function
+// Configurations
+import {
+  errorColor,
+  successColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
+
+// Helpers
+import pluralize from "@helpers/pluralize";
+import fetchUser from "@helpers/fetchUser";
+
 export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
@@ -24,7 +26,7 @@ export default {
           .setRequired(false)
       );
   },
-  execute: async (interaction: CommandInteraction, tools: any) => {
+  execute: async (interaction: CommandInteraction) => {
     // Destructure
     const { options, user, guild } = interaction;
 
@@ -46,8 +48,8 @@ export default {
               `We can not find ${optionUser || "you"} in our database!`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -64,8 +66,8 @@ export default {
               } in our database!`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -81,8 +83,8 @@ export default {
             )}.`
           )
           .setTimestamp(new Date())
-          .setColor(colors?.success as ColorResolvable)
-          .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+          .setColor(successColor)
+          .setFooter({ text: footerText, iconURL: footerIcon }),
       ],
     });
   },
