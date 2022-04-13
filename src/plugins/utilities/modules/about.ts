@@ -2,12 +2,7 @@
 import { CommandInteraction } from "discord.js";
 
 // Configurations
-import {
-  successColor,
-  errorColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import { successColor, footerText, footerIcon } from "@config/embed";
 
 import { hosterName, hosterUrl } from "@config/other";
 
