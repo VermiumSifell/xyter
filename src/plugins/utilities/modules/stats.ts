@@ -24,22 +24,22 @@ export default async (interaction: CommandInteraction) => {
     fields: [
       {
         name: "⏰ Latency",
-        value: `${Date?.now() - interaction?.createdTimestamp} ms` as string,
+        value: `${Date?.now() - interaction?.createdTimestamp} ms`,
         inline: true,
       },
       {
         name: "⏰ API Latency",
-        value: `${Math?.round(client?.ws?.ping)} ms` as string,
+        value: `${Math?.round(client?.ws?.ping)} ms`,
         inline: true,
       },
       {
         name: "⏰ Uptime",
-        value: `${uptime}` as string,
+        value: `${uptime}`,
         inline: false,
       },
       {
         name: "📈 Guilds",
-        value: `${client?.guilds?.cache?.size}` as string,
+        value: `${client?.guilds?.cache?.size}`,
         inline: true,
       },
       {
@@ -47,15 +47,15 @@ export default async (interaction: CommandInteraction) => {
         value: `${client?.guilds?.cache?.reduce(
           (acc, guild) => acc + guild?.memberCount,
           0
-        )}` as string,
+        )}`,
         inline: true,
       },
     ],
     color: successColor,
     timestamp: new Date(),
     footer: {
-      iconURL: footerIcon as string,
-      text: footerText as string,
+      iconURL: footerIcon,
+      text: footerText,
     },
   };
   interaction?.editReply({ embeds: [interactionEmbed] });
