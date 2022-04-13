@@ -2,12 +2,7 @@
 import { Permissions, ColorResolvable, CommandInteraction } from "discord.js";
 
 // Configurations
-import {
-  successColor,
-  errorColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import { errorColor, footerText, footerIcon } from "@config/embed";
 
 // Handlers
 import logger from "../../../logger";
