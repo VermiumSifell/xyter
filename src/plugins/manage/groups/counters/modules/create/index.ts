@@ -1,5 +1,5 @@
 // Dependencies
-import { ColorResolvable, MessageEmbed, CommandInteraction } from "discord.js";
+import { MessageEmbed, CommandInteraction } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 
