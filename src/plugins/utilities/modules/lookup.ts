@@ -31,12 +31,12 @@ export default async (interaction: CommandInteraction) => {
         // Create embed object
         const embed = {
           title: ":hammer: Utilities - Lookup",
-          description: `${res?.data?.message}: ${res?.data?.query}` as string,
+          description: `${res?.data?.message}: ${res?.data?.query}`,
           color: errorColor,
           timestamp: new Date(),
           footer: {
-            iconURL: footerIcon as string,
-            text: footerText as string,
+            iconURL: footerIcon,
+            text: footerText,
           },
         };
 
@@ -52,58 +52,58 @@ export default async (interaction: CommandInteraction) => {
           fields: [
             {
               name: "AS",
-              value: `${res?.data?.as || "Not available"}` as string,
+              value: `${res?.data?.as || "Not available"}`,
             },
             {
               name: "Country",
-              value: `${res?.data?.country || "Not available"}` as string,
+              value: `${res?.data?.country || "Not available"}`,
             },
             {
               name: "Country Code",
-              value: `${res?.data?.countryCode || "Not available"}` as string,
+              value: `${res?.data?.countryCode || "Not available"}`,
             },
             {
               name: "Region",
-              value: `${res?.data?.region || "Not available"}` as string,
+              value: `${res?.data?.region || "Not available"}`,
             },
             {
               name: "Region Name",
-              value: `${res?.data?.regionName || "Not available"}` as string,
+              value: `${res?.data?.regionName || "Not available"}`,
             },
             {
               name: "City",
-              value: `${res?.data?.city || "Not available"}` as string,
+              value: `${res?.data?.city || "Not available"}`,
             },
             {
               name: "ZIP Code",
-              value: `${res?.data?.zip || "Not available"}` as string,
+              value: `${res?.data?.zip || "Not available"}`,
             },
             {
               name: "Latitude",
-              value: `${res?.data?.lat || "Not available"}` as string,
+              value: `${res?.data?.lat || "Not available"}`,
             },
             {
               name: "Longitude",
-              value: `${res?.data?.lon || "Not available"}` as string,
+              value: `${res?.data?.lon || "Not available"}`,
             },
             {
               name: "Timezone",
-              value: `${res?.data?.timezone || "Not available"}` as string,
+              value: `${res?.data?.timezone || "Not available"}`,
             },
             {
               name: "ISP",
-              value: `${res?.data?.isp || "Not available"}` as string,
+              value: `${res?.data?.isp || "Not available"}`,
             },
             {
               name: "Organization",
-              value: `${res?.data?.org || "Not available"}` as string,
+              value: `${res?.data?.org || "Not available"}`,
             },
           ],
           color: successColor,
           timestamp: new Date(),
           footer: {
-            iconURL: footerIcon as string,
-            text: footerText as string,
+            iconURL: footerIcon,
+            text: footerText,
           },
         };
 
