@@ -1,7 +1,7 @@
 // Dependencies
 import { CommandInteraction } from "discord.js";
 
-import isCommand from "./isCommand";
+import isCommand from "@root/events/interactionCreate/components/isCommand";
 
 export default {
   name: "interactionCreate",
