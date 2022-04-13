@@ -1,9 +1,5 @@
 // Dependencies
-import {
-  CommandInteraction,
-  ColorResolvable,
-  GuildMemberRoleManager,
-} from "discord.js";
+import { CommandInteraction, GuildMemberRoleManager } from "discord.js";
 
 // Configurations
 import {
