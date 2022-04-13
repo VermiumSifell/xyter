@@ -57,39 +57,39 @@ export default async (interaction: CommandInteraction) => {
       fields: [
         {
           name: "🤖 Status",
-          value: `${guildDB?.credits?.status}` as string,
+          value: `${guildDB?.credits?.status}`,
           inline: true,
         },
         {
           name: "📈 Rate",
-          value: `${guildDB?.credits?.rate}` as string,
+          value: `${guildDB?.credits?.rate}`,
           inline: true,
         },
         {
           name: "📈 Work Rate",
-          value: `${guildDB?.credits?.workRate}` as string,
+          value: `${guildDB?.credits?.workRate}`,
           inline: true,
         },
         {
           name: "🔨 Minimum Length",
-          value: `${guildDB?.credits?.minimumLength}` as string,
+          value: `${guildDB?.credits?.minimumLength}`,
           inline: true,
         },
         {
           name: "⏰ Timeout",
-          value: `${guildDB?.credits?.timeout}` as string,
+          value: `${guildDB?.credits?.timeout}`,
           inline: true,
         },
         {
           name: "⏰ Work Timeout",
-          value: `${guildDB?.credits?.workTimeout}` as string,
+          value: `${guildDB?.credits?.workTimeout}`,
           inline: true,
         },
       ],
       timestamp: new Date(),
       footer: {
-        iconURL: footerIcon as string,
-        text: footerText as string,
+        iconURL: footerIcon,
+        text: footerText,
       },
     };
 
