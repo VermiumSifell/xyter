@@ -12,7 +12,6 @@
     "module": "commonjs",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    // "removeComments": true,
     "outDir": "./build",
     "baseUrl": "./src",
     "typeRoots": ["/types/common", "./node_modules/@types"],
