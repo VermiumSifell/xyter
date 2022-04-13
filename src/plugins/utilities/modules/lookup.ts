@@ -1,6 +1,6 @@
 // Dependencies
 import axios from "axios";
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import { CommandInteraction } from "discord.js";
 
 // Configurations
 import {
