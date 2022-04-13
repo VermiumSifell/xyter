@@ -1,15 +1,15 @@
-import logger from "../logger";
-import config from "../../config.json";
+// Dependencies
 import { Client } from "discord.js";
 
-const { bot } = config;
+import logger from "@logger";
+
+// Configuration
+import { devMode, guildId } from "@config/other";
 
 export default async (client: Client) => {
-  if (!config?.devMode) {
-    client?.application?.commands
-      ?.set([], config.bot.guildId)
-      .then(async () => {
-        logger.info(`Removed all guild based commands from ${bot.guildId}`);
-      });
+  if (!devMode) {
+    client?.application?.commands?.set([], guildId).then(async () => {
+      logger.verbose(`Removed all guild based commands from ${guildId}`);
+    });
   }
 };

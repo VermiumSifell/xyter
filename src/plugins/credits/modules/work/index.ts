@@ -1,28 +1,27 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
+import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import Chance from "chance";
 
 // Configurations
-import { colors, footer } from "../../../../../config.json";
+import { successColor, footerText, footerIcon } from "@config/embed";
 
 // Handlers
-import logger from "../../../../logger";
+import logger from "@logger";
 
 // Models
-import timeouts from "../../../../database/schemas/timeout";
+import timeoutSchema from "@schemas/timeout";
 
 // Helpers
-import pluralize from "../../../../helpers/pluralize";
-import fetchUser from "../../../../helpers/fetchUser";
-import fetchGuild from "../../../../helpers/fetchGuild";
-import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import pluralize from "@helpers/pluralize";
+import fetchUser from "@helpers/fetchUser";
+import fetchGuild from "@helpers/fetchGuild";
 
-// Function
 export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("work").setDescription("Work for credits.");
   },
-  execute: async (interaction: CommandInteraction, tools: any) => {
+  execute: async (interaction: CommandInteraction) => {
     // Destructure member
     const { guild, user } = interaction;
 
@@ -30,7 +29,7 @@ export default {
     const chance = new Chance();
 
     // Check if user has a timeout
-    const isTimeout = await timeouts?.findOne({
+    const isTimeout = await timeoutSchema?.findOne({
       guildId: guild?.id,
       userId: user?.id,
       timeoutId: "2022-03-15-19-16",
@@ -64,14 +63,14 @@ export default {
                 `You have earned ${pluralize(creditsEarned, "credit")}.`
               )
               .setTimestamp(new Date())
-              .setColor(colors?.success as ColorResolvable)
-              .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+              .setColor(successColor)
+              .setFooter({ text: footerText, iconURL: footerIcon }),
           ],
         });
       });
 
       // Create a timeout for the user
-      await timeouts?.create({
+      await timeoutSchema?.create({
         guildId: guild?.id,
         userId: user?.id,
         timeoutId: "2022-03-15-19-16",
@@ -87,7 +86,7 @@ export default {
         );
 
         // When timeout is out, remove it from the database
-        await timeouts?.deleteOne({
+        await timeoutSchema?.deleteOne({
           guildId: guild?.id,
           userId: user?.id,
           timeoutId: "2022-03-15-19-16",
@@ -109,8 +108,8 @@ export default {
               } seconds, you can not work now!`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.success as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(successColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }

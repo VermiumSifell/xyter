@@ -1,14 +1,19 @@
 // Dependencies
-import { ColorResolvable, CommandInteraction } from "discord.js";
+import { CommandInteraction } from "discord.js";
 
 // Configurations
-import config from "../../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 //Handlers
-import logger from "../../../../logger";
+import logger from "@logger";
 
 // Models
-import guildSchema from "../../../../database/schemas/guild";
+import guildSchema from "@schemas/guild";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -46,45 +51,45 @@ export default async (interaction: CommandInteraction) => {
   await guildDB?.save()?.then(async () => {
     // Embed object
     const embed = {
-      title: ":tools: Settings - Guild [Credits]" as string,
-      description: "Following settings is set!" as string,
-      color: config?.colors?.success as ColorResolvable,
+      title: ":tools: Settings - Guild [Credits]",
+      description: "Following settings is set!",
+      color: successColor,
       fields: [
         {
-          name: "🤖 Status" as string,
+          name: "🤖 Status",
           value: `${guildDB?.credits?.status}` as string,
           inline: true,
         },
         {
-          name: "📈 Rate" as string,
+          name: "📈 Rate",
           value: `${guildDB?.credits?.rate}` as string,
           inline: true,
         },
         {
-          name: "📈 Work Rate" as string,
+          name: "📈 Work Rate",
           value: `${guildDB?.credits?.workRate}` as string,
           inline: true,
         },
         {
-          name: "🔨 Minimum Length" as string,
+          name: "🔨 Minimum Length",
           value: `${guildDB?.credits?.minimumLength}` as string,
           inline: true,
         },
         {
-          name: "⏰ Timeout" as string,
+          name: "⏰ Timeout",
           value: `${guildDB?.credits?.timeout}` as string,
           inline: true,
         },
         {
-          name: "⏰ Work Timeout" as string,
+          name: "⏰ Work Timeout",
           value: `${guildDB?.credits?.workTimeout}` as string,
           inline: true,
         },
       ],
       timestamp: new Date(),
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon as string,
+        text: footerText as string,
       },
     };
 

@@ -2,7 +2,12 @@
 import { CommandInteraction, ColorResolvable } from "discord.js";
 
 // Configurations
-import config from "../../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
 import logger from "../../../../logger";
@@ -32,20 +37,20 @@ export default async (interaction: CommandInteraction) => {
   await userDB?.save()?.then(async () => {
     // Embed object
     const embed = {
-      title: ":hammer: Settings - User [Appearance]" as string,
-      description: "Following settings is set!" as string,
-      color: config?.colors?.success as ColorResolvable,
+      title: ":hammer: Settings - User [Appearance]",
+      description: "Following settings is set!",
+      color: successColor,
       fields: [
         {
-          name: "🏳️‍🌈 Language" as string,
-          value: `${userDB?.language}` as string,
+          name: "🏳️‍🌈 Language",
+          value: `${userDB?.language}`,
           inline: true,
         },
       ],
       timestamp: new Date(),
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon,
+        text: footerText,
       },
     };
 

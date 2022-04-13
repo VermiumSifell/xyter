@@ -1,8 +1,13 @@
 // Dependencies
-import { ColorResolvable, CommandInteraction } from "discord.js";
+import { CommandInteraction } from "discord.js";
 
 // Configurations
-import config from "../../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
 import logger from "../../../../logger";
@@ -30,13 +35,13 @@ export default async (interaction: CommandInteraction) => {
     .then(async () => {
       // Embed object
       const embed = {
-        title: ":hammer: Settings - Guild [Pterodactyl]" as string,
-        color: config?.colors?.success as ColorResolvable,
-        description: "Pterodactyl settings is saved!" as string,
+        title: ":hammer: Settings - Guild [Pterodactyl]",
+        color: successColor,
+        description: "Pterodactyl settings is saved!",
         timestamp: new Date(),
         footer: {
-          iconURL: config?.footer?.icon as string,
-          text: config?.footer?.text as string,
+          iconURL: footerIcon as string,
+          text: footerText as string,
         },
       };
 

@@ -2,7 +2,12 @@
 import { Permissions, ColorResolvable, CommandInteraction } from "discord.js";
 
 // Configurations
-import config from "../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
 import logger from "../../../logger";
@@ -21,13 +26,13 @@ export default async (interaction: CommandInteraction) => {
   if (!memberPermissions?.has(Permissions?.FLAGS?.MANAGE_GUILD)) {
     // Create embed object
     const embed = {
-      title: ":tools: Settings - Guild" as string,
-      color: config?.colors?.error as ColorResolvable,
-      description: "You do not have permission to manage this!" as string,
+      title: ":tools: Settings - Guild",
+      color: errorColor,
+      description: "You do not have permission to manage this!",
       timestamp: new Date(),
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon as string,
+        text: footerText as string,
       },
     };
 

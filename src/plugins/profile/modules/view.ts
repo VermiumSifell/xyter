@@ -2,10 +2,15 @@
 import { CommandInteraction, ColorResolvable } from "discord.js";
 
 // Configurations
-import config from "../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Models
-import fetchUser from "../../../helpers/fetchUser";
+import fetchUser from "@helpers/fetchUser";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -31,7 +36,7 @@ export default async (interaction: CommandInteraction) => {
       name: `${discordUser?.username}#${discordUser?.discriminator}` as string,
       icon_url: discordUser?.displayAvatarURL() as string,
     },
-    color: config?.colors?.success as ColorResolvable,
+    color: successColor,
     fields: [
       {
         name: `:dollar: Credits` as string,
@@ -61,8 +66,8 @@ export default async (interaction: CommandInteraction) => {
     ],
     timestamp: new Date(),
     footer: {
-      iconURL: config?.footer?.icon as string,
-      text: config?.footer?.text as string,
+      iconURL: footerIcon as string,
+      text: footerText as string,
     },
   };
 

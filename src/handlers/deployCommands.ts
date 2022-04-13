@@ -13,7 +13,7 @@ export default async () => {
       return logger?.error(new Error(error));
     }
 
-    const pluginList = [{} as any];
+    const pluginList = [] as any;
 
     await plugins?.map(async (pluginName: any) => {
       const plugin = await import(`../plugins/${pluginName}`);

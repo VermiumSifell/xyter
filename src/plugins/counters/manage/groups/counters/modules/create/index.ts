@@ -4,10 +4,15 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 
 // Configurations
-import { colors, footer } from "../../../../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
-import logger from "../../../../../../logger";
+import logger from "@logger";
 
 // Models
 import counterSchema from "../../../../../../database/schemas/counter";
@@ -58,8 +63,8 @@ export default {
               `${discordChannel} is already a counting channel, currently it's counting ${counter.word}!`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -86,8 +91,8 @@ export default {
                 }.`
               )
               .setTimestamp(new Date())
-              .setColor(colors?.success as ColorResolvable)
-              .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+              .setColor(successColor)
+              .setFooter({ text: footerText, iconURL: footerIcon }),
           ],
         });
       });

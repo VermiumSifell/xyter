@@ -2,16 +2,21 @@
 import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
 
 // Configurations
-import { colors, footer } from "../../../../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
-import logger from "../../../../../../logger";
+import logger from "@logger";
 
 // Helpers
-import pluralize from "../../../../../../helpers/pluralize";
+import pluralize from "@helpers/pluralize";
 
 // Models
-import fetchUser from "../../../../../../helpers/fetchUser";
+import fetchUser from "@helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
@@ -47,8 +52,8 @@ export default {
             .setTitle("[:toolbox:] Manage - Credits (Set)")
             .setDescription(`We could not read your requested amount!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -60,8 +65,8 @@ export default {
             .setTitle("[:toolbox:] Manage - Credits (Set)")
             .setDescription(`We could not read your requested user!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -72,8 +77,8 @@ export default {
             .setTitle("[:toolbox:] Manage - Credits (Set)")
             .setDescription(`We could not read your guild!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -91,8 +96,8 @@ export default {
               `We could not read your requested user from our database!`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -107,8 +112,8 @@ export default {
               `We could not find credits for ${discordUser} in our database!`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -135,8 +140,8 @@ export default {
               )}.`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.success as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(successColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     });

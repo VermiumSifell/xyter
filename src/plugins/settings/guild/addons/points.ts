@@ -2,7 +2,12 @@
 import { ColorResolvable, CommandInteraction } from "discord.js";
 
 // Configurations
-import config from "../../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
 import logger from "../../../../logger";
@@ -40,35 +45,35 @@ export default async (interaction: CommandInteraction) => {
   await guildDB?.save()?.then(async () => {
     // Create embed object
     const embed = {
-      title: ":hammer: Settings - Guild [Points]" as string,
-      description: "Following settings is set!" as string,
-      color: config.colors.success as ColorResolvable,
+      title: ":hammer: Settings - Guild [Points]",
+      description: "Following settings is set!",
+      color: successColor,
       fields: [
         {
-          name: "🤖 Status" as string,
-          value: `${guildDB?.points?.status}` as string,
+          name: "🤖 Status",
+          value: `${guildDB?.points?.status}`,
           inline: true,
         },
         {
-          name: "📈 Rate" as string,
-          value: `${guildDB?.points?.rate}` as string,
+          name: "📈 Rate",
+          value: `${guildDB?.points?.rate}`,
           inline: true,
         },
         {
-          name: "🔨 Minimum Length" as string,
-          value: `${guildDB?.points?.minimumLength}` as string,
+          name: "🔨 Minimum Length",
+          value: `${guildDB?.points?.minimumLength}`,
           inline: true,
         },
         {
-          name: "⏰ Timeout" as string,
-          value: `${guildDB?.points?.timeout}` as string,
+          name: "⏰ Timeout",
+          value: `${guildDB?.points?.timeout}`,
           inline: true,
         },
       ],
       timestamp: new Date(),
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon,
+        text: footerText,
       },
     };
 

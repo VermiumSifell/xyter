@@ -1,4 +1,9 @@
-import config from "../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 import { CommandInteraction, ColorResolvable } from "discord.js";
 export default async (interaction: CommandInteraction) => {
   const { client } = interaction;
@@ -14,32 +19,31 @@ export default async (interaction: CommandInteraction) => {
   const uptime = `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
 
   const interactionEmbed = {
-    title: ":hammer: Utilities - Stats" as string,
-    description:
-      "Below you can see a list of statistics about the bot." as string,
+    title: ":hammer: Utilities - Stats",
+    description: "Below you can see a list of statistics about the bot.",
     fields: [
       {
-        name: "⏰ Latency" as string,
+        name: "⏰ Latency",
         value: `${Date?.now() - interaction?.createdTimestamp} ms` as string,
         inline: true,
       },
       {
-        name: "⏰ API Latency" as string,
+        name: "⏰ API Latency",
         value: `${Math?.round(client?.ws?.ping)} ms` as string,
         inline: true,
       },
       {
-        name: "⏰ Uptime" as string,
+        name: "⏰ Uptime",
         value: `${uptime}` as string,
         inline: false,
       },
       {
-        name: "📈 Guilds" as string,
+        name: "📈 Guilds",
         value: `${client?.guilds?.cache?.size}` as string,
         inline: true,
       },
       {
-        name: "📈 Users (non-unique)" as string,
+        name: "📈 Users (non-unique)",
         value: `${client?.guilds?.cache?.reduce(
           (acc, guild) => acc + guild?.memberCount,
           0
@@ -47,11 +51,11 @@ export default async (interaction: CommandInteraction) => {
         inline: true,
       },
     ],
-    color: config?.colors?.success as ColorResolvable,
+    color: successColor,
     timestamp: new Date(),
     footer: {
-      iconURL: config?.footer?.icon as string,
-      text: config?.footer?.text as string,
+      iconURL: footerIcon as string,
+      text: footerText as string,
     },
   };
   interaction?.editReply({ embeds: [interactionEmbed] });

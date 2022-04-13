@@ -4,18 +4,23 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 // Configurations
-import config from "../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
-import logger from "../../../logger";
-import encryption from "../../../handlers/encryption";
+import logger from "@logger";
+import encryption from "@handlers/encryption";
 
 // Helpers
-import pluralize from "../../../helpers/pluralize";
+import pluralize from "@helpers/pluralize";
 
 // Models
-import apiSchema from "../../../database/schemas/api";
-import fetchUser from "../../../helpers/fetchUser";
+import apiSchema from "@schemas/api";
+import fetchUser from "@helpers/fetchUser";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -28,13 +33,13 @@ export default async (interaction: CommandInteraction) => {
   if (optionAmount === null) {
     // Embed object
     const embed = {
-      title: ":dollar: Credits [Gift]" as string,
-      description: "We could not read your requested amount." as string,
-      color: config?.colors?.error as ColorResolvable,
+      title: ":dollar: Credits [Gift]",
+      description: "We could not read your requested amount.",
+      color: errorColor,
       timestamp: new Date(),
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon,
+        text: footerText,
       },
     };
 
@@ -55,20 +60,19 @@ export default async (interaction: CommandInteraction) => {
   // Stop if amount or user credits is below 100
   if ((optionAmount || userDB?.credits) < 100) {
     const embed = {
-      title: ":shopping_cart: Shop [Pterodactyl]" as string,
-      description:
-        `You **can't** withdraw for __Pterodactyl__ below **100**.` as string,
-      color: config?.colors?.error as ColorResolvable,
+      title: ":shopping_cart: Shop [Pterodactyl]",
+      description: `You **can't** withdraw for __Pterodactyl__ below **100**.`,
+      color: errorColor,
       fields: [
         {
-          name: "Your balance" as string,
-          value: `${pluralize(userDB?.credits, "credit")}` as string,
+          name: "Your balance",
+          value: `${pluralize(userDB?.credits, "credit")}`,
         },
       ],
       timestamp: new Date(),
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon,
+        text: footerText,
       },
     };
     return interaction?.editReply({ embeds: [embed] });
@@ -77,20 +81,19 @@ export default async (interaction: CommandInteraction) => {
   // Stop if amount or user credits is above 1.000.000
   if ((optionAmount || userDB?.credits) > 1000000) {
     const embed = {
-      title: ":shopping_cart: Shop [Pterodactyl]" as string,
-      description:
-        `You **can't** withdraw for __Pterodactyl__ above **1.000.000**.` as string,
-      color: config?.colors?.error as ColorResolvable,
+      title: ":shopping_cart: Shop [Pterodactyl]",
+      description: `You **can't** withdraw for __Pterodactyl__ above **1.000.000**.`,
+      color: errorColor,
       fields: [
         {
-          name: "Your balance" as string,
-          value: `${pluralize(userDB?.credits, "credit")}` as string,
+          name: "Your balance",
+          value: `${pluralize(userDB?.credits, "credit")}`,
         },
       ],
       timestamp: new Date(),
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon,
+        text: footerText,
       },
     };
     return interaction?.editReply({ embeds: [embed] });
@@ -99,19 +102,19 @@ export default async (interaction: CommandInteraction) => {
   // Stop if user credits is below amount
   if (userDB?.credits < optionAmount) {
     const embed = {
-      title: ":shopping_cart: Shop [Pterodactyl]" as string,
-      description: `You have **insufficient** credits.` as string,
-      color: config.colors.error as ColorResolvable,
+      title: ":shopping_cart: Shop [Pterodactyl]",
+      description: `You have **insufficient** credits.`,
+      color: errorColor,
       fields: [
         {
-          name: "Your balance" as string,
-          value: `${pluralize(userDB?.credits, "credit")}` as string,
+          name: "Your balance",
+          value: `${pluralize(userDB?.credits, "credit")}`,
         },
       ],
       timestamp: new Date(),
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon,
+        text: footerText,
       },
     };
     return interaction?.editReply({ embeds: [embed] });
@@ -151,33 +154,33 @@ export default async (interaction: CommandInteraction) => {
     ?.then(async () => {
       // Create DM embed object
       const dmEmbed = {
-        title: ":shopping_cart: Shop [Pterodactyl]" as string,
-        description: `Redeem this voucher [here](${shopUrl})!` as string,
+        title: ":shopping_cart: Shop [Pterodactyl]",
+        description: `Redeem this voucher [here](${shopUrl})!`,
         fields: [
-          { name: "Code" as string, value: `${code}` as string, inline: true },
+          { name: "Code", value: `${code}`, inline: true },
           {
-            name: "Credits" as string,
-            value: `${optionAmount || userDB?.credits}` as string,
+            name: "Credits",
+            value: `${optionAmount || userDB?.credits}`,
             inline: true,
           },
         ],
-        color: config?.colors?.success as ColorResolvable,
+        color: successColor,
         timestamp: new Date(),
         footer: {
-          iconURL: config?.footer?.icon as string,
-          text: config?.footer?.text as string,
+          iconURL: footerIcon,
+          text: footerText,
         },
       };
 
       // Create interaction embed object
       const interactionEmbed = {
-        title: ":shopping_cart: Shop [Pterodactyl]" as string,
-        description: "I have sent you the code in DM!" as string,
-        color: config?.colors?.success as ColorResolvable,
+        title: ":shopping_cart: Shop [Pterodactyl]",
+        description: "I have sent you the code in DM!",
+        color: successColor,
         timestamp: new Date(),
         footer: {
-          iconURL: config?.footer?.icon as string,
-          text: config?.footer?.text as string,
+          iconURL: footerIcon,
+          text: footerText,
         },
       };
 
@@ -210,14 +213,13 @@ export default async (interaction: CommandInteraction) => {
         .catch(async (e: any) => {
           logger?.error(e);
           const embed = {
-            title: ":shopping_cart: Shop [Pterodactyl]" as string,
-            description:
-              "Something went wrong, please try again later." as string,
-            color: config?.colors?.error as ColorResolvable,
+            title: ":shopping_cart: Shop [Pterodactyl]",
+            description: "Something went wrong, please try again later.",
+            color: errorColor,
             timestamp: new Date(),
             footer: {
-              iconURL: config?.footer?.icon as string,
-              text: config?.footer?.text as string,
+              iconURL: footerIcon,
+              text: footerText,
             },
           };
           return interaction?.editReply({ embeds: [embed] });
@@ -228,13 +230,13 @@ export default async (interaction: CommandInteraction) => {
     .catch(async (e) => {
       logger?.error(e);
       const embed = {
-        title: ":shopping_cart: Shop [Pterodactyl]" as string,
-        description: "Something went wrong, please try again later." as string,
-        color: config?.colors?.error as ColorResolvable,
+        title: ":shopping_cart: Shop [Pterodactyl]",
+        description: "Something went wrong, please try again later.",
+        color: errorColor,
         timestamp: new Date(),
         footer: {
-          iconURL: config?.footer?.icon as string,
-          text: config?.footer?.text as string,
+          iconURL: footerIcon,
+          text: footerText,
         },
       };
       return interaction?.editReply({ embeds: [embed] });

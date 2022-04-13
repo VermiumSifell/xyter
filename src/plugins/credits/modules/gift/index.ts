@@ -2,7 +2,12 @@
 import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
 
 // Configurations
-import { colors, footer } from "../../../../../config.json";
+import {
+  errorColor,
+  successColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
 import logger from "../../../../logger";
@@ -37,7 +42,7 @@ export default {
         option.setName("reason").setDescription("Your reason.")
       );
   },
-  execute: async (interaction: CommandInteraction, tools: any) => {
+  execute: async (interaction: CommandInteraction) => {
     const { options, user, guild, client } = interaction;
 
     const optionUser = options?.getUser("user");
@@ -51,8 +56,8 @@ export default {
             .setTitle("[:dollar:] Credits (Gift)")
             .setDescription(`We can not find your guild!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -64,8 +69,8 @@ export default {
             .setTitle("[:dollar:] Credits (Gift)")
             .setDescription(`We can not find your requested user!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -85,8 +90,8 @@ export default {
               `We can not find your requested from user in our database!`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -100,8 +105,8 @@ export default {
               `We can not find your requested to user in our database!`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -114,8 +119,8 @@ export default {
             .setTitle("[:dollar:] Credits (Gift)")
             .setDescription(`You can not pay yourself!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -128,8 +133,8 @@ export default {
             .setTitle("[:dollar:] Credits (Gift)")
             .setDescription(`We could not read your requested amount!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -142,8 +147,8 @@ export default {
             .setTitle("[:dollar:] Credits (Gift)")
             .setDescription(`You can't gift zero or below!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -158,8 +163,8 @@ export default {
               `You have insufficient credits. Your balance is ${fromUserDB?.credits}!`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -174,8 +179,8 @@ export default {
               `We can not find your requested to user in our database!`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -209,8 +214,8 @@ export default {
                 )}.`
               )
               .setTimestamp(new Date())
-              .setColor(colors?.success as ColorResolvable)
-              .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+              .setColor(successColor)
+              .setFooter({ text: footerText, iconURL: footerIcon }),
           ],
         })
         .catch(async () =>
@@ -235,8 +240,8 @@ export default {
               )}.`
             )
             .setTimestamp(new Date())
-            .setColor(colors?.success as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(successColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     });

@@ -3,7 +3,12 @@ import axios from "axios";
 import { CommandInteraction, ColorResolvable } from "discord.js";
 
 // Configurations
-import config from "../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
 import logger from "../../../logger";
@@ -25,13 +30,13 @@ export default async (interaction: CommandInteraction) => {
       if (res?.data?.status === "fail") {
         // Create embed object
         const embed = {
-          title: ":hammer: Utilities - Lookup" as string,
+          title: ":hammer: Utilities - Lookup",
           description: `${res?.data?.message}: ${res?.data?.query}` as string,
-          color: config?.colors?.error as ColorResolvable,
+          color: errorColor,
           timestamp: new Date(),
           footer: {
-            iconURL: config?.footer?.icon as string,
-            text: config?.footer?.text as string,
+            iconURL: footerIcon as string,
+            text: footerText as string,
           },
         };
 
@@ -43,62 +48,62 @@ export default async (interaction: CommandInteraction) => {
       else if (res?.data?.status === "success") {
         // Create embed object
         const embed = {
-          title: ":hammer: Utilities - Lookup" as string,
+          title: ":hammer: Utilities - Lookup",
           fields: [
             {
-              name: "AS" as string,
+              name: "AS",
               value: `${res?.data?.as || "Not available"}` as string,
             },
             {
-              name: "Country" as string,
+              name: "Country",
               value: `${res?.data?.country || "Not available"}` as string,
             },
             {
-              name: "Country Code" as string,
+              name: "Country Code",
               value: `${res?.data?.countryCode || "Not available"}` as string,
             },
             {
-              name: "Region" as string,
+              name: "Region",
               value: `${res?.data?.region || "Not available"}` as string,
             },
             {
-              name: "Region Name" as string,
+              name: "Region Name",
               value: `${res?.data?.regionName || "Not available"}` as string,
             },
             {
-              name: "City" as string,
+              name: "City",
               value: `${res?.data?.city || "Not available"}` as string,
             },
             {
-              name: "ZIP Code" as string,
+              name: "ZIP Code",
               value: `${res?.data?.zip || "Not available"}` as string,
             },
             {
-              name: "Latitude" as string,
+              name: "Latitude",
               value: `${res?.data?.lat || "Not available"}` as string,
             },
             {
-              name: "Longitude" as string,
+              name: "Longitude",
               value: `${res?.data?.lon || "Not available"}` as string,
             },
             {
-              name: "Timezone" as string,
+              name: "Timezone",
               value: `${res?.data?.timezone || "Not available"}` as string,
             },
             {
-              name: "ISP" as string,
+              name: "ISP",
               value: `${res?.data?.isp || "Not available"}` as string,
             },
             {
-              name: "Organization" as string,
+              name: "Organization",
               value: `${res?.data?.org || "Not available"}` as string,
             },
           ],
-          color: config?.colors?.success as ColorResolvable,
+          color: successColor,
           timestamp: new Date(),
           footer: {
-            iconURL: config?.footer?.icon as string,
-            text: config?.footer?.text as string,
+            iconURL: footerIcon as string,
+            text: footerText as string,
           },
         };
 

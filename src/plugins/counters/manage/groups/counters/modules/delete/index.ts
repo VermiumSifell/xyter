@@ -2,10 +2,15 @@
 import { ColorResolvable, CommandInteraction, MessageEmbed } from "discord.js";
 
 // Configurations
-import { colors, footer } from "../../../../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
-import logger from "../../../../../../logger";
+import logger from "@logger";
 
 // Models
 import counterSchema from "../../../../../../database/schemas/counter";
@@ -43,8 +48,8 @@ export default {
             .setTitle("[:toolbox:] Manage - Counters (Delete)")
             .setDescription(`${discordChannel} is not a counting channel!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }
@@ -63,8 +68,8 @@ export default {
                 `${discordChannel} is no longer an counting channel.`
               )
               .setTimestamp(new Date())
-              .setColor(colors?.success as ColorResolvable)
-              .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+              .setColor(successColor)
+              .setFooter({ text: footerText, iconURL: footerIcon }),
           ],
         });
       });

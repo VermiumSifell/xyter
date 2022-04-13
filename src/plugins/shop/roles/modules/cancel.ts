@@ -6,14 +6,18 @@ import {
 } from "discord.js";
 
 // Configurations
-import config from "../../../../../config.json";
-
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 // Models
-import shopRolesSchema from "../../../../database/schemas/shopRole";
+import shopRolesSchema from "@schemas/shopRole";
 
 // Helpers
-import pluralize from "../../../../helpers/pluralize";
-import fetchUser from "../../../../helpers/fetchUser";
+import pluralize from "@helpers/pluralize";
+import fetchUser from "@helpers/fetchUser";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -25,13 +29,13 @@ export default async (interaction: CommandInteraction) => {
   if (optionRole === null) {
     // Embed object
     const embed = {
-      title: ":dollar: Shop - Roles [Cancel]" as string,
-      description: "We could not read your requested role." as string,
-      color: config?.colors?.error as ColorResolvable,
+      title: ":dollar: Shop - Roles [Cancel]",
+      description: "We could not read your requested role.",
+      color: errorColor,
       timestamp: new Date(),
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon,
+        text: footerText,
       },
     };
 
@@ -62,19 +66,19 @@ export default async (interaction: CommandInteraction) => {
         });
 
         const embed = {
-          title: ":shopping_cart: Shop - Roles [Cancel]" as string,
-          description: `You have canceled ${optionRole.name}.` as string,
-          color: config?.colors?.success as ColorResolvable,
+          title: ":shopping_cart: Shop - Roles [Cancel]",
+          description: `You have canceled ${optionRole.name}.`,
+          color: successColor,
           fields: [
             {
-              name: "Your balance" as string,
-              value: `${pluralize(userDB?.credits, "credit")}` as string,
+              name: "Your balance",
+              value: `${pluralize(userDB?.credits, "credit")}`,
             },
           ],
           timestamp: new Date(),
           footer: {
-            iconURL: config?.footer?.icon as string,
-            text: config?.footer?.text as string,
+            iconURL: footerIcon,
+            text: footerText,
           },
         };
         return interaction?.editReply({

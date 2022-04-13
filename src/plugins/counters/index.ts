@@ -2,21 +2,19 @@
 import { CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 
-// Modules
-import modules from "./modules";
+import modules from "@root/plugins/counters/modules";
 
-// Function
 export default {
   metadata: { author: "Zyner" },
   data: new SlashCommandBuilder()
     .setName("counters")
     .setDescription("Manage counters.")
-    .addSubcommand(modules?.view?.data),
-  async execute(interaction: CommandInteraction, tools: any) {
+    .addSubcommand(modules.view.data),
+  async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 
     if (options?.getSubcommand() === "view") {
-      return modules?.view?.execute(interaction, tools);
+      return modules.view.execute(interaction);
     }
   },
 };

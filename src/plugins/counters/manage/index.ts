@@ -1,14 +1,9 @@
 //Dependencies
 import { SlashCommandBuilder } from "@discordjs/builders";
-import {
-  CommandInteraction,
-  ColorResolvable,
-  Permissions,
-  MessageEmbed,
-} from "discord.js";
+import { CommandInteraction, Permissions, MessageEmbed } from "discord.js";
 
 // Configurations
-import { colors, footer } from "../../../config.json";
+import { errorColor, footerText, footerIcon } from "@config/embed";
 
 // Groups
 import credits from "./groups/credits";
@@ -35,8 +30,8 @@ export default {
             .setTitle("[:toolbox:] Manage")
             .setDescription(`You do not have permission to manage this!`)
             .setTimestamp(new Date())
-            .setColor(colors?.error as ColorResolvable)
-            .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+            .setColor(errorColor)
+            .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
     }

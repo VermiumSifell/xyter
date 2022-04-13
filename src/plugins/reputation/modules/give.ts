@@ -1,15 +1,22 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable } from "discord.js";
+import { CommandInteraction } from "discord.js";
 
 // Configurations
-import config from "../../../../config.json";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
+
+import { timeout } from "@config/reputation";
 
 // Handlers
-import logger from "../../../logger";
+import logger from "@logger";
 
 // Models
-import timeoutSchema from "../../../database/schemas/timeout";
-import fetchUser from "../../../helpers/fetchUser";
+import timeoutSchema from "@schemas/timeout";
+import fetchUser from "@helpers/fetchUser";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -42,13 +49,13 @@ export default async (interaction: CommandInteraction) => {
     if (optionTarget?.id === user?.id) {
       // Embed object
       const embed = {
-        title: ":loudspeaker: Reputation [Give]" as string,
-        description: "You can not repute yourself." as string,
+        title: ":loudspeaker: Reputation [Give]",
+        description: "You can not repute yourself.",
         timestamp: new Date(),
-        color: config?.colors?.error as ColorResolvable,
+        color: errorColor,
         footer: {
-          iconURL: config?.footer?.icon as string,
-          text: config?.footer?.text as string,
+          iconURL: footerIcon,
+          text: footerText,
         },
       };
 
@@ -70,14 +77,13 @@ export default async (interaction: CommandInteraction) => {
     await userObj?.save()?.then(async () => {
       // Embed object
       const embed = {
-        title: ":loudspeaker: Reputation [Give]" as string,
-        description:
-          `You have given ${optionTarget} a ${optionType} reputation!` as string,
+        title: ":loudspeaker: Reputation [Give]",
+        description: `You have given ${optionTarget} a ${optionType} reputation!`,
         timestamp: new Date(),
-        color: config?.colors?.success as ColorResolvable,
+        color: successColor,
         footer: {
-          iconURL: config?.footer?.icon as string,
-          text: config?.footer?.text as string,
+          iconURL: footerIcon,
+          text: footerText,
         },
       };
 
@@ -99,9 +105,7 @@ export default async (interaction: CommandInteraction) => {
     setTimeout(async () => {
       // send debug message
       logger?.debug(
-        `Guild: ${guild?.id} User: ${user?.id} has not repute within last ${
-          config?.reputation?.timeout / 1000
-        } seconds, reputation can be given`
+        `Guild: ${guild?.id} User: ${user?.id} has not repute within last ${timeout} seconds, reputation can be given`
       );
 
       // When timeout is out, remove it from the database
@@ -110,27 +114,23 @@ export default async (interaction: CommandInteraction) => {
         userId: user?.id,
         timeoutId: "2022-04-10-16-42",
       });
-    }, config?.reputation?.timeout);
+    }, timeout);
   } else {
     // Create embed object
     const embed = {
-      title: ":loudspeaker: Reputation [Give]" as string,
-      description: `You have given reputation within the last ${
-        config?.reputation?.timeout / 1000
-      } seconds, you can not repute now!` as string,
+      title: ":loudspeaker: Reputation [Give]",
+      description: `You have given reputation within the last ${timeout} seconds, you can not repute now!`,
       timestamp: new Date(),
-      color: config.colors.error as ColorResolvable,
+      color: errorColor,
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon,
+        text: footerText,
       },
     };
 
     // Log debug message
     logger?.debug(
-      `Guild: ${guild?.id} User: ${user?.id} has repute within last ${
-        config?.reputation?.timeout / 1000
-      } seconds, no reputation can be given`
+      `Guild: ${guild?.id} User: ${user?.id} has repute within last ${timeout} seconds, no reputation can be given`
     );
 
     // Return interaction reply

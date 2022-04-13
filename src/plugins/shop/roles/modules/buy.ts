@@ -6,15 +6,19 @@ import {
 } from "discord.js";
 
 // Configurations
-import config from "../../../../../config.json";
-
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 // Models
-import shopRolesSchema from "../../../../database/schemas/shopRole";
-import guildSchema from "../../../../database/schemas/guild";
+import shopRolesSchema from "@schemas/shopRole";
+import guildSchema from "@schemas/guild";
 
 // Helpers
-import pluralize from "../../../../helpers/pluralize";
-import fetchUser from "../../../../helpers/fetchUser";
+import pluralize from "@helpers/pluralize";
+import fetchUser from "@helpers/fetchUser";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -27,13 +31,13 @@ export default async (interaction: CommandInteraction) => {
   if (optionName === null) {
     // Embed object
     const embed = {
-      title: ":dollar: Shop - Roles [Buy]" as string,
-      description: "We could not read your requested name." as string,
-      color: config?.colors?.error as ColorResolvable,
+      title: ":dollar: Shop - Roles [Buy]",
+      description: "We could not read your requested name.",
+      color: errorColor,
       timestamp: new Date(),
       footer: {
-        iconURL: config?.footer?.icon as string,
-        text: config?.footer?.text as string,
+        iconURL: footerIcon,
+        text: footerText,
       },
     };
 
@@ -77,20 +81,19 @@ export default async (interaction: CommandInteraction) => {
       await shopRolesSchema?.find()?.then((role: any) => console.log(role));
 
       const embed = {
-        title: ":shopping_cart: Shop - Roles [Buy]" as string,
-        description:
-          `You have bought ${role?.name} for ${guildDB?.shop?.roles?.pricePerHour} per hour.` as string,
-        color: config?.colors?.success as ColorResolvable,
+        title: ":shopping_cart: Shop - Roles [Buy]",
+        description: `You have bought ${role?.name} for ${guildDB?.shop?.roles?.pricePerHour} per hour.`,
+        color: successColor,
         fields: [
           {
-            name: "Your balance" as string,
-            value: `${pluralize(userDB?.credits, "credit")}` as string,
+            name: "Your balance",
+            value: `${pluralize(userDB?.credits, "credit")}`,
           },
         ],
         timestamp: new Date(),
         footer: {
-          iconURL: config?.footer?.icon as string,
-          text: config?.footer?.text as string,
+          iconURL: footerIcon,
+          text: footerText,
         },
       };
       return interaction?.editReply({

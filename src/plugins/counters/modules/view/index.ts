@@ -1,7 +1,17 @@
 // Dependencies
-import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
+
+import counterSchema from "@schemas/counter";
+
+// Configuration
+import {
+  errorColor,
+  successColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 export default {
   data: (command: SlashCommandSubcommandBuilder) => {
@@ -16,13 +26,12 @@ export default {
           .addChannelType(ChannelType.GuildText as number)
       );
   },
-  execute: async (interaction: CommandInteraction, tools: any) => {
+  execute: async (interaction: CommandInteraction) => {
     const { options, guild } = interaction;
-    const { config, schemas } = tools;
 
     const discordChannel = options?.getChannel("channel");
 
-    const counter = await schemas?.counter?.findOne({
+    const counter = await counterSchema?.findOne({
       guildId: guild?.id,
       channelId: discordChannel?.id,
     });
@@ -34,10 +43,10 @@ export default {
             .setTitle("[:1234:] Counters (View)")
             .setDescription(`${discordChannel} is not a counting channel!`)
             .setTimestamp(new Date())
-            .setColor(config?.colors?.error as ColorResolvable)
+            .setColor(errorColor)
             .setFooter({
-              text: config?.footer?.text,
-              iconURL: config?.footer?.icon,
+              text: footerText,
+              iconURL: footerIcon,
             }),
         ],
       });
@@ -51,10 +60,10 @@ export default {
             `${discordChannel} is currently at number ${counter?.counter}.`
           )
           .setTimestamp(new Date())
-          .setColor(config?.colors?.success as ColorResolvable)
+          .setColor(successColor)
           .setFooter({
-            text: config?.footer?.text,
-            iconURL: config?.footer?.icon,
+            text: footerText,
+            iconURL: footerIcon,
           }),
       ],
     });

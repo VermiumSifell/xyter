@@ -1,22 +1,20 @@
 // Dependencies
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, ColorResolvable, MessageEmbed } from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
+
+import userSchema from "@schemas/user";
 
 // Configurations
-import { colors, footer } from "../../../../../config.json";
+import { successColor, footerText, footerIcon } from "@config/embed";
 
-// Models
-import userSchema from "../../../../database/schemas/user";
+// Helpers
+import pluralize from "@helpers/pluralize";
 
-// helpers
-import pluralize from "../../../../helpers/pluralize";
-
-// Function
 export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("top").setDescription("Check the top balance.");
   },
-  execute: async (interaction: CommandInteraction, tools: any) => {
+  execute: async (interaction: CommandInteraction) => {
     // Get all users in the guild
 
     const usersDB = await userSchema.find({ guildId: interaction?.guild?.id });
@@ -46,8 +44,8 @@ export default {
             ${topTen?.map((x, index) => entry(x, index))?.join("\n")}`
           )
           .setTimestamp(new Date())
-          .setColor(colors?.success as ColorResolvable)
-          .setFooter({ text: footer?.text, iconURL: footer?.icon }),
+          .setColor(successColor)
+          .setFooter({ text: footerText, iconURL: footerIcon }),
       ],
     });
   },
