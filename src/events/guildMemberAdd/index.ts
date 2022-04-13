@@ -2,8 +2,8 @@
 import { GuildMember } from "discord.js";
 
 // Helpers
-import updatePresence from "../../helpers/updatePresence";
-import fetchUser from "../../helpers/fetchUser";
+import updatePresence from "@helpers/updatePresence";
+import fetchUser from "@helpers/fetchUser";
 
 export default {
   name: "guildMemberAdd",
