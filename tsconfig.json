@@ -19,6 +19,7 @@
       "@interface/*": ["Interfaces/*"],
       "@root/*": ["*"],
       "@config/*": ["config/*"],
+      "@events/*": ["events/*"],
       "@logger": ["logger"],
       "@database": ["database"],
       "@schedules": ["schedules"],

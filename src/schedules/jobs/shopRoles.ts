@@ -16,7 +16,7 @@ export default async (client: Client) => {
       const oneHourAfterPayed = payed?.setHours(payed?.getHours() + 1);
 
       if (new Date() > new Date(oneHourAfterPayed)) {
-        logger?.verbose(`Shop role ${shopRole?.name} is expired.`);
+        logger?.verbose(`Shop role ${shopRole?.roleId} is expired.`);
 
         // Get guild object
         const guild = await guildSchema?.findOne({
