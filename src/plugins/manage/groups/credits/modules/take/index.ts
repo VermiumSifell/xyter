@@ -40,7 +40,7 @@ export default {
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure
-    const { guild, user, options } = interaction;
+    const { guild, options } = interaction;
 
     // User option
     const optionUser = options?.getUser("user");

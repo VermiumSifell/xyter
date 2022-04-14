@@ -25,8 +25,7 @@ export default {
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member
-    const { memberPermissions, options, commandName, user, guild } =
-      interaction;
+    const { memberPermissions, options } = interaction;
 
     // Check permission
     if (!memberPermissions?.has(Permissions?.FLAGS?.MANAGE_GUILD)) {

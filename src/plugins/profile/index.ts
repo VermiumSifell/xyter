@@ -25,7 +25,7 @@ export default {
         )
     ),
   async execute(interaction: CommandInteraction) {
-    const { options, guild, user, commandName } = interaction;
+    const { options } = interaction;
 
     if (options?.getSubcommand() === "view") {
       logger?.verbose(`Executing view subcommand`);

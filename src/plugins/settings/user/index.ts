@@ -28,7 +28,7 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    const { guild, user, options, commandName } = interaction;
+    const { options } = interaction;
 
     if (options?.getSubcommand() === "appearance") {
       logger?.verbose(`Executing appearance subcommand`);

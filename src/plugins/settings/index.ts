@@ -19,7 +19,7 @@ export default {
     .addSubcommandGroup(userGroup.data),
 
   async execute(interaction: CommandInteraction) {
-    const { options, commandName, user, guild } = interaction;
+    const { options } = interaction;
 
     if (options.getSubcommandGroup() === "guild") {
       logger.verbose(`Executing guild subcommand`);

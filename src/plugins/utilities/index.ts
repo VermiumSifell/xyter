@@ -20,7 +20,7 @@ export default {
     .addSubcommand(about.data)
     .addSubcommand(stats.data),
   async execute(interaction: CommandInteraction) {
-    const { options, guild, user, commandName } = interaction;
+    const { options } = interaction;
 
     if (options?.getSubcommand() === "lookup") {
       logger.verbose(`Executing lookup subcommand`);

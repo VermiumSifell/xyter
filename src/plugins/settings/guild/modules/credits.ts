@@ -46,7 +46,7 @@ export default {
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member
-    const { guild, user, options } = interaction;
+    const { guild, options } = interaction;
 
     // Get options
     const status = options?.getBoolean("status");

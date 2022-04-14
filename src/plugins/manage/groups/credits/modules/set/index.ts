@@ -13,7 +13,6 @@ import {
 import logger from "@logger";
 
 // Helpers
-import pluralize from "@helpers/pluralize";
 
 // Models
 import fetchUser from "@helpers/fetchUser";
@@ -39,7 +38,7 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    const { options, user, guild } = interaction;
+    const { options, guild } = interaction;
 
     const discordUser = options.getUser("user");
     const creditAmount = options.getInteger("amount");

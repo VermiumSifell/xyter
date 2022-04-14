@@ -20,7 +20,7 @@ export default {
     .addSubcommand(pterodactyl.data)
     .addSubcommandGroup(roles.data),
   async execute(interaction: CommandInteraction) {
-    const { options, commandName, user, guild } = interaction;
+    const { options } = interaction;
 
     if (options?.getSubcommand() === "pterodactyl") {
       logger.verbose(`Executing pterodactyl subcommand`);

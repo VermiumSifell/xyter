@@ -43,7 +43,7 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    const { options, guild, user } = interaction;
+    const { options, guild } = interaction;
 
     const discordChannel = options?.getChannel("channel");
     const countingWord = options?.getString("word");

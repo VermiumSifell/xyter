@@ -16,7 +16,7 @@ export default {
     .setDescription("Manage reputation.")
     .addSubcommand(give.data),
   async execute(interaction: CommandInteraction) {
-    const { options, guild, user, commandName } = interaction;
+    const { options } = interaction;
 
     if (options?.getSubcommand() === "give") {
       logger?.verbose(`Executing give subcommand`);

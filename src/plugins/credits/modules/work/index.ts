@@ -13,7 +13,6 @@ import logger from "@logger";
 import timeoutSchema from "@schemas/timeout";
 
 // Helpers
-import pluralize from "@helpers/pluralize";
 import fetchUser from "@helpers/fetchUser";
 import fetchGuild from "@helpers/fetchGuild";
 

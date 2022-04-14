@@ -33,7 +33,7 @@ export default {
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member
-    const { options, guild, user } = interaction;
+    const { options, guild } = interaction;
 
     // Get options
     const url = options?.getString("url");

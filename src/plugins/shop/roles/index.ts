@@ -19,7 +19,7 @@ export default {
       .addSubcommand(cancel.data);
   },
   execute: async (interaction: CommandInteraction) => {
-    const { options, commandName, guild, user } = interaction;
+    const { options } = interaction;
 
     if (options?.getSubcommand() === "buy") {
       logger.verbose(`Executing buy subcommand`);
