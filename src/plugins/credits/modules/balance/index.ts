@@ -75,7 +75,6 @@ export default {
         embeds: [
           new MessageEmbed()
             .setTitle("[:dollar:] Credits (Balance)")
-            .setDescription(`${userObj} has no credits!`)
             .setDescription(`${discordUser || user} has no credits!`)
             .setTimestamp(new Date())
             .setColor(errorColor)
@@ -91,7 +90,7 @@ export default {
         new MessageEmbed()
           .setTitle("[:dollar:] Credits (Balance)")
           .setDescription(
-            `${userObj} has ${userObj.credits} ${pluralize(
+            `${discordUser || user} has  ${pluralize(
               userObj.credits,
               `credit`
             )}!`
