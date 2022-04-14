@@ -13,7 +13,6 @@ import {
 import logger from "@logger";
 
 // Helpers
-import pluralize from "@helpers/pluralize";
 import saveUser from "@helpers/saveUser";
 
 // Models
@@ -25,23 +24,23 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("transfer")
-      .setDescription("Transfer credits from a user to another user.")
+      .setDescription("Transfer credits from one user to another.")
       .addUserOption((option) =>
         option
           .setName("from")
-          .setDescription("The user you want to take credits from.")
+          .setDescription("The user to transfer credits from.")
           .setRequired(true)
       )
       .addUserOption((option) =>
         option
           .setName("to")
-          .setDescription("The user you want to give credits to.")
+          .setDescription("The user to transfer credits to.")
           .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("amount")
-          .setDescription("The amount you will transfer.")
+          .setDescription(`The amount of credits to transfer.`)
           .setRequired(true)
       );
   },
@@ -56,11 +55,13 @@ export default {
 
     // If amount is null
     if (optionAmount === null) {
+      logger?.verbose(`Amount is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Transfer)")
-            .setDescription(`We could not read your requested amount!`)
+            .setDescription(`You must provide an amount.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -69,11 +70,13 @@ export default {
     }
 
     if (guild === null) {
+      logger?.verbose(`Guild is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Transfer)")
-            .setDescription(`We could not read your guild!`)
+            .setDescription(`You must be in a guild.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -81,11 +84,13 @@ export default {
       });
     }
     if (optionFromUser === null) {
+      logger?.verbose(`From user is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Transfer)")
-            .setDescription(`We could not read your requested from user!`)
+            .setDescription(`You must provide a user to transfer from.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -93,11 +98,13 @@ export default {
       });
     }
     if (optionToUser === null) {
+      logger?.verbose(`To user is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Transfer)")
-            .setDescription(`We could not read your requested to user!`)
+            .setDescription(`You must provide a user to transfer to.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -113,12 +120,14 @@ export default {
 
     // If toUser does not exist
     if (fromUser === null) {
+      logger?.verbose(`From user does not exist`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Transfer)")
             .setDescription(
-              `We could not read your requested from user from our database!`
+              `The user you provided to transfer from does not exist.`
             )
             .setTimestamp(new Date())
             .setColor(errorColor)
@@ -129,12 +138,14 @@ export default {
 
     // If toUser.credits does not exist
     if (!fromUser?.credits) {
+      logger?.verbose(`From user does not have credits`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Transfer)")
             .setDescription(
-              `We could not find credits for ${optionFromUser} in our database!`
+              `The user you provided to transfer from does not have credits.`
             )
             .setTimestamp(new Date())
             .setColor(errorColor)
@@ -145,12 +156,14 @@ export default {
 
     // If toUser does not exist
     if (toUser === null) {
+      logger?.verbose(`To user does not exist`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Transfer)")
             .setDescription(
-              `We could not read your requested to user from our database!`
+              `The user you provided to transfer to does not exist.`
             )
             .setTimestamp(new Date())
             .setColor(errorColor)
@@ -161,12 +174,14 @@ export default {
 
     // If toUser.credits does not exist
     if (toUser?.credits === null) {
+      logger?.verbose(`To user does not have credits`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Transfer)")
             .setDescription(
-              `We could not find credits for ${optionToUser} in our database!`
+              `The user you provided to transfer to does not have credits.`
             )
             .setTimestamp(new Date())
             .setColor(errorColor)
@@ -183,23 +198,13 @@ export default {
 
     // Save users
     await saveUser(fromUser, toUser)?.then(async () => {
-      logger?.debug(
-        `Guild: ${guild?.id} User: ${user?.id} transferred ${pluralize(
-          optionAmount,
-          "credit"
-        )} from ${optionFromUser?.id} to ${optionToUser?.id}.`
-      );
+      logger?.verbose(`Saved users`);
 
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Transfer)")
-            .setDescription(
-              `We have sent ${pluralize(
-                optionAmount,
-                "credit"
-              )} from ${optionFromUser} to ${optionToUser}.`
-            )
+            .setDescription(`Transferred ${optionAmount} credits.`)
             .addFields(
               {
                 name: `${optionFromUser?.username} Balance`,

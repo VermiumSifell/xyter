@@ -10,14 +10,13 @@ import {
 } from "@config/embed";
 
 // Handlers
-import logger from "../../../../logger";
+import logger from "@logger";
 
 // Helpers
-import saveUser from "../../../../helpers/saveUser";
-import pluralize from "../../../../helpers/pluralize";
+import saveUser from "@helpers/saveUser";
 
 // Models
-import fetchUser from "../../../../helpers/fetchUser";
+import fetchUser from "@helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
@@ -25,17 +24,17 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("gift")
-      .setDescription("Gift someone credits from your credits.")
+      .setDescription(`Gift a user credits`)
       .addUserOption((option) =>
         option
           .setName("user")
-          .setDescription("The user you want to pay.")
+          .setDescription("The user you want to gift credits to.")
           .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("amount")
-          .setDescription("The amount you will pay.")
+          .setDescription("The amount of credits you want to gift.")
           .setRequired(true)
       )
       .addStringOption((option) =>
@@ -50,6 +49,8 @@ export default {
     const optionReason = options?.getString("reason");
 
     if (guild === null) {
+      logger?.verbose(`Guild is null`);
+
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
@@ -63,6 +64,8 @@ export default {
     }
 
     if (optionUser === null) {
+      logger?.verbose(`User not found`);
+
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
@@ -82,6 +85,8 @@ export default {
     const toUserDB = await fetchUser(optionUser, guild);
 
     if (fromUserDB === null) {
+      logger?.verbose(`User not found`);
+
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
@@ -97,6 +102,8 @@ export default {
     }
 
     if (toUserDB === null) {
+      logger?.verbose(`User not found`);
+
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
@@ -113,6 +120,8 @@ export default {
 
     // If receiver is same as sender
     if (optionUser?.id === user?.id) {
+      logger?.verbose(`User is same as sender`);
+
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
@@ -127,6 +136,8 @@ export default {
 
     // If amount is null
     if (optionAmount === null) {
+      logger?.verbose(`Amount is null`);
+
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
@@ -141,6 +152,8 @@ export default {
 
     // If amount is zero or below
     if (optionAmount <= 0) {
+      logger?.verbose(`Amount is zero or below`);
+
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
@@ -155,6 +168,8 @@ export default {
 
     // If user has below gifting amount
     if (fromUserDB?.credits < optionAmount) {
+      logger?.verbose(`User has below gifting amount`);
+
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
@@ -171,6 +186,8 @@ export default {
 
     // If toUserDB has no credits
     if (toUserDB === null) {
+      logger?.verbose(`User has no credits`);
+
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
@@ -203,28 +220,23 @@ export default {
             new MessageEmbed()
               .setTitle("[:dollar:] Credits (Gift)")
               .setDescription(
-                `You received ${pluralize(
-                  optionAmount,
-                  "credit"
-                )} from ${user}${
+                `You have received ${optionAmount} credits from ${
+                  user?.tag
+                } with reason ${
                   optionReason ? ` with reason: ${optionReason}` : ""
-                }. Your new credits is ${pluralize(
-                  toUserDB?.credits,
-                  "credit"
-                )}.`
+                }!`
               )
               .setTimestamp(new Date())
               .setColor(successColor)
               .setFooter({ text: footerText, iconURL: footerIcon }),
           ],
         })
-        .catch(async () =>
-          logger.debug(`Can not send DM to user ${optionUser?.id}`)
+        .catch(async (error) =>
+          logger?.error(`[Gift] Error sending DM to user: ${error}`)
         );
 
-      // Send debug message
-      logger.debug(
-        `Guild: ${guild?.id} User: ${user?.id} gift sent from: ${user?.id} to: ${optionUser?.id}`
+      logger?.verbose(
+        `[Gift] Successfully gifted ${optionAmount} credits to ${optionUser?.tag}`
       );
 
       return interaction.editReply({
@@ -232,12 +244,7 @@ export default {
           new MessageEmbed()
             .setTitle("[:dollar:] Credits (Gift)")
             .setDescription(
-              `You sent ${pluralize(optionAmount, "credit")} to ${optionUser}${
-                optionReason ? ` with reason: ${optionReason}` : ""
-              }. Your new credits is ${pluralize(
-                fromUserDB?.credits,
-                "credit"
-              )}.`
+              `Successfully gifted ${optionAmount} credits to ${optionUser?.tag}!`
             )
             .setTimestamp(new Date())
             .setColor(successColor)

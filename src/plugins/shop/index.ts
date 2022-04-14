@@ -16,70 +16,24 @@ export default {
   metadata: { author: "Zyner" },
   data: new SlashCommandBuilder()
     .setName("shop")
-    .setDescription("Purchase some items using your credits.")
-    .addSubcommand((subcommand) =>
-      subcommand
-        .setName("pterodactyl")
-        .setDescription("Buy pterodactyl power.")
-        .addIntegerOption((option) =>
-          option
-            .setName("amount")
-            .setDescription("How much credits you want to withdraw.")
-        )
-    )
-    .addSubcommandGroup((group) =>
-      group
-        .setName("roles")
-        .setDescription("Manage custom roles.")
-        .addSubcommand((command) =>
-          command
-            .setName("buy")
-            .setDescription("Buy a custom role")
-            .addStringOption((option) =>
-              option
-                .setName("name")
-                .setDescription("Name of the role you wish to purchase.")
-            )
-            .addStringOption((option) =>
-              option
-                .setName("color")
-                .setDescription(
-                  "Color of the role you wish to purchase (For example RED or BLUE or GREEN)."
-                )
-            )
-        )
-        .addSubcommand((command) =>
-          command
-            .setName("cancel")
-            .setDescription("Cancel a custom role")
-            .addRoleOption((option) =>
-              option
-                .setName("role")
-                .setDescription("Name of the role you wish to cancel.")
-            )
-        )
-    ),
+    .setDescription("Shop for credits and custom roles.")
+    .addSubcommand(pterodactyl.data)
+    .addSubcommandGroup(roles.data),
   async execute(interaction: CommandInteraction) {
-    // Destructure
     const { options, commandName, user, guild } = interaction;
 
-    // Module - Pterodactyl
     if (options?.getSubcommand() === "pterodactyl") {
-      // Execute Module - Pterodactyl
-      return pterodactyl(interaction);
+      logger.verbose(`Executing pterodactyl subcommand`);
+
+      return pterodactyl.execute(interaction);
     }
 
-    // Group - Roles
-    else if (options?.getSubcommandGroup() === "roles") {
-      // Execute Group - Roles
-      return roles(interaction);
+    if (options?.getSubcommandGroup() === "roles") {
+      logger?.verbose(`Subcommand group is roles`);
+
+      return roles.execute(interaction);
     }
 
-    // Send debug message
-    return logger?.debug(
-      `Guild: ${guild?.id} User: ${
-        user?.id
-      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
-    );
+    logger?.verbose(`No subcommand found.`);
   },
 };

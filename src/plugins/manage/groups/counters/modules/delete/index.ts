@@ -13,7 +13,7 @@ import {
 import logger from "@logger";
 
 // Models
-import counterSchema from "../../../../../../database/schemas/counter";
+import counterSchema from "@schemas/counter";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 
@@ -22,11 +22,11 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("delete")
-      .setDescription("Delete a counter from your guild.")
+      .setDescription(`Delete a counter from your guild.`)
       .addChannelOption((option) =>
         option
           .setName("channel")
-          .setDescription("The channel that you want to delete a counter from.")
+          .setDescription("The channel to delete the counter from.")
           .setRequired(true)
           .addChannelType(ChannelType.GuildText as number)
       );
@@ -42,11 +42,13 @@ export default {
     });
 
     if (counter === null) {
+      logger?.verbose(`Counter is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Counters (Delete)")
-            .setDescription(`${discordChannel} is not a counting channel!`)
+            .setDescription(`The counter for this channel does not exist.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -60,22 +62,21 @@ export default {
         channelId: discordChannel?.id,
       })
       ?.then(async () => {
+        logger?.verbose(`Counter deleted`);
+
         return interaction?.editReply({
           embeds: [
             new MessageEmbed()
               .setTitle("[:toolbox:] Manage - Counters (Delete)")
-              .setDescription(
-                `${discordChannel} is no longer an counting channel.`
-              )
+              .setDescription(`The counter for this channel has been deleted.`)
               .setTimestamp(new Date())
               .setColor(successColor)
               .setFooter({ text: footerText, iconURL: footerIcon }),
           ],
         });
+      })
+      .catch(async (error) => {
+        logger?.error(`Error deleting counter: ${error}`);
       });
-
-    logger?.debug(
-      `Guild: ${guild?.id} User: ${user?.id} removed ${discordChannel?.id} as a counter.`
-    );
   },
 };

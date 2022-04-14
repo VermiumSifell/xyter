@@ -2,8 +2,8 @@
 import { Message } from "discord.js";
 
 // Models
-import counterSchema from "../../../database/schemas/counter";
-import logger from "../../../logger";
+import counterSchema from "@schemas/counter";
+import logger from "@logger";
 
 export default async (message: Message) => {
   const { guild, channel, author, content } = message;
@@ -13,16 +13,23 @@ export default async (message: Message) => {
     channelId: channel?.id,
   });
 
-  if (counter === null) return;
+  if (counter === null)
+    return logger?.verbose(
+      `No counter found for guild: ${guild?.name} (${guild?.id})`
+    );
   const { word } = counter;
-  if (content === word) return;
+  if (content === word)
+    return logger?.verbose(
+      `User: ${author?.tag} (${author?.id}) in guild: ${guild?.name} (${guild?.id}) said the counter word: ${word}`
+    );
 
   await message
     ?.delete()
     ?.then(async () => {
       await channel?.send(`${author} said **${word}**.`);
+      logger?.verbose(`${author} said ${word} in ${channel}`);
     })
-    ?.catch(async (error) => {
-      logger.error(new Error(error));
+    ?.catch(async (error: any) => {
+      logger?.error(error);
     });
 };

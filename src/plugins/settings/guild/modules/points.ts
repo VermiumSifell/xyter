@@ -5,10 +5,10 @@ import { CommandInteraction } from "discord.js";
 import { successColor, footerText, footerIcon } from "@config/embed";
 
 // Handlers
-import logger from "../../../../logger";
+import logger from "@logger";
 
 // Models
-import guildSchema from "../../../../database/schemas/guild";
+import guildSchema from "@schemas/guild";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
@@ -49,7 +49,9 @@ export default {
       guildId: guild?.id,
     });
 
-    if (guildDB === null) return;
+    if (guildDB === null) {
+      return logger?.verbose(`Guild not found in database.`);
+    }
 
     // Modify values
     guildDB.points.status = status !== null ? status : guildDB?.points?.status;
@@ -61,47 +63,44 @@ export default {
 
     // Save guild
     await guildDB?.save()?.then(async () => {
-      // Create embed object
-      const embed = {
-        title: ":hammer: Settings - Guild [Points]",
-        description: "Following settings is set!",
-        color: successColor,
-        fields: [
+      logger?.verbose(`Guild points updated.`);
+
+      return interaction?.editReply({
+        embeds: [
           {
-            name: "🤖 Status",
-            value: `${guildDB?.points?.status}`,
-            inline: true,
-          },
-          {
-            name: "📈 Rate",
-            value: `${guildDB?.points?.rate}`,
-            inline: true,
-          },
-          {
-            name: "🔨 Minimum Length",
-            value: `${guildDB?.points?.minimumLength}`,
-            inline: true,
-          },
-          {
-            name: "⏰ Timeout",
-            value: `${guildDB?.points?.timeout}`,
-            inline: true,
+            title: ":hammer: Settings - Guild [Points]",
+            description: `Points settings updated.`,
+            color: successColor,
+            fields: [
+              {
+                name: "🤖 Status",
+                value: `${guildDB?.points?.status}`,
+                inline: true,
+              },
+              {
+                name: "📈 Rate",
+                value: `${guildDB?.points?.rate}`,
+                inline: true,
+              },
+              {
+                name: "🔨 Minimum Length",
+                value: `${guildDB?.points?.minimumLength}`,
+                inline: true,
+              },
+              {
+                name: "⏰ Timeout",
+                value: `${guildDB?.points?.timeout}`,
+                inline: true,
+              },
+            ],
+            timestamp: new Date(),
+            footer: {
+              iconURL: footerIcon,
+              text: footerText,
+            },
           },
         ],
-        timestamp: new Date(),
-        footer: {
-          iconURL: footerIcon,
-          text: footerText,
-        },
-      };
-
-      // Send debug message
-      logger?.debug(
-        `Guild: ${guild?.id} User: ${user?.id} has changed credit details.`
-      );
-
-      // Return interaction reply
-      return interaction?.editReply({ embeds: [embed] });
+      });
     });
   },
 };

@@ -17,11 +17,13 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("view")
-      .setDescription("View a counter's count.")
+      .setDescription(`View a guild counter`)
       .addChannelOption((option) =>
         option
           .setName("channel")
-          .setDescription("The counter channel you want to view.")
+          .setDescription(
+            `The channel that contains the counter you want to view`
+          )
           .setRequired(true)
           .addChannelType(ChannelType.GuildText as number)
       );
@@ -41,7 +43,7 @@ export default {
         embeds: [
           new MessageEmbed()
             .setTitle("[:1234:] Counters (View)")
-            .setDescription(`${discordChannel} is not a counting channel!`)
+            .setDescription(`No counter found for channel ${discordChannel}!`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({
@@ -57,7 +59,7 @@ export default {
         new MessageEmbed()
           .setTitle("[:1234:] Counters (View)")
           .setDescription(
-            `${discordChannel} is currently at number ${counter?.counter}.`
+            `Viewing counter for channel ${discordChannel} with count ${counter.counter}.`
           )
           .setTimestamp(new Date())
           .setColor(successColor)

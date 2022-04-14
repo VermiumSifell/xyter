@@ -5,8 +5,6 @@ import logger from "@logger";
 
 import { errorColor, footerText, footerIcon } from "@config/embed";
 
-import guildSchema from "@schemas/guild";
-
 export default async (interaction: CommandInteraction) => {
   if (!interaction.isCommand()) return;
 
@@ -15,39 +13,24 @@ export default async (interaction: CommandInteraction) => {
   const currentCommand = client.commands.get(commandName);
   if (!currentCommand) return;
 
-  // If command do not exist
-
-  // Create guild if it does not exist already
-  await guildSchema.findOne(
-    { guildId: guild?.id },
-    { new: true, upsert: true }
-  );
-
-  // Defer reply
   await interaction.deferReply({ ephemeral: true });
 
   await currentCommand
     .execute(interaction)
     .then(async () => {
-      return logger.debug(
-        `Guild: ${guild?.id} (${guild?.name}) User: ${user?.id} (${user?.tag}) executed ${commandName}`
+      return logger?.verbose(
+        `Command: ${commandName} executed in guild: ${guild?.name} (${guild?.id}) by user: ${user?.tag} (${user?.id})`
       );
     })
     .catch(async (error: any) => {
-      console.log(error);
-
-      logger.error(
-        `Guild: ${guild?.id} (${guild?.name}) User: ${user?.id} (${user?.tag}) There was an error executing the command: ${commandName}`
-      );
-
-      logger.error(error);
+      logger?.error(error);
 
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("Error")
             .setDescription(
-              `There was an error executing the command: **${currentCommand.data.name}**.`
+              `There was an error executing the command: **${currentCommand?.data?.name}**.`
             )
             .setColor(errorColor)
             .setTimestamp(new Date())

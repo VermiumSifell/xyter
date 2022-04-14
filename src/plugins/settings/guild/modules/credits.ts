@@ -16,7 +16,7 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("credits")
-      .setDescription("Credits")
+      .setDescription(`Credits`)
       .addBooleanOption((option) =>
         option.setName("status").setDescription("Should credits be enabled?")
       )
@@ -36,12 +36,12 @@ export default {
       .addNumberOption((option) =>
         option
           .setName("work-timeout")
-          .setDescription("Timeout between work schedules (milliseconds).")
+          .setDescription("Timeout between work schedules (seconds).")
       )
       .addNumberOption((option) =>
         option
           .setName("timeout")
-          .setDescription("Timeout between earning credits (milliseconds).")
+          .setDescription("Timeout between earning credits (seconds).")
       );
   },
   execute: async (interaction: CommandInteraction) => {
@@ -61,7 +61,9 @@ export default {
       guildId: guild?.id,
     });
 
-    if (guildDB === null) return;
+    if (guildDB === null) {
+      return logger?.verbose(`Guild is null`);
+    }
 
     // Modify values
     guildDB.credits.status =
@@ -78,57 +80,54 @@ export default {
 
     // Save guild
     await guildDB?.save()?.then(async () => {
-      // Embed object
-      const embed = {
-        title: ":tools: Settings - Guild [Credits]",
-        description: "Following settings is set!",
-        color: successColor,
-        fields: [
+      logger?.verbose(`Guild saved`);
+
+      return interaction?.editReply({
+        embeds: [
           {
-            name: "🤖 Status",
-            value: `${guildDB?.credits?.status}`,
-            inline: true,
-          },
-          {
-            name: "📈 Rate",
-            value: `${guildDB?.credits?.rate}`,
-            inline: true,
-          },
-          {
-            name: "📈 Work Rate",
-            value: `${guildDB?.credits?.workRate}`,
-            inline: true,
-          },
-          {
-            name: "🔨 Minimum Length",
-            value: `${guildDB?.credits?.minimumLength}`,
-            inline: true,
-          },
-          {
-            name: "⏰ Timeout",
-            value: `${guildDB?.credits?.timeout}`,
-            inline: true,
-          },
-          {
-            name: "⏰ Work Timeout",
-            value: `${guildDB?.credits?.workTimeout}`,
-            inline: true,
+            title: ":tools: Settings - Guild [Credits]",
+            description: `Credits settings updated.`,
+            color: successColor,
+            fields: [
+              {
+                name: "🤖 Status",
+                value: `${guildDB?.credits?.status}`,
+                inline: true,
+              },
+              {
+                name: "📈 Rate",
+                value: `${guildDB?.credits?.rate}`,
+                inline: true,
+              },
+              {
+                name: "📈 Work Rate",
+                value: `${guildDB?.credits?.workRate}`,
+                inline: true,
+              },
+              {
+                name: "🔨 Minimum Length",
+                value: `${guildDB?.credits?.minimumLength}`,
+                inline: true,
+              },
+              {
+                name: "⏰ Timeout",
+                value: `${guildDB?.credits?.timeout}`,
+                inline: true,
+              },
+              {
+                name: "⏰ Work Timeout",
+                value: `${guildDB?.credits?.workTimeout}`,
+                inline: true,
+              },
+            ],
+            timestamp: new Date(),
+            footer: {
+              iconURL: footerIcon,
+              text: footerText,
+            },
           },
         ],
-        timestamp: new Date(),
-        footer: {
-          iconURL: footerIcon,
-          text: footerText,
-        },
-      };
-
-      // Send debug message
-      logger?.debug(
-        `Guild: ${guild?.id} User: ${user.id} has changed credit details.`
-      );
-
-      // Return interaction reply
-      return interaction?.editReply({ embeds: [embed] });
+      });
     });
   },
 };

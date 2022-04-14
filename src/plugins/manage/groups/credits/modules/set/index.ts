@@ -24,17 +24,17 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("set")
-      .setDescription("Set credits to a user")
+      .setDescription("Set the amount of credits a user has.")
       .addUserOption((option) =>
         option
           .setName("user")
-          .setDescription("The user you want to set credits on.")
+          .setDescription("The user to set the amount of credits for.")
           .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("amount")
-          .setDescription("The amount you will set.")
+          .setDescription(`The amount of credits to set.`)
           .setRequired(true)
       );
   },
@@ -46,11 +46,13 @@ export default {
 
     // If amount is null
     if (creditAmount === null) {
+      logger?.verbose(`Amount is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Set)")
-            .setDescription(`We could not read your requested amount!`)
+            .setDescription(`You must provide an amount.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -59,11 +61,13 @@ export default {
     }
 
     if (discordUser === null) {
+      logger?.verbose(`User is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Set)")
-            .setDescription(`We could not read your requested user!`)
+            .setDescription(`You must provide a user.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -71,11 +75,13 @@ export default {
       });
     }
     if (guild === null) {
+      logger?.verbose(`Guild is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Set)")
-            .setDescription(`We could not read your guild!`)
+            .setDescription(`You must provide a guild.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -88,13 +94,13 @@ export default {
 
     // If toUser does not exist
     if (toUser === null) {
+      logger?.verbose(`User does not exist`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Set)")
-            .setDescription(
-              `We could not read your requested user from our database!`
-            )
+            .setDescription(`The user you provided does not exist.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -104,13 +110,13 @@ export default {
 
     // If toUser.credits does not exist
     if (toUser?.credits === null) {
+      logger?.verbose(`User does not have any credits`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Set)")
-            .setDescription(
-              `We could not find credits for ${discordUser} in our database!`
-            )
+            .setDescription(`The user you provided does not have any credits.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -123,21 +129,14 @@ export default {
 
     // Save toUser
     await toUser?.save()?.then(async () => {
-      logger?.debug(
-        `Guild: ${guild?.id} User: ${user?.id} set ${
-          discordUser?.id
-        } to ${pluralize(creditAmount, "credit")}.`
-      );
+      logger?.verbose(`Saved user`);
 
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Set)")
             .setDescription(
-              `We have set ${discordUser} to ${pluralize(
-                creditAmount,
-                "credit"
-              )}.`
+              `Set **${discordUser}**'s credits to **${creditAmount}**.`
             )
             .setTimestamp(new Date())
             .setColor(successColor)

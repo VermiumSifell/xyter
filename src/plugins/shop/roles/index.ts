@@ -1,4 +1,5 @@
 // Dependencies
+import { SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Handlers
@@ -9,26 +10,27 @@ import buy from "./modules/buy";
 import cancel from "./modules/cancel";
 
 // Function
-export default async (interaction: CommandInteraction) => {
-  // Destructure member
-  const { options, commandName, guild, user } = interaction;
+export default {
+  data: (group: SlashCommandSubcommandGroupBuilder) => {
+    return group
+      .setName("roles")
+      .setDescription("Shop for custom roles.")
+      .addSubcommand(buy.data)
+      .addSubcommand(cancel.data);
+  },
+  execute: async (interaction: CommandInteraction) => {
+    const { options, commandName, guild, user } = interaction;
 
-  // Module - Buy
-  if (options?.getSubcommand() === "buy") {
-    // Execute Module - Buy
-    await buy(interaction);
-  }
+    if (options?.getSubcommand() === "buy") {
+      logger.verbose(`Executing buy subcommand`);
 
-  // Module - Cancel
-  if (options?.getSubcommand() === "cancel") {
-    // Execute Module - Cancel
-    await cancel(interaction);
-  }
+      await buy.execute(interaction);
+    }
 
-  // Send debug message
-  return logger?.debug(
-    `Guild: ${guild?.id} User: ${
-      user?.id
-    } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
-  );
+    if (options?.getSubcommand() === "cancel") {
+      logger.verbose(`Executing cancel subcommand`);
+
+      await cancel.execute(interaction);
+    }
+  },
 };

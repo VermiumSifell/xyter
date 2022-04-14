@@ -24,17 +24,17 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("take")
-      .setDescription("Take credits from a user")
+      .setDescription("Take credits from a user.")
       .addUserOption((option) =>
         option
           .setName("user")
-          .setDescription("The user you want to take credits from.")
+          .setDescription("The user to take credits from.")
           .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("amount")
-          .setDescription("The amount you will take.")
+          .setDescription(`The amount of credits to take.`)
           .setRequired(true)
       );
   },
@@ -50,11 +50,13 @@ export default {
 
     // If amount is null
     if (optionAmount === null) {
+      logger?.verbose(`Amount is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Take)")
-            .setDescription(`We could not read your requested amount!`)
+            .setDescription(`You must provide an amount.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -64,11 +66,13 @@ export default {
 
     // If amount is zero or below
     if (optionAmount <= 0) {
+      logger?.verbose(`Amount is zero or below`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Take)")
-            .setDescription(`We could not take zero credits or below!`)
+            .setDescription(`You must provide an amount greater than zero.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -77,11 +81,13 @@ export default {
     }
 
     if (optionUser === null) {
+      logger?.verbose(`Discord receiver is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Take)")
-            .setDescription(`We could not read your requested user!`)
+            .setDescription(`You must provide a user.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -89,11 +95,13 @@ export default {
       });
     }
     if (guild === null) {
+      logger?.verbose(`Guild is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Take)")
-            .setDescription(`We could not read your guild!`)
+            .setDescription(`You must be in a guild.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -106,13 +114,13 @@ export default {
 
     // If toUser does not exist
     if (toUser === null) {
+      logger?.verbose(`ToUser is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Take)")
-            .setDescription(
-              `We could not read your requested user from our database!`
-            )
+            .setDescription(`The user you provided does not exist.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -122,13 +130,13 @@ export default {
 
     // If toUser.credits does not exist
     if (toUser?.credits === null) {
+      logger?.verbose(`ToUser.credits is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Take)")
-            .setDescription(
-              `We could not find credits for ${optionUser} in our database!`
-            )
+            .setDescription(`The user you provided does not have credits.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -141,21 +149,14 @@ export default {
 
     // Save toUser
     await toUser?.save()?.then(async () => {
-      logger?.debug(
-        `Guild: ${guild?.id} User: ${user?.id} set ${
-          optionUser?.id
-        } to ${pluralize(optionAmount, "credit")}.`
-      );
+      logger?.verbose(`Saved toUser`);
 
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Take)")
             .setDescription(
-              `We have taken ${pluralize(
-                optionAmount,
-                "credit"
-              )} from ${optionUser}.`
+              `Took ${pluralize(optionAmount, "credit")} from ${optionUser}.`
             )
             .setTimestamp(new Date())
             .setColor(successColor)

@@ -11,8 +11,7 @@ export default async (client: Client) => {
   const expression = "*/5 * * * *";
 
   schedule.scheduleJob(expression, async () => {
-    logger.verbose(`Checking schedules! (${expression})`);
+    logger?.verbose("Running shop roles job.");
     await shopRoles(client);
   });
-  logger.info("Successfully started schedule engine!");
 };

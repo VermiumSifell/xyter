@@ -2,10 +2,10 @@
 import { Guild, User } from "discord.js";
 
 // Models
-import userSchema from "../database/schemas/user";
+import userSchema from "@schemas/user";
 
 // Handlers
-import logger from "../logger";
+import logger from "@logger";
 
 // Function
 export default async (user: User, guild: Guild) => {
@@ -22,12 +22,12 @@ export default async (user: User, guild: Guild) => {
     await newUserObj
       .save()
       .then(async () => {
-        logger.debug(
-          `Member: ${user.id} has successfully been added to the database.`
-        );
+        logger?.verbose(`Created user: ${user.id} for guild: ${guild.id}`);
       })
-      .catch(async (err: any) => {
-        logger.error(err);
+      .catch(async (error) => {
+        logger?.error(
+          `Error creating user: ${user.id} for guild: ${guild.id} - ${error}`
+        );
       });
 
     return newUserObj;

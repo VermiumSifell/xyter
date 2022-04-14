@@ -1,13 +1,14 @@
 // Dependencies
 import { Client } from "discord.js";
+import logger from "@logger";
 
 // Function
 export default async (client: Client) => {
-  // Set client status
+  const status = `${client?.guilds?.cache?.size} guilds.`;
+
   client?.user?.setPresence({
-    activities: [
-      { type: "WATCHING", name: `${client?.guilds?.cache?.size} guilds` },
-    ],
+    activities: [{ type: "WATCHING", name: status }],
     status: "online",
   });
+  logger?.verbose(`Updated client presence to: ${status}`);
 };
