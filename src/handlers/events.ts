@@ -3,20 +3,27 @@ import { Client } from "discord.js"; // discord.js
 import logger from "@logger";
 
 export default async (client: Client) => {
-  const eventFiles = fs.readdirSync("./src/events");
-
-  for (const file of eventFiles) {
-    const event = require(`../events/${file}`);
-    if (event.once) {
-      client.once(event.default.name, (...args) =>
-        event.default.execute(...args)
-      );
-      logger?.verbose(`Loaded event: ${event.default.name}`);
-    } else {
-      client.on(event.default.name, (...args) =>
-        event.default.execute(...args)
-      );
-      logger?.verbose(`Loaded event: ${event.default.name}`);
+  fs.readdir("./src/events", async (error, events) => {
+    if (error) {
+      return logger?.error(`Error reading plugins: ${error}`);
     }
-  }
+
+    await Promise.all(
+      events?.map(async (eventName) => {
+        const event = await import(`../events/${eventName}`);
+
+        if (event.once) {
+          return client.once(event.default.name, async (...args) =>
+            event.default.execute(...args)
+          );
+        }
+
+        logger?.verbose(`Loaded event: ${eventName}`);
+
+        return client.on(event.default.name, async (...args) =>
+          event.default.execute(...args)
+        );
+      })
+    );
+  });
 };
