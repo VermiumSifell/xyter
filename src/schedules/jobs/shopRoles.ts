@@ -10,7 +10,7 @@ import guildSchema from "@schemas/guild";
 
 export default async (client: Client) => {
   await shopRoleSchema?.find()?.then(async (shopRoles: any) => {
-    shopRoles?.map(async (shopRole: any) => {
+    shopRoles?.map(async (shopRole) => {
       const payed = new Date(shopRole?.lastPayed);
 
       const oneHourAfterPayed = payed?.setHours(payed?.getHours() + 1);
