@@ -13,6 +13,7 @@ inställningar
 inte
 Krediter
 multistream
+nastyox
 Nivå
 omdöme
 Omdöme
@@ -20,11 +21,15 @@ Otillgänglig
 pino
 Poäng
 Profil
+rando
 satta
 senaste
+Sifell
 själv
 Språk
 Språkkod
 upsert
 uuidv
+Vermium
+xyter
 Zyner
