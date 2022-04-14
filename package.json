@@ -11,10 +11,10 @@
     "prepare": "husky install"
   },
   "keywords": [
-    "zyner",
+    "Zyner",
+    "xyter",
     "controlpanel",
-    "controlpanel.gg",
-    "vermium"
+    "controlpanel.gg"
   ],
   "repository": {
     "type": "git",
