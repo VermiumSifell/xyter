@@ -8,8 +8,12 @@ import { devMode, guildId } from "@config/other";
 
 export default async (client: Client) => {
   if (!devMode) {
-    client?.application?.commands?.set([], guildId).then(async () => {
-      logger.verbose(`Removed all guild based commands from ${guildId}`);
+    return client?.application?.commands?.set([], guildId).then(async () => {
+      return logger?.verbose(
+        `Development commands disabled for guild: ${guildId}`
+      );
     });
   }
+
+  return logger?.verbose(`Development commands enabled for guild: ${guildId}`);
 };

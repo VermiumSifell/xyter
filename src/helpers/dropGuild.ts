@@ -1,61 +1,74 @@
-import guilds from "../database/schemas/guild";
-import users from "../database/schemas/user";
-import apis from "../database/schemas/api";
-import counters from "../database/schemas/counter";
-import shopRoles from "../database/schemas/shopRole";
-import timeouts from "../database/schemas/timeout";
+import guildSchema from "@schemas/guild";
+import userSchema from "@schemas/user";
+import apiSchema from "@schemas/api";
+import counterSchema from "@schemas/counter";
+import shopRoleSchema from "@schemas/shopRole";
+import timeoutSchema from "@schemas/timeout";
 
-import logger from "../logger";
+import logger from "@logger";
 
 import { Guild } from "discord.js";
 
 export default async (guild: Guild) => {
-  guilds
+  await guildSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger.debug(`Successfully deleted guild: ${guild.id}`);
+      return logger?.verbose(`Deleted guild: ${guild.id}`);
     })
-    .catch(async (e) => {
-      logger.error(`Failed to delete guild: ${guild.id} ${e}`);
+    .catch(async (error) => {
+      logger?.error(`Error deleting guild: ${guild.id} - ${error}`);
     });
-  users
+
+  await userSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger.debug(`Successfully deleted guild: ${guild.id}'s users`);
+      logger?.verbose(`Deleted users for guild: ${guild.id} from database`);
     })
-    .catch(async (e) => {
-      logger.error(`Failed to delete guild: ${guild.id}'s users ${e}`);
+    .catch(async (error) => {
+      logger?.error(`Error deleting users for guild: ${guild.id} - ${error}`);
     });
-  apis
+
+  await apiSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger.debug(`Successfully deleted guild: ${guild.id}'s apis`);
+      logger?.verbose(`Deleted apis for guild: ${guild.id} from database`);
     })
-    .catch(async (e) => {
-      logger.error(`Failed to delete guild: ${guild.id}'s apis ${e}`);
+    .catch(async (error) => {
+      logger?.error(`Error deleting apis for guild: ${guild.id} - ${error}`);
     });
-  counters
+
+  await counterSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger.debug(`Successfully deleted guild: ${guild.id}'s counters`);
+      logger?.verbose(`Deleted counters for guild: ${guild.id} from database`);
     })
-    .catch(async (e) => {
-      logger.error(`Failed to delete guild: ${guild.id}'s counters ${e}`);
+    .catch(async (error) => {
+      logger?.error(
+        `Error deleting counters for guild: ${guild.id} - ${error}`
+      );
     });
-  shopRoles
+
+  await shopRoleSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger.debug(`Successfully deleted guild: ${guild.id}'s shop roles`);
+      logger?.verbose(
+        `Deleted shop roles for guild: ${guild.id} from database`
+      );
     })
-    .catch(async (e) => {
-      logger.error(`Failed to delete guild: ${guild.id}'s shop roles ${e}`);
+    .catch(async (error) => {
+      logger?.error(
+        `Error deleting shop roles for guild: ${guild.id} - ${error}`
+      );
     });
-  timeouts
+
+  await timeoutSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger.debug(`Successfully deleted guild: ${guild.id}'s timeouts`);
+      logger?.verbose(`Deleted timeouts for guild: ${guild.id} from database`);
     })
-    .catch(async (e) => {
-      logger.error(`Failed to delete guild: ${guild.id}'s timeouts ${e}`);
+    .catch(async (error) => {
+      logger?.error(
+        `Error deleting timeouts for guild: ${guild.id} - ${error}`
+      );
     });
 };

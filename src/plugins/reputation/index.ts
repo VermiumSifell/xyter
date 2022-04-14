@@ -13,41 +13,17 @@ export default {
   metadata: { author: "Zyner" },
   data: new SlashCommandBuilder()
     .setName("reputation")
-    .setDescription("Give reputation.")
-    .addSubcommand((subcommand) =>
-      subcommand
-        .setName("give")
-        .setDescription("Give reputation to a user")
-        .addUserOption((option) =>
-          option
-            .setName("target")
-            .setDescription("The user you want to repute.")
-            .setRequired(true)
-        )
-        .addStringOption((option) =>
-          option
-            .setName("type")
-            .setDescription("What type of reputation you want to repute")
-            .setRequired(true)
-            .addChoice("Positive", "positive")
-            .addChoice("Negative", "negative")
-        )
-    ),
+    .setDescription("Manage reputation.")
+    .addSubcommand(give.data),
   async execute(interaction: CommandInteraction) {
-    // Destructure
-    const { options, guild, user, commandName } = interaction;
+    const { options } = interaction;
 
-    // Module - Give
     if (options?.getSubcommand() === "give") {
-      // Execute Module - Give
-      await give(interaction);
+      logger?.verbose(`Executing give subcommand`);
+
+      await give.execute(interaction);
     }
 
-    // Send debug message
-    return logger?.debug(
-      `Guild: ${guild?.id} User: ${
-        user?.id
-      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
-    );
+    logger?.verbose(`No subcommand found`);
   },
 };

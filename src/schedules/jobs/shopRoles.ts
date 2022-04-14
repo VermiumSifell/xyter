@@ -16,11 +16,7 @@ export default async (client: Client) => {
       const oneHourAfterPayed = payed?.setHours(payed?.getHours() + 1);
 
       if (new Date() > new Date(oneHourAfterPayed)) {
-        logger.debug(
-          `Role: ${shopRole?.roleId} Expires: ${
-            new Date() < new Date(oneHourAfterPayed)
-          } Last Payed: ${shopRole?.lastPayed}`
-        );
+        logger?.verbose(`Shop role ${shopRole?.name} is expired.`);
 
         // Get guild object
         const guild = await guildSchema?.findOne({
@@ -43,8 +39,11 @@ export default async (client: Client) => {
           shopRoleSchema
             ?.deleteOne({ _id: shopRole?._id })
             ?.then(async () =>
-              logger?.debug(`Removed ${shopRole?._id} from collection.`)
-            );
+              logger?.verbose(`Shop role ${shopRole?.roleId} was deleted.`)
+            )
+            .catch(async (error) => {
+              return logger?.error(error);
+            });
 
           return rMember?.roles?.remove(`${shopRole?.roleId}`);
         }

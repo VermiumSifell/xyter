@@ -24,34 +24,36 @@ export default {
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("give")
-      .setDescription("Give credits to a user")
+      .setDescription("Give credits to a user.")
       .addUserOption((option) =>
         option
           .setName("user")
-          .setDescription("The user you want to pay.")
+          .setDescription("The user to give credits to.")
           .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
           .setName("amount")
-          .setDescription("The amount you will pay.")
+          .setDescription(`The amount of credits to give.`)
           .setRequired(true)
       );
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure
-    const { guild, user, options } = interaction;
+    const { guild, options } = interaction;
 
     const discordReceiver = options?.getUser("user");
     const creditAmount = options?.getInteger("amount");
 
     // If amount option is null
     if (creditAmount === null) {
+      logger?.verbose(`Amount is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Give)")
-            .setDescription(`We could not read your requested amount!`)
+            .setDescription(`You must provide an amount.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -61,11 +63,13 @@ export default {
 
     // If amount is zero or below
     if (creditAmount <= 0) {
+      logger?.verbose(`Amount is zero or below`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Give)")
-            .setDescription(`You can not give zero credits or below!`)
+            .setDescription(`You must provide an amount greater than zero.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -74,11 +78,13 @@ export default {
     }
 
     if (discordReceiver === null) {
+      logger?.verbose(`Discord receiver is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Give)")
-            .setDescription(`We could not read receiver user!`)
+            .setDescription(`You must provide a user.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -86,11 +92,13 @@ export default {
       });
     }
     if (guild === null) {
+      logger?.verbose(`Guild is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Give)")
-            .setDescription(`We could not read your guild!`)
+            .setDescription(`You must be in a guild.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -101,13 +109,13 @@ export default {
     const toUser = await fetchUser(discordReceiver, guild);
 
     if (toUser === null) {
+      logger?.verbose(`To user is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Give)")
-            .setDescription(
-              `We could not read your receiver user from our database!`
-            )
+            .setDescription(`The user you provided could not be found.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -120,9 +128,7 @@ export default {
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Give)")
-            .setDescription(
-              `We could not find credits for ${discordReceiver} in our database!`
-            )
+            .setDescription(`The user you provided does not have any credits.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -135,21 +141,14 @@ export default {
 
     // Save toUser
     await toUser?.save()?.then(async () => {
-      logger?.debug(
-        `Guild: ${guild?.id} User: ${user?.id} gave ${
-          discordReceiver?.id
-        } ${pluralize(creditAmount, "credit")}.`
-      );
+      logger?.verbose(`Saved toUser`);
 
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Give)")
             .setDescription(
-              `We have given ${discordReceiver}, ${pluralize(
-                creditAmount,
-                "credit"
-              )}.`
+              `Successfully gave ${pluralize(creditAmount, "credit")}`
             )
             .setTimestamp(new Date())
             .setColor(successColor)

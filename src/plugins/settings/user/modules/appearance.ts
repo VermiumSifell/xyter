@@ -5,10 +5,10 @@ import { CommandInteraction } from "discord.js";
 import { successColor, footerText, footerIcon } from "@config/embed";
 
 // Handlers
-import logger from "../../../../logger";
+import logger from "@logger";
 
 // Models
-import fetchUser from "../../../../helpers/fetchUser";
+import fetchUser from "@helpers/fetchUser";
 
 // Function
 export default async (interaction: CommandInteraction) => {
@@ -18,43 +18,44 @@ export default async (interaction: CommandInteraction) => {
   // Get options
   const language = options?.getString("language");
 
-  if (guild === null) return;
+  if (guild === null) {
+    return logger?.verbose(`Guild is null`);
+  }
 
   // Get user object
   const userDB = await fetchUser(user, guild);
 
-  if (userDB === null) return;
+  if (userDB === null) {
+    return logger?.verbose(`User is null`);
+  }
 
   // Modify values
   userDB.language = language !== null ? language : userDB?.language;
 
   // Save guild
   await userDB?.save()?.then(async () => {
-    // Embed object
-    const embed = {
-      title: ":hammer: Settings - User [Appearance]",
-      description: "Following settings is set!",
-      color: successColor,
-      fields: [
+    logger?.verbose(`Updated user language.`);
+
+    return interaction?.editReply({
+      embeds: [
         {
-          name: "🏳️‍🌈 Language",
-          value: `${userDB?.language}`,
-          inline: true,
+          title: ":hammer: Settings - User [Appearance]",
+          description: "Successfully updated user settings.",
+          color: successColor,
+          fields: [
+            {
+              name: "🏳️‍🌈 Language",
+              value: `${userDB?.language}`,
+              inline: true,
+            },
+          ],
+          timestamp: new Date(),
+          footer: {
+            iconURL: footerIcon,
+            text: footerText,
+          },
         },
       ],
-      timestamp: new Date(),
-      footer: {
-        iconURL: footerIcon,
-        text: footerText,
-      },
-    };
-
-    // Send debug message
-    logger?.debug(
-      `Guild: ${guild?.id} User: ${user?.id} has changed appearance settings.`
-    );
-
-    // Return interaction reply
-    return interaction?.editReply({ embeds: [embed] });
+    });
   });
 };

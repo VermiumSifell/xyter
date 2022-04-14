@@ -8,7 +8,7 @@ export default async (client: Client) => {
 
   fs.readdir("./src/plugins", async (error: any, plugins: any) => {
     if (error) {
-      return logger?.error(new Error(error));
+      return logger?.error(`Error reading plugins: ${error}`);
     }
 
     await Promise.all(
@@ -19,9 +19,8 @@ export default async (client: Client) => {
           plugin?.default?.data?.name,
           plugin?.default
         );
-        logger?.debug(
-          `Successfully loaded plugin: ${plugin?.default?.data?.name} from ${plugin.default?.metadata?.author}`
-        );
+
+        logger?.verbose(`Loaded plugin: ${pluginName}`);
       })
     );
   });

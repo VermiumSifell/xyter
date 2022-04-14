@@ -2,10 +2,10 @@
 import { Guild } from "discord.js";
 
 // Models
-import guildSchema from "../database/schemas/guild";
+import guildSchema from "@schemas/guild";
 
 // Handlers
-import logger from "../logger";
+import logger from "@logger";
 
 // Function
 export default async (guild: Guild) => {
@@ -16,12 +16,10 @@ export default async (guild: Guild) => {
     await newGuildObj
       .save()
       .then(async () => {
-        logger.debug(
-          `Guild: ${guild.id} has successfully been added to the database.`
-        );
+        logger?.verbose(`Created guild: ${guild.id}`);
       })
-      .catch(async (err: any) => {
-        logger.error(err);
+      .catch(async (error) => {
+        logger?.error(`Error creating guild: ${guild.id} - ${error}`);
       });
 
     return newGuildObj;

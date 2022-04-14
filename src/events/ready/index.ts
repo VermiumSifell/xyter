@@ -11,14 +11,16 @@ export default {
   name: "ready",
   once: true,
   async execute(client: Client) {
-    logger.info(`Successfully logged into discord user: ${client?.user?.tag}!`);
+    logger?.info(`${client.user?.tag} (${client.user?.id}) is ready`);
+
     await updatePresence(client);
     await devMode(client);
     await deployCommands();
 
-    const guilds = client.guilds.cache;
-    guilds.map(async (guild) => {
-      logger.debug({ name: guild.name, members: guild.memberCount });
+    client?.guilds?.cache?.forEach((guild) => {
+      logger?.info(
+        `${client.user?.tag} (${client.user?.id}) is in guild: ${guild.name} (${guild.id})`
+      );
     });
   },
 };

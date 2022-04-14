@@ -1,31 +1,44 @@
-import counters from "../../../database/schemas/counter";
-
 import { Message } from "discord.js";
+
+import logger from "@logger";
+
+import counterSchema from "@schemas/counter";
 
 export default async (message: Message) => {
   const { guild, channel, content } = message;
 
-  // Get counter object
-  const counter = await counters.findOne({
+  if (channel?.type !== "GUILD_TEXT") return;
+
+  const counter = await counterSchema.findOne({
     guildId: guild?.id,
     channelId: channel.id,
   });
 
-  // If counter for the message channel
-  if (counter) {
-    // If message content is not strictly the same as counter word
-    if (content !== counter.word) {
-      // Delete the message
-      await message.delete();
-    } else {
-      // Add 1 to the counter object
-      await counters.findOneAndUpdate(
-        {
-          guildId: guild?.id,
-          channelId: channel.id,
-        },
-        { $inc: { counter: 1 } }
-      );
-    }
+  if (counter === null) return;
+
+  logger?.verbose(
+    `Channel: ${channel.name} (${channel.id}) is an active counter channel`
+  );
+
+  if (content !== counter.word) {
+    logger?.verbose(`Message: ${content} is not the counter word`);
+    return message.delete();
   }
+
+  logger?.verbose(`Message: ${content} is the counter word`);
+
+  await counterSchema
+    .findOneAndUpdate(
+      {
+        guildId: guild?.id,
+        channelId: channel.id,
+      },
+      { $inc: { counter: 1 } }
+    )
+    .then(async () => {
+      logger?.verbose(`Counter incremented`);
+    })
+    .catch(async () => {
+      logger?.error(`Failed to increment counter`);
+    });
 };

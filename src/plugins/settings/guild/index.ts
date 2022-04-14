@@ -5,7 +5,7 @@ import { Permissions, CommandInteraction } from "discord.js";
 import { errorColor, footerText, footerIcon } from "@config/embed";
 
 // Handlers
-import logger from "../../../logger";
+import logger from "@logger";
 
 // Modules
 import pterodactyl from "./modules/pterodactyl";
@@ -18,57 +18,49 @@ export default {
   data: (group: SlashCommandSubcommandGroupBuilder) => {
     return group
       .setName("guild")
-      .setDescription("Manage guild settings.")
+      .setDescription("Guild settings.")
       .addSubcommand(pterodactyl.data)
       .addSubcommand(credits.data)
       .addSubcommand(points.data);
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member
-    const { memberPermissions, options, commandName, user, guild } =
-      interaction;
+    const { memberPermissions, options } = interaction;
 
     // Check permission
     if (!memberPermissions?.has(Permissions?.FLAGS?.MANAGE_GUILD)) {
-      // Create embed object
-      const embed = {
-        title: ":tools: Settings - Guild",
-        color: errorColor,
-        description: "You do not have permission to manage this!",
-        timestamp: new Date(),
-        footer: {
-          iconURL: footerIcon as string,
-          text: footerText as string,
-        },
-      };
+      logger?.verbose(`User does not have permission to execute command.`);
 
-      // Return interaction reply
-      return interaction?.editReply({ embeds: [embed] });
+      return interaction?.editReply({
+        embeds: [
+          {
+            title: ":tools: Settings - Guild",
+            color: errorColor,
+            description: "You do not have permission to use this command.",
+            timestamp: new Date(),
+            footer: {
+              iconURL: footerIcon as string,
+              text: footerText as string,
+            },
+          },
+        ],
+      });
     }
 
-    // Module - Pterodactyl
     if (options?.getSubcommand() === "pterodactyl") {
-      // Execute Module - Pterodactyl
+      logger?.verbose(`Executing pterodactyl subcommand`);
+
       return pterodactyl.execute(interaction);
-    }
+    } else if (options?.getSubcommand() === "credits") {
+      logger?.verbose(`Executing credits subcommand`);
 
-    // Module - Credits
-    else if (options?.getSubcommand() === "credits") {
-      // Execute Module - Credits
       return credits.execute(interaction);
-    }
+    } else if (options?.getSubcommand() === "points") {
+      logger?.verbose(`Executing points subcommand`);
 
-    // Module - Points
-    else if (options?.getSubcommand() === "points") {
-      // Execute Module - Points
       return points.execute(interaction);
     }
 
-    // Send debug message
-    return logger?.debug(
-      `Guild: ${guild?.id} User: ${
-        user?.id
-      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
-    );
+    logger?.verbose(`No subcommand found`);
   },
 };

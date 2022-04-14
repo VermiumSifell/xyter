@@ -18,22 +18,22 @@ export default async function saveUser(data: any, data2: any) {
       ); // 100 - 1000 random  Number generator
       data.save((_: any) =>
         _
-          ? logger.error(
+          ? logger?.error(
               `ERROR Occurred while saving data (saveUser) \n${"=".repeat(
                 50
               )}\n${`${_}\n${"=".repeat(50)}`}`
             )
-          : "No Error"
+          : logger?.verbose(`Saved user: ${data.id} (saveUser)`)
       );
       if (data2) {
         data2.save((_: any) =>
           _
-            ? logger.error(
+            ? logger?.error(
                 `ERROR Occurred while saving data (saveUser) \n${"=".repeat(
                   50
                 )}\n${`${_}\n${"=".repeat(50)}`}`
               )
-            : "No Error"
+            : logger?.verbose(`Saved user: ${data2.id} (saveUser)`)
         );
       }
     },

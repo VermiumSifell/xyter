@@ -7,6 +7,8 @@ import { successColor, footerText, footerIcon } from "@config/embed";
 // Models
 import fetchUser from "@helpers/fetchUser";
 
+import logger from "@logger";
+
 // Function
 export default async (interaction: CommandInteraction) => {
   // Destructure
@@ -20,7 +22,9 @@ export default async (interaction: CommandInteraction) => {
     `${target ? target?.id : user?.id}`
   );
 
-  if (guild === null) return;
+  if (guild === null) {
+    return logger?.verbose(`Guild is null`);
+  }
 
   // User Information
   const userObj = await fetchUser(discordUser, guild);

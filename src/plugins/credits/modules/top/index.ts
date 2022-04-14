@@ -12,7 +12,7 @@ import pluralize from "@helpers/pluralize";
 
 export default {
   data: (command: SlashCommandSubcommandBuilder) => {
-    return command.setName("top").setDescription("Check the top balance.");
+    return command.setName("top").setDescription(`View the top users`);
   },
   execute: async (interaction: CommandInteraction) => {
     // Get all users in the guild
@@ -29,19 +29,16 @@ export default {
 
     // Create entry object
     const entry = (x: any, index: number) =>
-      `**Top ${index + 1}** - <@${x?.userId}> ${pluralize(
-        x?.credits,
-        "credit"
-      )}`;
+      `${index + 1}. <@${x?.userId}> - ${pluralize(x?.credits, "credit")}`;
 
     return interaction.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle("[:dollar:] Credits (Top)")
           .setDescription(
-            `Below are the top ten.
+            `Top 10 users with the most credits.
 
-            ${topTen?.map((x, index) => entry(x, index))?.join("\n")}`
+            ${topTen.map(entry).join("\n")}`
           )
           .setTimestamp(new Date())
           .setColor(successColor)

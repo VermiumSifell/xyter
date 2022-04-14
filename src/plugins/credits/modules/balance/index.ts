@@ -2,6 +2,8 @@
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
+import logger from "@logger";
+
 // Configurations
 import {
   errorColor,
@@ -19,13 +21,13 @@ export default {
     return (
       command
         .setName("balance")
-        .setDescription("Check a user's balance.")
+        .setDescription(`View a user's balance`)
 
         // User
         .addUserOption((option) =>
           option
             .setName("user")
-            .setDescription("The user whose balance you want to check.")
+            .setDescription(`The user whose balance you want to view`)
         )
     );
   },
@@ -35,11 +37,13 @@ export default {
     const discordUser = options?.getUser("user");
 
     if (guild === null) {
+      logger?.verbose(`Guild is null`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:dollar:] Credits (Balance)")
-            .setDescription(`We can not find your guild!`)
+            .setDescription(`You can only use this command in a guild!`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -50,13 +54,13 @@ export default {
     const userObj = await fetchUser(discordUser || user, guild);
 
     if (userObj === null) {
+      logger?.verbose(`User not found`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:dollar:] Credits (Balance)")
-            .setDescription(
-              `We can not find ${discordUser || "you"} in our database!`
-            )
+            .setDescription(`Could not find user ${discordUser || user}`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -65,15 +69,14 @@ export default {
     }
 
     if (userObj.credits === null) {
+      logger?.verbose(`User has no credits`);
+
       return interaction?.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:dollar:] Credits (Balance)")
-            .setDescription(
-              `We can not find credits for ${
-                discordUser || "you"
-              } in our database!`
-            )
+            .setDescription(`${userObj} has no credits!`)
+            .setDescription(`${discordUser || user} has no credits!`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -81,15 +84,17 @@ export default {
       });
     }
 
+    logger?.verbose(`Found user ${discordUser || user}`);
+
     return interaction?.editReply({
       embeds: [
         new MessageEmbed()
           .setTitle("[:dollar:] Credits (Balance)")
           .setDescription(
-            `${discordUser || "You"} have ${pluralize(
+            `${userObj} has ${userObj.credits} ${pluralize(
               userObj.credits,
-              "credit"
-            )}.`
+              `credit`
+            )}!`
           )
           .setTimestamp(new Date())
           .setColor(successColor)

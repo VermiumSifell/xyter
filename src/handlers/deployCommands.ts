@@ -21,9 +21,7 @@ export default async () => {
 
         pluginList.push(plugin.default.data.toJSON());
 
-        logger?.debug(
-          `Successfully deployed plugin: ${plugin?.default?.data?.name} from ${plugin.default?.metadata?.author}`
-        );
+        logger?.verbose(`Loaded plugin: ${pluginName} for deployment`);
       })
     );
 
@@ -34,7 +32,7 @@ export default async () => {
         body: pluginList,
       })
       .then(async () => {
-        logger.info("Successfully registered application commands.");
+        logger?.info(`Successfully deployed plugins to Discord`);
       })
       .catch(async (err: any) => {
         logger.error(err);
@@ -46,7 +44,7 @@ export default async () => {
           body: pluginList,
         })
         .then(async () =>
-          logger.info("Successfully registered guild application commands.")
+          logger?.info(`Successfully deployed guild plugins to Discord`)
         )
         .catch(async (err: any) => {
           logger.error(err);

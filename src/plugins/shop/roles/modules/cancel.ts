@@ -11,41 +11,55 @@ import {
 // Models
 import shopRolesSchema from "@schemas/shopRole";
 
+import logger from "@logger";
+
 // Helpers
 import pluralize from "@helpers/pluralize";
 import fetchUser from "@helpers/fetchUser";
+import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
-export default async (interaction: CommandInteraction) => {
-  const { options, guild, user, member } = interaction;
+export default {
+  data: (command: SlashCommandSubcommandBuilder) => {
+    return command
+      .setName("cancel")
+      .setDescription("Cancel a purchase.")
+      .addRoleOption((option) =>
+        option.setName("role").setDescription("Role you wish to cancel.")
+      );
+  },
+  execute: async (interaction: CommandInteraction) => {
+    const { options, guild, user, member } = interaction;
 
-  const optionRole = options.getRole("role");
+    const optionRole = options.getRole("role");
 
-  // If amount is null
-  if (optionRole === null) {
-    // Embed object
-    const embed = {
-      title: ":dollar: Shop - Roles [Cancel]",
-      description: "We could not read your requested role.",
-      color: errorColor,
-      timestamp: new Date(),
-      footer: {
-        iconURL: footerIcon,
-        text: footerText,
-      },
-    };
+    if (optionRole === null) {
+      logger?.verbose(`Role is null.`);
 
-    // Send interaction reply
-    return interaction?.editReply({ embeds: [embed] });
-  }
+      return interaction?.editReply({
+        embeds: [
+          {
+            title: ":dollar: Shop - Roles [Cancel]",
+            description: "We could not read your requested role.",
+            color: errorColor,
+            timestamp: new Date(),
+            footer: {
+              iconURL: footerIcon,
+              text: footerText,
+            },
+          },
+        ],
+      });
+    }
 
-  const roleExist = await shopRolesSchema?.findOne({
-    guildId: guild?.id,
-    userId: user?.id,
-    roleId: optionRole?.id,
-  });
+    const roleExist = await shopRolesSchema?.findOne({
+      guildId: guild?.id,
+      userId: user?.id,
+      roleId: optionRole?.id,
+    });
 
-  if (roleExist) {
+    if (roleExist === null) return;
+
     await (member?.roles as GuildMemberRoleManager)?.remove(optionRole?.id);
 
     await guild?.roles
@@ -53,7 +67,9 @@ export default async (interaction: CommandInteraction) => {
       .then(async () => {
         const userDB = await fetchUser(user, guild);
 
-        if (userDB === null) return;
+        if (userDB === null) {
+          return logger?.verbose(`User is null`);
+        }
 
         await shopRolesSchema?.deleteOne({
           roleId: optionRole?.id,
@@ -61,26 +77,29 @@ export default async (interaction: CommandInteraction) => {
           guildId: guild?.id,
         });
 
-        const embed = {
-          title: ":shopping_cart: Shop - Roles [Cancel]",
-          description: `You have canceled ${optionRole.name}.`,
-          color: successColor,
-          fields: [
+        return interaction?.editReply({
+          embeds: [
             {
-              name: "Your balance",
-              value: `${pluralize(userDB?.credits, "credit")}`,
+              title: ":shopping_cart: Shop - Roles [Cancel]",
+              description: `You have canceled ${optionRole.name}.`,
+              color: successColor,
+              fields: [
+                {
+                  name: "Your balance",
+                  value: `${pluralize(userDB?.credits, "credit")}`,
+                },
+              ],
+              timestamp: new Date(),
+              footer: {
+                iconURL: footerIcon,
+                text: footerText,
+              },
             },
           ],
-          timestamp: new Date(),
-          footer: {
-            iconURL: footerIcon,
-            text: footerText,
-          },
-        };
-        return interaction?.editReply({
-          embeds: [embed],
         });
       })
-      .catch(console.error);
-  }
+      .catch(async (error) => {
+        return logger?.verbose(`Role could not be deleted. ${error}`);
+      });
+  },
 };

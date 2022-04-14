@@ -7,7 +7,7 @@ import guildGroup from "./guild";
 import userGroup from "./user";
 
 // Handlers
-import logger from "../../logger";
+import logger from "@logger";
 
 // Function
 export default {
@@ -19,25 +19,20 @@ export default {
     .addSubcommandGroup(userGroup.data),
 
   async execute(interaction: CommandInteraction) {
-    // Destructure
-    const { options, commandName, user, guild } = interaction;
+    const { options } = interaction;
 
-    // Group - Guild
     if (options.getSubcommandGroup() === "guild") {
-      // Execute Group - Guild
-      await guildGroup.execute(interaction);
-    }
-    // Group - User
-    else if (options.getSubcommandGroup() === "user") {
-      // Execute Group - User
-      await userGroup.execute(interaction);
+      logger.verbose(`Executing guild subcommand`);
+
+      return guildGroup.execute(interaction);
     }
 
-    // Send debug message
-    return logger?.debug(
-      `Guild: ${guild?.id} User: ${
-        user?.id
-      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
-    );
+    if (options.getSubcommandGroup() === "user") {
+      logger.verbose(`Executing user subcommand`);
+
+      return userGroup.execute(interaction);
+    }
+
+    logger.verbose(`No subcommand group found`);
   },
 };

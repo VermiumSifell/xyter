@@ -6,7 +6,7 @@ import { CommandInteraction } from "discord.js";
 import view from "./modules/view";
 
 // Handlers
-import logger from "../../logger";
+import logger from "@logger";
 
 // Function
 export default {
@@ -25,20 +25,14 @@ export default {
         )
     ),
   async execute(interaction: CommandInteraction) {
-    // Destructure
-    const { options, guild, user, commandName } = interaction;
+    const { options } = interaction;
 
-    // Module - View
     if (options?.getSubcommand() === "view") {
-      // Execute Module - View
+      logger?.verbose(`Executing view subcommand`);
+
       return view(interaction);
     }
 
-    // Send debug message
-    return logger?.debug(
-      `Guild: ${guild?.id} User: ${
-        user?.id
-      } executed /${commandName} ${options?.getSubcommandGroup()} ${options?.getSubcommand()}`
-    );
+    logger?.verbose(`No subcommand found`);
   },
 };

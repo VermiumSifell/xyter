@@ -15,7 +15,7 @@ import {
 import logger from "@logger";
 
 // Models
-import counterSchema from "../../../../../../database/schemas/counter";
+import counterSchema from "@schemas/counter";
 
 // Function
 export default {
@@ -26,24 +26,24 @@ export default {
       .addChannelOption((option) =>
         option
           .setName("channel")
-          .setDescription("The channel you want to add a counter to.")
+          .setDescription("The channel to send the counter to.")
           .setRequired(true)
           .addChannelType(ChannelType.GuildText as number)
       )
       .addStringOption((option) =>
         option
           .setName("word")
-          .setDescription("The word you want to count.")
+          .setDescription("The word to use for the counter.")
           .setRequired(true)
       )
       .addNumberOption((option) =>
         option
           .setName("start")
-          .setDescription("The count that the counter will start at.")
+          .setDescription("The starting value of the counter.")
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    const { options, guild, user } = interaction;
+    const { options, guild } = interaction;
 
     const discordChannel = options?.getChannel("channel");
     const countingWord = options?.getString("word");
@@ -59,9 +59,7 @@ export default {
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Counters (Create)")
-            .setDescription(
-              `${discordChannel} is already a counting channel, currently it's counting ${counter.word}!`
-            )
+            .setDescription(`A counter already exists for this channel.`)
             .setTimestamp(new Date())
             .setColor(errorColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -77,19 +75,13 @@ export default {
         counter: startValue || 0,
       })
       .then(async () => {
-        logger?.debug(
-          `Guild: ${guild?.id} User: ${user?.id} added ${discordChannel?.id} as a counter using word "${countingWord}" for counting.`
-        );
+        logger?.verbose(`Created counter`);
 
         return interaction?.editReply({
           embeds: [
             new MessageEmbed()
               .setTitle("[:toolbox:] Manage - Counters (Create)")
-              .setDescription(
-                `${discordChannel} is now counting when hearing word ${countingWord} and it starts at number ${
-                  startValue || 0
-                }.`
-              )
+              .setDescription(`Created counter for ${discordChannel}`)
               .setTimestamp(new Date())
               .setColor(successColor)
               .setFooter({ text: footerText, iconURL: footerIcon }),
