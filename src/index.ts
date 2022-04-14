@@ -12,19 +12,23 @@ import commands from "@handlers/commands";
 // Configurations
 import { token } from "@config/discord";
 
-const client = new Client({
-  intents: [
-    Intents?.FLAGS?.GUILDS,
-    Intents?.FLAGS?.GUILD_MESSAGES,
-    Intents?.FLAGS?.GUILD_MEMBERS,
-  ],
-});
+async function main() {
+  const client = new Client({
+    intents: [
+      Intents?.FLAGS?.GUILDS,
+      Intents?.FLAGS?.GUILD_MESSAGES,
+      Intents?.FLAGS?.GUILD_MEMBERS,
+    ],
+  });
 
-locale();
-database();
-schedules(client);
+  await locale();
+  await database();
+  await schedules(client);
 
-commands(client);
-events(client);
+  await commands(client);
+  await events(client);
 
-client?.login(token);
+  await client?.login(token);
+}
+
+main();
