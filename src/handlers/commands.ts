@@ -6,13 +6,13 @@ import logger from "../logger";
 export default async (client: Client) => {
   client.commands = new Collection();
 
-  fs.readdir("./src/plugins", async (error: any, plugins: any) => {
+  fs.readdir("./src/plugins", async (error, plugins) => {
     if (error) {
       return logger?.error(`Error reading plugins: ${error}`);
     }
 
     await Promise.all(
-      plugins?.map(async (pluginName: any) => {
+      plugins?.map(async (pluginName) => {
         const plugin = await import(`../plugins/${pluginName}`);
 
         await client?.commands?.set(
