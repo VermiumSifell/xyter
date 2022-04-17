@@ -17,6 +17,13 @@ interface IGuild {
     minimumLength: number;
     timeout: number;
   };
+  welcome: {
+    status: boolean;
+    joinChannel: string;
+    leaveChannel: string;
+    joinChannelMessage: string;
+    leaveChannelMessage: string;
+  };
 }
 
 const guildSchema = new Schema<IGuild>(
@@ -82,6 +89,16 @@ const guildSchema = new Schema<IGuild>(
         type: Number,
         default: 5000,
       },
+    },
+    welcome: {
+      status: {
+        type: Boolean,
+        default: false,
+      },
+      joinChannel: { type: String },
+      leaveChannel: { type: String },
+      joinChannelMessage: { type: String },
+      leaveChannelMessage: { type: String },
     },
   },
   { timestamps: true }

@@ -11,6 +11,7 @@ import logger from "@logger";
 import pterodactyl from "./modules/pterodactyl";
 import credits from "./modules/credits";
 import points from "./modules/points";
+import welcome from "./modules/welcome";
 import { SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
 
 // Function
@@ -21,7 +22,8 @@ export default {
       .setDescription("Guild settings.")
       .addSubcommand(pterodactyl.data)
       .addSubcommand(credits.data)
-      .addSubcommand(points.data);
+      .addSubcommand(points.data)
+      .addSubcommand(welcome.data);
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member
@@ -59,6 +61,10 @@ export default {
       logger?.verbose(`Executing points subcommand`);
 
       return points.execute(interaction);
+    } else if (options?.getSubcommand() === "welcome") {
+      logger?.verbose(`Executing welcome subcommand`);
+
+      return welcome.execute(interaction);
     }
 
     logger?.verbose(`No subcommand found`);
