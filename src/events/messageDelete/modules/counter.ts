@@ -1,0 +1,28 @@
+// Dependencies
+import { Message } from "discord.js";
+
+// Models
+import counterSchema from "@schemas/counter";
+import logger from "@logger";
+
+export default async (message: Message) => {
+  const { guild, channel, author, content } = message;
+
+  const counter = await counterSchema?.findOne({
+    guildId: guild?.id,
+    channelId: channel?.id,
+  });
+
+  if (counter === null)
+    return logger?.verbose(
+      `No counter found for guild: ${guild?.name} (${guild?.id})`
+    );
+  const { word } = counter;
+  if (content === word)
+    return logger?.verbose(
+      `User: ${author?.tag} (${author?.id}) in guild: ${guild?.name} (${guild?.id}) said the counter word: ${word}`
+    );
+
+  channel?.send(`${author} said **${word}**.`);
+  logger?.verbose(`${author} said ${word} in ${channel}`);
+};
