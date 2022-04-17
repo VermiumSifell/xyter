@@ -25,6 +25,7 @@
       "@handlers/*": ["handlers/*"],
       "@helpers/*": ["helpers/*"],
       "@locale": ["locale"],
+      "@plugins/*": ["plugins/*"],
       "@schemas/*": ["database/schemas/*"]
     }
   },
