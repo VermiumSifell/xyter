@@ -18,11 +18,11 @@ export default async (message: Message) => {
       `No counter found for guild: ${guild?.name} (${guild?.id})`
     );
   const { word } = counter;
-  if (content === word)
+  if (content === word) {
+    channel?.send(`${author} said **${word}**.`);
+    logger?.verbose(`${author} said ${word} in ${channel}`);
     return logger?.verbose(
       `User: ${author?.tag} (${author?.id}) in guild: ${guild?.name} (${guild?.id}) said the counter word: ${word}`
     );
-
-  channel?.send(`${author} said **${word}**.`);
-  logger?.verbose(`${author} said ${word} in ${channel}`);
+  }
 };
