@@ -14,14 +14,6 @@ export default {
     const messages = await message.channel.messages.fetch({ limit: 2 });
     const lastMessage = messages.last();
 
-    if (lastMessage?.author.id === author.id) {
-      logger.verbose(
-        `${author.username} sent the last message therefor not allowing again.`
-      );
-      await message.delete();
-      return;
-    }
-
     const { id: guildId } = guild;
     const { id: channelId } = channel;
 
@@ -30,10 +22,21 @@ export default {
       channelId,
     });
 
-    if (!counter) {
+    if (counter === null) {
       logger.verbose(
         `No counter found for guild ${guildId} and channel ${channelId}`
       );
+      return;
+    }
+
+    if (
+      lastMessage?.author.id === author.id &&
+      channel.id === counter.channelId
+    ) {
+      logger.verbose(
+        `${author.username} sent the last message therefor not allowing again.`
+      );
+      await message.delete();
       return;
     }
 
@@ -43,7 +46,6 @@ export default {
       );
 
       await message.delete();
-
       return;
     }
 
