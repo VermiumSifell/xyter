@@ -55,29 +55,7 @@ export default async (client: Client) => {
 
       const rRole = rMember.roles.cache.get(roleId);
 
-      if (!rRole) {
-        logger.error(`Role ${roleId} not found for shop role ${roleId}.`);
-        await shopRoleSchema
-          .deleteOne({
-            userId,
-            roleId,
-            guildId,
-          })
-          .then(async () => {
-            logger.verbose(
-              `Shop role document ${roleId} has been deleted from user ${userId}.`
-            );
-          })
-          .catch(async (error) => {
-            logger.error(
-              `Error deleting shop role document ${roleId} from user ${userId}.`,
-              error
-            );
-          });
-        return;
-      }
-
-      if (!rMember) {
+      if (!rMember || !rRole) {
         logger.error(`Member ${userId} not found for shop role ${roleId}.`);
         await shopRoleSchema
           .deleteOne({

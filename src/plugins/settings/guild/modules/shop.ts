@@ -10,7 +10,6 @@ import logger from "@logger";
 // Models
 import guildSchema from "@schemas/guild";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import { ChannelType } from "discord-api-types/v10";
 
 // Function
 export default {
