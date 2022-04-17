@@ -12,6 +12,7 @@ import pterodactyl from "./modules/pterodactyl";
 import credits from "./modules/credits";
 import points from "./modules/points";
 import welcome from "./modules/welcome";
+import audits from "./modules/audits";
 import { SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
 
 // Function
@@ -23,7 +24,8 @@ export default {
       .addSubcommand(pterodactyl.data)
       .addSubcommand(credits.data)
       .addSubcommand(points.data)
-      .addSubcommand(welcome.data);
+      .addSubcommand(welcome.data)
+      .addSubcommand(audits.data);
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member
@@ -53,18 +55,30 @@ export default {
       logger?.verbose(`Executing pterodactyl subcommand`);
 
       return pterodactyl.execute(interaction);
-    } else if (options?.getSubcommand() === "credits") {
+    }
+
+    if (options?.getSubcommand() === "credits") {
       logger?.verbose(`Executing credits subcommand`);
 
       return credits.execute(interaction);
-    } else if (options?.getSubcommand() === "points") {
+    }
+
+    if (options?.getSubcommand() === "points") {
       logger?.verbose(`Executing points subcommand`);
 
       return points.execute(interaction);
-    } else if (options?.getSubcommand() === "welcome") {
+    }
+
+    if (options?.getSubcommand() === "welcome") {
       logger?.verbose(`Executing welcome subcommand`);
 
       return welcome.execute(interaction);
+    }
+
+    if (options?.getSubcommand() === "audits") {
+      logger?.verbose(`Executing audit subcommand`);
+
+      return audits.execute(interaction);
     }
 
     logger?.verbose(`No subcommand found`);
