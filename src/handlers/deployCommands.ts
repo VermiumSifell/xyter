@@ -3,52 +3,51 @@ import { token, clientId } from "@config/discord";
 import { devMode, guildId } from "@config/other";
 
 import logger from "../logger";
-import fs from "fs";
+import { Client } from "@root/types/common/discord";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 
-export default async () => {
-  fs.readdir("./src/plugins", async (error: any, plugins: any) => {
-    if (error) {
-      return logger?.error(new Error(error));
-    }
+export default async (client: Client) => {
+  const pluginList = [] as string[];
 
-    const pluginList = [] as any;
+  await Promise.all(
+    client.commands.map(async (pluginData: any) => {
+      pluginList.push(pluginData.data.toJSON());
+      logger.verbose(
+        `${pluginData.data.name} successfully pushed to plugin list.`
+      );
+    })
+  )
+    .then(async () => {
+      logger.debug("Successfully pushed all plugins to plugin list.");
+    })
+    .catch(async (error) => {
+      logger.error(error);
+    });
 
-    await Promise.all(
-      plugins?.map(async (pluginName: any) => {
-        const plugin = await import(`../plugins/${pluginName}`);
+  const rest = new REST({ version: "9" }).setToken(token);
 
-        pluginList.push(plugin.default.data.toJSON());
+  await rest
+    .put(Routes.applicationCommands(clientId), {
+      body: pluginList,
+    })
+    .then(async () => {
+      logger.debug(`Successfully deployed plugins to Discord`);
+    })
+    .catch(async (error) => {
+      logger.error(error);
+    });
 
-        logger?.verbose(`Loaded plugin: ${pluginName} for deployment`);
-      })
-    );
-
-    const rest = new REST({ version: "9" }).setToken(token);
-
+  if (devMode) {
     await rest
-      .put(Routes.applicationCommands(clientId), {
+      .put(Routes.applicationGuildCommands(clientId, guildId), {
         body: pluginList,
       })
-      .then(async () => {
-        logger?.info(`Successfully deployed plugins to Discord`);
-      })
-      .catch(async (err: any) => {
-        logger.error(err);
+      .then(async () =>
+        logger.debug(`Successfully deployed guild plugins to Discord`)
+      )
+      .catch(async (error) => {
+        logger.error(error);
       });
-
-    if (devMode) {
-      await rest
-        .put(Routes.applicationGuildCommands(clientId, guildId), {
-          body: pluginList,
-        })
-        .then(async () =>
-          logger?.info(`Successfully deployed guild plugins to Discord`)
-        )
-        .catch(async (err: any) => {
-          logger.error(err);
-        });
-    }
-  });
+  }
 };
