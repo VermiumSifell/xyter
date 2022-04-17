@@ -18,11 +18,19 @@ export default async (message: Message) => {
       `No counter found for guild: ${guild?.name} (${guild?.id})`
     );
   const { word } = counter;
-  if (content === word) {
-    channel?.send(`${author} said **${word}**.`);
-    logger?.verbose(`${author} said ${word} in ${channel}`);
-    return logger?.verbose(
-      `User: ${author?.tag} (${author?.id}) in guild: ${guild?.name} (${guild?.id}) said the counter word: ${word}`
-    );
-  }
+
+  const messages = await message.channel.messages.fetch({ limit: 1 });
+  const lastMessage = messages.last();
+
+  if (!lastMessage) return;
+
+  if (content !== word) return;
+
+  if (lastMessage.author.id === message.author.id) return;
+
+  channel?.send(`${author} said **${word}**.`);
+  logger?.verbose(`${author} said ${word} in ${channel}`);
+  return logger?.verbose(
+    `User: ${author?.tag} (${author?.id}) in guild: ${guild?.name} (${guild?.id}) said the counter word: ${word}`
+  );
 };
