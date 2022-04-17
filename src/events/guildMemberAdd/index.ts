@@ -5,6 +5,8 @@ import { GuildMember } from "discord.js";
 import updatePresence from "@helpers/updatePresence";
 import fetchUser from "@helpers/fetchUser";
 import logger from "@logger";
+import joinMessage from "../guildMemberAdd/joinMessage";
+import audits from "../guildMemberAdd/audits";
 
 export default {
   name: "guildMemberAdd",
@@ -15,6 +17,8 @@ export default {
       `New member: ${user.tag} (${user.id}) added to guild: ${guild.name} (${guild.id})`
     );
 
+    await audits.execute(member);
+    await joinMessage.execute(member);
     await fetchUser(user, guild);
     await updatePresence(client);
   },

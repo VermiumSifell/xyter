@@ -9,11 +9,11 @@ import { devMode, guildId } from "@config/other";
 export default async (client: Client) => {
   if (!devMode) {
     return client?.application?.commands?.set([], guildId).then(async () => {
-      return logger?.verbose(
+      return logger.debug(
         `Development commands disabled for guild: ${guildId}`
       );
     });
   }
 
-  return logger?.verbose(`Development commands enabled for guild: ${guildId}`);
+  return logger.debug(`Development commands enabled for guild: ${guildId}`);
 };

@@ -135,9 +135,9 @@ export default async () => {
       },
     })
     .then(async () => {
-      logger?.verbose(`i18next initialized`);
+      logger.debug(`i18next initialized`);
     })
     .catch(async (error) => {
-      logger?.error(`i18next failed to initialize: ${error}`);
+      logger.error(`i18next failed to initialize: ${error}`);
     });
 };

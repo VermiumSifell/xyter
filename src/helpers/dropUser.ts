@@ -6,7 +6,7 @@ import { Guild, User } from "discord.js";
 
 export default async (user: User, guild: Guild) => {
   await userSchema
-    .deleteOne({ userId: user?.id, guildId: guild?.id })
+    .deleteOne({ userId: user.id, guildId: guild.id })
     .then(async () => {
       logger?.verbose(`Deleted user: ${user?.id} from guild: ${guild?.id}`);
     })

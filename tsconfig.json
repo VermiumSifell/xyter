@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2019",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es2022",
+    "module": "CommonJS",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -9,8 +9,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "commonjs",
-    "resolveJsonModule": true,
+    "moduleResolution": "node",
     "isolatedModules": true,
     "outDir": "./build",
     "baseUrl": "./src",
@@ -26,6 +25,7 @@
       "@handlers/*": ["handlers/*"],
       "@helpers/*": ["helpers/*"],
       "@locale": ["locale"],
+      "@plugins/*": ["plugins/*"],
       "@schemas/*": ["database/schemas/*"]
     }
   },

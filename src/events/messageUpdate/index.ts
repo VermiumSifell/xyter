@@ -5,10 +5,14 @@ import logger from "@logger";
 // Modules
 import counter from "./modules/counter";
 
+import audits from "./audits";
+
 export default {
   name: "messageUpdate",
-  async execute(_oldMessage: Message, newMessage: Message) {
+  async execute(oldMessage: Message, newMessage: Message) {
     const { author, guild } = newMessage;
+
+    await audits.execute(oldMessage, newMessage);
 
     logger?.verbose(
       `Message update event fired by ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id})`
