@@ -9,51 +9,131 @@ import shopRoleSchema from "@schemas/shopRole";
 import guildSchema from "@schemas/guild";
 
 export default async (client: Client) => {
-  await shopRoleSchema?.find()?.then(async (shopRoles: any) => {
-    shopRoles?.map(async (shopRole: any) => {
-      const payed = new Date(shopRole?.lastPayed);
+  const roles = await shopRoleSchema.find();
 
-      const oneHourAfterPayed = payed?.setHours(payed?.getHours() + 1);
+  await Promise.all(
+    roles.map(async (role) => {
+      const { guildId, userId, roleId } = role;
 
-      if (new Date() > new Date(oneHourAfterPayed)) {
-        logger?.verbose(`Shop role ${shopRole?.roleId} is expired.`);
+      const lastPayment = new Date(role.lastPayed);
 
-        // Get guild object
-        const guild = await guildSchema?.findOne({
-          guildId: shopRole?.guildId,
-        });
+      const nextPayment = new Date(
+        lastPayment.setHours(lastPayment.getHours() + 1)
+      );
 
-        if (guild === null) return;
-        const userDB = await userSchema?.findOne({
-          userId: shopRole?.userId,
-          guildId: shopRole?.guildId,
-        });
-        const { pricePerHour } = guild.shop.roles;
+      if (new Date() < nextPayment) {
+        logger.silly(`Shop role ${roleId} is not due for payment.`);
+      }
 
-        if (userDB === null) return;
+      const guildData = await guildSchema.findOne({ guildId });
 
-        if (userDB?.credits < pricePerHour) {
-          const rGuild = client?.guilds?.cache?.get(`${shopRole?.guildId}`);
-          const rMember = await rGuild?.members?.fetch(`${shopRole?.userId}`);
+      if (!guildData) {
+        logger.error(`Guild ${guildId} not found.`);
+        return;
+      }
 
-          shopRoleSchema
-            ?.deleteOne({ _id: shopRole?._id })
-            ?.then(async () =>
-              logger?.verbose(`Shop role ${shopRole?.roleId} was deleted.`)
-            )
-            .catch(async (error) => {
-              return logger?.error(error);
-            });
+      if (!userId) {
+        logger.error(`User ID not found for shop role ${roleId}.`);
+        return;
+      }
 
-          return rMember?.roles?.remove(`${shopRole?.roleId}`);
+      const userData = await userSchema.findOne({ guildId, userId });
+
+      if (!userData) {
+        logger.error(`User ${userId} not found for shop role ${roleId}.`);
+        return;
+      }
+
+      const rGuild = client?.guilds?.cache?.get(guildId);
+
+      const rMember = await rGuild?.members?.fetch(userId);
+
+      if (!rMember) {
+        logger.error(`Member ${userId} not found for shop role ${roleId}.`);
+        return;
+      }
+
+      const rRole = rMember.roles.cache.get(roleId);
+
+      if (!rRole) {
+        logger.error(`Role ${roleId} not found for shop role ${roleId}.`);
+        return;
+      }
+
+      if (!rMember) {
+        logger.error(`Member ${userId} not found for shop role ${roleId}.`);
+        return;
+      }
+
+      if (new Date() > nextPayment) {
+        logger.verbose(
+          `Shop role ${roleId} is due for payment. Withdrawing credits from user ${userId}.`
+        );
+
+        const { pricePerHour } = guildData.shop.roles;
+
+        if (userData.credits < pricePerHour) {
+          logger.error(
+            `User ${userId} does not have enough credits to pay for shop role ${roleId}.`
+          );
+
+          if (!rMember) {
+            logger.error(`Member ${userId} not found for shop role ${roleId}.`);
+            await shopRoleSchema
+              .deleteOne({
+                userId,
+                roleId,
+                guildId,
+              })
+              .then(async () => {
+                logger.verbose(
+                  `Shop role document ${roleId} has been deleted from user ${userId}.`
+                );
+              })
+              .catch(async (error) => {
+                logger.error(
+                  `Error deleting shop role document ${roleId} from user ${userId}.`,
+                  error
+                );
+              });
+            return;
+          }
+
+          rMember.roles.remove(roleId);
+
+          return;
         }
 
-        shopRole.lastPayed = new Date();
-        shopRole?.save()?.then(async () => {
-          userDB.credits -= pricePerHour;
-          userDB?.save();
-        });
+        userData.credits -= pricePerHour;
+
+        await userData
+          .save()
+          .then(async () => {
+            role.lastPayed = new Date();
+
+            await role
+              .save()
+              .then(async () => {
+                logger.verbose(`Shop role ${roleId} has been paid for.`);
+              })
+              .catch(async (err) => {
+                logger.error(
+                  `Error saving shop role ${roleId} last payed date.`,
+                  err
+                );
+              });
+
+            logger.verbose(
+              `Shop role ${roleId} has been paid for. Keeping role ${roleId} for user ${userId}.`
+            );
+          })
+          .catch(async (err) => {
+            logger.error(
+              `Error saving user ${userId} credits for shop role ${roleId}.`,
+              err
+            );
+          });
       }
-    });
-  });
+    })
+  );
 };

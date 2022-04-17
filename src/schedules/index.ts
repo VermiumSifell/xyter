@@ -11,7 +11,14 @@ export default async (client: Client) => {
   const expression = "*/5 * * * *";
 
   schedule.scheduleJob(expression, async () => {
-    logger?.verbose("Running shop roles job.");
-    await shopRoles(client);
+    logger.info("Running jobs.");
+
+    await shopRoles(client)
+      .then(() => {
+        logger.info("Shop roles job finished.");
+      })
+      .catch((err) => {
+        logger.error(`Shop roles job failed: ${err}`);
+      });
   });
 };

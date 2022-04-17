@@ -8,13 +8,13 @@ import logger from "@logger";
 import { url } from "@config/database";
 
 export default async () => {
-  mongoose.connect(url).then(async (connection: any) => {
+  mongoose.connect(url).then(async (connection) => {
     logger?.info(`Connected to database: ${connection.connection.name}`);
   });
-  mongoose.connection.on("error", (error: any) => {
+  mongoose.connection.on("error", (error) => {
     logger?.error(error);
   });
-  mongoose.connection.on("warn", (warning: any) => {
+  mongoose.connection.on("warn", (warning) => {
     logger?.warn(warning);
   });
 };
