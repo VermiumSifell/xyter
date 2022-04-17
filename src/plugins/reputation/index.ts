@@ -3,10 +3,10 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Modules
-import give from "./modules/give";
+import give from "@plugins/reputation/modules/give";
 
 // Handlers
-import logger from "../../logger";
+import logger from "@logger";
 
 // Function
 export default {
