@@ -5,6 +5,7 @@ import { GuildMember } from "discord.js";
 import updatePresence from "@helpers/updatePresence";
 import dropUser from "@helpers/dropUser";
 import logger from "@logger";
+import leaveMessage from "./leaveMessage";
 
 export default {
   name: "guildMemberRemove",
@@ -15,6 +16,7 @@ export default {
       `Removed member: ${user.tag} (${user.id}) from guild: ${guild.name} (${guild.id})`
     );
 
+    await leaveMessage.execute(member);
     await dropUser(user, guild);
     await updatePresence(client);
   },
