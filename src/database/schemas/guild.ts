@@ -65,7 +65,7 @@ const guildSchema = new Schema<IGuild>(
       roles: {
         status: {
           type: Boolean,
-          default: true,
+          default: false,
         },
         pricePerHour: {
           type: Number,

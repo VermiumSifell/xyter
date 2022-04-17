@@ -13,6 +13,7 @@ import credits from "./modules/credits";
 import points from "./modules/points";
 import welcome from "./modules/welcome";
 import audits from "./modules/audits";
+import shop from "./modules/shop";
 import { SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
 
 // Function
@@ -25,7 +26,8 @@ export default {
       .addSubcommand(credits.data)
       .addSubcommand(points.data)
       .addSubcommand(welcome.data)
-      .addSubcommand(audits.data);
+      .addSubcommand(audits.data)
+      .addSubcommand(shop.data);
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member
@@ -79,6 +81,12 @@ export default {
       logger?.verbose(`Executing audit subcommand`);
 
       return audits.execute(interaction);
+    }
+
+    if (options?.getSubcommand() === "shop") {
+      logger?.verbose(`Executing shop subcommand`);
+
+      return shop.execute(interaction);
     }
 
     logger?.verbose(`No subcommand found`);
