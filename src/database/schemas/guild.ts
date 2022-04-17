@@ -24,6 +24,7 @@ interface IGuild {
     joinChannelMessage: string;
     leaveChannelMessage: string;
   };
+  audits: { status: boolean; channelId: string };
 }
 
 const guildSchema = new Schema<IGuild>(
@@ -99,6 +100,10 @@ const guildSchema = new Schema<IGuild>(
       leaveChannel: { type: String },
       joinChannelMessage: { type: String },
       leaveChannelMessage: { type: String },
+    },
+    audits: {
+      status: { type: Boolean, default: false },
+      channelId: { type: String },
     },
   },
   { timestamps: true }
