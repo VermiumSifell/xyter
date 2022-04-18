@@ -33,11 +33,13 @@ export default {
         option
           .setName("name")
           .setDescription("Name of the role you wish to buy.")
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
           .setName("color")
           .setDescription("Color of the role you wish to buy.")
+          .setRequired(true)
       );
   },
   execute: async (interaction: CommandInteraction) => {

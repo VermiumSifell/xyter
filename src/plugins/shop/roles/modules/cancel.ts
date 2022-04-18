@@ -25,7 +25,10 @@ export default {
       .setName("cancel")
       .setDescription("Cancel a purchase.")
       .addRoleOption((option) =>
-        option.setName("role").setDescription("Role you wish to cancel.")
+        option
+          .setName("role")
+          .setDescription("Role you wish to cancel.")
+          .setRequired(true)
       );
   },
   execute: async (interaction: CommandInteraction) => {
