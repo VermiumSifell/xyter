@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Modules
-import give from "@root/plugins/reputation/modules/give";
+import give from "./modules/give";
 
 // Handlers
 import logger from "@logger";
