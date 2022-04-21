@@ -132,6 +132,68 @@ export default async () => {
             },
           },
         },
+        de: {
+          general: { not_available: "Nicht verfügbar" },
+          commands: {
+            credits: {
+              general: {
+                credits_one: "{{count}} Guthaben",
+                credits_other: "{{count}} Guthaben",
+              },
+              addons: {
+                balance: { embed: { title: "Guthaben" } },
+                gift: { embed: { title: "Geschenk" } },
+              },
+            },
+            reputation: {
+              addons: {
+                give: {
+                  version01: {
+                    embed: {
+                      title: ":medal: Ruf",
+                      description:
+                        "Du hast dir am letzten Tag einen Ruf verschafft, den du jetzt nicht rühmen kannst!",
+                    },
+                  },
+                  version02: {
+                    embed: {
+                      title: ":medal: Ruf",
+                      description:
+                        "Du hast {{user}} einen {{type}} Ruf gegeben!",
+                    },
+                  },
+                  version03: {
+                    embed: {
+                      title: ":medal: Ruf",
+                      description: "Du kannst dich nicht selbst rühmen.",
+                    },
+                  },
+                },
+              },
+            },
+            profile: {
+              addons: {
+                view: {
+                  embed: {
+                    title: "Profil",
+                    reputation: "Ruf (Weltweit)",
+                    level: "Level (Gilde)",
+                    points: "Punkte (Gilde)",
+                    credits: "Guthaben (Gilde)",
+                    language_code: "Sprachcode (Weltweit)",
+                  },
+                },
+                settings: {
+                  embed: {
+                    title: "Profile",
+                    description: "Folgende Einstellungen werden vorgenommen",
+                    fields: { language: "Sprache" },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     })
     .then(async () => {
