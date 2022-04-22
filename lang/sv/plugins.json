@@ -5,14 +5,41 @@
         "general": {
           "title": "[:dollar:] Krediter (Saldo)"
         },
-        "user_has_amount_credits": "{{user}} har {{amount}} krediter",
+        "user_has_amount_credits": "<@{{user}}> har {{amount}} krediter",
         "error01": {
-          "description": "{{user}} har inga krediter!"
+          "description": "<@{{user}} har inga krediter!"
+        },
+        "success01": {
+          "description": "<@{{user}}> har {{amount}} krediter!\n"
         }
       },
       "gift": {
         "general": {
           "title": "[:dollar:] Krediter (Gåva)"
+        },
+        "error01": {
+          "description": "Du kan inte betala själv!"
+        },
+        "error02": {
+          "description": "Du kan inte ge noll eller nedan!"
+        },
+        "error03": {
+          "description": "Du har otillräckliga krediter. Ditt saldo är {{amount}}!"
+        },
+        "success01": {
+          "description": "Du har fått {{amount}} krediter från {{user}} med anledning av {{reason}}!"
+        },
+        "success02": {
+          "description": "Successfully gifted {{amount}} credits to <@{{user}}> with reason {{reason}}!"
+        }
+      },
+      "top": {
+        "entry": "{{index}}. <@{{user}}> - {{amount}}",
+        "success01": {
+          "description": "Top 10 users with the most credits."
+        },
+        "general": {
+          "title": "[:dollar:] Credits (Top)"
         }
       }
     }
