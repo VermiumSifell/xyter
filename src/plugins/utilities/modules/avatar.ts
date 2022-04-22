@@ -1,5 +1,4 @@
 import { successColor, footerText, footerIcon } from "@config/embed";
-import { hosterName, hosterUrl } from "@config/other";
 
 import i18next from "i18next";
 import { CommandInteraction, MessageEmbed } from "discord.js";
