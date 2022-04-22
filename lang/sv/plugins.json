@@ -41,6 +41,17 @@
         "general": {
           "title": "[:dollar:] Krediter (Topp)"
         }
+      },
+      "work": {
+        "general": {
+          "title": "[:dollar:] Krediter (Arbeta)"
+        },
+        "error01": {
+          "description": "Du kan inte arbeta under tiden du har paus, vänta {{time}} sekunder."
+        },
+        "success01": {
+          "description": "Du arbetade och tjänade {{amount}} krediter"
+        }
       }
     }
   },
@@ -52,6 +63,51 @@
         },
         "success01": {
           "description": "Här har du <@{{user}}> avatar!"
+        }
+      }
+    }
+  },
+  "counters": {
+    "modules": {
+      "view": {
+        "general": {
+          "title": "[:1234:] Räknare (Visa)"
+        },
+        "error01": {
+          "description": "Ingen räknare hittades för kanal <#{{channel}}>!"
+        },
+        "success01": {
+          "description": "Visar räknaren för kanal <#{{channel}} med antal {{amount}}."
+        }
+      }
+    }
+  },
+  "manage": {
+    "groups": {
+      "counters": {
+        "modules": {
+          "create": {
+            "general": {
+              "title": "[:toolbox:] Hantera - Räknare (Skapa)"
+            },
+            "success01": {
+              "description": "Skapade räknare för <#{{channel}}>."
+            },
+            "error01": {
+              "description": "En räknare finns redan för denna kanal."
+            }
+          },
+          "delete": {
+            "general": {
+              "title": "[:toolbox:] Hantera - Räknare (Ta bort)"
+            },
+            "error01": {
+              "description": "Räknaren för denna kanal finns inte."
+            },
+            "success01": {
+              "description": "Räknaren för denna kanal har tagits bort."
+            }
+          }
         }
       }
     }
