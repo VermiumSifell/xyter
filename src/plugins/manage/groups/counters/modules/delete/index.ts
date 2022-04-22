@@ -16,6 +16,7 @@ import logger from "@logger";
 import counterSchema from "@schemas/counter";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
+import i18next from "i18next";
 
 // Function
 export default {
@@ -38,9 +39,19 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    const { options, guild } = interaction;
+    const { options, guild, locale } = interaction;
 
     const discordChannel = options?.getChannel("channel");
+
+    const embed = new MessageEmbed()
+      .setTitle(
+        i18next.t("manage:groups:counters:modules:delete:general:title", {
+          lng: locale,
+          ns: "plugins",
+        })
+      )
+      .setTimestamp(new Date())
+      .setFooter({ text: footerText, iconURL: footerIcon });
 
     const counter = await counterSchema?.findOne({
       guildId: guild?.id,
@@ -52,12 +63,17 @@ export default {
 
       return interaction?.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:toolbox:] Manage - Counters (Delete)")
-            .setDescription(`The counter for this channel does not exist.`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t(
+                "manage:groups:counters:modules:delete:error01:description",
+                {
+                  lng: locale,
+                  ns: "plugins",
+                }
+              )
+            )
+            .setColor(errorColor),
         ],
       });
     }
@@ -72,12 +88,17 @@ export default {
 
         return interaction?.editReply({
           embeds: [
-            new MessageEmbed()
-              .setTitle("[:toolbox:] Manage - Counters (Delete)")
-              .setDescription(`The counter for this channel has been deleted.`)
-              .setTimestamp(new Date())
-              .setColor(successColor)
-              .setFooter({ text: footerText, iconURL: footerIcon }),
+            embed
+              .setDescription(
+                i18next.t(
+                  "manage:groups:counters:modules:delete:success01:description",
+                  {
+                    lng: locale,
+                    ns: "plugins",
+                  }
+                )
+              )
+              .setColor(successColor),
           ],
         });
       })

@@ -16,6 +16,7 @@ import logger from "@logger";
 
 // Models
 import counterSchema from "@schemas/counter";
+import i18next from "i18next";
 
 // Function
 export default {
@@ -49,11 +50,21 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    const { options, guild } = interaction;
+    const { options, guild, locale } = interaction;
 
     const discordChannel = options?.getChannel("channel");
     const countingWord = options?.getString("word");
     const startValue = options?.getNumber("start");
+
+    const embed = new MessageEmbed()
+      .setTitle(
+        i18next.t("manage:groups:counters:modules:create:general:title", {
+          lng: locale,
+          ns: "plugins",
+        })
+      )
+      .setTimestamp(new Date())
+      .setFooter({ text: footerText, iconURL: footerIcon });
 
     const counter = await counterSchema?.findOne({
       guildId: guild?.id,
@@ -63,12 +74,18 @@ export default {
     if (counter) {
       return interaction?.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:toolbox:] Manage - Counters (Create)")
-            .setDescription(`A counter already exists for this channel.`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t(
+                "manage:groups:counters:modules:create:error01:description",
+                {
+                  lng: locale,
+                  ns: "plugins",
+                  channel: discordChannel,
+                }
+              )
+            )
+            .setColor(errorColor),
         ],
       });
     }
@@ -85,12 +102,18 @@ export default {
 
         return interaction?.editReply({
           embeds: [
-            new MessageEmbed()
-              .setTitle("[:toolbox:] Manage - Counters (Create)")
-              .setDescription(`Created counter for ${discordChannel}`)
-              .setTimestamp(new Date())
-              .setColor(successColor)
-              .setFooter({ text: footerText, iconURL: footerIcon }),
+            embed
+              .setDescription(
+                i18next.t(
+                  "manage:groups:counters:modules:create:success01:description",
+                  {
+                    lng: locale,
+                    ns: "plugins",
+                    channel: discordChannel,
+                  }
+                )
+              )
+              .setColor(successColor),
           ],
         });
       });

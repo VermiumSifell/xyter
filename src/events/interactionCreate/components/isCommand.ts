@@ -22,12 +22,17 @@ export default async (interaction: CommandInteraction) => {
 
   let meta;
 
+  const subcommand =
+    interaction.options.getSubcommand() === "delete"
+      ? "delete_"
+      : interaction.options.getSubcommand();
+
   if (!interaction.options.getSubcommandGroup(false)) {
-    meta = currentCommand.modules[interaction.options.getSubcommand()].meta;
+    meta = currentCommand.modules[subcommand].meta;
   } else {
     meta =
       currentCommand.groups[interaction.options.getSubcommandGroup()].modules[
-        interaction.options.getSubcommand()
+        subcommand
       ].meta;
   }
 
@@ -100,7 +105,7 @@ export default async (interaction: CommandInteraction) => {
       );
     })
     .catch(async (error: any) => {
-      logger?.error(error);
+      logger?.error(`${error}`);
 
       return interaction.editReply({
         embeds: [
