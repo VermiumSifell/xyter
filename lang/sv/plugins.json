@@ -4,6 +4,12 @@
       "balance": {
         "general": {
           "title": "[:dollar:] Krediter (Saldo)"
+        },
+        "user_has_amount_credits": "{{user}} har {{amount}} krediter"
+      },
+      "gift": {
+        "general": {
+          "title": "[:dollar:] Krediter (Gåva)"
         }
       }
     }
