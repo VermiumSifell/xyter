@@ -18,6 +18,7 @@ import saveUser from "@helpers/saveUser";
 // Models
 import fetchUser from "@helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import i18next from "i18next";
 
 // Function
 export default {
@@ -42,38 +43,52 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    const { options, user, guild, client } = interaction;
+    const { options, user, guild, client, locale } = interaction;
 
-    const optionUser = options?.getUser("user");
-    const optionAmount = options?.getInteger("amount");
-    const optionReason = options?.getString("reason");
+    const optionUser = options.getUser("user");
+    const optionAmount = options.getInteger("amount");
+    const optionReason = options.getString("reason");
+
+    const embed = new MessageEmbed()
+      .setTitle(
+        i18next.t("credits:modules:gift:general:title", {
+          lng: locale,
+          ns: "plugins",
+        })
+      )
+      .setTimestamp(new Date())
+      .setFooter({ text: footerText, iconURL: footerIcon });
 
     if (guild === null) {
-      logger?.verbose(`Guild is null`);
+      logger.verbose(`Guild is null`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
-            .setDescription(`We can not find your guild!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t("guildOnly", {
+                lng: locale,
+                ns: "errors",
+              })
+            )
+            .setColor(errorColor),
         ],
       });
     }
 
     if (optionUser === null) {
-      logger?.verbose(`User not found`);
+      logger.verbose(`User not found`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
-            .setDescription(`We can not find your requested user!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t("userNotFound", {
+                lng: locale,
+                ns: "errors",
+              })
+            )
+            .setColor(errorColor),
         ],
       });
     }
@@ -85,119 +100,126 @@ export default {
     const toUserDB = await fetchUser(optionUser, guild);
 
     if (fromUserDB === null) {
-      logger?.verbose(`User not found`);
+      logger.verbose(`User not found`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
+          embed
             .setDescription(
-              `We can not find your requested from user in our database!`
+              i18next.t("userNotFound", {
+                lng: locale,
+                ns: "errors",
+              })
             )
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(errorColor),
         ],
       });
     }
 
     if (toUserDB === null) {
-      logger?.verbose(`User not found`);
+      logger.verbose(`User not found`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
+          embed
             .setDescription(
-              `We can not find your requested to user in our database!`
+              i18next.t("userNotFound", {
+                lng: locale,
+                ns: "errors",
+              })
             )
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(errorColor),
         ],
       });
     }
 
     // If receiver is same as sender
-    if (optionUser?.id === user?.id) {
-      logger?.verbose(`User is same as sender`);
+    if (optionUser.id === user.id) {
+      logger.verbose(`User is same as sender`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
-            .setDescription(`You can not pay yourself!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t("credits:modules:gift:error01:description", {
+                lng: locale,
+                ns: "plugins",
+              })
+            )
+            .setColor(errorColor),
         ],
       });
     }
 
     // If amount is null
     if (optionAmount === null) {
-      logger?.verbose(`Amount is null`);
+      logger.verbose(`Amount is null`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
-            .setDescription(`We could not read your requested amount!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t("amountNotFound", {
+                lng: locale,
+                ns: "errors",
+              })
+            )
+            .setColor(errorColor),
         ],
       });
     }
 
     // If amount is zero or below
     if (optionAmount <= 0) {
-      logger?.verbose(`Amount is zero or below`);
+      logger.verbose(`Amount is zero or below`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
-            .setDescription(`You can't gift zero or below!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t("credits:modules:gift:error02:description", {
+                lng: locale,
+                ns: "plugins",
+              })
+            )
+            .setColor(errorColor),
         ],
       });
     }
 
     // If user has below gifting amount
-    if (fromUserDB?.credits < optionAmount) {
-      logger?.verbose(`User has below gifting amount`);
+    if (fromUserDB.credits < optionAmount) {
+      logger.verbose(`User has below gifting amount`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
+          embed
             .setDescription(
-              `You have insufficient credits. Your balance is ${fromUserDB?.credits}!`
+              i18next.t("credits:modules:gift:error03:description", {
+                lng: locale,
+                ns: "plugins",
+                amount: fromUserDB.credits,
+              })
             )
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(errorColor),
         ],
       });
     }
 
     // If toUserDB has no credits
     if (toUserDB === null) {
-      logger?.verbose(`User has no credits`);
+      logger.verbose(`User has no credits`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
+          embed
             .setDescription(
-              `We can not find your requested to user in our database!`
+              i18next.t("userNotFound", {
+                lng: locale,
+                ns: "errors",
+              })
             )
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(errorColor),
         ],
       });
     }
@@ -209,46 +231,50 @@ export default {
     toUserDB.credits += optionAmount;
 
     // Save users
-    await saveUser(fromUserDB, toUserDB)?.then(async () => {
+    await saveUser(fromUserDB, toUserDB).then(async () => {
       // Get DM user object
-      const dmUser = client?.users?.cache?.get(optionUser?.id);
+      const dmUser = client.users.cache.get(optionUser.id);
+
+      if (dmUser == null) return;
 
       // Send DM to user
       await dmUser
-        ?.send({
+        .send({
           embeds: [
-            new MessageEmbed()
-              .setTitle("[:dollar:] Credits (Gift)")
+            embed
               .setDescription(
-                `You have received ${optionAmount} credits from ${
-                  user?.tag
-                } with reason ${
-                  optionReason ? ` with reason: ${optionReason}` : ""
-                }!`
+                i18next.t("credits:modules:gift:error03:description", {
+                  lng: locale,
+                  ns: "plugins",
+                  user: user.tag,
+                  amount: optionAmount,
+                  reason: optionReason || "unspecified",
+                })
               )
-              .setTimestamp(new Date())
-              .setColor(successColor)
-              .setFooter({ text: footerText, iconURL: footerIcon }),
+              .setColor(successColor),
           ],
         })
         .catch(async (error) =>
-          logger?.error(`[Gift] Error sending DM to user: ${error}`)
+          logger.error(`[Gift] Error sending DM to user: ${error}`)
         );
 
-      logger?.verbose(
-        `[Gift] Successfully gifted ${optionAmount} credits to ${optionUser?.tag}`
+      logger.verbose(
+        `[Gift] Successfully gifted ${optionAmount} credits to ${optionUser.tag}`
       );
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
+          embed
             .setDescription(
-              `Successfully gifted ${optionAmount} credits to ${optionUser?.tag}!`
+              i18next.t("credits:modules:gift:success02:description", {
+                lng: locale,
+                ns: "plugins",
+                user: user,
+                amount: optionAmount,
+                reason: optionReason || "unspecified",
+              })
             )
-            .setTimestamp(new Date())
-            .setColor(successColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(successColor),
         ],
       });
     });
