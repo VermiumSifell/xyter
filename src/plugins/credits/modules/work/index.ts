@@ -17,6 +17,8 @@ import fetchUser from "@helpers/fetchUser";
 import fetchGuild from "@helpers/fetchGuild";
 
 export default {
+  meta: { guildOnly: true, ephemeral: true },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("work").setDescription(`Work to earn credits`);
   },

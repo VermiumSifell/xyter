@@ -1,5 +1,5 @@
 // Dependencies
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction, MessageEmbed, Permissions } from "discord.js";
 
 // Configurations
 import {
@@ -19,6 +19,12 @@ import { ChannelType } from "discord-api-types/v10";
 
 // Function
 export default {
+  meta: {
+    guildOnly: true,
+    ephemeral: true,
+    permissions: [Permissions.FLAGS.MANAGE_GUILD],
+  },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("delete")

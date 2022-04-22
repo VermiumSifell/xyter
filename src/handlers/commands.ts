@@ -15,7 +15,11 @@ export default async (client: Client) => {
       plugins.map(async (pluginName) => {
         const plugin = await import(`../plugins/${pluginName}`);
 
-        await client.commands.set(plugin.default.data.name, plugin.default);
+        await client.commands.set(
+          plugin.default.data.name,
+          plugin.default,
+          plugin.default.meta
+        );
       })
     )
       .then(async () => {

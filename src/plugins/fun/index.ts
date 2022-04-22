@@ -5,6 +5,8 @@ import logger from "@logger";
 import modules from "@plugins/fun/modules";
 
 export default {
+  modules,
+
   data: new SlashCommandBuilder()
     .setName("fun")
     .setDescription("Fun commands.")

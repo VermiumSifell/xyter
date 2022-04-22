@@ -3,19 +3,20 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Groups
-import guildGroup from "./guild";
+import groups from "./groups";
 
 // Handlers
 import logger from "@logger";
 
 // Function
 export default {
-  metadata: { author: "Zyner" },
+  groups,
+
   data: new SlashCommandBuilder()
     .setName("settings")
     .setDescription("Manage settings.")
 
-    .addSubcommandGroup(guildGroup.data),
+    .addSubcommandGroup(groups.guild.data),
 
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
@@ -23,7 +24,7 @@ export default {
     if (options.getSubcommandGroup() === "guild") {
       logger.verbose(`Executing guild subcommand`);
 
-      return guildGroup.execute(interaction);
+      return groups.guild.execute(interaction);
     }
 
     logger.verbose(`No subcommand group found`);

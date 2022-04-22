@@ -5,6 +5,8 @@ import logger from "@logger";
 import modules from "@plugins/credits/modules";
 
 export default {
+  modules,
+
   data: new SlashCommandBuilder()
     .setName("credits")
     .setDescription("Manage your credits.")

@@ -9,6 +9,8 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
+  meta: { guildOnly: false, ephemeral: false },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("about").setDescription("About this bot!)");
   },

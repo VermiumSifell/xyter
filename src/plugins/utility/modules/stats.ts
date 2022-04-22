@@ -2,6 +2,8 @@ import { successColor, footerText, footerIcon } from "@config/embed";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 export default {
+  meta: { guildOnly: false, ephemeral: false },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("stats").setDescription("Check bot statistics!)");
   },

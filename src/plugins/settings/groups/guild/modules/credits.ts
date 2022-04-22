@@ -1,10 +1,10 @@
 // Dependencies
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, Permissions } from "discord.js";
 
 // Configurations
 import { successColor, footerText, footerIcon } from "@config/embed";
 
-// Handlers
+//Handlers
 import logger from "@logger";
 
 // Models
@@ -13,10 +13,16 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
+  meta: {
+    guildOnly: true,
+    ephemeral: true,
+    permissions: [Permissions.FLAGS.MANAGE_GUILD],
+  },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
-      .setName("points")
-      .setDescription("Points")
+      .setName("credits")
+      .setDescription(`Credits`)
       .addBooleanOption((option) =>
         option.setName("status").setDescription("Should credits be enabled?")
       )
@@ -30,19 +36,31 @@ export default {
       )
       .addNumberOption((option) =>
         option
+          .setName("work-rate")
+          .setDescription("Maximum amount of credits on work.")
+      )
+      .addNumberOption((option) =>
+        option
+          .setName("work-timeout")
+          .setDescription("Timeout between work schedules (seconds).")
+      )
+      .addNumberOption((option) =>
+        option
           .setName("timeout")
-          .setDescription("Timeout between earning credits (milliseconds).")
+          .setDescription("Timeout between earning credits (seconds).")
       );
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member
-    const { options, guild } = interaction;
+    const { guild, options } = interaction;
 
     // Get options
     const status = options?.getBoolean("status");
     const rate = options?.getNumber("rate");
     const timeout = options?.getNumber("timeout");
     const minimumLength = options?.getNumber("minimum-length");
+    const workRate = options?.getNumber("work-rate");
+    const workTimeout = options?.getNumber("work-timeout");
 
     // Get guild object
     const guildDB = await guildSchema?.findOne({
@@ -50,46 +68,61 @@ export default {
     });
 
     if (guildDB === null) {
-      return logger?.verbose(`Guild not found in database.`);
+      return logger?.verbose(`Guild is null`);
     }
 
     // Modify values
-    guildDB.points.status = status !== null ? status : guildDB?.points?.status;
-    guildDB.points.rate = rate !== null ? rate : guildDB?.points?.rate;
-    guildDB.points.timeout =
-      timeout !== null ? timeout : guildDB?.points?.timeout;
-    guildDB.points.minimumLength =
-      minimumLength !== null ? minimumLength : guildDB?.points?.minimumLength;
+    guildDB.credits.status =
+      status !== null ? status : guildDB?.credits?.status;
+    guildDB.credits.rate = rate !== null ? rate : guildDB?.credits?.rate;
+    guildDB.credits.timeout =
+      timeout !== null ? timeout : guildDB?.credits?.timeout;
+    guildDB.credits.workRate =
+      workRate !== null ? workRate : guildDB?.credits?.workRate;
+    guildDB.credits.workTimeout =
+      workTimeout !== null ? workTimeout : guildDB?.credits?.workTimeout;
+    guildDB.credits.minimumLength =
+      minimumLength !== null ? minimumLength : guildDB?.credits?.minimumLength;
 
     // Save guild
     await guildDB?.save()?.then(async () => {
-      logger?.verbose(`Guild points updated.`);
+      logger?.verbose(`Guild saved`);
 
       return interaction?.editReply({
         embeds: [
           {
-            title: ":hammer: Settings - Guild [Points]",
-            description: `Points settings updated.`,
+            title: ":tools: Settings - Guild [Credits]",
+            description: `Credits settings updated.`,
             color: successColor,
             fields: [
               {
                 name: "🤖 Status",
-                value: `${guildDB?.points?.status}`,
+                value: `${guildDB?.credits?.status}`,
                 inline: true,
               },
               {
                 name: "📈 Rate",
-                value: `${guildDB?.points?.rate}`,
+                value: `${guildDB?.credits?.rate}`,
+                inline: true,
+              },
+              {
+                name: "📈 Work Rate",
+                value: `${guildDB?.credits?.workRate}`,
                 inline: true,
               },
               {
                 name: "🔨 Minimum Length",
-                value: `${guildDB?.points?.minimumLength}`,
+                value: `${guildDB?.credits?.minimumLength}`,
                 inline: true,
               },
               {
                 name: "⏰ Timeout",
-                value: `${guildDB?.points?.timeout}`,
+                value: `${guildDB?.credits?.timeout}`,
+                inline: true,
+              },
+              {
+                name: "⏰ Work Timeout",
+                value: `${guildDB?.credits?.workTimeout}`,
                 inline: true,
               },
             ],

@@ -1,11 +1,3 @@
-// Dependencies
-import { CommandInteraction, MessageEmbed } from "discord.js";
-import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import { ChannelType } from "discord-api-types/v10";
-
-import counterSchema from "@schemas/counter";
-
-// Configuration
 import {
   errorColor,
   successColor,
@@ -13,7 +5,15 @@ import {
   footerIcon,
 } from "@config/embed";
 
+import { CommandInteraction, MessageEmbed } from "discord.js";
+import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import { ChannelType } from "discord-api-types/v10";
+
+import counterSchema from "@schemas/counter";
+
 export default {
+  meta: { guildOnly: true, ephemeral: false },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("view")
@@ -28,6 +28,7 @@ export default {
           .addChannelTypes(ChannelType.GuildText)
       );
   },
+
   execute: async (interaction: CommandInteraction) => {
     const { options, guild } = interaction;
 

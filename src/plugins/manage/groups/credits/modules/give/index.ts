@@ -1,5 +1,5 @@
 // Dependencies
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction, MessageEmbed, Permissions } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Configurations
@@ -21,6 +21,12 @@ import fetchUser from "@helpers/fetchUser";
 
 // Function
 export default {
+  meta: {
+    guildOnly: true,
+    ephemeral: true,
+    permissions: [Permissions.FLAGS.MANAGE_GUILD],
+  },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("give")

@@ -1,5 +1,5 @@
 // Dependencies
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, Permissions } from "discord.js";
 
 // Configurations
 import { successColor, footerText, footerIcon } from "@config/embed";
@@ -14,6 +14,12 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
+  meta: {
+    guildOnly: true,
+    ephemeral: true,
+    permissions: [Permissions.FLAGS.MANAGE_GUILD],
+  },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("pterodactyl")

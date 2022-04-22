@@ -20,6 +20,8 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
+  meta: { guildOnly: true, ephemeral: true },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("cancel")

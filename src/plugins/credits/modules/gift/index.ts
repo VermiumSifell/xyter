@@ -22,6 +22,8 @@ import i18next from "i18next";
 
 // Function
 export default {
+  meta: { guildOnly: true, ephemeral: true },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("gift")

@@ -1,5 +1,5 @@
 // Dependencies
-import { MessageEmbed, CommandInteraction } from "discord.js";
+import { MessageEmbed, CommandInteraction, Permissions } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 
@@ -19,6 +19,12 @@ import counterSchema from "@schemas/counter";
 
 // Function
 export default {
+  meta: {
+    guildOnly: true,
+    ephemeral: true,
+    permissions: [Permissions.FLAGS.MANAGE_GUILD],
+  },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("create")

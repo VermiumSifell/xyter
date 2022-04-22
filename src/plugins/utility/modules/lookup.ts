@@ -17,6 +17,8 @@ import logger from "@logger";
 
 // Function
 export default {
+  meta: { guildOnly: false, ephemeral: false },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("lookup")

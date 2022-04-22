@@ -6,6 +6,8 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import logger from "@logger";
 
 export default {
+  meta: { guildOnly: false, ephemeral: false },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("meme").setDescription("Get a meme from r/memes)");
   },
