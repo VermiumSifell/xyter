@@ -24,7 +24,7 @@ export default {
 
     const embed = new MessageEmbed()
       .setTitle(
-        i18next.t("utilities:modules:avatar:general:title", {
+        i18next.t("utility:modules:avatar:general:title", {
           lng: locale,
           ns: "plugins",
         })
@@ -36,7 +36,7 @@ export default {
       embeds: [
         embed
           .setDescription(
-            i18next.t("utilities:modules:avatar:success01:description", {
+            i18next.t("utility:modules:avatar:success01:description", {
               lng: locale,
               ns: "plugins",
               user: targetUser,

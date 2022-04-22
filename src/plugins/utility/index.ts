@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Modules
-import modules from "@plugins/utilities/modules";
+import modules from "@plugins/utility/modules";
 
 // Handlers
 import logger from "../../logger";
@@ -12,8 +12,8 @@ import logger from "../../logger";
 export default {
   metadata: { author: "Zyner" },
   data: new SlashCommandBuilder()
-    .setName("utilities")
-    .setDescription("Common utilities.")
+    .setName("utility")
+    .setDescription("Common utility.")
 
     .addSubcommand(modules.lookup.data)
     .addSubcommand(modules.about.data)
