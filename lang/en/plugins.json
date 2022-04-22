@@ -1,3 +1,11 @@
 {
-  "test":"test"
+  "credits": {
+    "modules": {
+      "balance": {
+        "general": {
+          "title": "[:dollar:] Credits (Balance)"
+        }
+      }
+    }
+  }
 }
