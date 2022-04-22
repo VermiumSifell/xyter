@@ -30,16 +30,16 @@
           "description": "Du har fått {{amount}} krediter från {{user}} med anledning av {{reason}}!"
         },
         "success02": {
-          "description": "Successfully gifted {{amount}} credits to <@{{user}}> with reason {{reason}}!"
+          "description": "Du har fått {{amount}} krediter från {{user}} med anledning {{reason}}!"
         }
       },
       "top": {
         "entry": "{{index}}. <@{{user}}> - {{amount}}",
         "success01": {
-          "description": "Top 10 users with the most credits."
+          "description": "Topp 10 användare med flest krediter."
         },
         "general": {
-          "title": "[:dollar:] Credits (Top)"
+          "title": "[:dollar:] Krediter (Topp)"
         }
       }
     }
@@ -48,10 +48,10 @@
     "modules": {
       "avatar": {
         "general": {
-          "title": "[:hammer:] Utility (Avatar)"
+          "title": "[:hammer:] Verktyg (Avatar)"
         },
         "success01": {
-          "description": "Here you have <@{{user}}> avatar!"
+          "description": "Här har du <@{{user}}> avatar!"
         }
       }
     }
