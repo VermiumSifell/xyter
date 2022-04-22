@@ -15,19 +15,14 @@ export default async (client: Client) => {
       plugins.map(async (pluginName) => {
         const plugin = await import(`../plugins/${pluginName}`);
 
-        await client?.commands?.set(
-          plugin?.default?.data?.name,
-          plugin?.default
-        );
-
-        logger.verbose(`Loaded plugin: ${pluginName}`);
+        await client.commands.set(plugin.default.data.name, plugin.default);
       })
     )
       .then(async () => {
         logger.debug("Successfully loaded plugins.");
       })
       .catch(async (err) => {
-        logger.error(err);
+        logger.error(`${err}`);
       });
   });
 };
