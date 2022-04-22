@@ -3,9 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Modules
-import lookup from "./modules/lookup";
-import about from "./modules/about";
-import stats from "./modules/stats";
+import modules from "@plugins/utilities/modules";
 
 // Handlers
 import logger from "../../logger";
@@ -16,30 +14,26 @@ export default {
   data: new SlashCommandBuilder()
     .setName("utilities")
     .setDescription("Common utilities.")
-    .addSubcommand(lookup.data)
-    .addSubcommand(about.data)
-    .addSubcommand(stats.data),
+
+    .addSubcommand(modules.lookup.data)
+    .addSubcommand(modules.about.data)
+    .addSubcommand(modules.stats.data)
+    .addSubcommand(modules.avatar.data),
+
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 
-    if (options?.getSubcommand() === "lookup") {
-      logger.verbose(`Executing lookup subcommand`);
-
-      return lookup.execute(interaction);
+    switch (options.getSubcommand()) {
+      case "lookup":
+        return modules.lookup.execute(interaction);
+      case "about":
+        return modules.about.execute(interaction);
+      case "stats":
+        return modules.stats.execute(interaction);
+      case "avatar":
+        return modules.avatar.execute(interaction);
+      default:
+        logger.error(`Unknown subcommand ${options.getSubcommand()}`);
     }
-
-    if (options?.getSubcommand() === "about") {
-      logger.verbose(`Executing about subcommand`);
-
-      return about.execute(interaction);
-    }
-
-    if (options?.getSubcommand() === "stats") {
-      logger.verbose(`Executing stats subcommand`);
-
-      return stats.execute(interaction);
-    }
-
-    logger.verbose(`No subcommand found.`);
   },
 };
