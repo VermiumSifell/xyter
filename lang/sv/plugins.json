@@ -5,7 +5,10 @@
         "general": {
           "title": "[:dollar:] Krediter (Saldo)"
         },
-        "user_has_amount_credits": "{{user}} har {{amount}} krediter"
+        "user_has_amount_credits": "{{user}} har {{amount}} krediter",
+        "error01": {
+          "description": "{{user}} har inga krediter!"
+        }
       },
       "gift": {
         "general": {
