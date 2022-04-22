@@ -5,7 +5,7 @@
         "general": {
           "title": "[:dollar:] Credits (Balance)"
         },
-        "user_has_amount_credits": "{{user}} has {{amount}} credits",
+        "user_has_amount_credits": "<@{{user}}> has {{amount}} credits",
         "error01": {
           "description": "<@{{user}}> has no credits!"
         },
@@ -40,6 +40,18 @@
         },
         "general": {
           "title": "[:dollar:] Credits (Top)"
+        }
+      }
+    }
+  },
+  "utility": {
+    "modules": {
+      "avatar": {
+        "general": {
+          "title": "[:hammer:] Utility (Avatar)"
+        },
+        "success01": {
+          "description": "Here you have <@{{user}}> avatar!"
         }
       }
     }
