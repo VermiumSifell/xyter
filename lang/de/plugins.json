@@ -1,0 +1,17 @@
+{
+  "credits": {
+    "modules": {
+      "balance": {
+        "general": {
+          "title": "[:dollar:] Credits (Balance)"
+        },
+        "user_has_amount_credits": "{{user}} has {{amount}} credits"
+      },
+      "gift": {
+        "general": {
+          "title": "[:dollar:] Credits (Gift)"
+        }
+      }
+    }
+  }
+}
