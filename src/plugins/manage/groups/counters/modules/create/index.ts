@@ -28,7 +28,7 @@ export default {
           .setName("channel")
           .setDescription("The channel to send the counter to.")
           .setRequired(true)
-          .addChannelType(ChannelType.GuildText as number)
+          .addChannelTypes(ChannelType.GuildText)
       )
       .addStringOption((option) =>
         option

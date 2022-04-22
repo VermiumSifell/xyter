@@ -25,7 +25,7 @@ export default {
             `The channel that contains the counter you want to view`
           )
           .setRequired(true)
-          .addChannelType(ChannelType.GuildText as number)
+          .addChannelTypes(ChannelType.GuildText)
       );
   },
   execute: async (interaction: CommandInteraction) => {

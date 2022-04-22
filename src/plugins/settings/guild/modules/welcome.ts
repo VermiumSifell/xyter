@@ -25,14 +25,16 @@ export default {
         option
           .setName("join-channel")
           .setDescription("Channel for join messages.")
-          .addChannelType(ChannelType.GuildText as number)
+          .addChannelTypes(ChannelType.GuildText)
       )
+
       .addChannelOption((option) =>
         option
           .setName("leave-channel")
           .setDescription("Channel for leave messages.")
-          .addChannelType(ChannelType.GuildText as number)
+          .addChannelTypes(ChannelType.GuildText)
       )
+
       .addStringOption((option) =>
         option
           .setName("leave-message")

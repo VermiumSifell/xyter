@@ -25,7 +25,7 @@ export default {
         option
           .setName("channel")
           .setDescription("Channel for audit messages.")
-          .addChannelType(ChannelType.GuildText as number)
+          .addChannelTypes(ChannelType.GuildText)
       );
   },
   execute: async (interaction: CommandInteraction) => {

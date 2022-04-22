@@ -28,7 +28,7 @@ export default {
           .setName("channel")
           .setDescription("The channel to delete the counter from.")
           .setRequired(true)
-          .addChannelType(ChannelType.GuildText as number)
+          .addChannelTypes(ChannelType.GuildText)
       );
   },
   execute: async (interaction: CommandInteraction) => {
