@@ -1,11 +1,9 @@
-import otaClient, { LanguageStrings } from "@crowdin/ota-client";
 import i18next from "i18next";
+import otaClient, { LanguageStrings } from "@crowdin/ota-client";
+
+import logger from "@logger";
 
 const client = new otaClient("ffd2068395f215046cc01f8lfji");
-
-export interface translation {
-  [key: string]: string;
-}
 
 export default async () => {
   //load needed information from Crowdin distribution
@@ -24,5 +22,5 @@ export default async () => {
     resources,
   });
   //i18next now can be used to translate your application
-  console.log(i18next.store.data);
+  logger.silly(i18next.store.data);
 };
