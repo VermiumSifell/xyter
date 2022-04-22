@@ -43,5 +43,17 @@
         }
       }
     }
+  },
+  "utility": {
+    "modules": {
+      "avatar": {
+        "general": {
+          "title": "[:hammer:] Utility (Avatar)"
+        },
+        "success01": {
+          "description": "Here you have <@{{user}}> avatar!"
+        }
+      }
+    }
   }
 }
