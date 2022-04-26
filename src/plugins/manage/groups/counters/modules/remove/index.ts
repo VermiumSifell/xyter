@@ -28,7 +28,7 @@ export default {
 
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
-      .setName("delete")
+      .setName("remove")
       .setDescription(`Delete a counter from your guild.`)
       .addChannelOption((option) =>
         option
@@ -45,7 +45,7 @@ export default {
 
     const embed = new MessageEmbed()
       .setTitle(
-        i18next.t("manage:groups:counters:modules:delete:general:title", {
+        i18next.t("manage:groups:counters:modules:remove:general:title", {
           lng: locale,
           ns: "plugins",
         })
@@ -66,7 +66,7 @@ export default {
           embed
             .setDescription(
               i18next.t(
-                "manage:groups:counters:modules:delete:error01:description",
+                "manage:groups:counters:modules:remove:error01:description",
                 {
                   lng: locale,
                   ns: "plugins",
@@ -91,7 +91,7 @@ export default {
             embed
               .setDescription(
                 i18next.t(
-                  "manage:groups:counters:modules:delete:success01:description",
+                  "manage:groups:counters:modules:remove:success01:description",
                   {
                     lng: locale,
                     ns: "plugins",
