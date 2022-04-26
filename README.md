@@ -33,6 +33,8 @@ Xyter is an open source, multi-purpose Discord bot that is develoepd by students
 
 If you liked this repository, feel free to leave a star ⭐ to help promote Xyter!
 
+**For a more updated documentation visit [this site](https://xyter.zyner.org/)!**
+
 ## ❗ Features
 
 **10+** commands and counting across **13** different categories!
@@ -58,8 +60,6 @@ Xyter also comes packed with a variety of features, such as:
 - Code optimisation
 - New discord features
 - Suggestions we deem very good.
-- Rewrite to TypeScript
-- Make it API-driven
 
 Some more is available in issues
 
