@@ -15,23 +15,23 @@ export default {
     return group
       .setName("counters")
       .setDescription("Manage guild counters.")
-      .addSubcommand(modules.create.data)
-      .addSubcommand(modules.delete_.data);
+      .addSubcommand(modules.add.data)
+      .addSubcommand(modules.remove.data);
   },
 
   execute: async (interaction: CommandInteraction) => {
     const { options } = interaction;
 
-    if (options?.getSubcommand() === "create") {
+    if (options?.getSubcommand() === "add") {
       logger?.verbose(`Executing create subcommand`);
 
-      return modules.create.execute(interaction);
+      return modules.add.execute(interaction);
     }
 
-    if (options?.getSubcommand() === "delete") {
+    if (options?.getSubcommand() === "remove") {
       logger?.verbose(`Executing delete subcommand`);
 
-      return modules.delete_.execute(interaction);
+      return modules.remove.execute(interaction);
     }
 
     logger?.verbose(`Unknown subcommand ${options?.getSubcommand()}`);
