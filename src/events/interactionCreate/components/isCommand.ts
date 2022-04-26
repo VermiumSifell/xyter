@@ -18,10 +18,7 @@ export default async (interaction: CommandInteraction) => {
 
   let meta;
 
-  const subcommand =
-    interaction.options.getSubcommand() === "delete"
-      ? "delete_"
-      : interaction.options.getSubcommand();
+  const subcommand = interaction.options.getSubcommand()
 
   if (!interaction.options.getSubcommandGroup(false)) {
     meta = currentCommand.modules[subcommand].meta;
