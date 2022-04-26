@@ -28,7 +28,7 @@ export default {
 
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
-      .setName("create")
+      .setName("add")
       .setDescription("Add a counter to your guild.")
       .addChannelOption((option) =>
         option
@@ -58,7 +58,7 @@ export default {
 
     const embed = new MessageEmbed()
       .setTitle(
-        i18next.t("manage:groups:counters:modules:create:general:title", {
+        i18next.t("manage:groups:counters:modules:add:general:title", {
           lng: locale,
           ns: "plugins",
         })
@@ -77,7 +77,7 @@ export default {
           embed
             .setDescription(
               i18next.t(
-                "manage:groups:counters:modules:create:error01:description",
+                "manage:groups:counters:modules:add:error01:description",
                 {
                   lng: locale,
                   ns: "plugins",
