@@ -1,9 +1,6 @@
 //Dependencies
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, Permissions, MessageEmbed } from "discord.js";
-
-// Configurations
-import { errorColor, footerText, footerIcon } from "@config/embed";
+import { CommandInteraction } from "discord.js";
 
 // Groups
 import groups from "@plugins/manage/groups";
