@@ -16,10 +16,6 @@ export default async (interaction: CommandInteraction) => {
     logger.verbose(`Command ${commandName} not found`);
   }
 
-  // logger.warn(currentCommand.modules[interaction.options.getSubcommand()].meta);
-
-  // const meta = { ephemeral: false, guildOnly: false };
-
   let meta;
 
   const subcommand =
