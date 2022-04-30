@@ -12,6 +12,7 @@
     "moduleResolution": "node",
     "isolatedModules": true,
     "outDir": "./build",
+    "resolveJsonModule": true,
     "baseUrl": "./src",
     "typeRoots": ["/types/common", "./node_modules/@types"],
     "paths": {

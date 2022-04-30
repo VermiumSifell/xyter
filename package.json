@@ -38,6 +38,7 @@
     "discord.js": "^13.6.0",
     "i18next": "^21.6.13",
     "i18next-async-backend": "^2.0.0",
+    "i18next-http-backend": "^1.4.0",
     "i18next-resources-to-backend": "^1.0.0",
     "mongoose": "^6.2.3",
     "node-schedule": "^2.1.0",
