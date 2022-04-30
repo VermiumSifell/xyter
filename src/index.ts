@@ -4,7 +4,6 @@ import { token, intents } from "@config/discord";
 
 import { Client } from "discord.js"; // discord.js
 
-import locale from "@locale";
 import database from "@database";
 import schedules from "@schedules";
 import events from "@handlers/events";
@@ -15,7 +14,6 @@ async function main() {
     intents,
   });
 
-  await locale();
   await database();
   await schedules(client);
 

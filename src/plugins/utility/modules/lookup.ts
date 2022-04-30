@@ -1,8 +1,6 @@
-// Dependencies
 import axios from "axios";
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 
-// Configurations
 import {
   successColor,
   errorColor,
@@ -12,10 +10,9 @@ import {
 
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
-// Handlers
 import logger from "@logger";
+import embedBuilder from "@root/helpers/embedBuilder";
 
-// Function
 export default {
   meta: { guildOnly: false, ephemeral: false },
 
@@ -33,104 +30,95 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
+    const embedTitle = "[:hammer:] Utility (Lookup)";
+
+    embedBuilder.setTitle(embedTitle);
+
     const { options } = interaction;
-    // Get lookup query
-    const query = options?.getString("query");
+    const query = options.getString("query");
 
-    // Make API request
     await axios
-      // Make a get request
-      ?.get(`http://ip-api.com/json/${query}`)
-
-      // If successful
-      ?.then(async (res) => {
-        // If query failed
-        if (res?.data?.status === "fail") {
-          // Create embed object
-          const embed = {
-            title: ":hammer: Utilities - Lookup",
-            description: `${res?.data?.message}: ${res?.data?.query}`,
-            color: errorColor,
-            timestamp: new Date(),
-            footer: {
-              iconURL: footerIcon,
-              text: footerText,
-            },
-          };
-
-          // Send interaction reply
-          await interaction?.editReply({ embeds: [embed] });
-        }
-
-        // If query is successful
-        else if (res?.data?.status === "success") {
-          // Create embed object
-          const embed = {
-            title: ":hammer: Utilities - Lookup",
-            fields: [
-              {
-                name: "AS",
-                value: `${res?.data?.as || "Not available"}`,
-              },
-              {
-                name: "Country",
-                value: `${res?.data?.country || "Not available"}`,
-              },
-              {
-                name: "Country Code",
-                value: `${res?.data?.countryCode || "Not available"}`,
-              },
-              {
-                name: "Region",
-                value: `${res?.data?.region || "Not available"}`,
-              },
-              {
-                name: "Region Name",
-                value: `${res?.data?.regionName || "Not available"}`,
-              },
-              {
-                name: "City",
-                value: `${res?.data?.city || "Not available"}`,
-              },
-              {
-                name: "ZIP Code",
-                value: `${res?.data?.zip || "Not available"}`,
-              },
-              {
-                name: "Latitude",
-                value: `${res?.data?.lat || "Not available"}`,
-              },
-              {
-                name: "Longitude",
-                value: `${res?.data?.lon || "Not available"}`,
-              },
-              {
-                name: "Timezone",
-                value: `${res?.data?.timezone || "Not available"}`,
-              },
-              {
-                name: "ISP",
-                value: `${res?.data?.isp || "Not available"}`,
-              },
-              {
-                name: "Organization",
-                value: `${res?.data?.org || "Not available"}`,
-              },
+      .get(`http://ip-api.com/json/${query}`)
+      .then(async (response) => {
+        if (response.data.status !== "success") {
+          await interaction.editReply({
+            embeds: [
+              embedBuilder
+                .setColor(errorColor)
+                .setDescription(
+                  `${response?.data?.message}: ${response?.data?.query}`
+                ),
             ],
-            color: successColor,
-            timestamp: new Date(),
-            footer: {
-              iconURL: footerIcon,
-              text: footerText,
-            },
-          };
-
-          // Send interaction reply
-          await interaction?.editReply({ embeds: [embed] });
+          });
+          return;
         }
-      })
-      .catch(async (e) => {
-        logger?.error(e);
+
+        await interaction.editReply({
+          embeds: [
+            embedBuilder.setColor(successColor).setFields([
+              {
+                name: ":classical_building: AS",
+                value: `${response.data.as || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":classical_building: ISP",
+                value: `${response.data.isp || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":classical_building: Organization",
+                value: `${response.data.org || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":compass: Latitude",
+                value: `${response.data.lat || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":compass: Longitude",
+                value: `${response.data.lon || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":clock4: Timezone",
+                value: `${response.data.timezone || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":globe_with_meridians: Country",
+                value: `${response.data.country || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":globe_with_meridians: Region",
+                value: `${response.data.regionName || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":globe_with_meridians: City",
+                value: `${response.data.city || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":globe_with_meridians: Country Code",
+                value: `${response.data.countryCode || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":globe_with_meridians: Region Code",
+                value: `${response.data.region || "Unknown"}`,
+                inline: true,
+              },
+              {
+                name: ":globe_with_meridians: ZIP",
+                value: `${response.data.zip || "Unknown"}`,
+                inline: true,
+              },
+            ]),
+          ],
+        });
       });
   },
 };

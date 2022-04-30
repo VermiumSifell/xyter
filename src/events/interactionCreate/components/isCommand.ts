@@ -5,6 +5,8 @@ import logger from "@logger";
 
 import { errorColor, footerText, footerIcon } from "@config/embed";
 import i18next from "i18next";
+import deferReply from "@root/helpers/deferReply";
+import getCommandMeta from "@root/helpers/getCommandMeta";
 
 export default async (interaction: CommandInteraction) => {
   if (!interaction.isCommand()) return;
@@ -12,24 +14,14 @@ export default async (interaction: CommandInteraction) => {
   const { client, guild, commandName, user, memberPermissions } = interaction;
 
   const currentCommand = client.commands.get(commandName);
-  if (!currentCommand) {
-    logger.verbose(`Command ${commandName} not found`);
+
+  if (currentCommand == null) {
+    logger.silly(`Command ${commandName} not found`);
   }
 
-  let meta;
+  const meta = await getCommandMeta(interaction, currentCommand);
 
-  const subcommand = interaction.options.getSubcommand()
-
-  if (!interaction.options.getSubcommandGroup(false)) {
-    meta = currentCommand.modules[subcommand].meta;
-  } else {
-    meta =
-      currentCommand.groups[interaction.options.getSubcommandGroup()].modules[
-        subcommand
-      ].meta;
-  }
-
-  await interaction.deferReply({ ephemeral: meta?.ephemeral || false });
+  await deferReply(interaction, meta.ephemeral || false);
 
   if (
     meta.permissions &&
