@@ -1,4 +1,4 @@
-import create from "@plugins/manage/groups/counters/modules/create";
-import delete_ from "@plugins/manage/groups/counters/modules/delete";
+import add from "@plugins/manage/groups/counters/modules/add";
+import remove from "@plugins/manage/groups/counters/modules/remove";
 
-export default { create, delete_ };
+export default { add, remove };

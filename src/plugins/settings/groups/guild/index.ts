@@ -1,8 +1,5 @@
 // Dependencies
-import { Permissions, CommandInteraction } from "discord.js";
-
-// Configurations
-import { errorColor, footerText, footerIcon } from "@config/embed";
+import { CommandInteraction } from "discord.js";
 
 // Handlers
 import logger from "@logger";

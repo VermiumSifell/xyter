@@ -1,7 +1,5 @@
 // Dependencies
-import { MessageEmbed, CommandInteraction, Permissions } from "discord.js";
-import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import { ChannelType } from "discord-api-types/v10";
+import { CommandInteraction, MessageEmbed, Permissions } from "discord.js";
 
 // Configurations
 import {
@@ -16,6 +14,8 @@ import logger from "@logger";
 
 // Models
 import counterSchema from "@schemas/counter";
+import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import { ChannelType } from "discord-api-types/v10";
 import i18next from "i18next";
 
 // Function
@@ -28,37 +28,24 @@ export default {
 
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
-      .setName("create")
-      .setDescription("Add a counter to your guild.")
+      .setName("remove")
+      .setDescription(`Delete a counter from your guild.`)
       .addChannelOption((option) =>
         option
           .setName("channel")
-          .setDescription("The channel to send the counter to.")
+          .setDescription("The channel to delete the counter from.")
           .setRequired(true)
           .addChannelTypes(ChannelType.GuildText)
-      )
-      .addStringOption((option) =>
-        option
-          .setName("word")
-          .setDescription("The word to use for the counter.")
-          .setRequired(true)
-      )
-      .addNumberOption((option) =>
-        option
-          .setName("start")
-          .setDescription("The starting value of the counter.")
       );
   },
   execute: async (interaction: CommandInteraction) => {
     const { options, guild, locale } = interaction;
 
     const discordChannel = options?.getChannel("channel");
-    const countingWord = options?.getString("word");
-    const startValue = options?.getNumber("start");
 
     const embed = new MessageEmbed()
       .setTitle(
-        i18next.t("manage:groups:counters:modules:create:general:title", {
+        i18next.t("manage:groups:counters:modules:remove:general:title", {
           lng: locale,
           ns: "plugins",
         })
@@ -71,17 +58,18 @@ export default {
       channelId: discordChannel?.id,
     });
 
-    if (counter) {
+    if (counter === null) {
+      logger?.verbose(`Counter is null`);
+
       return interaction?.editReply({
         embeds: [
           embed
             .setDescription(
               i18next.t(
-                "manage:groups:counters:modules:create:error01:description",
+                "manage:groups:counters:modules:remove:error01:description",
                 {
                   lng: locale,
                   ns: "plugins",
-                  channel: discordChannel,
                 }
               )
             )
@@ -91,31 +79,31 @@ export default {
     }
 
     await counterSchema
-      ?.create({
+      ?.deleteOne({
         guildId: guild?.id,
         channelId: discordChannel?.id,
-        word: countingWord,
-        counter: startValue || 0,
       })
-      .then(async () => {
-        logger?.verbose(`Created counter`);
+      ?.then(async () => {
+        logger?.verbose(`Counter deleted`);
 
         return interaction?.editReply({
           embeds: [
             embed
               .setDescription(
                 i18next.t(
-                  "manage:groups:counters:modules:create:success01:description",
+                  "manage:groups:counters:modules:remove:success01:description",
                   {
                     lng: locale,
                     ns: "plugins",
-                    channel: discordChannel,
                   }
                 )
               )
               .setColor(successColor),
           ],
         });
+      })
+      .catch(async (error) => {
+        logger?.error(`Error deleting counter: ${error}`);
       });
   },
 };
