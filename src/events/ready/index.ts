@@ -8,7 +8,6 @@ import deployCommands from "@handlers/deployCommands";
 import devMode from "@handlers/devMode";
 
 export default {
-  name: "ready",
   once: true,
   async execute(client: Client) {
     logger.info(`${client.user?.tag} (${client.user?.id}) is ready`);

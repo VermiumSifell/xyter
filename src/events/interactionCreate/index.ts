@@ -7,7 +7,6 @@ import logger from "@logger";
 import audits from "./audits";
 
 export default {
-  name: "interactionCreate",
   async execute(interaction: CommandInteraction) {
     const { guild, id } = interaction;
 

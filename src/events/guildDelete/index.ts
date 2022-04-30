@@ -7,7 +7,6 @@ import dropGuild from "@helpers/dropGuild";
 import logger from "@logger";
 
 export default {
-  name: "guildDelete",
   async execute(guild: Guild) {
     const { client } = guild;
 
@@ -15,5 +14,7 @@ export default {
 
     await dropGuild(guild);
     await updatePresence(client);
+
+    logger.silly(`guildDelete: ${guild}`);
   },
 };

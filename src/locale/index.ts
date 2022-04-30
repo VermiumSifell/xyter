@@ -1,26 +1,20 @@
 import i18next from "i18next";
-import otaClient, { LanguageStrings } from "@crowdin/ota-client";
+import AsyncBackend from "i18next-async-backend";
 
 import logger from "@logger";
 
-const client = new otaClient("ffd2068395f215046cc01f8lfji");
+const resources = {
+  en: {
+    errors: () => import("@root/lang/en/errors.json"),
+    plugins: () => import("@root/lang/en/plugins.json"),
+  },
+};
 
 export default async () => {
-  //load needed information from Crowdin distribution
-  const languages = await client.listLanguages();
-  const translations = await client.getStrings();
-  const resources = {} as LanguageStrings;
-
-  // eslint-disable-next-line no-loops/no-loops
-  for (const lngCode in translations) {
-    resources[lngCode] = translations[lngCode];
-  }
-  //initialize i18next
-  await i18next.init({
-    lng: languages[0],
-    supportedLngs: languages,
-    resources,
+  await i18next.use(AsyncBackend).init({
+    backend: { resources },
   });
+
   //i18next now can be used to translate your application
   logger.silly(i18next.store.data);
 };
