@@ -19,7 +19,7 @@ const main = async () => {
   // Start database manager
   await database()
     .then(async () => {
-      logger.silly("Database process started");
+      await logger.silly("Database process started");
     })
     .catch(async (err) => {
       logger.error(err);
