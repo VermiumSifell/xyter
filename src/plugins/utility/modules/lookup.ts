@@ -1,10 +1,7 @@
 import axios from "axios";
 import { CommandInteraction } from "discord.js";
 
-import {
-  successColor,
-  errorColor,
-} from "@config/embed";
+import { successColor, errorColor } from "@config/embed";
 
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
