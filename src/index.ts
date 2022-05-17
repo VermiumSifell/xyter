@@ -9,14 +9,14 @@ import schedules from "@schedules";
 import events from "@handlers/events";
 import commands from "@handlers/commands";
 
-  const client = new Client({
-    intents,
-  });
+const client = new Client({
+  intents,
+});
 
-   database();
-   schedules(client);
+database();
+schedules(client);
 
-   commands(client);
-   events(client);
+commands(client);
+events(client);
 
-   client.login(token);
+client.login(token);
