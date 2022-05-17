@@ -3,7 +3,7 @@ import "winston-daily-rotate-file";
 
 const { combine, timestamp, printf, colorize, align, json } = winston.format;
 
-export default await winston.createLogger({
+export default winston.createLogger({
   level: process.env.LOG_LEVEL || "silly",
   transports: [
     new winston.transports.DailyRotateFile({
