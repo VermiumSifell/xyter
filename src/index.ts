@@ -9,19 +9,24 @@ import schedules from "@schedules";
 import events from "@handlers/events";
 import commands from "@handlers/commands";
 
+// Main process that starts all other sub processes
 const main = async () => {
+  // Initiate client object
   const client = new Client({
     intents,
   });
 
-  database()
+  // Start database manager
+  await database()
     .then(async () => {
       logger.silly("Database process started");
     })
     .catch(async (err) => {
       logger.error(err);
     });
-  schedules(client)
+  
+  // Start schedule manager
+ await  schedules(client)
     .then(async () => {
       logger.silly("Schedules process started");
     })
@@ -29,7 +34,8 @@ const main = async () => {
       logger.error(err);
     });
 
-  commands(client)
+  // Start command handler
+  await commands(client)
     .then(async () => {
       logger.silly("Commands process started");
     })
@@ -37,7 +43,8 @@ const main = async () => {
       logger.error(err);
     });
 
-  events(client)
+  // Start event handler
+  await events(client)
     .then(async () => {
       logger.silly("Events process started");
     })
@@ -45,7 +52,8 @@ const main = async () => {
       logger.error(err);
     });
 
-  client.login(token);
+  // Authorize with Discord's API
+ await client.login(token);
 };
 main()
   .then(async () => {
