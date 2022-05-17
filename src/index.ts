@@ -14,6 +14,7 @@ const main = async () => {
     intents,
   });
 
+
   database()
     .then(async () => {
       logger.silly("Database process started");
