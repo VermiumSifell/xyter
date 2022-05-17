@@ -14,13 +14,19 @@ const main = async () => {
     intents,
   });
 
-   database();
-   schedules(client);
+  database();
+  schedules(client);
 
-   commands(client);
-   events(client);
+  commands(client);
+  events(client);
 
-   client.login(token);
-}
+  client.login(token);
+};
 
-main().then(async () => {logger.silly("Main process started")}).catch(async (err) => {logger.error(err)}) 
+main()
+  .then(async () => {
+    logger.silly("Main process started");
+  })
+  .catch(async (err) => {
+    logger.error(err);
+  });
