@@ -14,11 +14,37 @@ const main = async () => {
     intents,
   });
 
-  database();
-  schedules(client);
 
-  commands(client);
-  events(client);
+  database()
+    .then(async () => {
+      logger.silly("Database process started");
+    })
+    .catch(async (err) => {
+      logger.error(err);
+    });
+  schedules(client)
+    .then(async () => {
+      logger.silly("Schedules process started");
+    })
+    .catch(async (err) => {
+      logger.error(err);
+    });
+
+  commands(client)
+    .then(async () => {
+      logger.silly("Commands process started");
+    })
+    .catch(async (err) => {
+      logger.error(err);
+    });
+
+  events(client)
+    .then(async () => {
+      logger.silly("Events process started");
+    })
+    .catch(async (err) => {
+      logger.error(err);
+    });
 
   client.login(token);
 };
