@@ -31,25 +31,25 @@ const main = async () => {
       await logger.silly("Schedules process started");
     })
     .catch(async (err) => {
-    await   logger.error(err);
+      await logger.error(err);
     });
 
   // Start command handler
   await commands(client)
     .then(async () => {
-   await   logger.silly("Commands process started");
+      await logger.silly("Commands process started");
     })
     .catch(async (err) => {
-    await  logger.error(err);
+      await logger.error(err);
     });
 
   // Start event handler
   await events(client)
     .then(async () => {
-    await  logger.silly("Events process started");
+      await logger.silly("Events process started");
     })
     .catch(async (err) => {
-   await   logger.error(err);
+      await logger.error(err);
     });
 
   // Authorize with Discord's API
@@ -58,8 +58,8 @@ const main = async () => {
 
 await main()
   .then(async () => {
-  await  logger.silly("Main process started");
+    await logger.silly("Main process started");
   })
   .catch(async (err) => {
-  await  logger.error(err);
+    await logger.error(err);
   });
