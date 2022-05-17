@@ -47,7 +47,6 @@ const main = async () => {
 
   client.login(token);
 };
-
 main()
   .then(async () => {
     logger.silly("Main process started");
