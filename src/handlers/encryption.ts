@@ -4,7 +4,9 @@ import { secretKey, algorithm } from "@config/encryption";
 
 const iv = crypto.randomBytes(16);
 
-const encrypt = (text: any) => {
+const encrypt = (text: any): {iv: error;
+content: error;
+}  => {
   const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
 
   const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
