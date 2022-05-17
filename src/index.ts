@@ -9,18 +9,14 @@ import schedules from "@schedules";
 import events from "@handlers/events";
 import commands from "@handlers/commands";
 
-async function main() {
   const client = new Client({
     intents,
   });
 
-  await database();
-  await schedules(client);
+   database();
+   schedules(client);
 
-  await commands(client);
-  await events(client);
+   commands(client);
+   events(client);
 
-  await client.login(token);
-}
-
-main();
+   client.login(token);
