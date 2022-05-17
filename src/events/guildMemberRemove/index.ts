@@ -9,7 +9,6 @@ import leaveMessage from "./leaveMessage";
 import audits from "./audits";
 
 export default {
-  name: "guildMemberRemove",
   async execute(member: GuildMember) {
     const { client, user, guild } = member;
 

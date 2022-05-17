@@ -1,10 +1,3 @@
-// Dependencies
-import { CommandInteraction, MessageEmbed } from "discord.js";
-import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-
-import logger from "@logger";
-
-// Configurations
 import {
   errorColor,
   successColor,
@@ -12,41 +5,53 @@ import {
   footerIcon,
 } from "@config/embed";
 
-// Helpers
-import pluralize from "@helpers/pluralize";
+import i18next from "i18next";
+import { CommandInteraction, MessageEmbed } from "discord.js";
+import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import logger from "@logger";
+
 import fetchUser from "@helpers/fetchUser";
 
 export default {
+  meta: { guildOnly: true, ephemeral: true },
   data: (command: SlashCommandSubcommandBuilder) => {
-    return (
-      command
-        .setName("balance")
-        .setDescription(`View a user's balance`)
-
-        // User
-        .addUserOption((option) =>
-          option
-            .setName("user")
-            .setDescription(`The user whose balance you want to view`)
-        )
-    );
+    return command
+      .setName("balance")
+      .setDescription(`View a user's balance`)
+      .addUserOption((option) =>
+        option
+          .setName("user")
+          .setDescription(`The user whose balance you want to view`)
+      );
   },
   execute: async (interaction: CommandInteraction) => {
-    const { options, user, guild } = interaction;
+    const { options, user, guild, locale } = interaction;
 
-    const discordUser = options?.getUser("user");
+    const discordUser = options.getUser("user");
+
+    const embed = new MessageEmbed()
+      .setTitle(
+        i18next.t("credits:modules:balance:general:title", {
+          lng: locale,
+          ns: "plugins",
+        })
+      )
+      .setTimestamp(new Date())
+      .setFooter({ text: footerText, iconURL: footerIcon });
 
     if (guild === null) {
-      logger?.verbose(`Guild is null`);
+      logger.verbose(`Guild is null`);
 
-      return interaction?.editReply({
+      return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Balance)")
-            .setDescription(`You can only use this command in a guild!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t("guildOnly", {
+                lng: locale,
+                ns: "errors",
+              })
+            )
+            .setColor(errorColor),
         ],
       });
     }
@@ -54,50 +59,55 @@ export default {
     const userObj = await fetchUser(discordUser || user, guild);
 
     if (userObj === null) {
-      logger?.verbose(`User not found`);
+      logger.verbose(`User not found`);
 
-      return interaction?.editReply({
+      return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Balance)")
-            .setDescription(`Could not find user ${discordUser || user}`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t("userNotFound", {
+                lng: locale,
+                ns: "errors",
+                user: discordUser || user,
+              })
+            )
+            .setColor(errorColor),
         ],
       });
     }
 
     if (userObj.credits === null) {
-      logger?.verbose(`User has no credits`);
+      logger.verbose(`User has no credits`);
 
-      return interaction?.editReply({
+      return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Balance)")
-            .setDescription(`${discordUser || user} has no credits!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t("credits:modules:balance:error01:description", {
+                lng: locale,
+                ns: "plugins",
+                user: discordUser || user,
+              })
+            )
+            .setColor(errorColor),
         ],
       });
     }
 
-    logger?.verbose(`Found user ${discordUser || user}`);
+    logger.verbose(`Found user ${discordUser || user}`);
 
-    return interaction?.editReply({
+    return interaction.editReply({
       embeds: [
-        new MessageEmbed()
-          .setTitle("[:dollar:] Credits (Balance)")
+        embed
           .setDescription(
-            `${discordUser || user} has  ${pluralize(
-              userObj.credits,
-              `credit`
-            )}!`
+            i18next.t("credits:modules:balance:success01:description", {
+              lng: locale,
+              ns: "plugins",
+              user: discordUser || user,
+              amount: userObj.credits,
+            })
           )
-          .setTimestamp(new Date())
-          .setColor(successColor)
-          .setFooter({ text: footerText, iconURL: footerIcon }),
+          .setColor(successColor),
       ],
     });
   },

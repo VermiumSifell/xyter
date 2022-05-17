@@ -20,21 +20,32 @@ export default {
 
     if (channel === null) return;
 
-    (channel as TextChannel).send({
-      embeds: [
-        new MessageEmbed()
-          .setColor(errorColor)
-          .setAuthor({
-            name: "Member Left",
-            iconURL: member.user.displayAvatarURL(),
-          })
-          .setDescription(`${member.user} ${member.user.tag}`)
-          .setTimestamp()
-          .setFooter({
-            text: footerText,
-            iconURL: footerIcon,
-          }),
-      ],
-    });
+    (channel as TextChannel)
+      .send({
+        embeds: [
+          new MessageEmbed()
+            .setColor(errorColor)
+            .setAuthor({
+              name: "Member Left",
+              iconURL: member.user.displayAvatarURL(),
+            })
+            .setDescription(`${member.user} ${member.user.tag}`)
+            .setTimestamp()
+            .setFooter({
+              text: footerText,
+              iconURL: footerIcon,
+            }),
+        ],
+      })
+      .then(async () => {
+        logger.info(
+          `Audit log sent for event guildMemberRemove in guild ${member.guild.name} (${member.guild.id})`
+        );
+      })
+      .catch(async () => {
+        logger.error(
+          `Audit log failed to send for event guildMemberRemove in guild ${member.guild.name} (${member.guild.id})`
+        );
+      });
   },
 };

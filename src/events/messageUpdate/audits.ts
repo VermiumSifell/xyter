@@ -29,25 +29,36 @@ export default {
 
     if (channel === null) return;
 
-    (channel as TextChannel).send({
-      embeds: [
-        new MessageEmbed()
-          .setColor(successColor)
-          .setAuthor({
-            name: newMessage.author.username,
-            iconURL: newMessage.author.displayAvatarURL(),
-          })
-          .setDescription(
-            `
+    (channel as TextChannel)
+      .send({
+        embeds: [
+          new MessageEmbed()
+            .setColor(successColor)
+            .setAuthor({
+              name: newMessage.author.username,
+              iconURL: newMessage.author.displayAvatarURL(),
+            })
+            .setDescription(
+              `
               **Message edited in** ${newMessage.channel} [jump to message](https://discord.com/channels/${newMessage.guild.id}/${newMessage.channel.id}/${newMessage.id})
             `
-          )
-          .setTimestamp()
-          .setFooter({
-            text: footerText,
-            iconURL: footerIcon,
-          }),
-      ],
-    });
+            )
+            .setTimestamp()
+            .setFooter({
+              text: footerText,
+              iconURL: footerIcon,
+            }),
+        ],
+      })
+      .then(async () => {
+        logger.info(
+          `Audit log sent for event messageUpdate in guild ${newMessage?.guild?.name} (${newMessage?.guild?.id})`
+        );
+      })
+      .catch(async () => {
+        logger.error(
+          `Audit log failed to send for event messageUpdate in guild ${newMessage?.guild?.name} (${newMessage?.guild?.id})`
+        );
+      });
   },
 };

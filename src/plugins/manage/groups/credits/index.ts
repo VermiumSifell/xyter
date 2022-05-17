@@ -1,53 +1,43 @@
-// Dependencies
 import { CommandInteraction } from "discord.js";
 import { SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
-
 import logger from "@logger";
 
-// Modules
-import moduleGive from "./modules/give";
-import moduleSet from "./modules/set";
-import moduleTake from "./modules/take";
-import moduleTransfer from "./modules/transfer";
+import modules from "./modules";
 
-// Function
 export default {
+  modules,
+
   data: (group: SlashCommandSubcommandGroupBuilder) => {
     return group
       .setName("credits")
       .setDescription("Manage the credits of a user.")
-      .addSubcommand(moduleGive.data)
-      .addSubcommand(moduleSet.data)
-      .addSubcommand(moduleTake.data)
-      .addSubcommand(moduleTransfer.data);
+      .addSubcommand(modules.give.data)
+      .addSubcommand(modules.set.data)
+      .addSubcommand(modules.take.data)
+      .addSubcommand(modules.transfer.data);
   },
   execute: async (interaction: CommandInteraction) => {
     const { options } = interaction;
 
-    if (options?.getSubcommand() === "give") {
-      logger?.verbose(`Executing give subcommand`);
+    switch (options.getSubcommand()) {
+      case "give":
+        logger.verbose(`Executing give subcommand`);
 
-      return moduleGive.execute(interaction);
+        return modules.give.execute(interaction);
+      case "set":
+        logger.verbose(`Executing set subcommand`);
+
+        return modules.set.execute(interaction);
+      case "take":
+        logger.verbose(`Executing take subcommand`);
+
+        return modules.take.execute(interaction);
+      case "transfer":
+        logger.verbose(`Executing transfer subcommand`);
+
+        return modules.transfer.execute(interaction);
+      default:
+        logger.verbose(`Unknown subcommand ${options.getSubcommand()}`);
     }
-
-    if (options?.getSubcommand() === "set") {
-      logger?.verbose(`Executing set subcommand`);
-
-      return moduleSet.execute(interaction);
-    }
-
-    if (options?.getSubcommand() === "take") {
-      logger?.verbose(`Executing take subcommand`);
-
-      return moduleTake.execute(interaction);
-    }
-
-    if (options?.getSubcommand() === "transfer") {
-      logger?.verbose(`Executing transfer subcommand`);
-
-      return moduleTransfer.execute(interaction);
-    }
-
-    logger?.verbose(`No subcommand found`);
   },
 };

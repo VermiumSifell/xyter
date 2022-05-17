@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "jest",
-    "start": "nodemon | pino-pretty -i pid,hostname -t yyyy-mm-dd HH:MM:s",
+    "start": "node .",
     "prettier-format": "prettier \"src/**/*.ts\" --write",
     "lint": "eslint ./src --ext .ts",
     "prepare": "husky install"
@@ -27,6 +27,7 @@
     "email": "vermium@zyner.org"
   },
   "dependencies": {
+    "@crowdin/ota-client": "^0.7.0",
     "@discordjs/builders": "^0.13.0",
     "@discordjs/rest": "^0.4.0",
     "axios": "^0.27.0",
@@ -36,6 +37,9 @@
     "discord-api-types": "^0.33.0",
     "discord.js": "^13.6.0",
     "i18next": "^21.6.13",
+    "i18next-async-backend": "^2.0.0",
+    "i18next-http-backend": "^1.4.0",
+    "i18next-resources-to-backend": "^1.0.0",
     "mongoose": "^6.2.3",
     "node-schedule": "^2.1.0",
     "ts-node": "^10.7.0",
