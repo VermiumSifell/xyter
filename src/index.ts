@@ -9,14 +9,50 @@ import schedules from "@schedules";
 import events from "@handlers/events";
 import commands from "@handlers/commands";
 
-const client = new Client({
-  intents,
-});
+const main = async () => {
+  const client = new Client({
+    intents,
+  });
 
-database();
-schedules(client);
+  database()
+    .then(async () => {
+      logger.silly("Database process started");
+    })
+    .catch(async (err) => {
+      logger.error(err);
+    });
+  schedules(client)
+    .then(async () => {
+      logger.silly("Schedules process started");
+    })
+    .catch(async (err) => {
+      logger.error(err);
+    });
 
-commands(client);
-events(client);
+  commands(client)
+    .then(async () => {
+      logger.silly("Commands process started");
+    })
+    .catch(async (err) => {
+      logger.error(err);
+    });
 
-client.login(token);
+  events(client)
+    .then(async () => {
+      logger.silly("Events process started");
+    })
+    .catch(async (err) => {
+      logger.error(err);
+    });
+
+  client.login(token);
+};
+
+main()
+  .then(async () => {
+    logger.silly("Main process started");
+  })
+  .catch(async (err) => {
+    logger.error(err);
+  });
+
