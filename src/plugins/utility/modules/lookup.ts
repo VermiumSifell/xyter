@@ -1,16 +1,13 @@
 import axios from "axios";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction } from "discord.js";
 
 import {
   successColor,
   errorColor,
-  footerText,
-  footerIcon,
 } from "@config/embed";
 
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
-import logger from "@logger";
 import embedBuilder from "@root/helpers/embedBuilder";
 
 export default {
