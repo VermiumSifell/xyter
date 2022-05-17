@@ -9,6 +9,7 @@ import schedules from "@schedules";
 import events from "@handlers/events";
 import commands from "@handlers/commands";
 
+const main = async () => {
   const client = new Client({
     intents,
   });
@@ -20,3 +21,6 @@ import commands from "@handlers/commands";
    events(client);
 
    client.login(token);
+}
+
+main().then(async () => {logger.silly("Main process started")}).catch(async (err) => {logger.error(err)}) 
