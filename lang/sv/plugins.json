@@ -1,0 +1,115 @@
+{
+  "credits": {
+    "modules": {
+      "balance": {
+        "general": {
+          "title": "[:dollar:] Krediter (Saldo)"
+        },
+        "user_has_amount_credits": "<@{{user}}> har {{amount}} krediter",
+        "error01": {
+          "description": "<@{{user}} har inga krediter!"
+        },
+        "success01": {
+          "description": "<@{{user}}> har {{amount}} krediter!\n"
+        }
+      },
+      "gift": {
+        "general": {
+          "title": "[:dollar:] Krediter (Gåva)"
+        },
+        "error01": {
+          "description": "Du kan inte betala själv!"
+        },
+        "error02": {
+          "description": "Du kan inte ge noll eller nedan!"
+        },
+        "error03": {
+          "description": "Du har otillräckliga krediter. Ditt saldo är {{amount}}!"
+        },
+        "success01": {
+          "description": "Du har fått {{amount}} krediter från {{user}} med anledning av {{reason}}!"
+        },
+        "success02": {
+          "description": "Du har fått {{amount}} krediter från {{user}} med anledning {{reason}}!"
+        }
+      },
+      "top": {
+        "entry": "{{index}}. <@{{user}}> - {{amount}}",
+        "success01": {
+          "description": "Topp 10 användare med flest krediter."
+        },
+        "general": {
+          "title": "[:dollar:] Krediter (Topp)"
+        }
+      },
+      "work": {
+        "general": {
+          "title": "[:dollar:] Krediter (Arbeta)"
+        },
+        "error01": {
+          "description": "Du kan inte arbeta under tiden du har paus, vänta {{time}} sekunder."
+        },
+        "success01": {
+          "description": "Du arbetade och tjänade {{amount}} krediter"
+        }
+      }
+    }
+  },
+  "utility": {
+    "modules": {
+      "avatar": {
+        "general": {
+          "title": "[:hammer:] Verktyg (Avatar)"
+        },
+        "success01": {
+          "description": "Här har du <@{{user}}> avatar!"
+        }
+      }
+    }
+  },
+  "counters": {
+    "modules": {
+      "view": {
+        "general": {
+          "title": "[:1234:] Räknare (Visa)"
+        },
+        "error01": {
+          "description": "Ingen räknare hittades för kanal <#{{channel}}>!"
+        },
+        "success01": {
+          "description": "Visar räknaren för kanal <#{{channel}} med antal {{amount}}."
+        }
+      }
+    }
+  },
+  "manage": {
+    "groups": {
+      "counters": {
+        "modules": {
+          "create": {
+            "general": {
+              "title": "[:toolbox:] Hantera - Räknare (Skapa)"
+            },
+            "success01": {
+              "description": "Skapade räknare för <#{{channel}}>."
+            },
+            "error01": {
+              "description": "En räknare finns redan för denna kanal."
+            }
+          },
+          "delete": {
+            "general": {
+              "title": "[:toolbox:] Hantera - Räknare (Ta bort)"
+            },
+            "error01": {
+              "description": "Räknaren för denna kanal finns inte."
+            },
+            "success01": {
+              "description": "Räknaren för denna kanal har tagits bort."
+            }
+          }
+        }
+      }
+    }
+  }
+}
