@@ -3,7 +3,10 @@ import "winston-daily-rotate-file";
 
 const { combine, timestamp, printf, colorize, align, json } = winston.format;
 
-export default await winston.createLogger({
+module.exports = {
+    // Logger initialized async-hronously
+    logger: async () => {
+return  winston.createLogger({
   level: process.env.LOG_LEVEL || "silly",
   transports: [
     new winston.transports.DailyRotateFile({
@@ -24,3 +27,4 @@ export default await winston.createLogger({
     }),
   ],
 });
+    }}
