@@ -12,11 +12,11 @@ import logger from "@logger";
 export default {
   groups,
 
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("settings")
     .setDescription("Manage settings.")
 
-    .addSubcommandGroup(groups.guild.data),
+    .addSubcommandGroup(groups.guild.builder),
 
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;

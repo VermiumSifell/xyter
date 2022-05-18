@@ -16,12 +16,12 @@ import guildSchema from "@schemas/guild";
 export default {
   modules,
 
-  data: (group: SlashCommandSubcommandGroupBuilder) => {
+  builder: (group: SlashCommandSubcommandGroupBuilder) => {
     return group
       .setName("roles")
       .setDescription("Shop for custom roles.")
-      .addSubcommand(modules.buy.data)
-      .addSubcommand(modules.cancel.data);
+      .addSubcommand(modules.buy.builder)
+      .addSubcommand(modules.cancel.builder);
   },
   execute: async (interaction: CommandInteraction) => {
     const { options, guild } = interaction;

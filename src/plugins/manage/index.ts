@@ -10,11 +10,11 @@ import logger from "@logger";
 export default {
   groups,
 
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("manage")
     .setDescription("Manage the bot.")
-    .addSubcommandGroup(groups.counters.data)
-    .addSubcommandGroup(groups.credits.data),
+    .addSubcommandGroup(groups.counters.builder)
+    .addSubcommandGroup(groups.credits.builder),
 
   async execute(interaction: CommandInteraction) {
     // Destructure

@@ -13,16 +13,16 @@ import { SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
 export default {
   modules,
 
-  data: (group: SlashCommandSubcommandGroupBuilder) => {
+  builder: (group: SlashCommandSubcommandGroupBuilder) => {
     return group
       .setName("guild")
       .setDescription("Guild settings.")
-      .addSubcommand(modules.pterodactyl.data)
-      .addSubcommand(modules.credits.data)
-      .addSubcommand(modules.points.data)
-      .addSubcommand(modules.welcome.data)
-      .addSubcommand(modules.audits.data)
-      .addSubcommand(modules.shop.data);
+      .addSubcommand(modules.pterodactyl.builder)
+      .addSubcommand(modules.credits.builder)
+      .addSubcommand(modules.points.builder)
+      .addSubcommand(modules.welcome.builder)
+      .addSubcommand(modules.audits.builder)
+      .addSubcommand(modules.shop.builder);
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member

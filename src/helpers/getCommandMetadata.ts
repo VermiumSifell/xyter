@@ -5,8 +5,8 @@ export default async (interaction: CommandInteraction, currentCommand: any) => {
   const subcommandGroup = interaction.options.getSubcommandGroup(false);
 
   if (!subcommandGroup) {
-    return currentCommand.modules[subcommand].meta;
+    return currentCommand.modules[subcommand].metadata;
   }
 
-  return currentCommand.groups[subcommandGroup].modules[subcommand].meta;
+  return currentCommand.groups[subcommandGroup].modules[subcommand].metadata;
 };

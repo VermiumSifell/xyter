@@ -23,9 +23,9 @@ import fetchGuild from "@helpers/fetchGuild";
 import i18next from "i18next";
 
 export default {
-  meta: { guildOnly: true, ephemeral: true },
+  metadata: { guildOnly: true, ephemeral: true },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("work").setDescription(`Work to earn credits`);
   },
   execute: async (interaction: CommandInteraction) => {

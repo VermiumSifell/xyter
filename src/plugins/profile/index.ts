@@ -12,10 +12,10 @@ import logger from "@logger";
 export default {
   modules,
 
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("profile")
     .setDescription("Check a profile.")
-    .addSubcommand(modules.view.data),
+    .addSubcommand(modules.view.builder),
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 

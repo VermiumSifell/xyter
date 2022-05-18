@@ -20,13 +20,13 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
-  meta: {
+  metadata: {
     guildOnly: true,
     ephemeral: true,
     permissions: [Permissions.FLAGS.MANAGE_GUILD],
   },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("set")
       .setDescription("Set the amount of credits a user has.")

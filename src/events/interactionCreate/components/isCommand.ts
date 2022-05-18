@@ -6,7 +6,7 @@ import logger from "@logger";
 import { errorColor, footerText, footerIcon } from "@config/embed";
 import i18next from "i18next";
 import deferReply from "@root/helpers/deferReply";
-import getCommandMeta from "@root/helpers/getCommandMeta";
+import getCommandMetadata from "@root/helpers/getCommandMetadata";
 
 export default async (interaction: CommandInteraction) => {
   if (!interaction.isCommand()) return;
@@ -19,14 +19,14 @@ export default async (interaction: CommandInteraction) => {
     logger.silly(`Command ${commandName} not found`);
   }
 
-  const meta = await getCommandMeta(interaction, currentCommand);
+  const metadata = await getCommandMetadata(interaction, currentCommand);
 
-  await deferReply(interaction, meta.ephemeral || false);
+  await deferReply(interaction, metadata.ephemeral || false);
 
   if (
-    meta.permissions &&
-    meta.guildOnly &&
-    !memberPermissions?.has(meta.permissions)
+    metadata.permissions &&
+    metadata.guildOnly &&
+    !memberPermissions?.has(metadata.permissions)
   ) {
     return interaction?.editReply({
       embeds: [
@@ -40,7 +40,7 @@ export default async (interaction: CommandInteraction) => {
     });
   }
 
-  if (meta.guildOnly) {
+  if (metadata.guildOnly) {
     if (!guild) {
       logger.verbose(`Guild is null`);
 
@@ -61,7 +61,7 @@ export default async (interaction: CommandInteraction) => {
     }
   }
 
-  if (meta.dmOnly) {
+  if (metadata.dmOnly) {
     if (guild) {
       logger.verbose(`Guild exist`);
 

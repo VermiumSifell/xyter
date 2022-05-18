@@ -7,20 +7,20 @@ import modules from "@plugins/counters/modules";
 export default {
   modules,
 
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("counters")
     .setDescription("View guild counters")
 
-    .addSubcommand(modules.view.data),
+    .addSubcommand(modules.view.builder),
 
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 
-    if (options?.getSubcommand() === "view") {
-      logger?.verbose(`Executing view subcommand`);
+    if (options.getSubcommand() === "view") {
+      logger.verbose(`Executing view subcommand`);
       return modules.view.execute(interaction);
     }
 
-    logger?.verbose(`Unknown subcommand ${options?.getSubcommand()}`);
+    logger.verbose(`Unknown subcommand ${options.getSubcommand()}`);
   },
 };

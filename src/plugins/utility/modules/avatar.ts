@@ -5,9 +5,9 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 export default {
-  meta: { guildOnly: false, ephemeral: false },
+  metadata: { guildOnly: false, ephemeral: false },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("avatar")
       .setDescription("Check someones avatar!)")

@@ -11,10 +11,10 @@ import logger from "@logger";
 // Function
 export default {
   modules,
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("reputation")
     .setDescription("Manage reputation.")
-    .addSubcommand(modules.give.data),
+    .addSubcommand(modules.give.builder),
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 

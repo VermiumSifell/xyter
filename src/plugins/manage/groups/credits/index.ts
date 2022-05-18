@@ -7,14 +7,14 @@ import modules from "./modules";
 export default {
   modules,
 
-  data: (group: SlashCommandSubcommandGroupBuilder) => {
+  builder: (group: SlashCommandSubcommandGroupBuilder) => {
     return group
       .setName("credits")
       .setDescription("Manage the credits of a user.")
-      .addSubcommand(modules.give.data)
-      .addSubcommand(modules.set.data)
-      .addSubcommand(modules.take.data)
-      .addSubcommand(modules.transfer.data);
+      .addSubcommand(modules.give.builder)
+      .addSubcommand(modules.set.builder)
+      .addSubcommand(modules.take.builder)
+      .addSubcommand(modules.transfer.builder);
   },
   execute: async (interaction: CommandInteraction) => {
     const { options } = interaction;

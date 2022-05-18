@@ -12,9 +12,9 @@ export default async (client: Client) => {
 
   await Promise.all(
     client.commands.map(async (pluginData: any) => {
-      pluginList.push(pluginData.data.toJSON());
+      pluginList.push(pluginData.builder.toJSON());
       logger.verbose(
-        `${pluginData.data.name} successfully pushed to plugin list.`
+        `${pluginData.builder.name} successfully pushed to plugin list.`
       );
     })
   )
@@ -22,7 +22,7 @@ export default async (client: Client) => {
       logger.debug("Successfully pushed all plugins to plugin list.");
     })
     .catch(async (error) => {
-      logger.error(error);
+      logger.error(`${error}`);
     });
 
   const rest = new REST({ version: "9" }).setToken(token);
@@ -35,7 +35,7 @@ export default async (client: Client) => {
       logger.debug(`Successfully deployed plugins to Discord`);
     })
     .catch(async (error) => {
-      logger.error(error);
+      logger.error(`${error}`);
     });
 
   if (devMode) {
@@ -47,7 +47,7 @@ export default async (client: Client) => {
         logger.debug(`Successfully deployed guild plugins to Discord`)
       )
       .catch(async (error) => {
-        logger.error(error);
+        logger.error(`${error}`);
       });
   }
 };

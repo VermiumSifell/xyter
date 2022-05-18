@@ -13,7 +13,7 @@ export default async () => {
   });
 
   mongoose.connection.on("error", async (error) => {
-    logger.error(error);
+    logger.error(`${error}`);
   });
 
   mongoose.connection.on("warn", async (warning) => {

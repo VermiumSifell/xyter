@@ -13,8 +13,8 @@ import logger from "@logger";
 import fetchUser from "@helpers/fetchUser";
 
 export default {
-  meta: { guildOnly: true, ephemeral: true },
-  data: (command: SlashCommandSubcommandBuilder) => {
+  metadata: { guildOnly: true, ephemeral: true },
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("balance")
       .setDescription(`View a user's balance`)

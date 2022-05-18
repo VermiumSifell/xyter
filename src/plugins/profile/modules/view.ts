@@ -12,9 +12,9 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
-  meta: { guildOnly: true, ephemeral: false },
+  metadata: { guildOnly: true, ephemeral: false },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("view")
       .setDescription("View a profile.")

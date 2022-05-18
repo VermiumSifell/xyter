@@ -16,9 +16,9 @@ export default async (client: Client) => {
         const plugin = await import(`../plugins/${pluginName}`);
 
         await client.commands.set(
-          plugin.default.data.name,
+          plugin.default.builder.name,
           plugin.default,
-          plugin.default.meta
+          plugin.default.metadata
         );
       })
     )

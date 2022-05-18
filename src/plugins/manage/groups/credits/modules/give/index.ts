@@ -21,13 +21,13 @@ import fetchUser from "@helpers/fetchUser";
 
 // Function
 export default {
-  meta: {
+  metadata: {
     guildOnly: true,
     ephemeral: true,
     permissions: [Permissions.FLAGS.MANAGE_GUILD],
   },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("give")
       .setDescription("Give credits to a user.")

@@ -22,9 +22,9 @@ import i18next from "i18next";
 
 // Function
 export default {
-  meta: { guildOnly: true, ephemeral: true },
+  metadata: { guildOnly: true, ephemeral: true },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("gift")
       .setDescription(`Gift a user credits`)

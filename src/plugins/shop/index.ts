@@ -16,11 +16,11 @@ export default {
   modules,
   groups,
 
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("shop")
     .setDescription("Shop for credits and custom roles.")
-    .addSubcommand(modules.pterodactyl.data)
-    .addSubcommandGroup(groups.roles.data),
+    .addSubcommand(modules.pterodactyl.builder)
+    .addSubcommandGroup(groups.roles.builder),
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 

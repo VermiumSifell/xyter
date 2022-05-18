@@ -14,9 +14,9 @@ import logger from "@logger";
 import embedBuilder from "@root/helpers/embedBuilder";
 
 export default {
-  meta: { guildOnly: false, ephemeral: false },
+  metadata: { guildOnly: false, ephemeral: false },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("lookup")
       .setDescription(

@@ -25,9 +25,9 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
-  meta: { guildOnly: true, ephemeral: true },
+  metadata: { guildOnly: true, ephemeral: true },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("buy")
       .setDescription("Buy a custom role.")

@@ -21,13 +21,13 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
-  meta: {
+  metadata: {
     guildOnly: true,
     ephemeral: true,
     permissions: [Permissions.FLAGS.MANAGE_GUILD],
   },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("transfer")
       .setDescription("Transfer credits from one user to another.")

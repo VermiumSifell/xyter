@@ -13,9 +13,9 @@ import logger from "@logger";
 import userSchema, { IUser } from "@schemas/user";
 
 export default {
-  meta: { guildOnly: true, ephemeral: false },
+  metadata: { guildOnly: true, ephemeral: false },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("top").setDescription(`View the top users`);
   },
   execute: async (interaction: CommandInteraction) => {

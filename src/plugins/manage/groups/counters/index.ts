@@ -11,12 +11,12 @@ import modules from "./modules";
 export default {
   modules,
 
-  data: (group: SlashCommandSubcommandGroupBuilder) => {
+  builder: (group: SlashCommandSubcommandGroupBuilder) => {
     return group
       .setName("counters")
       .setDescription("Manage guild counters.")
-      .addSubcommand(modules.add.data)
-      .addSubcommand(modules.remove.data);
+      .addSubcommand(modules.add.builder)
+      .addSubcommand(modules.remove.builder);
   },
 
   execute: async (interaction: CommandInteraction) => {

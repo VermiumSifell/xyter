@@ -20,13 +20,13 @@ import i18next from "i18next";
 
 // Function
 export default {
-  meta: {
+  metadata: {
     guildOnly: true,
     ephemeral: true,
     permissions: [Permissions.FLAGS.MANAGE_GUILD],
   },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("remove")
       .setDescription(`Delete a counter from your guild.`)
