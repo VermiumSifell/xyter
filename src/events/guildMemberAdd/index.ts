@@ -9,7 +9,6 @@ import joinMessage from "../guildMemberAdd/joinMessage";
 import audits from "../guildMemberAdd/audits";
 
 export default {
-  name: "guildMemberAdd",
   async execute(member: GuildMember) {
     const { client, user, guild } = member;
 

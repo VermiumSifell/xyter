@@ -26,26 +26,37 @@ export default {
 
     if (channel === null) return;
 
-    (channel as TextChannel).send({
-      embeds: [
-        new MessageEmbed()
-          .setColor(successColor)
-          .setAuthor({
-            name: message.author.username,
-            iconURL: message.author.displayAvatarURL(),
-          })
-          .setDescription(
-            `
+    (channel as TextChannel)
+      .send({
+        embeds: [
+          new MessageEmbed()
+            .setColor(successColor)
+            .setAuthor({
+              name: message.author.username,
+              iconURL: message.author.displayAvatarURL(),
+            })
+            .setDescription(
+              `
             **Message sent by** ${message.author} **deleted in** ${message.channel}
             ${message.content}
             `
-          )
-          .setTimestamp()
-          .setFooter({
-            text: footerText,
-            iconURL: footerIcon,
-          }),
-      ],
-    });
+            )
+            .setTimestamp()
+            .setFooter({
+              text: footerText,
+              iconURL: footerIcon,
+            }),
+        ],
+      })
+      .then(async () => {
+        logger.info(
+          `Audit log sent for event messageDelete in guild ${message?.guild?.name} (${message?.guild?.id})`
+        );
+      })
+      .catch(async () => {
+        logger.error(
+          `Audit log failed to send for event messageDelete in guild ${message?.guild?.name} (${message?.guild?.id})`
+        );
+      });
   },
 };

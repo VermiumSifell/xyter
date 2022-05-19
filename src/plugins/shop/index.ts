@@ -3,35 +3,37 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Modules
-import pterodactyl from "./modules/pterodactyl";
+import modules from "./modules";
 
 // Groups
-import roles from "./roles";
+import groups from "./groups";
 
 // Handlers
 import logger from "../../logger";
 
 // Function
 export default {
-  metadata: { author: "Zyner" },
+  modules,
+  groups,
+
   data: new SlashCommandBuilder()
     .setName("shop")
     .setDescription("Shop for credits and custom roles.")
-    .addSubcommand(pterodactyl.data)
-    .addSubcommandGroup(roles.data),
+    .addSubcommand(modules.pterodactyl.data)
+    .addSubcommandGroup(groups.roles.data),
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 
     if (options?.getSubcommand() === "pterodactyl") {
       logger.verbose(`Executing pterodactyl subcommand`);
 
-      return pterodactyl.execute(interaction);
+      return modules.pterodactyl.execute(interaction);
     }
 
     if (options?.getSubcommandGroup() === "roles") {
       logger?.verbose(`Subcommand group is roles`);
 
-      return roles.execute(interaction);
+      return groups.roles.execute(interaction);
     }
 
     logger?.verbose(`No subcommand found.`);

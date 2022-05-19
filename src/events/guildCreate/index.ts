@@ -7,7 +7,6 @@ import fetchGuild from "@helpers/fetchGuild";
 import logger from "@logger";
 
 export default {
-  name: "guildCreate",
   async execute(guild: Guild) {
     const { client } = guild;
 
@@ -15,5 +14,7 @@ export default {
 
     await fetchGuild(guild);
     await updatePresence(client);
+
+    logger.silly(`guildCreate: ${guild}`);
   },
 };

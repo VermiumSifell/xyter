@@ -15,12 +15,12 @@ export default async (client: Client) => {
         logger.verbose(`Loaded event: ${eventName}`);
 
         if (event.once) {
-          return client.once(event.default.name, async (...args) =>
+          return client.once(eventName, async (...args) =>
             event.default.execute(...args)
           );
         }
 
-        return client.on(event.default.name, async (...args) =>
+        return client.on(eventName, async (...args) =>
           event.default.execute(...args)
         );
       })

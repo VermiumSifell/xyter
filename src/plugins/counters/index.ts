@@ -1,17 +1,18 @@
-// Dependencies
 import { CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-
 import logger from "@logger";
 
-import modules from "@root/plugins/counters/modules";
+import modules from "@plugins/counters/modules";
 
 export default {
-  metadata: { author: "Zyner" },
+  modules,
+
   data: new SlashCommandBuilder()
     .setName("counters")
     .setDescription("View guild counters")
+
     .addSubcommand(modules.view.data),
+
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 
