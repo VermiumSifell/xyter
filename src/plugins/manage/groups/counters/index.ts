@@ -5,31 +5,33 @@ import { CommandInteraction } from "discord.js";
 import logger from "@logger";
 
 // Modules
-import moduleCreate from "./modules/create";
-import moduleDelete from "./modules/delete";
+import modules from "./modules";
 
 // Function
 export default {
+  modules,
+
   data: (group: SlashCommandSubcommandGroupBuilder) => {
     return group
       .setName("counters")
       .setDescription("Manage guild counters.")
-      .addSubcommand(moduleCreate.data)
-      .addSubcommand(moduleDelete.data);
+      .addSubcommand(modules.add.data)
+      .addSubcommand(modules.remove.data);
   },
+
   execute: async (interaction: CommandInteraction) => {
     const { options } = interaction;
 
-    if (options?.getSubcommand() === "create") {
+    if (options?.getSubcommand() === "add") {
       logger?.verbose(`Executing create subcommand`);
 
-      return moduleCreate.execute(interaction);
+      return modules.add.execute(interaction);
     }
 
-    if (options?.getSubcommand() === "delete") {
+    if (options?.getSubcommand() === "remove") {
       logger?.verbose(`Executing delete subcommand`);
 
-      return moduleDelete.execute(interaction);
+      return modules.remove.execute(interaction);
     }
 
     logger?.verbose(`Unknown subcommand ${options?.getSubcommand()}`);
