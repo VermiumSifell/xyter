@@ -4,7 +4,12 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import Chance from "chance";
 
 // Configurations
-import { successColor, footerText, footerIcon } from "@config/embed";
+import {
+  successColor,
+  errorColor,
+  footerText,
+  footerIcon,
+} from "@config/embed";
 
 // Handlers
 import logger from "@logger";
@@ -15,14 +20,30 @@ import timeoutSchema from "@schemas/timeout";
 // Helpers
 import fetchUser from "@helpers/fetchUser";
 import fetchGuild from "@helpers/fetchGuild";
+import i18next from "i18next";
 
 export default {
+  meta: { guildOnly: true, ephemeral: true },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("work").setDescription(`Work to earn credits`);
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member
-    const { guild, user } = interaction;
+    const { guild, user, locale } = interaction;
+
+    const embed = new MessageEmbed()
+      .setTitle(
+        i18next.t("credits:modules:work:general:title", {
+          lng: locale,
+          ns: "plugins",
+        })
+      )
+      .setTimestamp(new Date())
+      .setFooter({
+        text: footerText,
+        iconURL: footerIcon,
+      });
 
     // Chance module
     const chance = new Chance();
@@ -46,14 +67,15 @@ export default {
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Work)")
+          embed
             .setDescription(
-              `You can not work while on timeout, please wait ${guildDB?.credits.workTimeout} seconds.`
+              i18next.t("credits:modules:work:error01:description", {
+                lng: locale,
+                ns: "plugins",
+                time: guildDB?.credits.workTimeout,
+              })
             )
-            .setTimestamp(new Date())
-            .setColor(successColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(errorColor),
         ],
       });
     }
@@ -78,12 +100,16 @@ export default {
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Work)")
-            .setDescription(`You worked and earned ${creditsEarned} credits`)
-            .setTimestamp(new Date())
-            .setColor(successColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              i18next.t("credits:modules:work:success01:description", {
+                lng: locale,
+                ns: "plugins",
+                time: guildDB?.credits.workTimeout,
+                amount: creditsEarned,
+              })
+            )
+            .setColor(successColor),
         ],
       });
     });

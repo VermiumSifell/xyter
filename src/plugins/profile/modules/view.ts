@@ -8,68 +8,82 @@ import { successColor, footerText, footerIcon } from "@config/embed";
 import fetchUser from "@helpers/fetchUser";
 
 import logger from "@logger";
+import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
-export default async (interaction: CommandInteraction) => {
-  // Destructure
-  const { client, options, user, guild } = interaction;
+export default {
+  meta: { guildOnly: true, ephemeral: false },
 
-  // Target information
-  const target = options?.getUser("target");
+  data: (command: SlashCommandSubcommandBuilder) => {
+    return command
+      .setName("view")
+      .setDescription("View a profile.")
+      .addUserOption((option) =>
+        option.setName("target").setDescription("The profile you wish to view")
+      );
+  },
 
-  // Discord User Information
-  const discordUser = await client?.users?.fetch(
-    `${target ? target?.id : user?.id}`
-  );
+  execute: async (interaction: CommandInteraction) => {
+    // Destructure
+    const { client, options, user, guild } = interaction;
 
-  if (guild === null) {
-    return logger?.verbose(`Guild is null`);
-  }
+    // Target information
+    const target = options?.getUser("target");
 
-  // User Information
-  const userObj = await fetchUser(discordUser, guild);
+    // Discord User Information
+    const discordUser = await client?.users?.fetch(
+      `${target ? target?.id : user?.id}`
+    );
 
-  // Embed object
-  const embed = {
-    author: {
-      name: `${discordUser?.username}#${discordUser?.discriminator}`,
-      icon_url: discordUser?.displayAvatarURL(),
-    },
-    color: successColor,
-    fields: [
-      {
-        name: `:dollar: Credits`,
-        value: `${userObj?.credits || "Not found"}`,
-        inline: true,
+    if (guild === null) {
+      return logger?.verbose(`Guild is null`);
+    }
+
+    // User Information
+    const userObj = await fetchUser(discordUser, guild);
+
+    // Embed object
+    const embed = {
+      author: {
+        name: `${discordUser?.username}#${discordUser?.discriminator}`,
+        icon_url: discordUser?.displayAvatarURL(),
       },
-      {
-        name: `:squeeze_bottle: Level`,
-        value: `${userObj?.level || "Not found"}`,
-        inline: true,
+      color: successColor,
+      fields: [
+        {
+          name: `:dollar: Credits`,
+          value: `${userObj?.credits || "Not found"}`,
+          inline: true,
+        },
+        {
+          name: `:squeeze_bottle: Level`,
+          value: `${userObj?.level || "Not found"}`,
+          inline: true,
+        },
+        {
+          name: `:squeeze_bottle: Points`,
+          value: `${userObj?.points || "Not found"}`,
+          inline: true,
+        },
+        {
+          name: `:loudspeaker: Reputation`,
+          value: `${userObj?.reputation || "Not found"}`,
+          inline: true,
+        },
+        {
+          name: `:rainbow_flag: Language`,
+          value: `${userObj?.language || "Not found"}`,
+          inline: true,
+        },
+      ],
+      timestamp: new Date(),
+      footer: {
+        iconURL: footerIcon,
+        text: footerText,
       },
-      {
-        name: `:squeeze_bottle: Points`,
-        value: `${userObj?.points || "Not found"}`,
-        inline: true,
-      },
-      {
-        name: `:loudspeaker: Reputation`,
-        value: `${userObj?.reputation || "Not found"}`,
-        inline: true,
-      },
-      {
-        name: `:rainbow_flag: Language`,
-        value: `${userObj?.language || "Not found"}`,
-        inline: true,
-      },
-    ],
-    timestamp: new Date(),
-    footer: {
-      iconURL: footerIcon,
-      text: footerText,
-    },
-  };
+    };
 
-  // Return interaction reply
-  return interaction?.editReply({ embeds: [embed] });
+    // Return interaction reply
+    return interaction?.editReply({ embeds: [embed] });
+  },
 };

@@ -21,6 +21,8 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
+  meta: { guildOnly: true, ephemeral: true },
+
   data: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("give")
@@ -36,8 +38,13 @@ export default {
           .setName("type")
           .setDescription("What type of reputation you want to repute")
           .setRequired(true)
-          .addChoice("Positive", "positive")
-          .addChoice("Negative", "negative")
+          .addChoices(
+            { name: "Positive", value: "positive" },
+            {
+              name: "Negative",
+              value: "negative",
+            }
+          )
       );
   },
   execute: async (interaction: CommandInteraction) => {

@@ -8,7 +8,6 @@ import counter from "./modules/counter";
 import audits from "./audits";
 
 export default {
-  name: "messageUpdate",
   async execute(oldMessage: Message, newMessage: Message) {
     const { author, guild } = newMessage;
 
