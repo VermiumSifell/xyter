@@ -17,43 +17,19 @@ const main = async () => {
   });
 
   // Start database manager
-  await database()
-    .then(async () => {
-      await logger.silly("Database process started");
-    })
-    .catch(async (err) => {
-      await logger.error(`${err}`);
-    });
+  await database();
 
   // Start schedule manager
-  await schedules(client)
-    .then(async () => {
-      await logger.silly("Schedules process started");
-    })
-    .catch(async (err) => {
-      await logger.error(`${err}`);
-    });
+  await schedules(client);
 
   // Start command handler
-  await commands(client)
-    .then(async () => {
-      await logger.silly("Commands process started");
-    })
-    .catch(async (err) => {
-      await logger.error(`${err}`);
-    });
+  await commands(client);
 
   // Start event handler
-  await events(client)
-    .then(async () => {
-      await logger.silly("Events process started");
-    })
-    .catch(async (err) => {
-      await logger.error(`${err}`);
-    });
+  await events(client);
 
   // Authorize with Discord's API
   await client.login(token);
 };
 
-main()
+main();
