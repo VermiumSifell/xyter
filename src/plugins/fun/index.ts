@@ -7,11 +7,11 @@ import modules from "@plugins/fun/modules";
 export default {
   modules,
 
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("fun")
     .setDescription("Fun commands.")
 
-    .addSubcommand(modules.meme.data),
+    .addSubcommand(modules.meme.builder),
 
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
@@ -21,7 +21,7 @@ export default {
         await modules.meme.execute(interaction);
         break;
       default:
-        logger.verbose(`Unknown subcommand ${options.getSubcommand()}`);
+        logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
     }
   },
 };

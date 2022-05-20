@@ -1,13 +1,17 @@
-import { successColor, footerText, footerIcon } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
+
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 export default {
-  meta: { guildOnly: false, ephemeral: false },
+  metadata: { guildOnly: false, ephemeral: false },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("stats").setDescription("Check bot statistics!)");
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { client } = interaction;
     if (client?.uptime === null) return;
     let totalSeconds = client?.uptime / 1000;

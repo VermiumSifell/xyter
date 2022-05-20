@@ -2,12 +2,7 @@
 import { CommandInteraction } from "discord.js";
 
 // Configurations
-import {
-  successColor,
-  errorColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 import { timeout } from "@config/reputation";
 
@@ -21,9 +16,9 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
-  meta: { guildOnly: true, ephemeral: true },
+  metadata: { guildOnly: true, ephemeral: true },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("give")
       .setDescription("Give reputation to a user")
@@ -48,7 +43,9 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    // Destructure
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild); // Destructure
     const { options, user, guild } = interaction;
 
     // Target option
@@ -58,14 +55,14 @@ export default {
     const optionType = options?.getString("type");
 
     if (guild === null) {
-      return logger?.verbose(`Guild is null`);
+      return logger?.silly(`Guild is null`);
     }
 
     // User information
     const userObj = await fetchUser(user, guild);
 
     if (userObj === null) {
-      return logger?.verbose(`User is null`);
+      return logger?.silly(`User is null`);
     }
 
     // Check if user has a timeout
@@ -77,7 +74,7 @@ export default {
 
     // If user is not on timeout
     if (isTimeout) {
-      logger?.verbose(`User is on timeout`);
+      logger?.silly(`User is on timeout`);
 
       return interaction?.editReply({
         embeds: [
@@ -97,7 +94,7 @@ export default {
 
     // Do not allow self reputation
     if (optionTarget?.id === user?.id) {
-      logger?.verbose(`User is trying to give reputation to self`);
+      logger?.silly(`User is trying to give reputation to self`);
 
       return interaction?.editReply({
         embeds: [
@@ -117,21 +114,21 @@ export default {
 
     // If type is positive
     if (optionType === "positive") {
-      logger?.verbose(`User is giving positive reputation`);
+      logger?.silly(`User is giving positive reputation`);
 
       userObj.reputation += 1;
     }
 
     // If type is negative
     else if (optionType === "negative") {
-      logger?.verbose(`User is giving negative reputation`);
+      logger?.silly(`User is giving negative reputation`);
 
       userObj.reputation -= 1;
     }
 
     // Save user
     await userObj?.save()?.then(async () => {
-      logger?.verbose(`User reputation has been updated`);
+      logger?.silly(`User reputation has been updated`);
 
       await timeoutSchema?.create({
         guildId: guild?.id,
@@ -156,7 +153,7 @@ export default {
     });
 
     setTimeout(async () => {
-      logger?.verbose(`Removing timeout`);
+      logger?.silly(`Removing timeout`);
 
       await timeoutSchema?.deleteOne({
         guildId: guild?.id,

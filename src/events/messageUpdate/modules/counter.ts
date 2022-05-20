@@ -14,12 +14,12 @@ export default async (message: Message) => {
   });
 
   if (counter === null)
-    return logger?.verbose(
+    return logger?.silly(
       `No counter found for guild: ${guild?.name} (${guild?.id})`
     );
   const { word } = counter;
   if (content === word)
-    return logger?.verbose(
+    return logger?.silly(
       `User: ${author?.tag} (${author?.id}) in guild: ${guild?.name} (${guild?.id}) said the counter word: ${word}`
     );
 
@@ -27,7 +27,7 @@ export default async (message: Message) => {
     ?.delete()
     ?.then(async () => {
       await channel?.send(`${author} said **${word}**.`);
-      logger?.verbose(`${author} said ${word} in ${channel}`);
+      logger?.silly(`${author} said ${word} in ${channel}`);
     })
     ?.catch(async (error: any) => {
       logger?.error(error);

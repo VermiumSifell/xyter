@@ -4,8 +4,8 @@ import { token, intents } from "@config/discord";
 
 import { Client } from "discord.js"; // discord.js
 
-import database from "@database";
-import schedules from "@schedules";
+import database from "@root/events";
+import schedules from "@handlers/schedules";
 import events from "@handlers/events";
 import commands from "@handlers/commands";
 
@@ -22,7 +22,7 @@ const main = async () => {
       await logger.silly("Database process started");
     })
     .catch(async (err) => {
-      await logger.error(err);
+      await logger.error(`${err}`);
     });
 
   // Start schedule manager
@@ -31,7 +31,7 @@ const main = async () => {
       await logger.silly("Schedules process started");
     })
     .catch(async (err) => {
-      await logger.error(err);
+      await logger.error(`${err}`);
     });
 
   // Start command handler
@@ -40,7 +40,7 @@ const main = async () => {
       await logger.silly("Commands process started");
     })
     .catch(async (err) => {
-      await logger.error(err);
+      await logger.error(`${err}`);
     });
 
   // Start event handler
@@ -49,17 +49,11 @@ const main = async () => {
       await logger.silly("Events process started");
     })
     .catch(async (err) => {
-      await logger.error(err);
+      await logger.error(`${err}`);
     });
 
   // Authorize with Discord's API
   await client.login(token);
 };
 
-await main()
-  .then(async () => {
-    await logger.silly("Main process started");
-  })
-  .catch(async (err) => {
-    await logger.error(err);
-  });
+main()

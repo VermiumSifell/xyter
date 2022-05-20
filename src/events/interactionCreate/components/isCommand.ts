@@ -3,13 +3,17 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 
 import logger from "@logger";
 
-import { errorColor, footerText, footerIcon } from "@config/embed";
-import i18next from "i18next";
 import deferReply from "@root/helpers/deferReply";
-import getCommandMeta from "@root/helpers/getCommandMeta";
+import getEmbedConfig from "@helpers/getEmbedConfig";
+import getCommandMetadata from "@helpers/getCommandMetadata";
 
 export default async (interaction: CommandInteraction) => {
   if (!interaction.isCommand()) return;
+  if (interaction.guild == null) return;
+
+  const { errorColor, footerText, footerIcon } = await getEmbedConfig(
+    interaction.guild
+  );
 
   const { client, guild, commandName, user, memberPermissions } = interaction;
 
@@ -19,19 +23,19 @@ export default async (interaction: CommandInteraction) => {
     logger.silly(`Command ${commandName} not found`);
   }
 
-  const meta = await getCommandMeta(interaction, currentCommand);
+  const metadata = await getCommandMetadata(interaction, currentCommand);
 
-  await deferReply(interaction, meta.ephemeral || false);
+  await deferReply(interaction, metadata.ephemeral || false);
 
   if (
-    meta.permissions &&
-    meta.guildOnly &&
-    !memberPermissions?.has(meta.permissions)
+    metadata.permissions &&
+    metadata.guildOnly &&
+    !memberPermissions?.has(metadata.permissions)
   ) {
     return interaction?.editReply({
       embeds: [
         new MessageEmbed()
-          .setTitle("[:toolbox:] Manage")
+          .setTitle("[:x:] Permission")
           .setDescription(`You do not have the permission to manage the bot.`)
           .setTimestamp(new Date())
           .setColor(errorColor)
@@ -40,19 +44,14 @@ export default async (interaction: CommandInteraction) => {
     });
   }
 
-  if (meta.guildOnly) {
+  if (metadata.guildOnly) {
     if (!guild) {
-      logger.verbose(`Guild is null`);
+      logger.debug(`Guild is null`);
 
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
-            .setDescription(
-              i18next.t("guildOnly", {
-                lng: interaction.locale,
-                ns: "errors",
-              })
-            )
+            .setDescription("This command is only available for guild")
             .setColor(errorColor)
             .setTimestamp(new Date())
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -61,19 +60,14 @@ export default async (interaction: CommandInteraction) => {
     }
   }
 
-  if (meta.dmOnly) {
+  if (metadata.dmOnly) {
     if (guild) {
-      logger.verbose(`Guild exist`);
+      logger.silly(`Guild exist`);
 
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
-            .setDescription(
-              i18next.t("dmOnly", {
-                lng: interaction.locale,
-                ns: "errors",
-              })
-            )
+            .setDescription("This command is only available in DM.")
             .setColor(errorColor)
             .setTimestamp(new Date())
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -85,7 +79,7 @@ export default async (interaction: CommandInteraction) => {
   await currentCommand
     .execute(interaction)
     .then(async () => {
-      return logger?.verbose(
+      return logger?.silly(
         `Command: ${commandName} executed in guild: ${guild?.name} (${guild?.id}) by user: ${user?.tag} (${user?.id})`
       );
     })

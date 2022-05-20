@@ -7,14 +7,14 @@ import modules from "@plugins/credits/modules";
 export default {
   modules,
 
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("credits")
     .setDescription("Manage your credits.")
 
-    .addSubcommand(modules.balance.data)
-    .addSubcommand(modules.gift.data)
-    .addSubcommand(modules.top.data)
-    .addSubcommand(modules.work.data),
+    .addSubcommand(modules.balance.builder)
+    .addSubcommand(modules.gift.builder)
+    .addSubcommand(modules.top.builder)
+    .addSubcommand(modules.work.builder),
 
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
@@ -33,7 +33,7 @@ export default {
         await modules.work.execute(interaction);
         break;
       default:
-        logger.verbose(`Unknown subcommand ${options.getSubcommand()}`);
+        logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
     }
   },
 };

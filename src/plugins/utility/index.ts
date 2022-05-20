@@ -12,14 +12,14 @@ import logger from "../../logger";
 export default {
   modules,
 
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("utility")
     .setDescription("Common utility.")
 
-    .addSubcommand(modules.lookup.data)
-    .addSubcommand(modules.about.data)
-    .addSubcommand(modules.stats.data)
-    .addSubcommand(modules.avatar.data),
+    .addSubcommand(modules.lookup.builder)
+    .addSubcommand(modules.about.builder)
+    .addSubcommand(modules.stats.builder)
+    .addSubcommand(modules.avatar.builder),
 
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;

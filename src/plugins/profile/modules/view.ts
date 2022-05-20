@@ -2,7 +2,7 @@
 import { CommandInteraction } from "discord.js";
 
 // Configurations
-import { successColor, footerText, footerIcon } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 // Models
 import fetchUser from "@helpers/fetchUser";
@@ -12,9 +12,9 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
-  meta: { guildOnly: true, ephemeral: false },
+  metadata: { guildOnly: true, ephemeral: false },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("view")
       .setDescription("View a profile.")
@@ -24,7 +24,9 @@ export default {
   },
 
   execute: async (interaction: CommandInteraction) => {
-    // Destructure
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild); // Destructure
     const { client, options, user, guild } = interaction;
 
     // Target information
@@ -36,7 +38,7 @@ export default {
     );
 
     if (guild === null) {
-      return logger?.verbose(`Guild is null`);
+      return logger?.silly(`Guild is null`);
     }
 
     // User Information

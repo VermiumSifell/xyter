@@ -22,7 +22,7 @@ export default async (user: User, guild: Guild) => {
     await newUserObj
       .save()
       .then(async () => {
-        logger?.verbose(`Created user: ${user.id} for guild: ${guild.id}`);
+        logger?.silly(`Created user: ${user.id} for guild: ${guild.id}`);
       })
       .catch(async (error) => {
         logger?.error(

@@ -3,35 +3,35 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Groups
-import groups from "@plugins/manage/groups";
+import modules from "@plugins/manage/modules";
 import logger from "@logger";
 
 // Function
 export default {
-  groups,
+  modules,
 
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("manage")
     .setDescription("Manage the bot.")
-    .addSubcommandGroup(groups.counters.data)
-    .addSubcommandGroup(groups.credits.data),
+    .addSubcommandGroup(modules.counters.builder)
+    .addSubcommandGroup(modules.credits.builder),
 
   async execute(interaction: CommandInteraction) {
     // Destructure
     const { options } = interaction;
 
     if (options?.getSubcommandGroup() === "credits") {
-      logger?.verbose(`Subcommand group is credits`);
+      logger?.silly(`Subcommand group is credits`);
 
-      return groups.credits.execute(interaction);
+      return modules.credits.execute(interaction);
     }
 
     if (options?.getSubcommandGroup() === "counters") {
-      logger?.verbose(`Subcommand group is counters`);
+      logger?.silly(`Subcommand group is counters`);
 
-      return groups.counters.execute(interaction);
+      return modules.counters.execute(interaction);
     }
 
-    logger?.verbose(`Subcommand group is not credits or counters`);
+    logger?.silly(`Subcommand group is not credits or counters`);
   },
 };

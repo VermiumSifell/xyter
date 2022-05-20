@@ -11,19 +11,19 @@ import logger from "@logger";
 // Function
 export default {
   modules,
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("reputation")
     .setDescription("Manage reputation.")
-    .addSubcommand(modules.give.data),
+    .addSubcommand(modules.give.builder),
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 
     if (options?.getSubcommand() === "give") {
-      logger?.verbose(`Executing give subcommand`);
+      logger?.silly(`Executing give subcommand`);
 
       await modules.give.execute(interaction);
     }
 
-    logger?.verbose(`No subcommand found`);
+    logger?.silly(`No subcommand found`);
   },
 };

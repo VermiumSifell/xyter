@@ -13,7 +13,7 @@ export default async (guild: Guild) => {
   await guildSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      return logger?.verbose(`Deleted guild: ${guild.id}`);
+      return logger?.silly(`Deleted guild: ${guild.id}`);
     })
     .catch(async (error) => {
       logger?.error(`Error deleting guild: ${guild.id} - ${error}`);
@@ -22,7 +22,7 @@ export default async (guild: Guild) => {
   await userSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger?.verbose(`Deleted users for guild: ${guild.id} from database`);
+      logger?.silly(`Deleted users for guild: ${guild.id} from database`);
     })
     .catch(async (error) => {
       logger?.error(`Error deleting users for guild: ${guild.id} - ${error}`);
@@ -31,7 +31,7 @@ export default async (guild: Guild) => {
   await apiSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger?.verbose(`Deleted apis for guild: ${guild.id} from database`);
+      logger?.silly(`Deleted apis for guild: ${guild.id} from database`);
     })
     .catch(async (error) => {
       logger?.error(`Error deleting apis for guild: ${guild.id} - ${error}`);
@@ -40,7 +40,7 @@ export default async (guild: Guild) => {
   await counterSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger?.verbose(`Deleted counters for guild: ${guild.id} from database`);
+      logger?.silly(`Deleted counters for guild: ${guild.id} from database`);
     })
     .catch(async (error) => {
       logger?.error(
@@ -51,9 +51,7 @@ export default async (guild: Guild) => {
   await shopRoleSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger?.verbose(
-        `Deleted shop roles for guild: ${guild.id} from database`
-      );
+      logger?.silly(`Deleted shop roles for guild: ${guild.id} from database`);
     })
     .catch(async (error) => {
       logger?.error(
@@ -64,7 +62,7 @@ export default async (guild: Guild) => {
   await timeoutSchema
     .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger?.verbose(`Deleted timeouts for guild: ${guild.id} from database`);
+      logger?.silly(`Deleted timeouts for guild: ${guild.id} from database`);
     })
     .catch(async (error) => {
       logger?.error(

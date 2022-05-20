@@ -12,19 +12,19 @@ import logger from "@logger";
 export default {
   modules,
 
-  data: new SlashCommandBuilder()
+  builder: new SlashCommandBuilder()
     .setName("profile")
     .setDescription("Check a profile.")
-    .addSubcommand(modules.view.data),
+    .addSubcommand(modules.view.builder),
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 
     if (options?.getSubcommand() === "view") {
-      logger?.verbose(`Executing view subcommand`);
+      logger?.silly(`Executing view subcommand`);
 
       return modules.view.execute(interaction);
     }
 
-    logger?.verbose(`No subcommand found`);
+    logger?.silly(`No subcommand found`);
   },
 };

@@ -16,7 +16,7 @@ export default async (guild: Guild) => {
     await newGuildObj
       .save()
       .then(async () => {
-        logger?.verbose(`Created guild: ${guild.id}`);
+        logger?.silly(`Created guild: ${guild.id}`);
       })
       .catch(async (error) => {
         logger?.error(`Error creating guild: ${guild.id} - ${error}`);

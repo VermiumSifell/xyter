@@ -12,18 +12,22 @@ export default async (client: Client) => {
     }
 
     await Promise.all(
-      plugins.map(async (pluginName) => {
+      plugins.map(async (pluginName, index) => {
         const plugin = await import(`../plugins/${pluginName}`);
 
         await client.commands.set(
-          plugin.default.data.name,
+          plugin.default.builder.name,
           plugin.default,
-          plugin.default.meta
+          plugin.default.metadata
+        );
+
+        logger.verbose(
+          `Loaded plugin ${index + 1}/${plugins.length}: ${pluginName}`
         );
       })
     )
       .then(async () => {
-        logger.debug("Successfully loaded plugins.");
+        logger.info(`Started all ${plugins.length} plugins.`);
       })
       .catch(async (err) => {
         logger.error(`${err}`);

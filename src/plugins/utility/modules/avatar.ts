@@ -1,13 +1,12 @@
-import { successColor, footerText, footerIcon } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
-import i18next from "i18next";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 export default {
-  meta: { guildOnly: false, ephemeral: false },
+  metadata: { guildOnly: false, ephemeral: false },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("avatar")
       .setDescription("Check someones avatar!)")
@@ -18,32 +17,22 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    const { locale } = interaction;
-
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const userOption = interaction.options.getUser("user");
 
     const targetUser = userOption || interaction.user;
 
     const embed = new MessageEmbed()
-      .setTitle(
-        i18next.t("utility:modules:avatar:general:title", {
-          lng: locale,
-          ns: "plugins",
-        })
-      )
+      .setTitle("[:tools:] Avatar")
       .setTimestamp(new Date())
       .setFooter({ text: footerText, iconURL: footerIcon });
 
     return interaction.editReply({
       embeds: [
         embed
-          .setDescription(
-            i18next.t("utility:modules:avatar:success01:description", {
-              lng: locale,
-              ns: "plugins",
-              user: targetUser,
-            })
-          )
+          .setDescription(`${targetUser.username}'s avatar:`)
           .setThumbnail(targetUser.displayAvatarURL())
           .setColor(successColor),
       ],

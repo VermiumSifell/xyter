@@ -1,21 +1,15 @@
-import {
-  errorColor,
-  successColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 
 import counterSchema from "@schemas/counter";
-import i18next from "i18next";
 
 export default {
-  meta: { guildOnly: true, ephemeral: false },
+  metadata: { guildOnly: true, ephemeral: false },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("view")
       .setDescription(`View a guild counter`)
@@ -31,17 +25,15 @@ export default {
   },
 
   execute: async (interaction: CommandInteraction) => {
-    const { options, guild, locale } = interaction;
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
+    const { options, guild } = interaction;
 
     const discordChannel = options?.getChannel("channel");
 
     const embed = new MessageEmbed()
-      .setTitle(
-        i18next.t("counters:modules:view:general:title", {
-          lng: locale,
-          ns: "plugins",
-        })
-      )
+      .setTitle("[:1234:] Counters (View)")
       .setTimestamp(new Date())
       .setFooter({
         text: footerText,
@@ -57,13 +49,7 @@ export default {
       return interaction?.editReply({
         embeds: [
           embed
-            .setDescription(
-              i18next.t("counters:modules:view:error01:description", {
-                lng: locale,
-                ns: "plugins",
-                channel: discordChannel,
-              })
-            )
+            .setDescription(`No counter found for channel ${discordChannel}!`)
             .setColor(errorColor),
         ],
       });
@@ -73,12 +59,7 @@ export default {
       embeds: [
         embed
           .setDescription(
-            i18next.t("counters:modules:view:success01:description", {
-              lng: locale,
-              ns: "plugins",
-              channel: discordChannel,
-              amount: counter.counter,
-            })
+            `Viewing counter for channel ${discordChannel}: ${counter.counter}!`
           )
           .setColor(successColor),
       ],

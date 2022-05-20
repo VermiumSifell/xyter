@@ -8,7 +8,7 @@ export default async (user: User, guild: Guild) => {
   await userSchema
     .deleteOne({ userId: user.id, guildId: guild.id })
     .then(async () => {
-      logger?.verbose(`Deleted user: ${user?.id} from guild: ${guild?.id}`);
+      logger?.silly(`Deleted user: ${user?.id} from guild: ${guild?.id}`);
     })
     .catch(async (error) => {
       logger?.error(

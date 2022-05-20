@@ -1,16 +1,16 @@
 import axios from "axios";
 import { CommandInteraction } from "discord.js";
 
-import { successColor, errorColor } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 import embedBuilder from "@root/helpers/embedBuilder";
 
 export default {
-  meta: { guildOnly: false, ephemeral: false },
+  metadata: { guildOnly: false, ephemeral: false },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("lookup")
       .setDescription(
@@ -24,6 +24,9 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const embedTitle = "[:hammer:] Utility (Lookup)";
 
     embedBuilder.setTitle(embedTitle);

@@ -4,7 +4,7 @@ import { Message, MessageEmbed, TextChannel } from "discord.js";
 
 import guildSchema from "@schemas/guild";
 
-import { footerText, footerIcon, successColor } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 export default {
   execute: async (oldMessage: Message, newMessage: Message) => {
@@ -13,6 +13,10 @@ export default {
 
     if (oldMessage.guild === null) return;
     if (newMessage.guild === null) return;
+
+    const { footerText, footerIcon, successColor } = await getEmbedConfig(
+      newMessage.guild
+    );
 
     const guildData = await guildSchema.findOne({
       guildId: oldMessage.guild.id,

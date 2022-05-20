@@ -12,7 +12,7 @@ export default {
   async execute(member: GuildMember) {
     const { client, user, guild } = member;
 
-    logger?.verbose(
+    logger?.silly(
       `Removed member: ${user.tag} (${user.id}) from guild: ${guild.name} (${guild.id})`
     );
 

@@ -1,4 +1,4 @@
-import { successColor, footerText, footerIcon } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 import axios from "axios";
 import { CommandInteraction, MessageEmbed } from "discord.js";
@@ -6,12 +6,15 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import logger from "@logger";
 
 export default {
-  meta: { guildOnly: false, ephemeral: false },
+  metadata: { guildOnly: false, ephemeral: false },
 
-  data: (command: SlashCommandSubcommandBuilder) => {
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("meme").setDescription("Get a meme from r/memes)");
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     await axios
       .get("https://www.reddit.com/r/memes/random/.json")
       .then(async (res) => {
