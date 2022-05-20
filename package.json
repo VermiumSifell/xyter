@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "jest",
-    "start": "node .",
+    "start": "nodemon .",
     "prettier-format": "prettier \"src/**/*.ts\" --write",
     "lint": "eslint ./src --ext .ts",
     "prepare": "husky install"
