@@ -1,12 +1,8 @@
 import axios from "axios";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 
-import {
-  successColor,
-  errorColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
+
 
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
@@ -30,6 +26,9 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const embedTitle = "[:hammer:] Utility (Lookup)";
 
     embedBuilder.setTitle(embedTitle);

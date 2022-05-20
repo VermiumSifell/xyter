@@ -5,7 +5,7 @@ import { CommandInteraction } from "discord.js";
 // Handlers
 import logger from "@logger";
 
-import { errorColor, footerText, footerIcon } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 // Modules
 import modules from "./modules";
@@ -24,6 +24,9 @@ export default {
       .addSubcommand(modules.cancel.builder);
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options, guild } = interaction;
 
     const guildDB = await guildSchema?.findOne({

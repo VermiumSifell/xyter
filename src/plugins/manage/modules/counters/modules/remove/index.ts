@@ -2,12 +2,7 @@
 import { CommandInteraction, MessageEmbed, Permissions } from "discord.js";
 
 // Configurations
-import {
-  successColor,
-  errorColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 // Handlers
 import logger from "@logger";
@@ -38,6 +33,9 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options, guild, locale } = interaction;
 
     const discordChannel = options?.getChannel("channel");

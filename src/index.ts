@@ -5,11 +5,11 @@ import { token, intents } from "@config/discord";
 import { Client } from "discord.js"; // discord.js
 
 import database from "@root/events";
-import schedules from "@schedules";
+import schedules from "@handlers/schedules";
 import events from "@handlers/events";
 import commands from "@handlers/commands";
 
-async function main() {
+const main = async () => {
   const client = new Client({
     intents,
   });
@@ -21,6 +21,6 @@ async function main() {
   await events(client);
 
   await client.login(token);
-}
+};
 
 main();

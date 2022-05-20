@@ -22,7 +22,7 @@
       "@events/*": ["events/*"],
       "@logger": ["logger"],
       "@database": ["database"],
-      "@schedules": ["schedules"],
+      "@jobs/*": ["jobs/*"],
       "@handlers/*": ["handlers/*"],
       "@helpers/*": ["helpers/*"],
       "@locale": ["locale"],

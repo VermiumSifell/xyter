@@ -2,7 +2,7 @@
 import { CommandInteraction } from "discord.js";
 
 // Configurations
-import { successColor, footerText, footerIcon } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 import { hosterName, hosterUrl } from "@config/other";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
@@ -15,6 +15,9 @@ export default {
     return command.setName("about").setDescription("About this bot!)");
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const interactionEmbed = {
       title: ":hammer: Utilities [About]",
       description: `This bot is hosted by ${

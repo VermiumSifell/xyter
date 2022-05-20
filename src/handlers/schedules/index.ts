@@ -5,7 +5,7 @@ import schedule from "node-schedule";
 import logger from "@logger";
 
 // Jobs
-import shopRoles from "@root/schedules/jobs/shopRoles";
+import shopRoles from "@jobs/shopRoles";
 
 export default async (client: Client) => {
   const expression = "*/5 * * * *";

@@ -1,6 +1,7 @@
 import { CommandInteraction } from "discord.js";
 import { SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
 import logger from "@logger";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 import modules from "./modules";
 
@@ -17,6 +18,9 @@ export default {
       .addSubcommand(modules.transfer.builder);
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options } = interaction;
 
     switch (options.getSubcommand()) {

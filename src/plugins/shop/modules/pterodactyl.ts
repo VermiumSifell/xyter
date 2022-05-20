@@ -2,12 +2,7 @@ import { CommandInteraction } from "discord.js";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
-import {
-  successColor,
-  errorColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 import logger from "@logger";
 import encryption from "@handlers/encryption";
@@ -32,6 +27,9 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options, guild, user, client } = interaction;
 
     const optionAmount = options?.getInteger("amount");

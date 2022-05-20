@@ -3,12 +3,17 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 
 import logger from "@logger";
 
-import { errorColor, footerText, footerIcon } from "@config/embed";
 import deferReply from "@root/helpers/deferReply";
-import getCommandMetadata from "@root/helpers/getCommandMetadata";
+import getEmbedConfig from "@helpers/getEmbedConfig";
+import getCommandMetadata from "@helpers/getCommandMetadata";
 
 export default async (interaction: CommandInteraction) => {
   if (!interaction.isCommand()) return;
+  if (interaction.guild == null) return;
+
+  const { errorColor, footerText, footerIcon } = await getEmbedConfig(
+    interaction.guild
+  );
 
   const { client, guild, commandName, user, memberPermissions } = interaction;
 

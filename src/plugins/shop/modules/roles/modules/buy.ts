@@ -6,12 +6,8 @@ import {
 } from "discord.js";
 
 // Configurations
-import {
-  successColor,
-  errorColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
+
 // Models
 import shopRolesSchema from "@schemas/shopRole";
 import guildSchema from "@schemas/guild";
@@ -45,6 +41,9 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options, guild, user, member } = interaction;
 
     const optionName = options?.getString("name");

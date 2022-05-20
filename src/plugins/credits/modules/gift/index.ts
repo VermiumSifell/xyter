@@ -2,12 +2,7 @@
 import { CommandInteraction, MessageEmbed } from "discord.js";
 
 // Configurations
-import {
-  errorColor,
-  successColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 // Handlers
 import logger from "@logger";
@@ -44,6 +39,9 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options, user, guild, client, locale } = interaction;
 
     const optionUser = options.getUser("user");

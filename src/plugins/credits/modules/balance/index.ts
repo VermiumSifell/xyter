@@ -1,9 +1,4 @@
-import {
-  errorColor,
-  successColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
@@ -24,6 +19,9 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options, user, guild } = interaction;
 
     const discordUser = options.getUser("user");

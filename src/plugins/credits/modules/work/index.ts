@@ -4,12 +4,7 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import Chance from "chance";
 
 // Configurations
-import {
-  successColor,
-  errorColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 // Handlers
 import logger from "@logger";
@@ -28,7 +23,9 @@ export default {
     return command.setName("work").setDescription(`Work to earn credits`);
   },
   execute: async (interaction: CommandInteraction) => {
-    // Destructure member
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild); // Destructure member
     const { guild, user } = interaction;
 
     const embed = new MessageEmbed()

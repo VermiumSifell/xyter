@@ -2,7 +2,7 @@
 import { CommandInteraction } from "discord.js";
 
 // Configurations
-import { successColor, footerText, footerIcon } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 // Models
 import fetchUser from "@helpers/fetchUser";
@@ -24,7 +24,9 @@ export default {
   },
 
   execute: async (interaction: CommandInteraction) => {
-    // Destructure
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild); // Destructure
     const { client, options, user, guild } = interaction;
 
     // Target information

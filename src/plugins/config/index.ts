@@ -1,30 +1,30 @@
 // Dependencies
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-
-// Handlers
-import logger from "@logger";
 
 // Modules
 import modules from "./modules";
 
-import { SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
+// Handlers
+import logger from "@logger";
 
 // Function
 export default {
   modules,
 
-  builder: (group: SlashCommandSubcommandGroupBuilder) => {
-    return group
-      .setName("guild")
-      .setDescription("Guild settings.")
-      .addSubcommand(modules.pterodactyl.builder)
-      .addSubcommand(modules.credits.builder)
-      .addSubcommand(modules.points.builder)
-      .addSubcommand(modules.welcome.builder)
-      .addSubcommand(modules.audits.builder)
-      .addSubcommand(modules.shop.builder);
-  },
-  execute: async (interaction: CommandInteraction) => {
+  builder: new SlashCommandBuilder()
+    .setName("config")
+    .setDescription("Manage guild configurations.")
+
+    .addSubcommand(modules.pterodactyl.builder)
+    .addSubcommand(modules.credits.builder)
+    .addSubcommand(modules.points.builder)
+    .addSubcommand(modules.welcome.builder)
+    .addSubcommand(modules.audits.builder)
+    .addSubcommand(modules.shop.builder)
+    .addSubcommand(modules.embeds.builder),
+
+  async execute(interaction: CommandInteraction) {
     // Destructure member
     const { options } = interaction;
 
@@ -53,6 +53,10 @@ export default {
         logger?.silly(`Subcommand is shop`);
 
         return modules.shop.execute(interaction);
+      case "embeds":
+        logger?.silly(`Subcommand is shop`);
+
+        return modules.embeds.execute(interaction);
       default:
         logger?.silly(`Subcommand is not found`);
     }

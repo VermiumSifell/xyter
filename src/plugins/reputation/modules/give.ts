@@ -2,12 +2,7 @@
 import { CommandInteraction } from "discord.js";
 
 // Configurations
-import {
-  successColor,
-  errorColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 import { timeout } from "@config/reputation";
 
@@ -48,7 +43,9 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    // Destructure
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild); // Destructure
     const { options, user, guild } = interaction;
 
     // Target option
