@@ -184,6 +184,12 @@ export default {
       });
     }
 
+    // Withdraw amount from fromUserDB
+    fromUserDB.credits -= optionAmount;
+
+    // Deposit amount to toUserDB
+    toUserDB.credits += optionAmount;
+
     // Save users
     await saveUser(fromUserDB, toUserDB).then(async () => {
       // Get DM user object
