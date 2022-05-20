@@ -8,5 +8,5 @@ export default async (interaction: CommandInteraction, currentCommand: any) => {
     return currentCommand.modules[subcommand].metadata;
   }
 
-  return currentCommand.groups[subcommandGroup].modules[subcommand].metadata;
+  return currentCommand.modules[subcommandGroup].modules[subcommand].metadata;
 };

@@ -23,7 +23,7 @@ export default {
     });
 
     if (counter === null) {
-      logger.verbose(
+      logger.silly(
         `No counter found for guild ${guildId} and channel ${channelId}`
       );
       return;
@@ -33,7 +33,7 @@ export default {
       lastMessage?.author.id === author.id &&
       channel.id === counter.channelId
     ) {
-      logger.verbose(
+      logger.silly(
         `${author.username} sent the last message therefor not allowing again.`
       );
       await message.delete();
@@ -41,7 +41,7 @@ export default {
     }
 
     if (content !== counter.word) {
-      logger.verbose(
+      logger.silly(
         `Counter word ${counter.word} does not match message ${content}`
       );
 
@@ -53,7 +53,7 @@ export default {
     await counter
       .save()
       .then(async () => {
-        logger.verbose(
+        logger.silly(
           `Counter for guild ${guildId} and channel ${channelId} is now ${counter.counter}`
         );
       })
@@ -64,7 +64,7 @@ export default {
         );
       });
 
-    logger.verbose(
+    logger.silly(
       `Counter word ${counter.word} was found in message ${content} from ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id})`
     );
   },

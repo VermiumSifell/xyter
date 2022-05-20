@@ -20,7 +20,6 @@ import timeoutSchema from "@schemas/timeout";
 // Helpers
 import fetchUser from "@helpers/fetchUser";
 import fetchGuild from "@helpers/fetchGuild";
-import i18next from "i18next";
 
 export default {
   metadata: { guildOnly: true, ephemeral: true },
@@ -30,15 +29,10 @@ export default {
   },
   execute: async (interaction: CommandInteraction) => {
     // Destructure member
-    const { guild, user, locale } = interaction;
+    const { guild, user } = interaction;
 
     const embed = new MessageEmbed()
-      .setTitle(
-        i18next.t("credits:modules:work:general:title", {
-          lng: locale,
-          ns: "plugins",
-        })
-      )
+      .setTitle("[:dollar:] Work")
       .setTimestamp(new Date())
       .setFooter({
         text: footerText,
@@ -56,24 +50,20 @@ export default {
     });
 
     if (guild === null) {
-      return logger?.verbose(`Guild is null`);
+      return logger?.silly(`Guild is null`);
     }
 
     const guildDB = await fetchGuild(guild);
 
     // If user is not on timeout
     if (isTimeout) {
-      logger?.verbose(`User ${user?.id} is on timeout`);
+      logger?.silly(`User ${user?.id} is on timeout`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              i18next.t("credits:modules:work:error01:description", {
-                lng: locale,
-                ns: "plugins",
-                time: guildDB?.credits.workTimeout,
-              })
+              `You are on timeout, please wait ${guildDB?.credits.workTimeout} seconds.`
             )
             .setColor(errorColor),
         ],
@@ -88,27 +78,20 @@ export default {
     const userDB = await fetchUser(user, guild);
 
     if (userDB === null) {
-      return logger?.verbose(`User not found`);
+      return logger?.silly(`User not found`);
     }
 
     userDB.credits += creditsEarned;
 
     await userDB?.save()?.then(async () => {
-      logger?.verbose(
+      logger?.silly(
         `User ${userDB?.userId} worked and earned ${creditsEarned} credits`
       );
 
       return interaction.editReply({
         embeds: [
           embed
-            .setDescription(
-              i18next.t("credits:modules:work:success01:description", {
-                lng: locale,
-                ns: "plugins",
-                time: guildDB?.credits.workTimeout,
-                amount: creditsEarned,
-              })
-            )
+            .setDescription(`You worked and earned ${creditsEarned} credits.`)
             .setColor(successColor),
         ],
       });
@@ -122,7 +105,7 @@ export default {
     });
 
     setTimeout(async () => {
-      logger?.verbose(`Removing timeout for user ${user?.id}`);
+      logger?.silly(`Removing timeout for user ${user?.id}`);
 
       // When timeout is out, remove it from the database
       await timeoutSchema?.deleteOne({

@@ -10,7 +10,7 @@ export default {
   async execute(interaction: CommandInteraction) {
     const { guild, id } = interaction;
 
-    logger?.verbose(
+    logger?.silly(
       `New interaction: ${id} in guild: ${guild?.name} (${guild?.id})`
     );
 

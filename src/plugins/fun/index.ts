@@ -21,7 +21,7 @@ export default {
         await modules.meme.execute(interaction);
         break;
       default:
-        logger.verbose(`Unknown subcommand ${options.getSubcommand()}`);
+        logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
     }
   },
 };

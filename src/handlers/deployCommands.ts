@@ -14,12 +14,12 @@ export default async (client: Client) => {
     client.commands.map(async (pluginData: any) => {
       pluginList.push(pluginData.builder.toJSON());
       logger.verbose(
-        `${pluginData.builder.name} successfully pushed to plugin list.`
+        `Plugin is ready for deployment: ${pluginData.builder.name}`
       );
     })
   )
     .then(async () => {
-      logger.debug("Successfully pushed all plugins to plugin list.");
+      logger.info("All plugins are ready to be deployed.");
     })
     .catch(async (error) => {
       logger.error(`${error}`);
@@ -32,7 +32,7 @@ export default async (client: Client) => {
       body: pluginList,
     })
     .then(async () => {
-      logger.debug(`Successfully deployed plugins to Discord`);
+      logger.info(`Successfully deployed plugins to Discord's API`);
     })
     .catch(async (error) => {
       logger.error(`${error}`);
@@ -44,7 +44,7 @@ export default async (client: Client) => {
         body: pluginList,
       })
       .then(async () =>
-        logger.debug(`Successfully deployed guild plugins to Discord`)
+        logger.info(`Successfully deployed guild plugins to Discord's API`)
       )
       .catch(async (error) => {
         logger.error(`${error}`);

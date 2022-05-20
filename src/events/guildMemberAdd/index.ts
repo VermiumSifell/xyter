@@ -12,7 +12,7 @@ export default {
   async execute(member: GuildMember) {
     const { client, user, guild } = member;
 
-    logger?.verbose(
+    logger?.silly(
       `New member: ${user.tag} (${user.id}) added to guild: ${guild.name} (${guild.id})`
     );
 

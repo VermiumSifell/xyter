@@ -5,7 +5,6 @@ import {
   footerIcon,
 } from "@config/embed";
 
-import i18next from "i18next";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import logger from "@logger";
@@ -25,33 +24,21 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
-    const { options, user, guild, locale } = interaction;
+    const { options, user, guild } = interaction;
 
     const discordUser = options.getUser("user");
 
     const embed = new MessageEmbed()
-      .setTitle(
-        i18next.t("credits:modules:balance:general:title", {
-          lng: locale,
-          ns: "plugins",
-        })
-      )
+      .setTitle("[:dollar:] Balance")
       .setTimestamp(new Date())
       .setFooter({ text: footerText, iconURL: footerIcon });
 
     if (guild === null) {
-      logger.verbose(`Guild is null`);
+      logger.silly(`Guild is null`);
 
       return interaction.editReply({
         embeds: [
-          embed
-            .setDescription(
-              i18next.t("guildOnly", {
-                lng: locale,
-                ns: "errors",
-              })
-            )
-            .setColor(errorColor),
+          embed.setDescription("Guild is not found").setColor(errorColor),
         ],
       });
     }
@@ -59,17 +46,13 @@ export default {
     const userObj = await fetchUser(discordUser || user, guild);
 
     if (userObj === null) {
-      logger.verbose(`User not found`);
+      logger.silly(`User not found`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              i18next.t("userNotFound", {
-                lng: locale,
-                ns: "errors",
-                user: discordUser || user,
-              })
+              "User is not found. Please try again with a valid user."
             )
             .setColor(errorColor),
         ],
@@ -77,35 +60,22 @@ export default {
     }
 
     if (userObj.credits === null) {
-      logger.verbose(`User has no credits`);
+      logger.silly(`User has no credits`);
 
       return interaction.editReply({
         embeds: [
-          embed
-            .setDescription(
-              i18next.t("credits:modules:balance:error01:description", {
-                lng: locale,
-                ns: "plugins",
-                user: discordUser || user,
-              })
-            )
-            .setColor(errorColor),
+          embed.setDescription("Credits not found").setColor(errorColor),
         ],
       });
     }
 
-    logger.verbose(`Found user ${discordUser || user}`);
+    logger.silly(`Found user ${discordUser || user}`);
 
     return interaction.editReply({
       embeds: [
         embed
           .setDescription(
-            i18next.t("credits:modules:balance:success01:description", {
-              lng: locale,
-              ns: "plugins",
-              user: discordUser || user,
-              amount: userObj.credits,
-            })
+            `${discordUser || user} currently has ${userObj.credits} credits.`
           )
           .setColor(successColor),
       ],

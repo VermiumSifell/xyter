@@ -19,11 +19,11 @@ export default {
     const { options } = interaction;
 
     if (options?.getSubcommand() === "give") {
-      logger?.verbose(`Executing give subcommand`);
+      logger?.silly(`Executing give subcommand`);
 
       await modules.give.execute(interaction);
     }
 
-    logger?.verbose(`No subcommand found`);
+    logger?.silly(`No subcommand found`);
   },
 };

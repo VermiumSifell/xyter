@@ -18,7 +18,6 @@ import saveUser from "@helpers/saveUser";
 // Models
 import fetchUser from "@helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import i18next from "i18next";
 
 // Function
 export default {
@@ -52,44 +51,27 @@ export default {
     const optionReason = options.getString("reason");
 
     const embed = new MessageEmbed()
-      .setTitle(
-        i18next.t("credits:modules:gift:general:title", {
-          lng: locale,
-          ns: "plugins",
-        })
-      )
+      .setTitle("[:dollar:] Gift")
       .setTimestamp(new Date())
       .setFooter({ text: footerText, iconURL: footerIcon });
 
     if (guild === null) {
-      logger.verbose(`Guild is null`);
+      logger.silly(`Guild is null`);
 
       return interaction.editReply({
         embeds: [
-          embed
-            .setDescription(
-              i18next.t("guildOnly", {
-                lng: locale,
-                ns: "errors",
-              })
-            )
-            .setColor(errorColor),
+          embed.setDescription("Guild is not found").setColor(errorColor),
         ],
       });
     }
 
     if (optionUser === null) {
-      logger.verbose(`User not found`);
+      logger.silly(`User not found`);
 
       return interaction.editReply({
         embeds: [
           embed
-            .setDescription(
-              i18next.t("userNotFound", {
-                lng: locale,
-                ns: "errors",
-              })
-            )
+            .setDescription(`User is not found in this guild`)
             .setColor(errorColor),
         ],
       });
@@ -102,16 +84,13 @@ export default {
     const toUserDB = await fetchUser(optionUser, guild);
 
     if (fromUserDB === null) {
-      logger.verbose(`User not found`);
+      logger.silly(`User not found`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              i18next.t("userNotFound", {
-                lng: locale,
-                ns: "errors",
-              })
+              "You do not have any credits. Please write something in the chat to get some."
             )
             .setColor(errorColor),
         ],
@@ -119,16 +98,13 @@ export default {
     }
 
     if (toUserDB === null) {
-      logger.verbose(`User not found`);
+      logger.silly(`User not found`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              i18next.t("userNotFound", {
-                lng: locale,
-                ns: "errors",
-              })
+              "The user you want to gift credits to does not have any credits. Please wait until that user has typed something in the chat to get some."
             )
             .setColor(errorColor),
         ],
@@ -137,16 +113,13 @@ export default {
 
     // If receiver is same as sender
     if (optionUser.id === user.id) {
-      logger.verbose(`User is same as sender`);
+      logger.silly(`User is same as sender`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              i18next.t("credits:modules:gift:error01:description", {
-                lng: locale,
-                ns: "plugins",
-              })
+              "You can't gift credits to yourself. Please choose a different user."
             )
             .setColor(errorColor),
         ],
@@ -155,16 +128,13 @@ export default {
 
     // If amount is null
     if (optionAmount === null) {
-      logger.verbose(`Amount is null`);
+      logger.silly(`Amount is null`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              i18next.t("amountNotFound", {
-                lng: locale,
-                ns: "errors",
-              })
+              "Please specify the amount of credits you want to gift."
             )
             .setColor(errorColor),
         ],
@@ -173,16 +143,13 @@ export default {
 
     // If amount is zero or below
     if (optionAmount <= 0) {
-      logger.verbose(`Amount is zero or below`);
+      logger.silly(`Amount is zero or below`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              i18next.t("credits:modules:gift:error02:description", {
-                lng: locale,
-                ns: "plugins",
-              })
+              "Please specify a valid amount of credits you want to gift."
             )
             .setColor(errorColor),
         ],
@@ -191,17 +158,13 @@ export default {
 
     // If user has below gifting amount
     if (fromUserDB.credits < optionAmount) {
-      logger.verbose(`User has below gifting amount`);
+      logger.silly(`User has below gifting amount`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              i18next.t("credits:modules:gift:error03:description", {
-                lng: locale,
-                ns: "plugins",
-                amount: fromUserDB.credits,
-              })
+              "You don't have enough credits to gift that amount. Please try again with a lower amount."
             )
             .setColor(errorColor),
         ],
@@ -210,27 +173,18 @@ export default {
 
     // If toUserDB has no credits
     if (toUserDB === null) {
-      logger.verbose(`User has no credits`);
+      logger.silly(`User has no credits`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              i18next.t("userNotFound", {
-                lng: locale,
-                ns: "errors",
-              })
+              "The user you want to gift credits to does not have any credits. Please wait until that user has typed something in the chat to get some."
             )
             .setColor(errorColor),
         ],
       });
     }
-
-    // Withdraw amount from fromUserDB
-    fromUserDB.credits -= optionAmount;
-
-    // Deposit amount to toUserDB
-    toUserDB.credits += optionAmount;
 
     // Save users
     await saveUser(fromUserDB, toUserDB).then(async () => {
@@ -245,13 +199,11 @@ export default {
           embeds: [
             embed
               .setDescription(
-                i18next.t("credits:modules:gift:error03:description", {
-                  lng: locale,
-                  ns: "plugins",
-                  user: user.tag,
-                  amount: optionAmount,
-                  reason: optionReason || "unspecified",
-                })
+                `${
+                  user.tag
+                } has gifted you ${optionAmount} credits with reason: ${
+                  optionReason || "unspecified"
+                }`
               )
               .setColor(successColor),
           ],
@@ -260,7 +212,7 @@ export default {
           logger.error(`[Gift] Error sending DM to user: ${error}`)
         );
 
-      logger.verbose(
+      logger.silly(
         `[Gift] Successfully gifted ${optionAmount} credits to ${optionUser.tag}`
       );
 
@@ -268,13 +220,9 @@ export default {
         embeds: [
           embed
             .setDescription(
-              i18next.t("credits:modules:gift:success02:description", {
-                lng: locale,
-                ns: "plugins",
-                user: user,
-                amount: optionAmount,
-                reason: optionReason || "unspecified",
-              })
+              `Successfully gifted ${optionAmount} credits to ${
+                optionUser.tag
+              } with reason: ${optionReason || "unspecified"}`
             )
             .setColor(successColor),
         ],

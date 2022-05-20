@@ -4,7 +4,6 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 import logger from "@logger";
 
 import { errorColor, footerText, footerIcon } from "@config/embed";
-import i18next from "i18next";
 import deferReply from "@root/helpers/deferReply";
 import getCommandMetadata from "@root/helpers/getCommandMetadata";
 
@@ -31,7 +30,7 @@ export default async (interaction: CommandInteraction) => {
     return interaction?.editReply({
       embeds: [
         new MessageEmbed()
-          .setTitle("[:toolbox:] Manage")
+          .setTitle("[:x:] Permission")
           .setDescription(`You do not have the permission to manage the bot.`)
           .setTimestamp(new Date())
           .setColor(errorColor)
@@ -42,17 +41,12 @@ export default async (interaction: CommandInteraction) => {
 
   if (metadata.guildOnly) {
     if (!guild) {
-      logger.verbose(`Guild is null`);
+      logger.debug(`Guild is null`);
 
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
-            .setDescription(
-              i18next.t("guildOnly", {
-                lng: interaction.locale,
-                ns: "errors",
-              })
-            )
+            .setDescription("This command is only available for guild")
             .setColor(errorColor)
             .setTimestamp(new Date())
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -63,17 +57,12 @@ export default async (interaction: CommandInteraction) => {
 
   if (metadata.dmOnly) {
     if (guild) {
-      logger.verbose(`Guild exist`);
+      logger.silly(`Guild exist`);
 
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
-            .setDescription(
-              i18next.t("dmOnly", {
-                lng: interaction.locale,
-                ns: "errors",
-              })
-            )
+            .setDescription("This command is only available in DM.")
             .setColor(errorColor)
             .setTimestamp(new Date())
             .setFooter({ text: footerText, iconURL: footerIcon }),
@@ -85,7 +74,7 @@ export default async (interaction: CommandInteraction) => {
   await currentCommand
     .execute(interaction)
     .then(async () => {
-      return logger?.verbose(
+      return logger?.silly(
         `Command: ${commandName} executed in guild: ${guild?.name} (${guild?.id}) by user: ${user?.tag} (${user?.id})`
       );
     })

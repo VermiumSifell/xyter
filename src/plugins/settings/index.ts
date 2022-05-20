@@ -2,31 +2,31 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
-// Groups
-import groups from "./groups";
+// Modules
+import modules from "./modules";
 
 // Handlers
 import logger from "@logger";
 
 // Function
 export default {
-  groups,
+  modules,
 
   builder: new SlashCommandBuilder()
     .setName("settings")
     .setDescription("Manage settings.")
 
-    .addSubcommandGroup(groups.guild.builder),
+    .addSubcommandGroup(modules.guild.builder),
 
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 
     if (options.getSubcommandGroup() === "guild") {
-      logger.verbose(`Executing guild subcommand`);
+      logger.silly(`Executing guild subcommand`);
 
-      return groups.guild.execute(interaction);
+      return modules.guild.execute(interaction);
     }
 
-    logger.verbose(`No subcommand group found`);
+    logger.silly(`No subcommand group found`);
   },
 };

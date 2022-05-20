@@ -10,5 +10,5 @@ export default async (client: Client) => {
     activities: [{ type: "WATCHING", name: status }],
     status: "online",
   });
-  logger?.verbose(`Updated client presence to: ${status}`);
+  logger?.debug(`Updated client presence to: ${status}`);
 };

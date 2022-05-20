@@ -10,7 +10,7 @@ export default {
   async execute(guild: Guild) {
     const { client } = guild;
 
-    logger?.verbose(`Added to guild: ${guild.name} (${guild.id})`);
+    logger?.silly(`Added to guild: ${guild.name} (${guild.id})`);
 
     await fetchGuild(guild);
     await updatePresence(client);

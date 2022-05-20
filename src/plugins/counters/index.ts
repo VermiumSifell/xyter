@@ -17,10 +17,10 @@ export default {
     const { options } = interaction;
 
     if (options.getSubcommand() === "view") {
-      logger.verbose(`Executing view subcommand`);
+      logger.silly(`Executing view subcommand`);
       return modules.view.execute(interaction);
     }
 
-    logger.verbose(`Unknown subcommand ${options.getSubcommand()}`);
+    logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
   },
 };

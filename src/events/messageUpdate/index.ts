@@ -13,12 +13,11 @@ export default {
 
     await audits.execute(oldMessage, newMessage);
 
-    logger?.verbose(
+    logger?.silly(
       `Message update event fired by ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id})`
     );
 
-    if (author?.bot)
-      return logger?.verbose(`Message update event fired by bot`);
+    if (author?.bot) return logger?.silly(`Message update event fired by bot`);
 
     await counter(newMessage);
   },

@@ -23,7 +23,7 @@ export default async function saveUser(data: any, data2: any) {
                 50
               )}\n${`${_}\n${"=".repeat(50)}`}`
             )
-          : logger?.verbose(`Saved user: ${data.id} (saveUser)`)
+          : logger?.silly(`Saved user: ${data.id} (saveUser)`)
       );
       if (data2) {
         data2.save((_: any) =>
@@ -33,7 +33,7 @@ export default async function saveUser(data: any, data2: any) {
                   50
                 )}\n${`${_}\n${"=".repeat(50)}`}`
               )
-            : logger?.verbose(`Saved user: ${data2.id} (saveUser)`)
+            : logger?.silly(`Saved user: ${data2.id} (saveUser)`)
         );
       }
     },

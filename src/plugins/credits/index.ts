@@ -33,7 +33,7 @@ export default {
         await modules.work.execute(interaction);
         break;
       default:
-        logger.verbose(`Unknown subcommand ${options.getSubcommand()}`);
+        logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
     }
   },
 };

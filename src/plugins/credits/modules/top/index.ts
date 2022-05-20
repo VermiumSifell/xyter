@@ -5,7 +5,6 @@ import {
   footerIcon,
 } from "@config/embed";
 
-import i18next from "i18next";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import logger from "@logger";
@@ -19,29 +18,21 @@ export default {
     return command.setName("top").setDescription(`View the top users`);
   },
   execute: async (interaction: CommandInteraction) => {
-    const { locale, guild } = interaction;
+    const { guild } = interaction;
 
     const embed = new MessageEmbed()
-      .setTitle(
-        i18next.t("credits:modules:top:general:title", {
-          lng: locale,
-          ns: "plugins",
-        })
-      )
+      .setTitle("[:dollar:] Top")
       .setTimestamp(new Date())
       .setFooter({ text: footerText, iconURL: footerIcon });
 
     if (guild === null) {
-      logger.verbose(`Guild is null`);
+      logger.silly(`Guild is null`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              i18next.t("guildOnly", {
-                lng: locale,
-                ns: "errors",
-              })
+              "Guild is not found. Please try again with a valid guild."
             )
             .setColor(errorColor),
         ],
@@ -60,22 +51,13 @@ export default {
 
     // Create entry object
     const entry = (x: IUser, index: number) =>
-      i18next.t("credits:modules:top:entry", {
-        lng: locale,
-        ns: "plugins",
-        index: index + 1,
-        user: x.userId,
-        amount: x.credits,
-      });
+      `${index + 1}. <@${x.userId}> - ${x.credits} credits`;
 
     return interaction.editReply({
       embeds: [
         embed
           .setDescription(
-            ` ${i18next.t("credits:modules:top:success01:description", {
-              lng: locale,
-              ns: "plugins",
-            })}
+            `Below are the top 10 users in this guild.
 
             ${topTen.map(entry).join("\n")}
          `

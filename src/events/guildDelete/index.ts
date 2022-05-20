@@ -10,7 +10,7 @@ export default {
   async execute(guild: Guild) {
     const { client } = guild;
 
-    logger?.verbose(`Deleted from guild: ${guild.name} (${guild.id})`);
+    logger?.silly(`Deleted from guild: ${guild.name} (${guild.id})`);
 
     await dropGuild(guild);
     await updatePresence(client);

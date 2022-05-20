@@ -20,11 +20,11 @@ export default {
     const { options } = interaction;
 
     if (options?.getSubcommand() === "view") {
-      logger?.verbose(`Executing view subcommand`);
+      logger?.silly(`Executing view subcommand`);
 
       return modules.view.execute(interaction);
     }
 
-    logger?.verbose(`No subcommand found`);
+    logger?.silly(`No subcommand found`);
   },
 };

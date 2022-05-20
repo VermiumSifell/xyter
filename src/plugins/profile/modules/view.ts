@@ -36,7 +36,7 @@ export default {
     );
 
     if (guild === null) {
-      return logger?.verbose(`Guild is null`);
+      return logger?.silly(`Guild is null`);
     }
 
     // User Information

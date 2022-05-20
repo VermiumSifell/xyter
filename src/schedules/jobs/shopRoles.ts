@@ -64,7 +64,7 @@ export default async (client: Client) => {
             guildId,
           })
           .then(async () => {
-            logger.verbose(
+            logger.silly(
               `Shop role document ${roleId} has been deleted from user ${userId}.`
             );
           })
@@ -78,7 +78,7 @@ export default async (client: Client) => {
       }
 
       if (new Date() > nextPayment) {
-        logger.verbose(
+        logger.silly(
           `Shop role ${roleId} is due for payment. Withdrawing credits from user ${userId}.`
         );
 
@@ -109,7 +109,7 @@ export default async (client: Client) => {
             await role
               .save()
               .then(async () => {
-                logger.verbose(`Shop role ${roleId} has been paid for.`);
+                logger.silly(`Shop role ${roleId} has been paid for.`);
               })
               .catch(async (err) => {
                 logger.error(
@@ -118,7 +118,7 @@ export default async (client: Client) => {
                 );
               });
 
-            logger.verbose(
+            logger.silly(
               `Shop role ${roleId} has been paid for. Keeping role ${roleId} for user ${userId}.`
             );
           })
