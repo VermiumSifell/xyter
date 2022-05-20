@@ -25,8 +25,9 @@ export default {
   },
   execute: async (interaction: CommandInteraction) => {
     if (interaction.guild == null) return;
-    const { errorColor, successColor, footerText, footerIcon } =
-      await getEmbedConfig(interaction.guild);
+    const { errorColor, footerText, footerIcon } = await getEmbedConfig(
+      interaction.guild
+    );
     const { options, guild } = interaction;
 
     const guildDB = await guildSchema?.findOne({

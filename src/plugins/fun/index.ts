@@ -16,12 +16,10 @@ export default {
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 
-    switch (options.getSubcommand()) {
-      case "meme":
-        await modules.meme.execute(interaction);
-        break;
-      default:
-        logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
+    if (options.getSubcommand() === "meme") {
+      await modules.meme.execute(interaction);
+    } else {
+      logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
     }
   },
 };

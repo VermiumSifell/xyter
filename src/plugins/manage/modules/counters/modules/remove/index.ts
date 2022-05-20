@@ -36,7 +36,7 @@ export default {
     if (interaction.guild == null) return;
     const { errorColor, successColor, footerText, footerIcon } =
       await getEmbedConfig(interaction.guild);
-    const { options, guild, locale } = interaction;
+    const { options, guild } = interaction;
 
     const discordChannel = options?.getChannel("channel");
 

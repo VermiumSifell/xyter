@@ -3,7 +3,6 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 
 import getEmbedConfig from "@helpers/getEmbedConfig";
 
-
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 import logger from "@logger";
@@ -44,6 +43,7 @@ export default {
             embeds: [
               embedBuilder
                 .setColor(errorColor)
+                .setFooter({ text: footerText, iconURL: footerIcon })
                 .setDescription(
                   `${response?.data?.message}: ${response?.data?.query}`
                 ),
