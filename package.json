@@ -27,11 +27,10 @@
     "email": "vermium@zyner.org"
   },
   "dependencies": {
-    "@crowdin/ota-client": "^0.7.0",
     "@discordjs/builders": "^0.13.0",
     "@discordjs/rest": "^0.4.0",
     "@types/i18next-fs-backend": "^1.1.2",
-    "axios": "^0.27.0",
+    "axios": "^0.27.2",
     "chance": "^1.1.8",
     "common": "^0.2.5",
     "crypto": "^1.0.1",

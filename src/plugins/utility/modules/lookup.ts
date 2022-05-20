@@ -1,12 +1,10 @@
 import axios from "axios";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction } from "discord.js";
 
 import getEmbedConfig from "@helpers/getEmbedConfig";
 
-
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
-import logger from "@logger";
 import embedBuilder from "@root/helpers/embedBuilder";
 
 export default {
