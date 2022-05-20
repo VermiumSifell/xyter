@@ -42,6 +42,7 @@ export default {
             embeds: [
               embedBuilder
                 .setColor(errorColor)
+                .setFooter({ text: footerText, iconURL: footerIcon })
                 .setDescription(
                   `${response?.data?.message}: ${response?.data?.query}`
                 ),

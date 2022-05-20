@@ -42,7 +42,7 @@ export default {
     if (interaction.guild == null) return;
     const { errorColor, successColor, footerText, footerIcon } =
       await getEmbedConfig(interaction.guild);
-    const { options, user, guild, client, locale } = interaction;
+    const { options, user, guild, client } = interaction;
 
     const optionUser = options.getUser("user");
     const optionAmount = options.getInteger("amount");

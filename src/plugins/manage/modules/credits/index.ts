@@ -18,9 +18,6 @@ export default {
       .addSubcommand(modules.transfer.builder);
   },
   execute: async (interaction: CommandInteraction) => {
-    if (interaction.guild == null) return;
-    const { errorColor, successColor, footerText, footerIcon } =
-      await getEmbedConfig(interaction.guild);
     const { options } = interaction;
 
     switch (options.getSubcommand()) {

@@ -13,8 +13,9 @@ export default {
   },
   execute: async (interaction: CommandInteraction) => {
     if (interaction.guild == null) return;
-    const { errorColor, successColor, footerText, footerIcon } =
-      await getEmbedConfig(interaction.guild);
+    const { successColor, footerText, footerIcon } = await getEmbedConfig(
+      interaction.guild
+    );
     await axios
       .get("https://www.reddit.com/r/memes/random/.json")
       .then(async (res) => {
