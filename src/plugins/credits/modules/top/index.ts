@@ -1,48 +1,66 @@
-// Dependencies
-import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import getEmbedConfig from "@helpers/getEmbedConfig";
+
 import { CommandInteraction, MessageEmbed } from "discord.js";
+import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import logger from "@logger";
 
-import userSchema from "@schemas/user";
-
-// Configurations
-import { successColor, footerText, footerIcon } from "@config/embed";
-
-// Helpers
-import pluralize from "@helpers/pluralize";
+import userSchema, { IUser } from "@schemas/user";
 
 export default {
-  data: (command: SlashCommandSubcommandBuilder) => {
+  metadata: { guildOnly: true, ephemeral: false },
+
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("top").setDescription(`View the top users`);
   },
   execute: async (interaction: CommandInteraction) => {
-    // Get all users in the guild
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
+    const { guild } = interaction;
 
-    const usersDB = await userSchema.find({ guildId: interaction?.guild?.id });
+    const embed = new MessageEmbed()
+      .setTitle("[:dollar:] Top")
+      .setTimestamp(new Date())
+      .setFooter({ text: footerText, iconURL: footerIcon });
+
+    if (guild === null) {
+      logger.silly(`Guild is null`);
+
+      return interaction.editReply({
+        embeds: [
+          embed
+            .setDescription(
+              "Guild is not found. Please try again with a valid guild."
+            )
+            .setColor(errorColor),
+        ],
+      });
+    }
+
+    const usersDB = await userSchema.find({ guildId: guild.id });
 
     const topTen = usersDB
 
       // Sort them after credits amount (ascending)
-      .sort((a, b) => (a?.credits > b?.credits ? -1 : 1))
+      .sort((a, b) => (a.credits > b.credits ? -1 : 1))
 
       // Return the top 10
       .slice(0, 10);
 
     // Create entry object
-    const entry = (x: any, index: number) =>
-      `${index + 1}. <@${x?.userId}> - ${pluralize(x?.credits, "credit")}`;
+    const entry = (x: IUser, index: number) =>
+      `${index + 1}. <@${x.userId}> - ${x.credits} credits`;
 
     return interaction.editReply({
       embeds: [
-        new MessageEmbed()
-          .setTitle("[:dollar:] Credits (Top)")
+        embed
           .setDescription(
-            `Top 10 users with the most credits.
+            `Below are the top 10 users in this guild.
 
-            ${topTen.map(entry).join("\n")}`
+            ${topTen.map(entry).join("\n")}
+         `
           )
-          .setTimestamp(new Date())
-          .setColor(successColor)
-          .setFooter({ text: footerText, iconURL: footerIcon }),
+          .setColor(successColor),
       ],
     });
   },

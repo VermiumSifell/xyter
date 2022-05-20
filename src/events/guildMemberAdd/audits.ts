@@ -3,10 +3,14 @@ import { GuildMember, MessageEmbed, TextChannel } from "discord.js";
 
 import guildSchema from "@schemas/guild";
 
-import { footerText, footerIcon, successColor } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 export default {
   execute: async (member: GuildMember) => {
+    const { footerText, footerIcon, successColor } = await getEmbedConfig(
+      member.guild
+    );
+
     const guildData = await guildSchema.findOne({ guildId: member.guild.id });
 
     const { client } = member;
@@ -20,24 +24,35 @@ export default {
 
     if (channel === null) return;
 
-    (channel as TextChannel).send({
-      embeds: [
-        new MessageEmbed()
-          .setColor(successColor)
-          .setAuthor({
-            name: "Member Joined",
-            iconURL: member.user.displayAvatarURL(),
-          })
-          .setDescription(`${member.user} ${member.user.tag}`)
-          .addFields([
-            { name: "Account Age", value: `${member.user.createdAt}` },
-          ])
-          .setTimestamp()
-          .setFooter({
-            text: footerText,
-            iconURL: footerIcon,
-          }),
-      ],
-    });
+    (channel as TextChannel)
+      .send({
+        embeds: [
+          new MessageEmbed()
+            .setColor(successColor)
+            .setAuthor({
+              name: "Member Joined",
+              iconURL: member.user.displayAvatarURL(),
+            })
+            .setDescription(`${member.user} ${member.user.tag}`)
+            .addFields([
+              { name: "Account Age", value: `${member.user.createdAt}` },
+            ])
+            .setTimestamp()
+            .setFooter({
+              text: footerText,
+              iconURL: footerIcon,
+            }),
+        ],
+      })
+      .then(async () => {
+        logger.info(
+          `Audit log sent for event guildMemberAdd in guild ${member.guild.name} (${member.guild.id})`
+        );
+      })
+      .catch(async () => {
+        logger.error(
+          `Audit log failed to send for event guildMemberAdd in guild ${member.guild.name} (${member.guild.id})`
+        );
+      });
   },
 };

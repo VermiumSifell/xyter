@@ -1,54 +1,37 @@
 //Dependencies
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, Permissions, MessageEmbed } from "discord.js";
-
-// Configurations
-import { errorColor, footerText, footerIcon } from "@config/embed";
+import { CommandInteraction } from "discord.js";
 
 // Groups
-import credits from "./groups/credits";
-import counters from "./groups/counters";
+import modules from "@plugins/manage/modules";
 import logger from "@logger";
 
 // Function
 export default {
-  metadata: { author: "Zyner" },
-  data: new SlashCommandBuilder()
+  modules,
+
+  builder: new SlashCommandBuilder()
     .setName("manage")
     .setDescription("Manage the bot.")
-    .addSubcommandGroup(counters.data)
-    .addSubcommandGroup(credits.data),
+    .addSubcommandGroup(modules.counters.builder)
+    .addSubcommandGroup(modules.credits.builder),
 
   async execute(interaction: CommandInteraction) {
     // Destructure
-    const { memberPermissions, options } = interaction;
-
-    // Check permission
-    if (!memberPermissions?.has(Permissions?.FLAGS?.MANAGE_GUILD)) {
-      return interaction?.editReply({
-        embeds: [
-          new MessageEmbed()
-            .setTitle("[:toolbox:] Manage")
-            .setDescription(`You do not have the permission to manage the bot.`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
-        ],
-      });
-    }
+    const { options } = interaction;
 
     if (options?.getSubcommandGroup() === "credits") {
-      logger?.verbose(`Subcommand group is credits`);
+      logger?.silly(`Subcommand group is credits`);
 
-      return credits.execute(interaction);
+      return modules.credits.execute(interaction);
     }
 
     if (options?.getSubcommandGroup() === "counters") {
-      logger?.verbose(`Subcommand group is counters`);
+      logger?.silly(`Subcommand group is counters`);
 
-      return counters.execute(interaction);
+      return modules.counters.execute(interaction);
     }
 
-    logger?.verbose(`Subcommand group is not credits or counters`);
+    logger?.silly(`Subcommand group is not credits or counters`);
   },
 };

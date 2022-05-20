@@ -3,27 +3,27 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Modules
-import give from "./modules/give";
+import modules from "./modules";
 
 // Handlers
 import logger from "@logger";
 
 // Function
 export default {
-  metadata: { author: "Zyner" },
-  data: new SlashCommandBuilder()
+  modules,
+  builder: new SlashCommandBuilder()
     .setName("reputation")
     .setDescription("Manage reputation.")
-    .addSubcommand(give.data),
+    .addSubcommand(modules.give.builder),
   async execute(interaction: CommandInteraction) {
     const { options } = interaction;
 
     if (options?.getSubcommand() === "give") {
-      logger?.verbose(`Executing give subcommand`);
+      logger?.silly(`Executing give subcommand`);
 
-      await give.execute(interaction);
+      await modules.give.execute(interaction);
     }
 
-    logger?.verbose(`No subcommand found`);
+    logger?.silly(`No subcommand found`);
   },
 };

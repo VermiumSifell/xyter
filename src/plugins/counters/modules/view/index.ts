@@ -1,20 +1,15 @@
-// Dependencies
+import getEmbedConfig from "@helpers/getEmbedConfig";
+
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 
 import counterSchema from "@schemas/counter";
 
-// Configuration
-import {
-  errorColor,
-  successColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
-
 export default {
-  data: (command: SlashCommandSubcommandBuilder) => {
+  metadata: { guildOnly: true, ephemeral: false },
+
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("view")
       .setDescription(`View a guild counter`)
@@ -25,13 +20,25 @@ export default {
             `The channel that contains the counter you want to view`
           )
           .setRequired(true)
-          .addChannelType(ChannelType.GuildText as number)
+          .addChannelTypes(ChannelType.GuildText)
       );
   },
+
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options, guild } = interaction;
 
     const discordChannel = options?.getChannel("channel");
+
+    const embed = new MessageEmbed()
+      .setTitle("[:1234:] Counters (View)")
+      .setTimestamp(new Date())
+      .setFooter({
+        text: footerText,
+        iconURL: footerIcon,
+      });
 
     const counter = await counterSchema?.findOne({
       guildId: guild?.id,
@@ -41,32 +48,20 @@ export default {
     if (counter === null) {
       return interaction?.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:1234:] Counters (View)")
+          embed
             .setDescription(`No counter found for channel ${discordChannel}!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({
-              text: footerText,
-              iconURL: footerIcon,
-            }),
+            .setColor(errorColor),
         ],
       });
     }
 
     return interaction?.editReply({
       embeds: [
-        new MessageEmbed()
-          .setTitle("[:1234:] Counters (View)")
+        embed
           .setDescription(
-            `Viewing counter for channel ${discordChannel} with count ${counter.counter}.`
+            `Viewing counter for channel ${discordChannel}: ${counter.counter}!`
           )
-          .setTimestamp(new Date())
-          .setColor(successColor)
-          .setFooter({
-            text: footerText,
-            iconURL: footerIcon,
-          }),
+          .setColor(successColor),
       ],
     });
   },

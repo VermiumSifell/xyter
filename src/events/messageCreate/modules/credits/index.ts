@@ -30,7 +30,7 @@ export default {
     const timeout = await timeouts.findOne(timeoutData);
 
     if (timeout) {
-      logger.verbose(
+      logger.silly(
         `User ${userId} in guild ${guildId} is on timeout 2022-04-14-13-51-00`
       );
       return;
@@ -41,7 +41,7 @@ export default {
     await userData
       .save()
       .then(async () => {
-        logger.verbose(
+        logger.silly(
           `User ${userId} in guild ${guildId} has ${userData.credits} credits`
         );
       })
@@ -55,7 +55,7 @@ export default {
     await timeouts
       .create(timeoutData)
       .then(async () => {
-        logger.verbose(
+        logger.silly(
           `Timeout 2022-04-14-13-51-00 for user ${userId} in guild ${guildId} has been created`
         );
       })
@@ -70,7 +70,7 @@ export default {
       await timeouts
         .deleteOne(timeoutData)
         .then(async () => {
-          logger.verbose(
+          logger.silly(
             `Timeout 2022-04-14-13-51-00 for user ${userId} in guild ${guildId} has been deleted`
           );
         })

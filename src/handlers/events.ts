@@ -9,27 +9,29 @@ export default async (client: Client) => {
     }
 
     await Promise.all(
-      events.map(async (eventName) => {
+      events.map(async (eventName, index) => {
         const event = await import(`../events/${eventName}`);
 
-        logger.verbose(`Loaded event: ${eventName}`);
+        logger.verbose(
+          `Loaded event ${index + 1}/${events.length}: ${eventName}`
+        );
 
         if (event.once) {
-          return client.once(event.default.name, async (...args) =>
+          return client.once(eventName, async (...args) =>
             event.default.execute(...args)
           );
         }
 
-        return client.on(event.default.name, async (...args) =>
+        return client.on(eventName, async (...args) =>
           event.default.execute(...args)
         );
       })
     )
       .then(async () => {
-        logger.debug("Successfully loaded events.");
+        logger.info(`Started all ${events.length} events.`);
       })
       .catch(async (err) => {
-        logger.error(err);
+        logger.error(`${err}`);
       });
   });
 };

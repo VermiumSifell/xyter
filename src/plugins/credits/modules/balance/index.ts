@@ -1,52 +1,42 @@
-// Dependencies
+import getEmbedConfig from "@helpers/getEmbedConfig";
+
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-
 import logger from "@logger";
 
-// Configurations
-import {
-  errorColor,
-  successColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
-
-// Helpers
-import pluralize from "@helpers/pluralize";
 import fetchUser from "@helpers/fetchUser";
 
 export default {
-  data: (command: SlashCommandSubcommandBuilder) => {
-    return (
-      command
-        .setName("balance")
-        .setDescription(`View a user's balance`)
-
-        // User
-        .addUserOption((option) =>
-          option
-            .setName("user")
-            .setDescription(`The user whose balance you want to view`)
-        )
-    );
+  metadata: { guildOnly: true, ephemeral: true },
+  builder: (command: SlashCommandSubcommandBuilder) => {
+    return command
+      .setName("balance")
+      .setDescription(`View a user's balance`)
+      .addUserOption((option) =>
+        option
+          .setName("user")
+          .setDescription(`The user whose balance you want to view`)
+      );
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options, user, guild } = interaction;
 
-    const discordUser = options?.getUser("user");
+    const discordUser = options.getUser("user");
+
+    const embed = new MessageEmbed()
+      .setTitle("[:dollar:] Balance")
+      .setTimestamp(new Date())
+      .setFooter({ text: footerText, iconURL: footerIcon });
 
     if (guild === null) {
-      logger?.verbose(`Guild is null`);
+      logger.silly(`Guild is null`);
 
-      return interaction?.editReply({
+      return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Balance)")
-            .setDescription(`You can only use this command in a guild!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed.setDescription("Guild is not found").setColor(errorColor),
         ],
       });
     }
@@ -54,50 +44,38 @@ export default {
     const userObj = await fetchUser(discordUser || user, guild);
 
     if (userObj === null) {
-      logger?.verbose(`User not found`);
+      logger.silly(`User not found`);
 
-      return interaction?.editReply({
+      return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Balance)")
-            .setDescription(`Could not find user ${discordUser || user}`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              "User is not found. Please try again with a valid user."
+            )
+            .setColor(errorColor),
         ],
       });
     }
 
     if (userObj.credits === null) {
-      logger?.verbose(`User has no credits`);
+      logger.silly(`User has no credits`);
 
-      return interaction?.editReply({
+      return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Balance)")
-            .setDescription(`${discordUser || user} has no credits!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed.setDescription("Credits not found").setColor(errorColor),
         ],
       });
     }
 
-    logger?.verbose(`Found user ${discordUser || user}`);
+    logger.silly(`Found user ${discordUser || user}`);
 
-    return interaction?.editReply({
+    return interaction.editReply({
       embeds: [
-        new MessageEmbed()
-          .setTitle("[:dollar:] Credits (Balance)")
+        embed
           .setDescription(
-            `${discordUser || user} has  ${pluralize(
-              userObj.credits,
-              `credit`
-            )}!`
+            `${discordUser || user} currently has ${userObj.credits} credits.`
           )
-          .setTimestamp(new Date())
-          .setColor(successColor)
-          .setFooter({ text: footerText, iconURL: footerIcon }),
+          .setColor(successColor),
       ],
     });
   },

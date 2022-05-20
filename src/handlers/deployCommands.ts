@@ -12,17 +12,17 @@ export default async (client: Client) => {
 
   await Promise.all(
     client.commands.map(async (pluginData: any) => {
-      pluginList.push(pluginData.data.toJSON());
+      pluginList.push(pluginData.builder.toJSON());
       logger.verbose(
-        `${pluginData.data.name} successfully pushed to plugin list.`
+        `Plugin is ready for deployment: ${pluginData.builder.name}`
       );
     })
   )
     .then(async () => {
-      logger.debug("Successfully pushed all plugins to plugin list.");
+      logger.info("All plugins are ready to be deployed.");
     })
     .catch(async (error) => {
-      logger.error(error);
+      logger.error(`${error}`);
     });
 
   const rest = new REST({ version: "9" }).setToken(token);
@@ -32,10 +32,10 @@ export default async (client: Client) => {
       body: pluginList,
     })
     .then(async () => {
-      logger.debug(`Successfully deployed plugins to Discord`);
+      logger.info(`Successfully deployed plugins to Discord's API`);
     })
     .catch(async (error) => {
-      logger.error(error);
+      logger.error(`${error}`);
     });
 
   if (devMode) {
@@ -44,10 +44,10 @@ export default async (client: Client) => {
         body: pluginList,
       })
       .then(async () =>
-        logger.debug(`Successfully deployed guild plugins to Discord`)
+        logger.info(`Successfully deployed guild plugins to Discord's API`)
       )
       .catch(async (error) => {
-        logger.error(error);
+        logger.error(`${error}`);
       });
   }
 };

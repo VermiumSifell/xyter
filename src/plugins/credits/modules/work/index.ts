@@ -4,7 +4,7 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import Chance from "chance";
 
 // Configurations
-import { successColor, footerText, footerIcon } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 // Handlers
 import logger from "@logger";
@@ -17,12 +17,24 @@ import fetchUser from "@helpers/fetchUser";
 import fetchGuild from "@helpers/fetchGuild";
 
 export default {
-  data: (command: SlashCommandSubcommandBuilder) => {
+  metadata: { guildOnly: true, ephemeral: true },
+
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("work").setDescription(`Work to earn credits`);
   },
   execute: async (interaction: CommandInteraction) => {
-    // Destructure member
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild); // Destructure member
     const { guild, user } = interaction;
+
+    const embed = new MessageEmbed()
+      .setTitle("[:dollar:] Work")
+      .setTimestamp(new Date())
+      .setFooter({
+        text: footerText,
+        iconURL: footerIcon,
+      });
 
     // Chance module
     const chance = new Chance();
@@ -35,25 +47,22 @@ export default {
     });
 
     if (guild === null) {
-      return logger?.verbose(`Guild is null`);
+      return logger?.silly(`Guild is null`);
     }
 
     const guildDB = await fetchGuild(guild);
 
     // If user is not on timeout
     if (isTimeout) {
-      logger?.verbose(`User ${user?.id} is on timeout`);
+      logger?.silly(`User ${user?.id} is on timeout`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Work)")
+          embed
             .setDescription(
-              `You can not work while on timeout, please wait ${guildDB?.credits.workTimeout} seconds.`
+              `You are on timeout, please wait ${guildDB?.credits.workTimeout} seconds.`
             )
-            .setTimestamp(new Date())
-            .setColor(successColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(errorColor),
         ],
       });
     }
@@ -66,24 +75,21 @@ export default {
     const userDB = await fetchUser(user, guild);
 
     if (userDB === null) {
-      return logger?.verbose(`User not found`);
+      return logger?.silly(`User not found`);
     }
 
     userDB.credits += creditsEarned;
 
     await userDB?.save()?.then(async () => {
-      logger?.verbose(
+      logger?.silly(
         `User ${userDB?.userId} worked and earned ${creditsEarned} credits`
       );
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Work)")
-            .setDescription(`You worked and earned ${creditsEarned} credits`)
-            .setTimestamp(new Date())
-            .setColor(successColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(`You worked and earned ${creditsEarned} credits.`)
+            .setColor(successColor),
         ],
       });
     });
@@ -96,7 +102,7 @@ export default {
     });
 
     setTimeout(async () => {
-      logger?.verbose(`Removing timeout for user ${user?.id}`);
+      logger?.silly(`Removing timeout for user ${user?.id}`);
 
       // When timeout is out, remove it from the database
       await timeoutSchema?.deleteOne({

@@ -1,31 +1,22 @@
-// Dependencies
 import { CommandInteraction } from "discord.js";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
-// Configurations
-import {
-  successColor,
-  errorColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
-// Handlers
 import logger from "@logger";
 import encryption from "@handlers/encryption";
 
-// Helpers
 import pluralize from "@helpers/pluralize";
 
-// Models
 import apiSchema from "@schemas/api";
 import fetchUser from "@helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
-// Function
 export default {
-  data: (command: SlashCommandSubcommandBuilder) => {
+  metadata: { guildOnly: true, ephemeral: true },
+
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("pterodactyl")
       .setDescription("Buy pterodactyl power.")
@@ -36,14 +27,15 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options, guild, user, client } = interaction;
 
-    // Get options
     const optionAmount = options?.getInteger("amount");
 
-    // If amount is null
     if (optionAmount === null) {
-      logger?.verbose(`Amount is null.`);
+      logger?.silly(`Amount is null.`);
 
       return interaction?.editReply({
         embeds: [
@@ -62,22 +54,19 @@ export default {
     }
 
     if (guild === null) {
-      return logger?.verbose(`Guild is null`);
+      return logger?.silly(`Guild is null`);
     }
 
-    // Get user object
     const userDB = await fetchUser(user, guild);
 
     if (userDB === null) {
-      return logger?.verbose(`User is null`);
+      return logger?.silly(`User is null`);
     }
 
-    // Get DM user object
     const dmUser = client?.users?.cache?.get(user?.id);
 
-    // Stop if amount or user credits is below 100
     if ((optionAmount || userDB?.credits) < 100) {
-      logger?.verbose(`Amount or user credits is below 100.`);
+      logger?.silly(`Amount or user credits is below 100.`);
 
       return interaction?.editReply({
         embeds: [
@@ -101,9 +90,8 @@ export default {
       });
     }
 
-    // Stop if amount or user credits is above 1.000.000
     if ((optionAmount || userDB?.credits) > 1000000) {
-      logger?.verbose(`Amount or user credits is above 1.000.000.`);
+      logger?.silly(`Amount or user credits is above 1.000.000.`);
 
       return interaction?.editReply({
         embeds: [
@@ -128,9 +116,8 @@ export default {
       });
     }
 
-    // Stop if user credits is below amount
     if (userDB?.credits < optionAmount) {
-      logger?.verbose(`User credits is below amount.`);
+      logger?.silly(`User credits is below amount.`);
 
       return interaction?.editReply({
         embeds: [
@@ -154,15 +141,12 @@ export default {
       });
     }
 
-    // Generate a unique voucher for the user
     const code = uuidv4();
 
-    // Get api object
     const apiCredentials = await apiSchema?.findOne({
       guildId: guild?.id,
     });
 
-    // Create a api instance
     const api = axios?.create({
       baseURL: apiCredentials?.url,
       headers: {
@@ -170,13 +154,10 @@ export default {
       },
     });
 
-    // Get shop URL
     const shopUrl = apiCredentials?.url?.replace("/api", "/store");
 
-    // Make API request
     await api
 
-      // Make a post request to the API
       ?.post("vouchers", {
         uses: 1,
         code,
@@ -184,19 +165,16 @@ export default {
         memo: `${interaction?.createdTimestamp} - ${interaction?.user?.id}`,
       })
 
-      // If successful
       ?.then(async () => {
-        logger?.verbose(`Successfully created voucher.`);
+        logger?.silly(`Successfully created voucher.`);
 
-        // Withdraw amount from user credits
         userDB.credits -= optionAmount || userDB?.credits;
 
-        // Save new credits
         await userDB
           ?.save()
-          // If successful
+
           ?.then(async () => {
-            logger?.verbose(`Successfully saved new credits.`);
+            logger?.silly(`Successfully saved new credits.`);
 
             await dmUser?.send({
               embeds: [
@@ -237,9 +215,8 @@ export default {
             });
           })
 
-          // If error occurs
           .catch(async (error) => {
-            logger?.verbose(`Error saving new credits. - ${error}`);
+            logger?.silly(`Error saving new credits. - ${error}`);
 
             return interaction?.editReply({
               embeds: [
@@ -258,9 +235,8 @@ export default {
           });
       })
 
-      // If error occurs
       .catch(async (error: any) => {
-        logger?.verbose(`Error creating voucher. - ${error}`);
+        logger?.silly(`Error creating voucher. - ${error}`);
 
         return interaction?.editReply({
           embeds: [

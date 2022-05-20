@@ -14,7 +14,7 @@ export default async (message: Message) => {
   });
 
   if (counter === null)
-    return logger?.verbose(
+    return logger?.silly(
       `No counter found for guild: ${guild?.name} (${guild?.id})`
     );
   const { word } = counter;
@@ -29,8 +29,8 @@ export default async (message: Message) => {
   if (lastMessage.author.id === message.author.id) return;
 
   channel?.send(`${author} said **${word}**.`);
-  logger?.verbose(`${author} said ${word} in ${channel}`);
-  return logger?.verbose(
+  logger?.silly(`${author} said ${word} in ${channel}`);
+  return logger?.silly(
     `User: ${author?.tag} (${author?.id}) in guild: ${guild?.name} (${guild?.id}) said the counter word: ${word}`
   );
 };

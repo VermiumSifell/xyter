@@ -1,13 +1,14 @@
-import logger from "@logger";
 import { GuildMember, MessageEmbed, TextChannel } from "discord.js";
 
 import guildSchema from "@schemas/guild";
 
-import { footerText, footerIcon, errorColor } from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 export default {
   execute: async (member: GuildMember) => {
-    logger.info(member);
+    const { footerText, footerIcon, errorColor } = await getEmbedConfig(
+      member.guild
+    );
 
     const guildData = await guildSchema.findOne({ guildId: member.guild.id });
 

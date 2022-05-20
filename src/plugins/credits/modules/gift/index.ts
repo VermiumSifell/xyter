@@ -2,12 +2,7 @@
 import { CommandInteraction, MessageEmbed } from "discord.js";
 
 // Configurations
-import {
-  errorColor,
-  successColor,
-  footerText,
-  footerIcon,
-} from "@config/embed";
+import getEmbedConfig from "@helpers/getEmbedConfig";
 
 // Handlers
 import logger from "@logger";
@@ -21,7 +16,9 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
 export default {
-  data: (command: SlashCommandSubcommandBuilder) => {
+  metadata: { guildOnly: true, ephemeral: true },
+
+  builder: (command: SlashCommandSubcommandBuilder) => {
     return command
       .setName("gift")
       .setDescription(`Gift a user credits`)
@@ -42,38 +39,38 @@ export default {
       );
   },
   execute: async (interaction: CommandInteraction) => {
+    if (interaction.guild == null) return;
+    const { errorColor, successColor, footerText, footerIcon } =
+      await getEmbedConfig(interaction.guild);
     const { options, user, guild, client } = interaction;
 
-    const optionUser = options?.getUser("user");
-    const optionAmount = options?.getInteger("amount");
-    const optionReason = options?.getString("reason");
+    const optionUser = options.getUser("user");
+    const optionAmount = options.getInteger("amount");
+    const optionReason = options.getString("reason");
+
+    const embed = new MessageEmbed()
+      .setTitle("[:dollar:] Gift")
+      .setTimestamp(new Date())
+      .setFooter({ text: footerText, iconURL: footerIcon });
 
     if (guild === null) {
-      logger?.verbose(`Guild is null`);
+      logger.silly(`Guild is null`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
-            .setDescription(`We can not find your guild!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed.setDescription("Guild is not found").setColor(errorColor),
         ],
       });
     }
 
     if (optionUser === null) {
-      logger?.verbose(`User not found`);
+      logger.silly(`User not found`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
-            .setDescription(`We can not find your requested user!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(`User is not found in this guild`)
+            .setColor(errorColor),
         ],
       });
     }
@@ -85,170 +82,147 @@ export default {
     const toUserDB = await fetchUser(optionUser, guild);
 
     if (fromUserDB === null) {
-      logger?.verbose(`User not found`);
+      logger.silly(`User not found`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
+          embed
             .setDescription(
-              `We can not find your requested from user in our database!`
+              "You do not have any credits. Please write something in the chat to get some."
             )
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(errorColor),
         ],
       });
     }
 
     if (toUserDB === null) {
-      logger?.verbose(`User not found`);
+      logger.silly(`User not found`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
+          embed
             .setDescription(
-              `We can not find your requested to user in our database!`
+              "The user you want to gift credits to does not have any credits. Please wait until that user has typed something in the chat to get some."
             )
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(errorColor),
         ],
       });
     }
 
     // If receiver is same as sender
-    if (optionUser?.id === user?.id) {
-      logger?.verbose(`User is same as sender`);
+    if (optionUser.id === user.id) {
+      logger.silly(`User is same as sender`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
-            .setDescription(`You can not pay yourself!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              "You can't gift credits to yourself. Please choose a different user."
+            )
+            .setColor(errorColor),
         ],
       });
     }
 
     // If amount is null
     if (optionAmount === null) {
-      logger?.verbose(`Amount is null`);
+      logger.silly(`Amount is null`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
-            .setDescription(`We could not read your requested amount!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              "Please specify the amount of credits you want to gift."
+            )
+            .setColor(errorColor),
         ],
       });
     }
 
     // If amount is zero or below
     if (optionAmount <= 0) {
-      logger?.verbose(`Amount is zero or below`);
+      logger.silly(`Amount is zero or below`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
-            .setDescription(`You can't gift zero or below!`)
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+          embed
+            .setDescription(
+              "Please specify a valid amount of credits you want to gift."
+            )
+            .setColor(errorColor),
         ],
       });
     }
 
     // If user has below gifting amount
-    if (fromUserDB?.credits < optionAmount) {
-      logger?.verbose(`User has below gifting amount`);
+    if (fromUserDB.credits < optionAmount) {
+      logger.silly(`User has below gifting amount`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
+          embed
             .setDescription(
-              `You have insufficient credits. Your balance is ${fromUserDB?.credits}!`
+              "You don't have enough credits to gift that amount. Please try again with a lower amount."
             )
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(errorColor),
         ],
       });
     }
 
     // If toUserDB has no credits
     if (toUserDB === null) {
-      logger?.verbose(`User has no credits`);
+      logger.silly(`User has no credits`);
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
+          embed
             .setDescription(
-              `We can not find your requested to user in our database!`
+              "The user you want to gift credits to does not have any credits. Please wait until that user has typed something in the chat to get some."
             )
-            .setTimestamp(new Date())
-            .setColor(errorColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(errorColor),
         ],
       });
     }
 
-    // Withdraw amount from fromUserDB
-    fromUserDB.credits -= optionAmount;
-
-    // Deposit amount to toUserDB
-    toUserDB.credits += optionAmount;
-
     // Save users
-    await saveUser(fromUserDB, toUserDB)?.then(async () => {
+    await saveUser(fromUserDB, toUserDB).then(async () => {
       // Get DM user object
-      const dmUser = client?.users?.cache?.get(optionUser?.id);
+      const dmUser = client.users.cache.get(optionUser.id);
+
+      if (dmUser == null) return;
 
       // Send DM to user
       await dmUser
-        ?.send({
+        .send({
           embeds: [
-            new MessageEmbed()
-              .setTitle("[:dollar:] Credits (Gift)")
+            embed
               .setDescription(
-                `You have received ${optionAmount} credits from ${
-                  user?.tag
-                } with reason ${
-                  optionReason ? ` with reason: ${optionReason}` : ""
-                }!`
+                `${
+                  user.tag
+                } has gifted you ${optionAmount} credits with reason: ${
+                  optionReason || "unspecified"
+                }`
               )
-              .setTimestamp(new Date())
-              .setColor(successColor)
-              .setFooter({ text: footerText, iconURL: footerIcon }),
+              .setColor(successColor),
           ],
         })
         .catch(async (error) =>
-          logger?.error(`[Gift] Error sending DM to user: ${error}`)
+          logger.error(`[Gift] Error sending DM to user: ${error}`)
         );
 
-      logger?.verbose(
-        `[Gift] Successfully gifted ${optionAmount} credits to ${optionUser?.tag}`
+      logger.silly(
+        `[Gift] Successfully gifted ${optionAmount} credits to ${optionUser.tag}`
       );
 
       return interaction.editReply({
         embeds: [
-          new MessageEmbed()
-            .setTitle("[:dollar:] Credits (Gift)")
+          embed
             .setDescription(
-              `Successfully gifted ${optionAmount} credits to ${optionUser?.tag}!`
+              `Successfully gifted ${optionAmount} credits to ${
+                optionUser.tag
+              } with reason: ${optionReason || "unspecified"}`
             )
-            .setTimestamp(new Date())
-            .setColor(successColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
+            .setColor(successColor),
         ],
       });
     });
