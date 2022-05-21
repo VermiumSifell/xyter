@@ -4,7 +4,7 @@ import { token, intents } from "@config/discord";
 
 import { Client } from "discord.js"; // discord.js
 
-import database from "@root/events";
+import database from "@database";
 import schedules from "@handlers/schedules";
 import events from "@handlers/events";
 import commands from "@handlers/commands";
