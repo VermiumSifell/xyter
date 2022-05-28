@@ -1,17 +1,24 @@
-// Dependencies
+// @ts-ignore
 import { token, clientId } from "@config/discord";
+// @ts-ignore
 import { devMode, guildId } from "@config/other";
 
 import logger from "../logger";
 import { Client } from "@root/types/common/discord";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { RESTPostAPIApplicationCommandsJSONBody } from "discord-api-types/v10";
 
 export default async (client: Client) => {
-  const pluginList = [] as string[];
+  const pluginList: Array<RESTPostAPIApplicationCommandsJSONBody> = [];
+
+  interface IPluginData {
+    builder: SlashCommandBuilder;
+  }
 
   await Promise.all(
-    client.commands.map(async (pluginData: any) => {
+    client.commands.map(async (pluginData: IPluginData) => {
       pluginList.push(pluginData.builder.toJSON());
       logger.verbose(
         `Plugin is ready for deployment: ${pluginData.builder.name}`
