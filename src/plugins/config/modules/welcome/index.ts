@@ -96,39 +96,39 @@ export default {
     await guildDB?.save()?.then(async () => {
       logger?.silly(`Guild welcome updated.`);
 
+      if (!guildDB?.welcome?.status) {
+        return interaction?.editReply({
+          embeds: [
+            {
+              title: "[:tools:] Welcome",
+              description: `This module is currently disabled, please enable it to continue.`,
+              color: successColor,
+              timestamp: new Date(),
+              footer: {
+                iconURL: footerIcon,
+                text: footerText,
+              },
+            },
+          ],
+        });
+      }
+
       return interaction?.editReply({
         embeds: [
           {
-            title: ":hammer: Settings - Guild [Welcome]",
-            description: `Welcome settings updated.`,
+            title: "[:tools:] Welcome",
+            description: `The following configuration will be used.
+
+            [👋] **Welcome**
+
+            ㅤ**Channel**: <#${guildDB?.welcome?.joinChannel}>
+            ㅤ**Message**: ${guildDB?.welcome?.joinChannelMessage}
+
+            [🚪] **Leave**
+
+            ㅤ**Channel**: <#${guildDB?.welcome?.leaveChannel}>
+            ㅤ**Message**: ${guildDB?.welcome?.leaveChannelMessage}`,
             color: successColor,
-            fields: [
-              {
-                name: "🤖 Status",
-                value: `${guildDB?.welcome?.status}`,
-                inline: true,
-              },
-              {
-                name: "🌊 Join Channel",
-                value: `${guildDB?.welcome?.joinChannel}`,
-                inline: true,
-              },
-              {
-                name: "🌊 Leave Channel",
-                value: `${guildDB?.welcome?.leaveChannel}`,
-                inline: true,
-              },
-              {
-                name: "📄 Join Channel Message",
-                value: `${guildDB?.welcome?.joinChannelMessage}`,
-                inline: true,
-              },
-              {
-                name: "📄 Leave Channel Message",
-                value: `${guildDB?.welcome?.leaveChannelMessage}`,
-                inline: true,
-              },
-            ],
             timestamp: new Date(),
             footer: {
               iconURL: footerIcon,
