@@ -1,12 +1,17 @@
 import crypto from "crypto";
 
+// @ts-ignore
 import { secretKey, algorithm } from "@config/encryption";
 
 const iv = crypto.randomBytes(16);
 
-const encrypt = (text: any): { iv: any; content: any } => {
-  const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
+interface IEncrypt {
+  iv: string;
+  content: string;
+}
 
+const encrypt = (text: crypto.BinaryLike): IEncrypt => {
+  const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
   const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
 
   return {
@@ -15,7 +20,7 @@ const encrypt = (text: any): { iv: any; content: any } => {
   };
 };
 
-const decrypt = (hash: any) => {
+const decrypt = (hash: IEncrypt) => {
   const decipher = crypto.createDecipheriv(
     algorithm,
     secretKey,

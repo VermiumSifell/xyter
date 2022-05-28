@@ -83,7 +83,7 @@ export default async (interaction: CommandInteraction) => {
         `Command: ${commandName} executed in guild: ${guild?.name} (${guild?.id}) by user: ${user?.tag} (${user?.id})`
       );
     })
-    .catch(async (error: any) => {
+    .catch(async (error: string) => {
       logger?.error(`${error}`);
 
       return interaction.editReply({

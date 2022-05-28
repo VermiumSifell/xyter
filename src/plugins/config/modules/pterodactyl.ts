@@ -45,8 +45,9 @@ export default {
     const { options, guild } = interaction;
 
     // Get options
-    const url = options?.getString("url");
-    const token = encryption.encrypt(options?.getString("token"));
+    const tokenData = options.getString("token");
+    const url = options.getString("url");
+    const token = tokenData && encryption.encrypt(tokenData);
 
     // Update API credentials
     await apiSchema
