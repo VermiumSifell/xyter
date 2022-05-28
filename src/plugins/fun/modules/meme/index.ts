@@ -11,11 +11,12 @@ export default {
   builder: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("meme").setDescription("Get a meme from r/memes)");
   },
+
   execute: async (interaction: CommandInteraction) => {
-    if (interaction.guild == null) return;
-    const { successColor, footerText, footerIcon } = await getEmbedConfig(
-      interaction.guild
-    );
+    const { guild } = interaction;
+
+    const embedConfig = await getEmbedConfig(guild);
+
     await axios
       .get("https://www.reddit.com/r/memes/random/.json")
       .then(async (res) => {
@@ -23,14 +24,28 @@ export default {
         const content = response[0].data;
 
         const embed = new MessageEmbed()
-          .setTitle(content.title)
+          .setAuthor({
+            name: content.title,
+            iconURL:
+              "https://www.redditinc.com/assets/images/site/reddit-logo.png",
+            url: `https://reddit.com${content.permalink}`,
+          })
+          .setTitle("[:sweat_smile:] Meme")
+          .addFields([
+            { name: "Author", value: content.author, inline: true },
+            {
+              name: "Votes",
+              value: `${content.ups}/${content.downs}`,
+              inline: true,
+            },
+          ])
           .setTimestamp(new Date())
           .setImage(content.url)
           .setFooter({
-            text: `👍 ${content.ups}︱👎 ${content.downs}\n${footerText}`,
-            iconURL: footerIcon,
+            text: embedConfig.footerText,
+            iconURL: embedConfig.footerIcon,
           })
-          .setColor(successColor);
+          .setColor(embedConfig.successColor);
 
         return interaction.editReply({ embeds: [embed] });
       })
