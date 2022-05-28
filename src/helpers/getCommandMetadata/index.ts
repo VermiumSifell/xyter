@@ -1,12 +1,14 @@
 import { CommandInteraction } from "discord.js";
+import { ICommand } from "@interface/Command";
 
-export default async (interaction: CommandInteraction, currentCommand: any) => {
+export default async (
+  interaction: CommandInteraction,
+  currentCommand: ICommand
+) => {
   const subcommand = interaction.options.getSubcommand();
   const subcommandGroup = interaction.options.getSubcommandGroup(false);
 
-  if (!subcommandGroup) {
-    return currentCommand.modules[subcommand].metadata;
-  }
-
-  return currentCommand.modules[subcommandGroup].modules[subcommand].metadata;
+  return subcommandGroup
+    ? currentCommand.modules[subcommandGroup].modules[subcommand].metadata
+    : currentCommand.modules[subcommand].metadata;
 };
