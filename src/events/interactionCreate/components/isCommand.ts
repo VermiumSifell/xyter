@@ -6,6 +6,7 @@ import logger from "@logger";
 import deferReply from "@root/helpers/deferReply";
 import getEmbedConfig from "@helpers/getEmbedConfig";
 import getCommandMetadata from "@helpers/getCommandMetadata";
+import capitalizeFirstLetter from "@helpers/capitalizeFirstLetter";
 
 export default async (interaction: CommandInteraction) => {
   if (!interaction.isCommand()) return;
@@ -89,10 +90,12 @@ export default async (interaction: CommandInteraction) => {
       return interaction.editReply({
         embeds: [
           new MessageEmbed()
-            .setTitle("Error")
-            .setDescription(
-              `There was an error executing the command: **${currentCommand?.data?.name}**.`
+            .setTitle(
+              `[:x:] ${capitalizeFirstLetter(
+                interaction.options.getSubcommand()
+              )}`
             )
+            .setDescription(`${"``"}${error}${"``"}`)
             .setColor(errorColor)
             .setTimestamp(new Date())
             .setFooter({ text: footerText, iconURL: footerIcon }),
