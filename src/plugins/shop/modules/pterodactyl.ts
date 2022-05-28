@@ -147,10 +147,12 @@ export default {
       guildId: guild?.id,
     });
 
+    if (!apiCredentials) return;
+
     const api = axios?.create({
-      baseURL: apiCredentials?.url,
+      baseURL: apiCredentials.url,
       headers: {
-        Authorization: `Bearer ${encryption.decrypt(apiCredentials?.token)}`,
+        Authorization: `Bearer ${encryption.decrypt(apiCredentials.token)}`,
       },
     });
 
@@ -235,7 +237,7 @@ export default {
           });
       })
 
-      .catch(async (error: any) => {
+      .catch(async (error) => {
         logger?.silly(`Error creating voucher. - ${error}`);
 
         return interaction?.editReply({
