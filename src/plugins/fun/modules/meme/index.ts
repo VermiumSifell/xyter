@@ -50,7 +50,7 @@ export default {
         return interaction.editReply({ embeds: [embed] });
       })
       .catch((error) => {
-        logger.error(`${error}`);
+        throw new Error(error.message);
       });
   },
 };
