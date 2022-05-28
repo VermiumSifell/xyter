@@ -1,10 +1,11 @@
 import { Snowflake } from "discord.js";
 import { model, Schema } from "mongoose";
+import { IEncryptionData } from "@interface/EncryptionData";
 
 export interface IApi {
   guildId: Snowflake;
   url: string;
-  token: { iv: string; content: string };
+  token: IEncryptionData;
 }
 
 const apiSchema = new Schema<IApi>(
