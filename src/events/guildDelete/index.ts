@@ -5,16 +5,19 @@ import { Guild } from "discord.js";
 import updatePresence from "@helpers/updatePresence";
 import dropGuild from "@helpers/dropGuild";
 import logger from "@logger";
+import { IEventOptions } from "@root/interfaces/EventOptions";
 
-export default {
-  async execute(guild: Guild) {
-    const { client } = guild;
+export const options: IEventOptions = {
+  type: "on",
+};
 
-    logger?.silly(`Deleted from guild: ${guild.name} (${guild.id})`);
+export const execute = async (guild: Guild) => {
+  const { client } = guild;
 
-    await dropGuild(guild);
-    await updatePresence(client);
+  logger?.silly(`Deleted from guild: ${guild.name} (${guild.id})`);
 
-    logger.silly(`guildDelete: ${guild}`);
-  },
+  await dropGuild(guild);
+  await updatePresence(client);
+
+  logger.silly(`guildDelete: ${guild}`);
 };

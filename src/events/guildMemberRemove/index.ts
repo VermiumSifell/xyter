@@ -7,18 +7,21 @@ import dropUser from "@helpers/dropUser";
 import logger from "@logger";
 import leaveMessage from "./leaveMessage";
 import audits from "./audits";
+import { IEventOptions } from "@root/interfaces/EventOptions";
 
-export default {
-  async execute(member: GuildMember) {
-    const { client, user, guild } = member;
+export const options: IEventOptions = {
+  type: "on",
+};
 
-    logger?.silly(
-      `Removed member: ${user.tag} (${user.id}) from guild: ${guild.name} (${guild.id})`
-    );
+export const execute = async (member: GuildMember) => {
+  const { client, user, guild } = member;
 
-    await audits.execute(member);
-    await leaveMessage.execute(member);
-    await dropUser(user, guild);
-    await updatePresence(client);
-  },
+  logger?.silly(
+    `Removed member: ${user.tag} (${user.id}) from guild: ${guild.name} (${guild.id})`
+  );
+
+  await audits.execute(member);
+  await leaveMessage.execute(member);
+  await dropUser(user, guild);
+  await updatePresence(client);
 };

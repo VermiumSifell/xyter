@@ -6,7 +6,7 @@ import { Client } from "discord.js"; // discord.js
 
 import database from "@database";
 import schedules from "@handlers/schedules";
-import events from "@handlers/events";
+import * as eventManager from "@root/managers/event";
 import commands from "@handlers/commands";
 
 // Main process that starts all other sub processes
@@ -26,7 +26,7 @@ const main = async () => {
   await commands(client);
 
   // Start event handler
-  await events(client);
+  await eventManager.register(client);
 
   // Authorize with Discord's API
   await client.login(token);

@@ -7,18 +7,21 @@ import fetchUser from "@helpers/fetchUser";
 import logger from "@logger";
 import joinMessage from "../guildMemberAdd/joinMessage";
 import audits from "../guildMemberAdd/audits";
+import { IEventOptions } from "@root/interfaces/EventOptions";
 
-export default {
-  async execute(member: GuildMember) {
-    const { client, user, guild } = member;
+export const options: IEventOptions = {
+  type: "on",
+};
 
-    logger?.silly(
-      `New member: ${user.tag} (${user.id}) added to guild: ${guild.name} (${guild.id})`
-    );
+export const execute = async (member: GuildMember) => {
+  const { client, user, guild } = member;
 
-    await audits.execute(member);
-    await joinMessage.execute(member);
-    await fetchUser(user, guild);
-    await updatePresence(client);
-  },
+  logger?.silly(
+    `New member: ${user.tag} (${user.id}) added to guild: ${guild.name} (${guild.id})`
+  );
+
+  await audits.execute(member);
+  await joinMessage.execute(member);
+  await fetchUser(user, guild);
+  await updatePresence(client);
 };
