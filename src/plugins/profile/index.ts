@@ -8,23 +8,22 @@ import modules from "../../plugins/profile/modules";
 // Handlers
 import logger from "../../logger";
 
+export const moduleData = modules;
+
 // Function
-export default {
-  modules,
+export const builder = new SlashCommandBuilder()
+  .setName("profile")
+  .setDescription("Check a profile.")
+  .addSubcommand(modules.view.builder);
 
-  builder: new SlashCommandBuilder()
-    .setName("profile")
-    .setDescription("Check a profile.")
-    .addSubcommand(modules.view.builder),
-  async execute(interaction: CommandInteraction) {
-    const { options } = interaction;
+export const execute = async (interaction: CommandInteraction) => {
+  const { options } = interaction;
 
-    if (options?.getSubcommand() === "view") {
-      logger?.silly(`Executing view subcommand`);
+  if (options?.getSubcommand() === "view") {
+    logger?.silly(`Executing view subcommand`);
 
-      return modules.view.execute(interaction);
-    }
+    return modules.view.execute(interaction);
+  }
 
-    logger?.silly(`No subcommand found`);
-  },
+  logger?.silly(`No subcommand found`);
 };

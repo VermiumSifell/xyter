@@ -1,4 +1,4 @@
 import pterodactyl from "./pterodactyl";
-import roles from "./roles";
+import * as roles from "./roles";
 
 export default { pterodactyl, roles };

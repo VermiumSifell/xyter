@@ -4,23 +4,16 @@ import logger from "../../logger";
 
 import modules from "../../plugins/counters/modules";
 
-export default {
-  modules,
+export const builder = new SlashCommandBuilder()
+  .setName("counters")
+  .setDescription("View guild counters")
 
-  builder: new SlashCommandBuilder()
-    .setName("counters")
-    .setDescription("View guild counters")
+  .addSubcommand(modules.view.builder);
 
-    .addSubcommand(modules.view.builder),
+export const moduleData = modules;
 
-  async execute(interaction: CommandInteraction) {
-    const { options } = interaction;
-
-    if (options.getSubcommand() === "view") {
-      logger.silly(`Executing view subcommand`);
-      return modules.view.execute(interaction);
-    }
-
-    logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
-  },
+export const execute = async (interaction: CommandInteraction) => {
+  if (interaction.options.getSubcommand() === "view") {
+    await modules.view.execute(interaction);
+  }
 };

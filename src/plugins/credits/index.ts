@@ -2,38 +2,36 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import logger from "../../logger";
 
-import modules from "../../plugins/credits/modules";
+import modules from "./modules";
 
-export default {
-  modules,
+export const builder = new SlashCommandBuilder()
+  .setName("credits")
+  .setDescription("Manage your credits.")
 
-  builder: new SlashCommandBuilder()
-    .setName("credits")
-    .setDescription("Manage your credits.")
+  .addSubcommand(modules.balance.builder)
+  .addSubcommand(modules.gift.builder)
+  .addSubcommand(modules.top.builder)
+  .addSubcommand(modules.work.builder);
 
-    .addSubcommand(modules.balance.builder)
-    .addSubcommand(modules.gift.builder)
-    .addSubcommand(modules.top.builder)
-    .addSubcommand(modules.work.builder),
+export const moduleData = modules;
 
-  async execute(interaction: CommandInteraction) {
-    const { options } = interaction;
+export const execute = async (interaction: CommandInteraction) => {
+  const { options } = interaction;
 
-    switch (options.getSubcommand()) {
-      case "balance":
-        await modules.balance.execute(interaction);
-        break;
-      case "gift":
-        await modules.gift.execute(interaction);
-        break;
-      case "top":
-        await modules.top.execute(interaction);
-        break;
-      case "work":
-        await modules.work.execute(interaction);
-        break;
-      default:
-        logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
-    }
-  },
+  switch (options.getSubcommand()) {
+    case "balance":
+      await modules.balance.execute(interaction);
+      break;
+    case "gift":
+      await modules.gift.execute(interaction);
+      break;
+    case "top":
+      await modules.top.execute(interaction);
+      break;
+    case "work":
+      await modules.work.execute(interaction);
+      break;
+    default:
+      logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
+  }
 };

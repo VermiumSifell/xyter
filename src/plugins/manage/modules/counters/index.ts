@@ -8,32 +8,30 @@ import logger from "../../../../logger";
 import modules from "./modules";
 
 // Function
-export default {
-  modules,
+export const moduleData = modules;
 
-  builder: (group: SlashCommandSubcommandGroupBuilder) => {
-    return group
-      .setName("counters")
-      .setDescription("Manage guild counters.")
-      .addSubcommand(modules.add.builder)
-      .addSubcommand(modules.remove.builder);
-  },
+export const builder = (group: SlashCommandSubcommandGroupBuilder) => {
+  return group
+    .setName("counters")
+    .setDescription("Manage guild counters.")
+    .addSubcommand(modules.add.builder)
+    .addSubcommand(modules.remove.builder);
+};
 
-  execute: async (interaction: CommandInteraction) => {
-    const { options } = interaction;
+export const execute = async (interaction: CommandInteraction) => {
+  const { options } = interaction;
 
-    if (options?.getSubcommand() === "add") {
-      logger?.silly(`Executing create subcommand`);
+  if (options?.getSubcommand() === "add") {
+    logger?.silly(`Executing create subcommand`);
 
-      return modules.add.execute(interaction);
-    }
+    return modules.add.execute(interaction);
+  }
 
-    if (options?.getSubcommand() === "remove") {
-      logger?.silly(`Executing delete subcommand`);
+  if (options?.getSubcommand() === "remove") {
+    logger?.silly(`Executing delete subcommand`);
 
-      return modules.remove.execute(interaction);
-    }
+    return modules.remove.execute(interaction);
+  }
 
-    logger?.silly(`Unknown subcommand ${options?.getSubcommand()}`);
-  },
+  logger?.silly(`Unknown subcommand ${options?.getSubcommand()}`);
 };

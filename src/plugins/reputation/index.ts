@@ -8,22 +8,22 @@ import modules from "./modules";
 // Handlers
 import logger from "../../logger";
 
+export const moduleData = modules;
+
 // Function
-export default {
-  modules,
-  builder: new SlashCommandBuilder()
-    .setName("reputation")
-    .setDescription("Manage reputation.")
-    .addSubcommand(modules.give.builder),
-  async execute(interaction: CommandInteraction) {
-    const { options } = interaction;
+export const builder = new SlashCommandBuilder()
+  .setName("reputation")
+  .setDescription("Manage reputation.")
+  .addSubcommand(modules.give.builder);
 
-    if (options?.getSubcommand() === "give") {
-      logger?.silly(`Executing give subcommand`);
+export const execute = async (interaction: CommandInteraction) => {
+  const { options } = interaction;
 
-      await modules.give.execute(interaction);
-    }
+  if (options?.getSubcommand() === "give") {
+    logger?.silly(`Executing give subcommand`);
 
-    logger?.silly(`No subcommand found`);
-  },
+    await modules.give.execute(interaction);
+  }
+
+  logger?.silly(`No subcommand found`);
 };

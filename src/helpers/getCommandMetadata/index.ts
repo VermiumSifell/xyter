@@ -9,6 +9,6 @@ export default async (
   const subcommandGroup = interaction.options.getSubcommandGroup(false);
 
   return subcommandGroup
-    ? currentCommand.modules[subcommandGroup].modules[subcommand].metadata
-    : currentCommand.modules[subcommand].metadata;
+    ? currentCommand.moduleData[subcommandGroup].moduleData[subcommand].metadata
+    : currentCommand.moduleData[subcommand].metadata;
 };

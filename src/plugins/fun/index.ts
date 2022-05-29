@@ -4,22 +4,20 @@ import logger from "../../logger";
 
 import modules from "../../plugins/fun/modules";
 
-export default {
-  modules,
+export const builder = new SlashCommandBuilder()
+  .setName("fun")
+  .setDescription("Fun commands.")
 
-  builder: new SlashCommandBuilder()
-    .setName("fun")
-    .setDescription("Fun commands.")
+  .addSubcommand(modules.meme.builder);
 
-    .addSubcommand(modules.meme.builder),
+export const moduleData = modules;
 
-  async execute(interaction: CommandInteraction) {
-    const { options } = interaction;
+export const execute = async (interaction: CommandInteraction) => {
+  const { options } = interaction;
 
-    if (options.getSubcommand() === "meme") {
-      await modules.meme.execute(interaction);
-    } else {
-      logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
-    }
-  },
+  if (options.getSubcommand() === "meme") {
+    await modules.meme.execute(interaction);
+  } else {
+    logger.silly(`Unknown subcommand ${options.getSubcommand()}`);
+  }
 };

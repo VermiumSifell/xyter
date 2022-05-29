@@ -1,4 +1,4 @@
-import counters from "./counters";
-import credits from "./credits";
+import * as counters from "./counters";
+import * as credits from "./credits";
 
 export default { counters, credits };

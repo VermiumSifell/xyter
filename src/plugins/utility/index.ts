@@ -8,33 +8,31 @@ import modules from "../../plugins/utility/modules";
 // Handlers
 import logger from "../../logger";
 
+export const moduleData = modules;
+
 // Function
-export default {
-  modules,
+export const builder = new SlashCommandBuilder()
+  .setName("utility")
+  .setDescription("Common utility.")
 
-  builder: new SlashCommandBuilder()
-    .setName("utility")
-    .setDescription("Common utility.")
+  .addSubcommand(modules.lookup.builder)
+  .addSubcommand(modules.about.builder)
+  .addSubcommand(modules.stats.builder)
+  .addSubcommand(modules.avatar.builder);
 
-    .addSubcommand(modules.lookup.builder)
-    .addSubcommand(modules.about.builder)
-    .addSubcommand(modules.stats.builder)
-    .addSubcommand(modules.avatar.builder),
+export const execute = async (interaction: CommandInteraction) => {
+  const { options } = interaction;
 
-  async execute(interaction: CommandInteraction) {
-    const { options } = interaction;
-
-    switch (options.getSubcommand()) {
-      case "lookup":
-        return modules.lookup.execute(interaction);
-      case "about":
-        return modules.about.execute(interaction);
-      case "stats":
-        return modules.stats.execute(interaction);
-      case "avatar":
-        return modules.avatar.execute(interaction);
-      default:
-        logger.error(`Unknown subcommand ${options.getSubcommand()}`);
-    }
-  },
+  switch (options.getSubcommand()) {
+    case "lookup":
+      return modules.lookup.execute(interaction);
+    case "about":
+      return modules.about.execute(interaction);
+    case "stats":
+      return modules.stats.execute(interaction);
+    case "avatar":
+      return modules.avatar.execute(interaction);
+    default:
+      logger.error(`Unknown subcommand ${options.getSubcommand()}`);
+  }
 };

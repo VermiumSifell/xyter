@@ -6,7 +6,7 @@ import { ICommand } from "../interfaces/Command";
 export default async (client: Client) => {
   client.commands = new Collection();
 
-  fs.readdir("./src/plugins", async (error, plugins) => {
+  fs.readdir("plugins", async (error, plugins) => {
     if (error) {
       return logger.error(`Error reading plugins: ${error}`);
     }

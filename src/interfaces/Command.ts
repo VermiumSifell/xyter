@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 
 export interface ICommand {
-  modules: any;
   builder: SlashCommandBuilder;
+  moduleData: any;
   execute: Promise<void>;
 }
