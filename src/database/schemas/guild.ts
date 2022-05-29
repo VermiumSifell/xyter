@@ -1,3 +1,4 @@
+import { ColorResolvable } from "discord.js";
 import { Schema, model } from "mongoose";
 
 interface IGuild {
@@ -9,6 +10,13 @@ interface IGuild {
     workRate: number;
     minimumLength: number;
     workTimeout: number;
+  };
+  embeds: {
+    successColor: ColorResolvable;
+    waitColor: ColorResolvable;
+    errorColor: ColorResolvable;
+    footerIcon: string;
+    footerText: string;
   };
   shop: { roles: { status: boolean; pricePerHour: number } };
   points: {
@@ -59,6 +67,28 @@ const guildSchema = new Schema<IGuild>(
       workTimeout: {
         type: Number,
         default: 900000,
+      },
+    },
+    embeds: {
+      successColor: {
+        type: String,
+        default: "#22bb33",
+      },
+      waitColor: {
+        type: String,
+        default: "#f0ad4e",
+      },
+      errorColor: {
+        type: String,
+        default: "#bb2124",
+      },
+      footerText: {
+        type: String,
+        default: "https://github.com/ZynerOrg/xyter",
+      },
+      footerIcon: {
+        type: String,
+        default: "https://github.com/ZynerOrg.png",
       },
     },
     shop: {

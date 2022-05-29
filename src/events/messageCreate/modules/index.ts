@@ -1,6 +1,6 @@
-import counters from "@events/messageCreate/modules/counters";
-import credits from "@events/messageCreate/modules/credits";
-import points from "@events/messageCreate/modules/points";
+import counters from "./counters";
+import credits from "./credits";
+import points from "./points";
 
 export default {
   counters,

@@ -2,20 +2,22 @@
 import { CommandInteraction } from "discord.js";
 
 // Dependencies
-import isCommand from "@root/events/interactionCreate/components/isCommand";
-import logger from "@logger";
+import isCommand from "../../events/interactionCreate/components/isCommand";
+import logger from "../../logger";
 import audits from "./audits";
+import { IEventOptions } from "../../interfaces/EventOptions";
 
-export default {
-  name: "interactionCreate",
-  async execute(interaction: CommandInteraction) {
-    const { guild, id } = interaction;
+export const options: IEventOptions = {
+  type: "on",
+};
 
-    logger?.verbose(
-      `New interaction: ${id} in guild: ${guild?.name} (${guild?.id})`
-    );
+export const execute = async (interaction: CommandInteraction) => {
+  const { guild, id } = interaction;
 
-    await audits.execute(interaction);
-    await isCommand(interaction);
-  },
+  logger?.silly(
+    `New interaction: ${id} in guild: ${guild?.name} (${guild?.id})`
+  );
+
+  await audits.execute(interaction);
+  await isCommand(interaction);
 };
