@@ -2,7 +2,7 @@ import { CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import logger from "../../logger";
 
-import modules from "../../plugins/counters/modules";
+import modules from "../../commands/counters/modules";
 
 export const builder = new SlashCommandBuilder()
   .setName("counters")

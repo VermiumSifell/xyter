@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Modules
-import modules from "../../plugins/profile/modules";
+import modules from "../../commands/profile/modules";
 
 // Handlers
 import logger from "../../logger";
