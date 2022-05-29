@@ -2,14 +2,14 @@
 import { CommandInteraction, Permissions } from "discord.js";
 
 // Configurations
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 
 // Handlers
-import logger from "@logger";
+import logger from "../../../../logger";
 
 // Models
-import apiSchema from "@schemas/api";
-import encryption from "@handlers/encryption";
+import apiSchema from "../../../../database/schemas/api";
+import encryption from "../../../../handlers/encryption";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function

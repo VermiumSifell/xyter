@@ -1,12 +1,12 @@
 // Dependencies
 import { CommandInteraction, MessageEmbed } from "discord.js";
 
-import logger from "@logger";
+import logger from "../../../logger";
 
-import deferReply from "@root/helpers/deferReply";
-import getEmbedConfig from "@helpers/getEmbedConfig";
-import getCommandMetadata from "@helpers/getCommandMetadata";
-import capitalizeFirstLetter from "@helpers/capitalizeFirstLetter";
+import deferReply from "../../../helpers/deferReply";
+import getEmbedConfig from "../../../helpers/getEmbedConfig";
+import getCommandMetadata from "../../../helpers/getCommandMetadata";
+import capitalizeFirstLetter from "../../../helpers/capitalizeFirstLetter";
 
 export default async (interaction: CommandInteraction) => {
   if (!interaction.isCommand()) return;

@@ -1,4 +1,4 @@
-import meme from "@plugins/fun/modules/meme";
+import meme from "./meme";
 
 export default {
   meme,

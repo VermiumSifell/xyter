@@ -1,4 +1,4 @@
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../helpers/getEmbedConfig";
 
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";

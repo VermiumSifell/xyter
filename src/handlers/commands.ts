@@ -1,7 +1,7 @@
 import fs from "fs"; // fs
-import { Collection } from "discord.js"; // discord.js
-import { Client } from "@root/types/common/discord";
-import logger from "@logger";
+import { Collection, Client } from "discord.js"; // discord.js
+import logger from "../logger";
+import { ICommand } from "../interfaces/Command";
 
 export default async (client: Client) => {
   client.commands = new Collection();
@@ -13,13 +13,9 @@ export default async (client: Client) => {
 
     await Promise.all(
       plugins.map(async (pluginName, index) => {
-        const plugin = await import(`../plugins/${pluginName}`);
+        const plugin: ICommand = await import(`../plugins/${pluginName}`);
 
-        await client.commands.set(
-          plugin.default.builder.name,
-          plugin.default,
-          plugin.default.metadata
-        );
+        await client.commands.set(plugin.builder.name, plugin);
 
         logger.verbose(
           `Loaded plugin ${index + 1}/${plugins.length}: ${pluginName}`

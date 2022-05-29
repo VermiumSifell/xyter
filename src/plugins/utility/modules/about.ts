@@ -2,9 +2,9 @@
 import { CommandInteraction } from "discord.js";
 
 // Configurations
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../helpers/getEmbedConfig";
 
-import { hosterName, hosterUrl } from "@config/other";
+import { hosterName, hosterUrl } from "../../../config/other";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function

@@ -1,5 +1,5 @@
 import { CommandInteraction } from "discord.js";
-import { ICommand } from "@interface/Command";
+import { ICommand } from "../../interfaces/Command";
 
 export default async (
   interaction: CommandInteraction,

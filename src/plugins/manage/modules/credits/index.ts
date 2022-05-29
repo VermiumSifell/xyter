@@ -1,6 +1,6 @@
 import { CommandInteraction } from "discord.js";
 import { SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
-import logger from "@logger";
+import logger from "../../../../logger";
 
 import modules from "./modules";
 

@@ -1,4 +1,4 @@
-import { footerText, footerIcon } from "@config/embed";
+import { footerText, footerIcon } from "../../config/embed";
 import { MessageEmbed } from "discord.js";
 
 export default new MessageEmbed()

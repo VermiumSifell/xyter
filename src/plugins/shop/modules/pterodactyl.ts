@@ -2,15 +2,15 @@ import { CommandInteraction } from "discord.js";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../helpers/getEmbedConfig";
 
-import logger from "@logger";
-import encryption from "@handlers/encryption";
+import logger from "../../../logger";
+import encryption from "../../../handlers/encryption";
 
-import pluralize from "@helpers/pluralize";
+import pluralize from "../../../helpers/pluralize";
 
-import apiSchema from "@schemas/api";
-import fetchUser from "@helpers/fetchUser";
+import apiSchema from "../../../database/schemas/api";
+import fetchUser from "../../../helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 export default {

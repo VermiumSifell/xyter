@@ -1,10 +1,10 @@
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 
-import counterSchema from "@schemas/counter";
+import counterSchema from "../../../../database/schemas/counter";
 
 export default {
   metadata: { guildOnly: true, ephemeral: false },

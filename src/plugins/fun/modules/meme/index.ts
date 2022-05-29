@@ -1,9 +1,9 @@
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 
 import axios from "axios";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import logger from "@logger";
+import logger from "../../../../logger";
 
 export default {
   metadata: { guildOnly: false, ephemeral: false },

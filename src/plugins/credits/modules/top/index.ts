@@ -1,10 +1,10 @@
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import logger from "@logger";
+import logger from "../../../../logger";
 
-import userSchema, { IUser } from "@schemas/user";
+import userSchema, { IUser } from "../../../../database/schemas/user";
 
 export default {
   metadata: { guildOnly: true, ephemeral: false },

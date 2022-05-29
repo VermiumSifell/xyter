@@ -3,14 +3,14 @@ import { SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Handlers
-import logger from "@logger";
+import logger from "../../../../logger";
 
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 
 // Modules
 import modules from "./modules";
 
-import guildSchema from "@schemas/guild";
+import guildSchema from "../../../../database/schemas/guild";
 
 // Function
 export default {

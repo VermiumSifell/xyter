@@ -1,4 +1,4 @@
-import pterodactyl from "@plugins/shop/modules/pterodactyl";
-import roles from "@plugins/shop/modules/roles";
+import pterodactyl from "./pterodactyl";
+import roles from "./roles";
 
 export default { pterodactyl, roles };

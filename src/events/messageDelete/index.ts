@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
-import audits from "@events/messageDelete/audits";
+import audits from "../../events/messageDelete/audits";
 import counter from "./modules/counter";
-import { IEventOptions } from "@root/interfaces/EventOptions";
+import { IEventOptions } from "../../interfaces/EventOptions";
 
 export const options: IEventOptions = {
   type: "on",

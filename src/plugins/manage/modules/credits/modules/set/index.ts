@@ -2,15 +2,15 @@
 import { CommandInteraction, MessageEmbed, Permissions } from "discord.js";
 
 // Configurations
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../../../helpers/getEmbedConfig";
 
 // Handlers
-import logger from "@logger";
+import logger from "../../../../../../logger";
 
 // Helpers
 
 // Models
-import fetchUser from "@helpers/fetchUser";
+import fetchUser from "../../../../../../helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function

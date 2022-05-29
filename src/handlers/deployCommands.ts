@@ -1,13 +1,13 @@
-import { token, clientId } from "@config/discord";
-import { devMode, guildId } from "@config/other";
+import { token, clientId } from "../config/discord";
+import { devMode, guildId } from "../config/other";
 
 import logger from "../logger";
-import { Client } from "@root/types/common/discord";
+import { Client } from "discord.js";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import { RESTPostAPIApplicationCommandsJSONBody } from "discord-api-types/v10";
 
-import { ICommand } from "@interface/Command";
+import { ICommand } from "../interfaces/Command";
 
 export default async (client: Client) => {
   const pluginList: Array<RESTPostAPIApplicationCommandsJSONBody> = [];

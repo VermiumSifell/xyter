@@ -2,13 +2,13 @@
 import { CommandInteraction, MessageEmbed, Permissions } from "discord.js";
 
 // Configurations
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../../../helpers/getEmbedConfig";
 
 // Handlers
-import logger from "@logger";
+import logger from "../../../../../../logger";
 
 // Models
-import counterSchema from "@schemas/counter";
+import counterSchema from "../../../../../../database/schemas/counter";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 

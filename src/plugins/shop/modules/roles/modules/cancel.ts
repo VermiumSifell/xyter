@@ -2,16 +2,16 @@
 import { CommandInteraction, GuildMemberRoleManager } from "discord.js";
 
 // Configurations
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../../helpers/getEmbedConfig";
 
 // Models
-import shopRolesSchema from "@schemas/shopRole";
+import shopRolesSchema from "../../../../../database/schemas/shopRole";
 
-import logger from "@logger";
+import logger from "../../../../../logger";
 
 // Helpers
-import pluralize from "@helpers/pluralize";
-import fetchUser from "@helpers/fetchUser";
+import pluralize from "../../../../../helpers/pluralize";
+import fetchUser from "../../../../../helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function

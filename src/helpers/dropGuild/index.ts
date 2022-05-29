@@ -1,11 +1,11 @@
-import guildSchema from "@schemas/guild";
-import userSchema from "@schemas/user";
-import apiSchema from "@schemas/api";
-import counterSchema from "@schemas/counter";
-import shopRoleSchema from "@schemas/shopRole";
-import timeoutSchema from "@schemas/timeout";
+import guildSchema from "../../database/schemas/guild";
+import userSchema from "../../database/schemas/user";
+import apiSchema from "../../database/schemas/api";
+import counterSchema from "../../database/schemas/counter";
+import shopRoleSchema from "../../database/schemas/shopRole";
+import timeoutSchema from "../../database/schemas/timeout";
 
-import logger from "@logger";
+import logger from "../../logger";
 
 import { Guild } from "discord.js";
 

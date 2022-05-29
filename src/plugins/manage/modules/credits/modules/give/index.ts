@@ -3,16 +3,16 @@ import { CommandInteraction, MessageEmbed, Permissions } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Configurations
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../../../helpers/getEmbedConfig";
 
 // Handlers
-import logger from "@logger";
+import logger from "../../../../../../logger";
 
 // Helpers
-import pluralize from "@helpers/pluralize";
+import pluralize from "../../../../../../helpers/pluralize";
 
 // Models
-import fetchUser from "@helpers/fetchUser";
+import fetchUser from "../../../../../../helpers/fetchUser";
 
 // Function
 export default {

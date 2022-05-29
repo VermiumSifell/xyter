@@ -1,3 +1,3 @@
-import give from "@plugins/reputation/modules/give";
+import give from "./give";
 
 export default { give };

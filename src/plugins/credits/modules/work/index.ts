@@ -4,17 +4,17 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import Chance from "chance";
 
 // Configurations
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 
 // Handlers
-import logger from "@logger";
+import logger from "../../../../logger";
 
 // Models
-import timeoutSchema from "@schemas/timeout";
+import timeoutSchema from "../../../../database/schemas/timeout";
 
 // Helpers
-import fetchUser from "@helpers/fetchUser";
-import fetchGuild from "@helpers/fetchGuild";
+import fetchUser from "../../../../helpers/fetchUser";
+import fetchGuild from "../../../../helpers/fetchGuild";
 
 export default {
   metadata: { guildOnly: true, ephemeral: true },

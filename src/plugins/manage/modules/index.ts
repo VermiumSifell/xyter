@@ -1,4 +1,4 @@
-import counters from "@plugins/manage/modules/counters";
-import credits from "@plugins/manage/modules/credits";
+import counters from "./counters";
+import credits from "./credits";
 
 export default { counters, credits };

@@ -1,11 +1,11 @@
 import axios from "axios";
 import { CommandInteraction } from "discord.js";
 
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../helpers/getEmbedConfig";
 
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
-import embedBuilder from "@root/helpers/embedBuilder";
+import embedBuilder from "../../../helpers/embedBuilder";
 
 export default {
   metadata: { guildOnly: false, ephemeral: false },

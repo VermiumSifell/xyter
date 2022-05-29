@@ -1,4 +1,4 @@
-import logger from "@root/logger";
+import logger from "../../logger";
 
 export default (count: number, noun: string, suffix?: string): string => {
   const result = `${count} ${noun}${count !== 1 ? suffix || "s" : ""}`;

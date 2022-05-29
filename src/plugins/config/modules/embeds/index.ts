@@ -7,12 +7,12 @@ import {
 } from "discord.js";
 
 //Handlers
-import logger from "@logger";
+import logger from "../../../../logger";
 
 // Models
-import guildSchema from "@schemas/guild";
+import guildSchema from "../../../../database/schemas/guild";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 import getValues from "./components/getValues";
 
 // Function

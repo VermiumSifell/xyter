@@ -3,8 +3,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
 // Groups
-import modules from "@plugins/manage/modules";
-import logger from "@logger";
+import modules from "../../plugins/manage/modules";
+import logger from "../../logger";
 
 // Function
 export default {

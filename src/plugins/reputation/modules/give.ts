@@ -2,16 +2,16 @@
 import { CommandInteraction } from "discord.js";
 
 // Configurations
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../helpers/getEmbedConfig";
 
-import { timeout } from "@config/reputation";
+import { timeout } from "../../../config/reputation";
 
 // Handlers
-import logger from "@logger";
+import logger from "../../../logger";
 
 // Models
-import timeoutSchema from "@schemas/timeout";
-import fetchUser from "@helpers/fetchUser";
+import timeoutSchema from "../../../database/schemas/timeout";
+import fetchUser from "../../../helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function

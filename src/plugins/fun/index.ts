@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import logger from "@logger";
+import logger from "../../logger";
 
-import modules from "@plugins/fun/modules";
+import modules from "../../plugins/fun/modules";
 
 export default {
   modules,

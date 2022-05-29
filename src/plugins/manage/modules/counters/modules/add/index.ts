@@ -4,12 +4,12 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 
 // Configurations
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../../../../../helpers/getEmbedConfig";
 
-import logger from "@logger";
+import logger from "../../../../../../logger";
 
 // Models
-import counterSchema from "@schemas/counter";
+import counterSchema from "../../../../../../database/schemas/counter";
 
 // Function
 export default {

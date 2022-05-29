@@ -1,8 +1,8 @@
 import { Guild } from "discord.js";
-import updatePresence from "@helpers/updatePresence";
-import fetchGuild from "@helpers/fetchGuild";
-import logger from "@logger";
-import { IEventOptions } from "@root/interfaces/EventOptions";
+import updatePresence from "../../helpers/updatePresence";
+import fetchGuild from "../../helpers/fetchGuild";
+import logger from "../../logger";
+import { IEventOptions } from "../../interfaces/EventOptions";
 
 export const options: IEventOptions = {
   type: "on",

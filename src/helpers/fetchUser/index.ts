@@ -2,10 +2,10 @@
 import { Guild, User } from "discord.js";
 
 // Models
-import userSchema from "@schemas/user";
+import userSchema from "../../database/schemas/user";
 
 // Handlers
-import logger from "@logger";
+import logger from "../../logger";
 
 // Function
 export default async (user: User, guild: Guild) => {

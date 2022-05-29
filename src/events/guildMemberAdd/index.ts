@@ -2,12 +2,12 @@
 import { GuildMember } from "discord.js";
 
 // Dependencies
-import updatePresence from "@helpers/updatePresence";
-import fetchUser from "@helpers/fetchUser";
-import logger from "@logger";
+import updatePresence from "../../helpers/updatePresence";
+import fetchUser from "../../helpers/fetchUser";
+import logger from "../../logger";
 import joinMessage from "../guildMemberAdd/joinMessage";
 import audits from "../guildMemberAdd/audits";
-import { IEventOptions } from "@root/interfaces/EventOptions";
+import { IEventOptions } from "../../interfaces/EventOptions";
 
 export const options: IEventOptions = {
   type: "on",

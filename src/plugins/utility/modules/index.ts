@@ -1,7 +1,7 @@
-import avatar from "@plugins/utility/modules/avatar";
-import about from "@plugins/utility/modules/about";
-import lookup from "@plugins/utility/modules/lookup";
-import stats from "@plugins/utility/modules/stats";
+import avatar from "./avatar";
+import about from "./about";
+import lookup from "./lookup";
+import stats from "./stats";
 
 export default {
   avatar,

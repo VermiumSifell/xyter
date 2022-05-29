@@ -1,13 +1,13 @@
 import "tsconfig-paths/register"; // Allows using tsconfig.json paths during runtime
 
-import { token, intents } from "@config/discord";
+import { token, intents } from "./config/discord";
 
 import { Client } from "discord.js"; // discord.js
 
-import database from "@database";
-import schedules from "@handlers/schedules";
-import * as eventManager from "@root/managers/event";
-import commands from "@handlers/commands";
+import database from "./database";
+import schedules from "./handlers/schedules";
+import * as eventManager from "./managers/event";
+import commands from "./handlers/commands";
 
 // Main process that starts all other sub processes
 const main = async () => {

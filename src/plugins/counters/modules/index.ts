@@ -1,3 +1,3 @@
-import view from "@plugins/counters/modules/view";
+import view from "./view";
 
 export default { view };

@@ -1,6 +1,6 @@
 /* eslint-disable no-loops/no-loops */
 import { Client } from "discord.js";
-import listDir from "@helpers/listDir";
+import listDir from "../../helpers/listDir";
 
 export const register = async (client: Client) => {
   const eventNames = await listDir("src/events");

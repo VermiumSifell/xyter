@@ -1,9 +1,9 @@
-import logger from "@logger";
-import timeouts from "@schemas/timeout";
+import logger from "../../../../logger";
+import timeouts from "../../../../database/schemas/timeout";
 import { Message } from "discord.js";
 
-import fetchUser from "@helpers/fetchUser";
-import fetchGuild from "@helpers/fetchGuild";
+import fetchUser from "../../../../helpers/fetchUser";
+import fetchGuild from "../../../../helpers/fetchGuild";
 
 export default {
   execute: async (message: Message) => {

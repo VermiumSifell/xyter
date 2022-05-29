@@ -2,10 +2,10 @@
 import { CommandInteraction } from "discord.js";
 
 // Dependencies
-import isCommand from "@root/events/interactionCreate/components/isCommand";
-import logger from "@logger";
+import isCommand from "../../events/interactionCreate/components/isCommand";
+import logger from "../../logger";
 import audits from "./audits";
-import { IEventOptions } from "@root/interfaces/EventOptions";
+import { IEventOptions } from "../../interfaces/EventOptions";
 
 export const options: IEventOptions = {
   type: "on",

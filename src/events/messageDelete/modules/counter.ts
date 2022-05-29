@@ -2,8 +2,8 @@
 import { Message } from "discord.js";
 
 // Models
-import counterSchema from "@schemas/counter";
-import logger from "@logger";
+import counterSchema from "../../../database/schemas/counter";
+import logger from "../../../logger";
 
 export default async (message: Message) => {
   const { guild, channel, author, content } = message;

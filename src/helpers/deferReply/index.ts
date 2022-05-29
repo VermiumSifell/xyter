@@ -1,5 +1,5 @@
 import { CommandInteraction, MessageEmbed } from "discord.js";
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../helpers/getEmbedConfig";
 
 export default async (interaction: CommandInteraction, ephemeral: boolean) => {
   if (interaction.guild == null) return;

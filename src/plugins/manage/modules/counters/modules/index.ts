@@ -1,4 +1,4 @@
-import add from "@plugins/manage/modules/counters/modules/add";
-import remove from "@plugins/manage/modules/counters/modules/remove";
+import add from "./add";
+import remove from "./remove";
 
 export default { add, remove };

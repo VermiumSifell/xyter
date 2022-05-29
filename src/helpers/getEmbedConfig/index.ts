@@ -1,5 +1,5 @@
-import guildSchema from "@schemas/guild";
-import * as embedConfig from "@config/embed";
+import guildSchema from "../../database/schemas/guild";
+import * as embedConfig from "../../config/embed";
 
 import { Guild } from "discord.js";
 
