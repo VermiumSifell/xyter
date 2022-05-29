@@ -4,11 +4,20 @@ import logger from "../../logger";
 
 // Function
 export default async (client: Client) => {
-  const status = `${client?.guilds?.cache?.size} guilds.`;
+  if (!client?.user) throw new Error("Client's user is undefined.");
 
-  client?.user?.setPresence({
-    activities: [{ type: "WATCHING", name: status }],
+  const { guilds } = client;
+
+  const memberCount = guilds.cache.reduce((a, g) => a + g.memberCount, 0);
+
+  const guildCount = guilds.cache.size;
+
+  const status = `${memberCount} users in ${guildCount} guilds.`;
+
+  client.user.setPresence({
+    activities: [{ type: "LISTENING", name: status }],
     status: "online",
   });
-  logger?.debug(`Updated client presence to: ${status}`);
+
+  logger.info(`Client's presence is set to "${status}"`);
 };

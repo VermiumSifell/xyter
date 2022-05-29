@@ -13,15 +13,9 @@ export const options: IEventOptions = {
 };
 
 export const execute = async (client: Client) => {
-  logger.info("Ready!");
+  logger.info("Discord's API client is ready!");
 
   await updatePresence(client);
   await devMode(client);
   await deployCommands(client);
-
-  client.guilds?.cache.forEach((guild) => {
-    logger.silly(
-      `${client.user?.tag} (${client.user?.id}) is in guild: ${guild.name} (${guild.id}) with member count of ${guild.memberCount}`
-    );
-  });
 };
