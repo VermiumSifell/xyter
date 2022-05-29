@@ -13,7 +13,8 @@ export const builder = (group: SlashCommandSubcommandGroupBuilder) => {
     .addSubcommand(modules.give.builder)
     .addSubcommand(modules.set.builder)
     .addSubcommand(modules.take.builder)
-    .addSubcommand(modules.transfer.builder);
+    .addSubcommand(modules.transfer.builder)
+    .addSubcommand(modules.drop.builder);
 };
 
 export const execute = async (interaction: CommandInteraction) => {
@@ -26,5 +27,7 @@ export const execute = async (interaction: CommandInteraction) => {
       return modules.take.execute(interaction);
     case "transfer":
       return modules.transfer.execute(interaction);
+    case "drop":
+      return modules.drop.execute(interaction);
   }
 };
