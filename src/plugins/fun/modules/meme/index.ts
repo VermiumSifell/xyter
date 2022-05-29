@@ -3,7 +3,6 @@ import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 import axios from "axios";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import logger from "../../../../logger";
 
 export default {
   metadata: { guildOnly: false, ephemeral: false },
@@ -32,7 +31,11 @@ export default {
           })
           .setTitle("[:sweat_smile:] Meme")
           .addFields([
-            { name: "Author", value: content.author, inline: true },
+            {
+              name: "Author",
+              value: `[${content.author}](https://reddit.com/user/${content.author})`,
+              inline: true,
+            },
             {
               name: "Votes",
               value: `${content.ups}/${content.downs}`,
