@@ -2,10 +2,10 @@
 import mongoose from "mongoose";
 
 // Dependencies
-import logger from "@logger";
+import logger from "../logger";
 
 // Configuration
-import { url } from "@config/database";
+import { url } from "../config/database";
 
 export default async () => {
   await mongoose.connect(url).then(async (connection) => {

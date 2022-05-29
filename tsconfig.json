@@ -16,7 +16,7 @@
     "baseUrl": "./src",
     "typeRoots": ["/types/common", "./node_modules/@types"],
     "paths": {
-      "@interface/*": ["Interfaces/*"],
+      "@interface/*": ["interfaces/*"],
       "@root/*": ["*"],
       "@config/*": ["config/*"],
       "@events/*": ["events/*"],

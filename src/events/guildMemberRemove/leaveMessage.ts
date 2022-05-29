@@ -1,8 +1,8 @@
 import { GuildMember, MessageEmbed, TextChannel } from "discord.js";
 
-import guildSchema from "@schemas/guild";
+import guildSchema from "../../database/schemas/guild";
 
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../helpers/getEmbedConfig";
 
 export default {
   execute: async (member: GuildMember) => {

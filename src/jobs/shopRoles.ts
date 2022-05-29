@@ -1,12 +1,12 @@
 // Dependencies
 import { Client } from "discord.js";
 
-import logger from "@logger";
+import logger from "../logger";
 
 // Schemas
-import userSchema from "@schemas/user";
-import shopRoleSchema from "@schemas/shopRole";
-import guildSchema from "@schemas/guild";
+import userSchema from "../database/schemas/user";
+import shopRoleSchema from "../database/schemas/shopRole";
+import guildSchema from "../database/schemas/guild";
 
 export default async (client: Client) => {
   const roles = await shopRoleSchema.find();

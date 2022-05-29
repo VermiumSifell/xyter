@@ -1,9 +1,9 @@
-import logger from "@logger";
+import logger from "../../logger";
 import { Interaction, MessageEmbed, TextChannel } from "discord.js";
 
-import guildSchema from "@schemas/guild";
+import guildSchema from "../../database/schemas/guild";
 
-import getEmbedConfig from "@helpers/getEmbedConfig";
+import getEmbedConfig from "../../helpers/getEmbedConfig";
 
 export default {
   execute: async (interaction: Interaction) => {

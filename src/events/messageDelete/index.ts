@@ -1,10 +1,13 @@
 import { Message } from "discord.js";
-import audits from "@events/messageDelete/audits";
+import audits from "../../events/messageDelete/audits";
 import counter from "./modules/counter";
+import { IEventOptions } from "../../interfaces/EventOptions";
 
-export default {
-  async execute(message: Message) {
-    await audits.execute(message);
-    await counter(message);
-  },
+export const options: IEventOptions = {
+  type: "on",
+};
+
+export const execute = async (message: Message) => {
+  await audits.execute(message);
+  await counter(message);
 };

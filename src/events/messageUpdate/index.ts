@@ -1,24 +1,27 @@
 // Dependencies
 import { Message } from "discord.js";
-import logger from "@logger";
+import logger from "../../logger";
 
 // Modules
 import counter from "./modules/counter";
 
 import audits from "./audits";
+import { IEventOptions } from "../../interfaces/EventOptions";
 
-export default {
-  async execute(oldMessage: Message, newMessage: Message) {
-    const { author, guild } = newMessage;
+export const options: IEventOptions = {
+  type: "on",
+};
 
-    await audits.execute(oldMessage, newMessage);
+export const execute = async (oldMessage: Message, newMessage: Message) => {
+  const { author, guild } = newMessage;
 
-    logger?.silly(
-      `Message update event fired by ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id})`
-    );
+  await audits.execute(oldMessage, newMessage);
 
-    if (author?.bot) return logger?.silly(`Message update event fired by bot`);
+  logger?.silly(
+    `Message update event fired by ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id})`
+  );
 
-    await counter(newMessage);
-  },
+  if (author?.bot) return logger?.silly(`Message update event fired by bot`);
+
+  await counter(newMessage);
 };

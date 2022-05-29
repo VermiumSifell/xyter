@@ -1,20 +1,20 @@
-// 3rd party dependencies
 import { Guild } from "discord.js";
+import updatePresence from "../../helpers/updatePresence";
+import fetchGuild from "../../helpers/fetchGuild";
+import logger from "../../logger";
+import { IEventOptions } from "../../interfaces/EventOptions";
 
-// Dependencies
-import updatePresence from "@helpers/updatePresence";
-import fetchGuild from "@helpers/fetchGuild";
-import logger from "@logger";
+export const options: IEventOptions = {
+  type: "on",
+};
 
-export default {
-  async execute(guild: Guild) {
-    const { client } = guild;
+export const execute = async (guild: Guild) => {
+  const { client } = guild;
 
-    logger?.silly(`Added to guild: ${guild.name} (${guild.id})`);
+  logger?.silly(`Added to guild: ${guild.name} (${guild.id})`);
 
-    await fetchGuild(guild);
-    await updatePresence(client);
+  await fetchGuild(guild);
+  await updatePresence(client);
 
-    logger.silly(`guildCreate: ${guild}`);
-  },
+  logger.silly(`guildCreate: ${guild}`);
 };

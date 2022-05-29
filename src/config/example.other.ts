@@ -9,3 +9,6 @@ export const hosterName = "someone";
 
 // Hoster Url
 export const hosterUrl = "scheme://domain.tld";
+
+// Winston log level
+export const logLevel = "info";
