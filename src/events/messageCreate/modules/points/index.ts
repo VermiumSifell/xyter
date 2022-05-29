@@ -1,8 +1,8 @@
-import logger from "@logger";
-import timeouts from "@schemas/timeout";
+import logger from "../../../../logger";
+import timeouts from "../../../../database/schemas/timeout";
 
-import fetchUser from "@helpers/fetchUser";
-import fetchGuild from "@helpers/fetchGuild";
+import fetchUser from "../../../../helpers/fetchUser";
+import fetchGuild from "../../../../helpers/fetchGuild";
 
 import { Message } from "discord.js";
 export default {
@@ -30,7 +30,7 @@ export default {
     const timeout = await timeouts.findOne(timeoutData);
 
     if (timeout) {
-      logger.verbose(
+      logger.silly(
         `User ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id} is on timeout 2022-04-14-14-15-00`
       );
       return;
@@ -41,7 +41,7 @@ export default {
     await userData
       .save()
       .then(async () => {
-        logger.verbose(
+        logger.silly(
           `Successfully saved user ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id})`
         );
       })
@@ -52,14 +52,14 @@ export default {
         );
       });
 
-    logger.verbose(
+    logger.silly(
       `User ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id}) has ${userData.points} points`
     );
 
     await timeouts
       .create(timeoutData)
       .then(async () => {
-        logger.verbose(
+        logger.silly(
           `Successfully created timeout for user ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id})`
         );
       })
@@ -74,7 +74,7 @@ export default {
       await timeouts
         .deleteOne(timeoutData)
         .then(async () => {
-          logger.verbose(
+          logger.silly(
             `Successfully deleted timeout 2022-04-14-14-15-00 for user ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id})`
           );
         })

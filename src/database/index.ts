@@ -2,19 +2,21 @@
 import mongoose from "mongoose";
 
 // Dependencies
-import logger from "@logger";
+import logger from "../logger";
 
 // Configuration
-import { url } from "@config/database";
+import { url } from "../config/database";
 
 export default async () => {
-  mongoose.connect(url).then(async (connection) => {
-    logger?.info(`Connected to database: ${connection.connection.name}`);
+  await mongoose.connect(url).then(async (connection) => {
+    logger.info(`Connected to database: ${connection.connection.name}`);
   });
-  mongoose.connection.on("error", (error) => {
-    logger?.error(error);
+
+  mongoose.connection.on("error", async (error) => {
+    logger.error(`${error}`);
   });
-  mongoose.connection.on("warn", (warning) => {
-    logger?.warn(warning);
+
+  mongoose.connection.on("warn", async (warning) => {
+    logger.warn(warning);
   });
 };
