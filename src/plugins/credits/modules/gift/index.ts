@@ -7,8 +7,7 @@ import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 // Handlers
 import logger from "../../../../logger";
 
-// Helpers
-import saveUser from "../../../../helpers/saveUser";
+import mongoose from "mongoose";
 
 // Models
 import fetchUser from "../../../../helpers/fetchUser";
@@ -184,53 +183,69 @@ export default {
       });
     }
 
-    // Withdraw amount from fromUserDB
-    fromUserDB.credits -= optionAmount;
+    const session = await mongoose.startSession();
 
-    // Deposit amount to toUserDB
-    toUserDB.credits += optionAmount;
+    session.startTransaction();
 
-    // Save users
-    await saveUser(fromUserDB, toUserDB).then(async () => {
-      // Get DM user object
-      const dmUser = client.users.cache.get(optionUser.id);
+    try {
+      // Withdraw amount from fromUserDB
+      fromUserDB.credits -= optionAmount;
 
-      if (dmUser == null) return;
+      // Deposit amount to toUserDB
+      toUserDB.credits += optionAmount;
 
-      // Send DM to user
-      await dmUser
-        .send({
-          embeds: [
-            embed
-              .setDescription(
-                `${
-                  user.tag
-                } has gifted you ${optionAmount} credits with reason: ${
-                  optionReason || "unspecified"
-                }`
-              )
-              .setColor(successColor),
-          ],
-        })
-        .catch(async (error) =>
-          logger.error(`[Gift] Error sending DM to user: ${error}`)
-        );
+      await fromUserDB.save();
 
-      logger.silly(
-        `[Gift] Successfully gifted ${optionAmount} credits to ${optionUser.tag}`
-      );
+      await toUserDB.save();
+
+      await session.commitTransaction();
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+      logger.error(`${error}`);
 
       return interaction.editReply({
         embeds: [
           embed
             .setDescription(
-              `Successfully gifted ${optionAmount} credits to ${
-                optionUser.tag
-              } with reason: ${optionReason || "unspecified"}`
+              "An error occurred while trying to gift credits. Please try again."
             )
-            .setColor(successColor),
+            .setColor(errorColor),
         ],
       });
+    } finally {
+      // ending the session
+      session.endSession();
+    }
+
+    // Get DM user object
+    const dmUser = client.users.cache.get(optionUser.id);
+
+    if (!dmUser) throw new Error("User not found");
+
+    // Send DM to user
+    await dmUser.send({
+      embeds: [
+        embed
+          .setDescription(
+            `${user.tag} has gifted you ${optionAmount} credits with reason: ${
+              optionReason || "unspecified"
+            }`
+          )
+          .setColor(successColor),
+      ],
+    });
+
+    return interaction.editReply({
+      embeds: [
+        embed
+          .setDescription(
+            `Successfully gifted ${optionAmount} credits to ${
+              optionUser.tag
+            } with reason: ${optionReason || "unspecified"}`
+          )
+          .setColor(successColor),
+      ],
     });
   },
 };

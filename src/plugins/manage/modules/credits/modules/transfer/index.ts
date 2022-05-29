@@ -1,14 +1,13 @@
 // Dependencies
 import { CommandInteraction, MessageEmbed, Permissions } from "discord.js";
 
+import mongoose from "mongoose";
+
 // Configurations
 import getEmbedConfig from "../../../../../../helpers/getEmbedConfig";
 
 // Handlers
 import logger from "../../../../../../logger";
-
-// Helpers
-import saveUser from "../../../../../../helpers/saveUser";
 
 // Models
 import fetchUser from "../../../../../../helpers/fetchUser";
@@ -193,38 +192,66 @@ export default {
       });
     }
 
-    // Withdraw amount from fromUser
-    fromUser.credits -= optionAmount;
+    const session = await mongoose.startSession();
 
-    // Deposit amount to toUser
-    toUser.credits += optionAmount;
+    session.startTransaction();
 
-    // Save users
-    await saveUser(fromUser, toUser)?.then(async () => {
-      logger?.silly(`Saved users`);
+    try {
+      // Withdraw amount from fromUserDB
+      fromUser.credits -= optionAmount;
 
-      return interaction?.editReply({
+      // Deposit amount to toUserDB
+      toUser.credits += optionAmount;
+
+      await fromUser.save();
+
+      await toUser.save();
+
+      await session.commitTransaction();
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+      logger.error(`${error}`);
+
+      return interaction.editReply({
         embeds: [
           new MessageEmbed()
             .setTitle("[:toolbox:] Manage - Credits (Transfer)")
-            .setDescription(`Transferred ${optionAmount} credits.`)
-            .addFields(
-              {
-                name: `${optionFromUser?.username} Balance`,
-                value: `${fromUser?.credits}`,
-                inline: true,
-              },
-              {
-                name: `${optionToUser?.username} Balance`,
-                value: `${toUser?.credits}`,
-                inline: true,
-              }
+            .setDescription(
+              "An error occurred while trying to gift credits. Please try again."
             )
+            .setColor(errorColor)
             .setTimestamp(new Date())
             .setColor(successColor)
             .setFooter({ text: footerText, iconURL: footerIcon }),
         ],
       });
+    } finally {
+      // ending the session
+      session.endSession();
+    }
+
+    return interaction?.editReply({
+      embeds: [
+        new MessageEmbed()
+          .setTitle("[:toolbox:] Manage - Credits (Transfer)")
+          .setDescription(`Transferred ${optionAmount} credits.`)
+          .addFields(
+            {
+              name: `${optionFromUser?.username} Balance`,
+              value: `${fromUser?.credits}`,
+              inline: true,
+            },
+            {
+              name: `${optionToUser?.username} Balance`,
+              value: `${toUser?.credits}`,
+              inline: true,
+            }
+          )
+          .setTimestamp(new Date())
+          .setColor(successColor)
+          .setFooter({ text: footerText, iconURL: footerIcon }),
+      ],
     });
   },
 };
