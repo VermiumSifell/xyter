@@ -9,7 +9,7 @@ import shopRoleSchema from "../models/shopRole";
 import guildSchema from "../models/guild";
 
 export const options = {
-  schedule: "*/1 * * * * *",
+  schedule: "*/5 * * * *", // https://crontab.guru/
 };
 
 export const execute = async (client: Client) => {
