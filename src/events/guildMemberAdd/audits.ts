@@ -7,52 +7,57 @@ import getEmbedConfig from "../../helpers/getEmbedConfig";
 
 export default {
   execute: async (member: GuildMember) => {
-    const { footerText, footerIcon, successColor } = await getEmbedConfig(
-      member.guild
-    );
+    const { client, guild } = member;
 
     const guildData = await guildSchema.findOne({ guildId: member.guild.id });
-
-    const { client } = member;
-
-    if (guildData === null) return;
-
+    if (!guildData) {
+      throw new Error("Could not find guild");
+    }
     if (guildData.audits.status !== true) return;
-    if (!guildData.audits.channelId) return;
+    if (!guildData.audits.channelId) {
+      throw new Error("Channel not found");
+    }
 
-    const channel = client.channels.cache.get(`${guildData.audits.channelId}`);
+    const embedConfig = await getEmbedConfig(guild);
 
-    if (channel === null) return;
+    const channel = client.channels.cache.get(guildData.audits.channelId);
+    if (channel?.type !== "GUILD_TEXT") {
+      throw new Error("Channel must be a text channel");
+    }
 
-    (channel as TextChannel)
+    const embed = new MessageEmbed()
+      .setTimestamp(new Date())
+      .setAuthor({
+        name: "Member Joined",
+        iconURL:
+          "https://img.icons8.com/color-glass/48/000000/user-male-circle.png",
+      })
+      .setFooter({
+        text: embedConfig.footerText,
+        iconURL: embedConfig.footerIcon,
+      });
+
+    await channel
       .send({
         embeds: [
-          new MessageEmbed()
-            .setColor(successColor)
-            .setAuthor({
-              name: "Member Joined",
-              iconURL: member.user.displayAvatarURL(),
-            })
-            .setDescription(`${member.user} ${member.user.tag}`)
+          embed
+            .setColor(embedConfig.successColor)
+            .setDescription(`${member.user} - (${member.user.tag})`)
             .addFields([
-              { name: "Account Age", value: `${member.user.createdAt}` },
-            ])
-            .setTimestamp()
-            .setFooter({
-              text: footerText,
-              iconURL: footerIcon,
-            }),
+              {
+                name: "Account Age",
+                value: `${member.user.createdAt}`,
+              },
+            ]),
         ],
       })
       .then(async () => {
-        logger.info(
+        logger.debug(
           `Audit log sent for event guildMemberAdd in guild ${member.guild.name} (${member.guild.id})`
         );
       })
       .catch(async () => {
-        logger.error(
-          `Audit log failed to send for event guildMemberAdd in guild ${member.guild.name} (${member.guild.id})`
-        );
+        throw new Error("Audit log failed to send");
       });
   },
 };
