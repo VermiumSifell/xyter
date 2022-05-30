@@ -4,7 +4,7 @@ import { Schema, model } from "mongoose";
 export interface ITimeout {
   userId: Snowflake;
   guildId: Snowflake;
-  cooldown: number;
+  cooldown?: number;
   timeoutId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -26,7 +26,7 @@ const timeoutSchema = new Schema<ITimeout>(
     },
     cooldown: {
       type: Number,
-      required: true,
+      required: false,
       unique: false,
       index: true,
     },
