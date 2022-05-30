@@ -5,8 +5,10 @@ import { GuildMember } from "discord.js";
 import updatePresence from "../../helpers/updatePresence";
 import fetchUser from "../../helpers/fetchUser";
 import logger from "../../logger";
-import joinMessage from "../guildMemberAdd/joinMessage";
-import audits from "../guildMemberAdd/audits";
+
+import joinMessage from "./joinMessage";
+import audits from "./audits";
+
 import { IEventOptions } from "../../interfaces/EventOptions";
 
 export const options: IEventOptions = {
@@ -16,7 +18,7 @@ export const options: IEventOptions = {
 export const execute = async (member: GuildMember) => {
   const { client, user, guild } = member;
 
-  logger?.silly(
+  logger.silly(
     `New member: ${user.tag} (${user.id}) added to guild: ${guild.name} (${guild.id})`
   );
 
