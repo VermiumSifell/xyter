@@ -13,7 +13,7 @@ export const register = async (client: Client) => {
   logger.info(`Loading ${commandNames.length} commands`);
 
   await Promise.all(
-    commandNames.map(async (commandName, index) => {
+    commandNames.map(async (commandName) => {
       const command: ICommand = await import(`../../commands/${commandName}`);
 
       client.commands.set(command.builder.name, command);

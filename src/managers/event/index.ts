@@ -9,7 +9,8 @@ export const register = async (client: Client) => {
 
   for await (const eventName of eventNames) {
     const event: IEvent = await import(`../../events/${eventName}`);
-    const eventExecutor = async (...args: any[]) => event.execute(...args);
+    const eventExecutor = async (...args: Promise<void>[]) =>
+      event.execute(...args);
     if (!event.options?.type) return;
 
     switch (event.options.type) {
