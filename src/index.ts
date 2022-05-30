@@ -5,7 +5,7 @@ import { token, intents } from "./config/discord";
 import { Client } from "discord.js"; // discord.js
 
 import database from "./database";
-import schedules from "./handlers/schedules";
+import * as scheduleManager from "./managers/schedule";
 import * as eventManager from "./managers/event";
 import * as commandManager from "./managers/command";
 
@@ -20,7 +20,7 @@ const main = async () => {
   await database();
 
   // Start schedule manager
-  await schedules(client);
+  await scheduleManager.start(client);
 
   // Start command handler
   await commandManager.register(client);
