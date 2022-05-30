@@ -14,7 +14,7 @@ export const start = async (client: Client) => {
   if (!jobNames) return logger.info("No jobs found");
 
   await Promise.all(
-    jobNames.map(async (jobName, index) => {
+    jobNames.map(async (jobName) => {
       const job: IJob = await import(`../../jobs/shopRoles`);
 
       schedule.scheduleJob(job.options.schedule, async () => {
