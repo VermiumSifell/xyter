@@ -29,8 +29,7 @@ export default {
       .setTimestamp(new Date())
       .setAuthor({
         name: "Member Joined",
-        iconURL:
-          "https://img.icons8.com/color-glass/48/000000/user-male-circle.png",
+        iconURL: client.user?.displayAvatarURL(),
       })
       .setFooter({
         text: embedConfig.footerText,
