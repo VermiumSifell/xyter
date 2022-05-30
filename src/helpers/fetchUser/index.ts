@@ -2,7 +2,7 @@
 import { Guild, User } from "discord.js";
 
 // Models
-import userSchema from "../../database/schemas/user";
+import userSchema from "../../models/user";
 
 // Handlers
 import logger from "../../logger";

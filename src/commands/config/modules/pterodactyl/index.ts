@@ -8,7 +8,7 @@ import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 import logger from "../../../../logger";
 
 // Models
-import apiSchema from "../../../../database/schemas/api";
+import apiSchema from "../../../../models/api";
 import encryption from "../../../../handlers/encryption";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 

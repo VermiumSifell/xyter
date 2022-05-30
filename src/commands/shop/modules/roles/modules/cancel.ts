@@ -5,7 +5,7 @@ import { CommandInteraction, GuildMemberRoleManager } from "discord.js";
 import getEmbedConfig from "../../../../../helpers/getEmbedConfig";
 
 // Models
-import shopRolesSchema from "../../../../../database/schemas/shopRole";
+import shopRolesSchema from "../../../../../models/shopRole";
 
 import logger from "../../../../../logger";
 

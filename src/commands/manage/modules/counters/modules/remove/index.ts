@@ -8,7 +8,7 @@ import getEmbedConfig from "../../../../../../helpers/getEmbedConfig";
 import logger from "../../../../../../logger";
 
 // Models
-import counterSchema from "../../../../../../database/schemas/counter";
+import counterSchema from "../../../../../../models/counter";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 

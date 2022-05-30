@@ -9,8 +9,8 @@ import {
 import getEmbedConfig from "../../../../../helpers/getEmbedConfig";
 
 // Models
-import shopRolesSchema from "../../../../../database/schemas/shopRole";
-import guildSchema from "../../../../../database/schemas/guild";
+import shopRolesSchema from "../../../../../models/shopRole";
+import guildSchema from "../../../../../models/guild";
 
 import logger from "../../../../../logger";
 

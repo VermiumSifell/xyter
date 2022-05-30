@@ -4,7 +4,7 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import logger from "../../../../logger";
 
-import userSchema, { IUser } from "../../../../database/schemas/user";
+import userSchema, { IUser } from "../../../../models/user";
 
 export default {
   metadata: { guildOnly: true, ephemeral: false },

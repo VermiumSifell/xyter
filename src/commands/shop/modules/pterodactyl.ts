@@ -9,7 +9,7 @@ import encryption from "../../../handlers/encryption";
 
 import pluralize from "../../../helpers/pluralize";
 
-import apiSchema from "../../../database/schemas/api";
+import apiSchema from "../../../models/api";
 import fetchUser from "../../../helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 

@@ -1,5 +1,5 @@
 import logger from "../../../../logger";
-import timeouts from "../../../../database/schemas/timeout";
+import timeouts from "../../../../models/timeout";
 
 import fetchUser from "../../../../helpers/fetchUser";
 import fetchGuild from "../../../../helpers/fetchGuild";

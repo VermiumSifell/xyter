@@ -10,7 +10,7 @@ import { timeout } from "../../../config/reputation";
 import logger from "../../../logger";
 
 // Models
-import timeoutSchema from "../../../database/schemas/timeout";
+import timeoutSchema from "../../../models/timeout";
 import fetchUser from "../../../helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 

@@ -1,6 +1,6 @@
 import { GuildMember, MessageEmbed, TextChannel } from "discord.js";
 
-import guildSchema from "../../database/schemas/guild";
+import guildSchema from "../../models/guild";
 
 import getEmbedConfig from "../../helpers/getEmbedConfig";
 

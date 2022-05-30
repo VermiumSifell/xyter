@@ -10,7 +10,7 @@ import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 // Modules
 import modules from "./modules";
 
-import guildSchema from "../../../../database/schemas/guild";
+import guildSchema from "../../../../models/guild";
 
 export const moduleData = modules;
 

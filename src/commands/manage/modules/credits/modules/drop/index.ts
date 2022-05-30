@@ -3,7 +3,7 @@ import { CommandInteraction, MessageEmbed, Permissions } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import apiSchema from "../../../../../../database/schemas/api";
+import apiSchema from "../../../../../../models/api";
 import encryption from "../../../../../../handlers/encryption";
 
 // Configurations

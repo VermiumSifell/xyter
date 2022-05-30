@@ -4,9 +4,9 @@ import { Client } from "discord.js";
 import logger from "../logger";
 
 // Schemas
-import userSchema from "../database/schemas/user";
-import shopRoleSchema from "../database/schemas/shopRole";
-import guildSchema from "../database/schemas/guild";
+import userSchema from "../models/user";
+import shopRoleSchema from "../models/shopRole";
+import guildSchema from "../models/guild";
 
 export const options = {
   schedule: "*/1 * * * * *",

@@ -4,7 +4,7 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 
-import counterSchema from "../../../../database/schemas/counter";
+import counterSchema from "../../../../models/counter";
 
 export default {
   metadata: { guildOnly: true, ephemeral: false },

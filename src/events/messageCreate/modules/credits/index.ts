@@ -1,5 +1,5 @@
 import logger from "../../../../logger";
-import timeouts from "../../../../database/schemas/timeout";
+import timeouts from "../../../../models/timeout";
 import { Message } from "discord.js";
 
 import fetchUser from "../../../../helpers/fetchUser";

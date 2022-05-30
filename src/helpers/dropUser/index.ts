@@ -1,4 +1,4 @@
-import userSchema from "../../database/schemas/user";
+import userSchema from "../../models/user";
 
 import logger from "../../logger";
 

@@ -8,7 +8,7 @@ import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 import logger from "../../../../logger";
 
 // Models
-import guildSchema from "../../../../database/schemas/guild";
+import guildSchema from "../../../../models/guild";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types/v10";
 

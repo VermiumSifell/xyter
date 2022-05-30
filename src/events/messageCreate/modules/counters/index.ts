@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 
 import logger from "../../../../logger";
-import counterSchema from "../../../../database/schemas/counter";
+import counterSchema from "../../../../models/counter";
 
 export default {
   execute: async (message: Message) => {

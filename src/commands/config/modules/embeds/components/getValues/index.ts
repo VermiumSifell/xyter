@@ -1,5 +1,5 @@
 import { ColorResolvable, CommandInteraction } from "discord.js";
-import guildSchema from "../../../../../../database/schemas/guild";
+import guildSchema from "../../../../../../models/guild";
 import getEmbedConfig from "../../../../../../helpers/getEmbedConfig";
 
 export default async (interaction: CommandInteraction) => {

@@ -10,7 +10,7 @@ import getEmbedConfig from "../../../../helpers/getEmbedConfig";
 import logger from "../../../../logger";
 
 // Models
-import timeoutSchema from "../../../../database/schemas/timeout";
+import timeoutSchema from "../../../../models/timeout";
 
 // Helpers
 import fetchUser from "../../../../helpers/fetchUser";

@@ -9,7 +9,7 @@ import getEmbedConfig from "../../../../../../helpers/getEmbedConfig";
 import logger from "../../../../../../logger";
 
 // Models
-import counterSchema from "../../../../../../database/schemas/counter";
+import counterSchema from "../../../../../../models/counter";
 
 // Function
 export default {
