@@ -5,7 +5,7 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 export default {
-  metadata: { guildOnly: false, ephemeral: false },
+  metadata: { guildOnly: false, ephemeral: false, cooldown: 5 },
 
   builder: (command: SlashCommandSubcommandBuilder) => {
     return command.setName("meme").setDescription("Get a meme from r/memes)");
