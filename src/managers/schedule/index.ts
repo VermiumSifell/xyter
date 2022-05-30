@@ -15,7 +15,7 @@ export const start = async (client: Client) => {
 
   await Promise.all(
     jobNames.map(async (jobName) => {
-      const job: IJob = await import(`../../jobs/shopRoles`);
+      const job: IJob = await import(`../../jobs/${jobName}`);
 
       schedule.scheduleJob(job.options.schedule, async () => {
         logger.info(`Executed job ${jobName}!`);
