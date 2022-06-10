@@ -15,7 +15,7 @@ export const options: IEventOptions = {
 export const execute = async (oldMessage: Message, newMessage: Message) => {
   const { author, guild } = newMessage;
 
-  // await audits.execute(oldMessage, newMessage);
+  await audits.execute(oldMessage, newMessage);
 
   logger?.silly(
     `Message update event fired by ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id})`
