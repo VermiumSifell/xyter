@@ -29,6 +29,7 @@ export default {
         option
           .setName("amount")
           .setDescription("How much credits you want to withdraw.")
+          .setRequired(true)
       );
   },
   execute: async (interaction: CommandInteraction) => {
