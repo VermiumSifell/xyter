@@ -1,0 +1,112 @@
+// Dependencies
+import { CommandInteraction, Message } from "discord.js";
+
+import logger from "../../logger";
+
+import getEmbedConfig from "../../helpers/getEmbedConfig";
+import timeoutSchema from "../../models/timeout";
+import addSeconds from "../../helpers/addSeconds";
+
+export const interaction = async (i: CommandInteraction, cooldown: number) => {
+  const { guild, user, commandId } = i;
+
+  // Check if user has a timeout
+  const hasTimeout = await timeoutSchema.findOne({
+    guildId: guild?.id || "0",
+    userId: user.id,
+    cooldown: cooldown,
+    timeoutId: commandId,
+  });
+
+  // If user is not on timeout
+  if (hasTimeout) {
+    const { guildId, userId, timeoutId, createdAt } = hasTimeout;
+    const overDue = (await addSeconds(cooldown, createdAt)) < new Date();
+
+    if (!overDue) {
+      const diff = Math.round(
+        (new Date(hasTimeout.createdAt).getTime() - new Date().getTime()) / 1000
+      );
+
+      throw new Error(
+        `You must wait ${diff} seconds before using this command.`
+      );
+    }
+
+    // Delete timeout
+    await timeoutSchema
+      .deleteOne({
+        guildId,
+        userId,
+        timeoutId,
+        cooldown,
+      })
+      .then(async () => {
+        logger.debug(
+          `Timeout document ${timeoutId} has been deleted from user ${userId}.`
+        );
+      });
+  }
+  // Create timeout
+  await timeoutSchema.create({
+    guildId: guild?.id || "0",
+    userId: user.id,
+    cooldown: cooldown,
+    timeoutId: commandId,
+  });
+};
+
+export const message = async (
+  message: Message,
+  cooldown: number,
+  id: string
+) => {
+  const { guild, member } = message;
+  if (!guild) throw new Error("Guild is undefined");
+  if (!member) throw new Error("Member is undefined");
+
+  // Check if user has a timeout
+  const hasTimeout = await timeoutSchema.findOne({
+    guildId: guild?.id || "0",
+    userId: member.id,
+    cooldown: cooldown,
+    timeoutId: id,
+  });
+
+  // If user is not on timeout
+  if (hasTimeout) {
+    const { guildId, userId, timeoutId, createdAt } = hasTimeout;
+    const overDue = (await addSeconds(cooldown, createdAt)) < new Date();
+
+    if (!overDue) {
+      const diff = Math.round(
+        (new Date(hasTimeout.createdAt).getTime() - new Date().getTime()) / 1000
+      );
+
+      throw new Error(
+        `User: ${userId} on timeout-id: ${id} with cooldown: ${cooldown} secs with remaining: ${diff} secs.`
+      );
+    }
+
+    // Delete timeout
+    await timeoutSchema
+      .deleteOne({
+        guildId,
+        userId: member.id,
+        timeoutId: id,
+        cooldown,
+      })
+      .then(async () => {
+        logger.debug(
+          `Timeout document ${timeoutId} has been deleted from user ${userId}.`
+        );
+      });
+  }
+  // Create timeout
+  await timeoutSchema.create({
+    guildId: guild?.id || "0",
+    userId: member.id,
+    cooldown: cooldown,
+    timeoutId: id,
+  });
+};

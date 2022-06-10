@@ -8,7 +8,7 @@ export const guildId = "";
 export const hosterName = "someone";
 
 // Hoster Url
-export const hosterUrl = "scheme://domain.tld";
+export const hosterUrl = "https://xyter.zyner.org/customization/change-hoster";
 
 // Winston log level
 export const logLevel = "info";

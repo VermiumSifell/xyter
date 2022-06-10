@@ -12,6 +12,10 @@ import { ICommand } from "../interfaces/Command";
 export default async (client: Client) => {
   const commandList: Array<RESTPostAPIApplicationCommandsJSONBody> = [];
 
+  if (!client.commands) {
+    throw new Error("client.commands is not defined");
+  }
+
   logger.info("Gathering command list");
 
   await Promise.all(
@@ -25,7 +29,7 @@ export default async (client: Client) => {
       logger.info(`Finished gathering command list.`);
     })
     .catch(async (error) => {
-      logger.error(`${error}`);
+      throw new Error(`Could not gather command list: ${error}`);
     });
 
   const rest = new REST({ version: "9" }).setToken(token);

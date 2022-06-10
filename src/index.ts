@@ -4,10 +4,7 @@ import { token, intents } from "./config/discord";
 
 import { Client } from "discord.js"; // discord.js
 
-import * as databaseManager from "./managers/database";
-import * as scheduleManager from "./managers/schedule";
-import * as eventManager from "./managers/event";
-import * as commandManager from "./managers/command";
+import * as managers from "./managers";
 
 // Main process that starts all other sub processes
 const main = async () => {
@@ -16,11 +13,7 @@ const main = async () => {
     intents,
   });
 
-  // Start managers
-  await databaseManager.start();
-  await scheduleManager.start(client);
-  await commandManager.register(client);
-  await eventManager.register(client);
+  await managers.start(client);
 
   // Authorize with Discord's API
   await client.login(token);

@@ -8,9 +8,14 @@ import logger from "../../logger";
 import { url } from "../../config/database";
 
 export const start = async () => {
-  await mongoose.connect(url).then(async (connection) => {
-    logger.info(`Connected to database: ${connection.connection.name}`);
-  });
+  await mongoose
+    .connect(url)
+    .then(async (connection) => {
+      logger.info(`Connected to database: ${connection.connection.name}`);
+    })
+    .catch(async (e) => {
+      logger.error("Could not connect to database", e);
+    });
 
   mongoose.connection.on("error", async (error) => {
     logger.error(`${error}`);
