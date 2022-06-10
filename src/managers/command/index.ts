@@ -1,20 +1,25 @@
-import fs from "fs"; // fs
-import { Collection, Client } from "discord.js"; // discord.js
-import logger from "../../logger";
-import { ICommand } from "../../interfaces/Command";
+import { Collection, Client } from "discord.js";
 import listDir from "../../helpers/listDir";
+import logger from "../../logger";
+
+import { ICommand } from "../../interfaces/Command";
 
 export const register = async (client: Client) => {
   client.commands = new Collection();
 
-  const commandNames = await listDir("commands");
-  if (!commandNames) return;
+  const commandNames = await listDir("plugins/commands");
+
+  if (!commandNames) throw new Error("Could not list commands");
 
   logger.info(`Loading ${commandNames.length} commands`);
 
   await Promise.all(
-    commandNames.map(async (commandName, index) => {
-      const command: ICommand = await import(`../../commands/${commandName}`);
+    commandNames.map(async (commandName) => {
+      const command: ICommand = await import(
+        `../../plugins/commands/${commandName}`
+      ).catch(async (e) => {
+        throw new Error(`Could not load command: ${commandName}`, e);
+      });
 
       client.commands.set(command.builder.name, command);
 
@@ -25,6 +30,6 @@ export const register = async (client: Client) => {
       logger.info(`Finished loading commands.`);
     })
     .catch(async (err) => {
-      logger.error(`${err}`);
+      throw new Error(`Could not load commands: ${err}`);
     });
 };

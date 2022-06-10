@@ -3,7 +3,8 @@ import "winston-daily-rotate-file";
 
 import { logLevel } from "../config/other";
 
-const { combine, timestamp, printf, colorize, align, json } = winston.format;
+const { combine, timestamp, printf, errors, colorize, align, json } =
+  winston.format;
 
 export default winston.createLogger({
   level: logLevel || "info",
@@ -16,6 +17,7 @@ export default winston.createLogger({
     }),
     new winston.transports.Console({
       format: combine(
+        errors({ stack: true, trace: true }), // <-- use errors format
         colorize({ all: true }),
         timestamp({
           format: "YYYY-MM-DD HH:MM:ss",

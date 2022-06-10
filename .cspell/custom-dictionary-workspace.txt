@@ -1,5 +1,6 @@
 # Custom Dictionary Words
 Controlpanel
+cooldown
 cpgg
 dagen
 discordjs

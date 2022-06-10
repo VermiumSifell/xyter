@@ -1,9 +1,9 @@
-import guildSchema from "../../database/schemas/guild";
-import userSchema from "../../database/schemas/user";
-import apiSchema from "../../database/schemas/api";
-import counterSchema from "../../database/schemas/counter";
-import shopRoleSchema from "../../database/schemas/shopRole";
-import timeoutSchema from "../../database/schemas/timeout";
+import guildSchema from "../../models/guild";
+import userSchema from "../../models/user";
+import apiSchema from "../../models/api";
+import counterSchema from "../../models/counter";
+import shopRoleSchema from "../../models/shopRole";
+import timeoutSchema from "../../models/timeout";
 
 import logger from "../../logger";
 
