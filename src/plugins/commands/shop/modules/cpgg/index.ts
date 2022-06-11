@@ -29,6 +29,7 @@ export default {
         option
           .setName("amount")
           .setDescription("How much credits you want to withdraw.")
+          .setRequired(true)
       );
   },
   execute: async (interaction: CommandInteraction) => {
@@ -152,15 +153,16 @@ export default {
     });
 
     if (!apiCredentials) return;
+    const url = encryption.decrypt(apiCredentials?.url);
 
     const api = axios?.create({
-      baseURL: `${apiCredentials.url}/api/`,
+      baseURL: `${url}/api/`,
       headers: {
         Authorization: `Bearer ${encryption.decrypt(apiCredentials.token)}`,
       },
     });
 
-    const shopUrl = `${apiCredentials?.url}/store`;
+    const shopUrl = `${url}/store`;
 
     const buttons = new MessageActionRow().addComponents(
       new MessageButton()

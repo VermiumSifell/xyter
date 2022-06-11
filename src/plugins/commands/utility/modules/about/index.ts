@@ -30,6 +30,11 @@ export default {
         .setEmoji("📄")
         .setURL("https://github.com/ZynerOrg/xyter"),
       new MessageButton()
+        .setLabel("Documentation")
+        .setStyle("LINK")
+        .setEmoji("📚")
+        .setURL("https://xyter.zyner.org"),
+      new MessageButton()
         .setLabel("Website")
         .setStyle("LINK")
         .setEmoji("🌐")

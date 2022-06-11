@@ -4,7 +4,7 @@ import { IEncryptionData } from "../interfaces/EncryptionData";
 
 export interface IApi {
   guildId: Snowflake;
-  url: string;
+  url: IEncryptionData;
   token: IEncryptionData;
 }
 
@@ -17,11 +17,18 @@ const apiSchema = new Schema<IApi>(
       index: true,
     },
     url: {
-      type: String,
-      required: true,
-      unique: false,
-      index: true,
-      default: "https://localhost/api/",
+      iv: {
+        type: String,
+        required: true,
+        unique: false,
+        index: true,
+      },
+      content: {
+        type: String,
+        required: true,
+        unique: false,
+        index: true,
+      },
     },
     token: {
       iv: {
@@ -29,14 +36,12 @@ const apiSchema = new Schema<IApi>(
         required: true,
         unique: false,
         index: true,
-        default: "token",
       },
       content: {
         type: String,
         required: true,
         unique: false,
         index: true,
-        default: "token",
       },
     },
   },

@@ -52,7 +52,7 @@ export default {
     await noSelfReputation(optionTarget, user);
 
     // Check if user is on cooldown otherwise create one
-    await cooldown.interaction(interaction, timeout);
+    await cooldown.command(interaction, timeout);
 
     switch (optionType) {
       case "positive":

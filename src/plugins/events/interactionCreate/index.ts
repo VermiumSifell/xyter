@@ -2,8 +2,8 @@
 import { CommandInteraction, MessageEmbed } from "discord.js";
 
 // Dependencies
-import isCommand from "../../events/interactionCreate/components/isCommand";
-import isButton from "../../events/interactionCreate/components/isButton";
+import * as handlers from "./handlers";
+
 import logger from "../../../logger";
 import audits from "./audits";
 import { IEventOptions } from "../../../interfaces/EventOptions";
@@ -27,11 +27,8 @@ export const execute = async (interaction: CommandInteraction) => {
 
   await audits.execute(interaction);
 
-  try {
-    await isCommand(interaction);
-    await isButton(interaction);
-  } catch (error) {
-    logger.debug(`${error}`);
+  await handlers.execute(interaction).catch(async (err) => {
+    logger.debug(`${err}`);
 
     return interaction.editReply({
       embeds: [
@@ -41,11 +38,11 @@ export const execute = async (interaction: CommandInteraction) => {
               interaction.options.getSubcommand()
             )}`
           )
-          .setDescription(`${"``"}${error}${"``"}`)
+          .setDescription(`${"``"}${err}${"``"}`)
           .setColor(errorColor)
           .setTimestamp(new Date())
           .setFooter({ text: footerText, iconURL: footerIcon }),
       ],
     });
-  }
+  });
 };
