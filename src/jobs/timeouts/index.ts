@@ -1,8 +1,8 @@
-import logger from "../logger";
+import logger from "../../logger";
 
-import timeoutSchema from "../models/timeout";
+import timeoutSchema from "../../models/timeout";
 
-import addSeconds from "../helpers/addSeconds";
+import addSeconds from "../../helpers/addSeconds";
 
 export const options = {
   schedule: "*/30 * * * *", // https://crontab.guru/
