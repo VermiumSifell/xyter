@@ -1,7 +1,4 @@
-export default async (numOfSeconds: number, date: Date) => {
-  if (!numOfSeconds) throw new Error("numOfSeconds is required");
-
-  date.setSeconds(date.getSeconds() + numOfSeconds);
-
+export default async (seconds: number, date: Date) => {
+  date.setSeconds(date.getSeconds() + seconds);
   return date;
 };
