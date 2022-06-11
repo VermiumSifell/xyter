@@ -153,15 +153,16 @@ export default {
     });
 
     if (!apiCredentials) return;
+    const url = encryption.decrypt(apiCredentials?.url);
 
     const api = axios?.create({
-      baseURL: `${apiCredentials.url}/api/`,
+      baseURL: `${url}/api/`,
       headers: {
         Authorization: `Bearer ${encryption.decrypt(apiCredentials.token)}`,
       },
     });
 
-    const shopUrl = `${apiCredentials?.url}/store`;
+    const shopUrl = `${url}/store`;
 
     const buttons = new MessageActionRow().addComponents(
       new MessageButton()

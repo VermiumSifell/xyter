@@ -45,7 +45,7 @@ export default {
 
     const guildDB = await fetchGuild(guild);
 
-    await cooldown.interaction(interaction, guildDB?.credits?.workTimeout);
+    await cooldown.command(interaction, guildDB?.credits?.workTimeout);
 
     const creditsEarned = chance.integer({
       min: 0,

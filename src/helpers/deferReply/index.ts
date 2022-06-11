@@ -1,25 +1,26 @@
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { Interaction, MessageEmbed } from "discord.js";
 import getEmbedConfig from "../../helpers/getEmbedConfig";
 
-export default async (interaction: CommandInteraction, ephemeral: boolean) => {
+export default async (interaction: Interaction, ephemeral: boolean) => {
+  if (!interaction.isRepliable())
+    throw new Error(`Cannot reply to an interaction that is not repliable`);
+
   await interaction.deferReply({
     ephemeral,
   });
 
-  const { waitColor, footerText, footerIcon } = await getEmbedConfig(
-    interaction.guild
-  );
+  const embedConfig = await getEmbedConfig(interaction.guild);
 
   await interaction.editReply({
     embeds: [
       new MessageEmbed()
         .setFooter({
-          text: footerText,
-          iconURL: footerIcon,
+          text: embedConfig.footerText,
+          iconURL: embedConfig.footerIcon,
         })
         .setTimestamp(new Date())
         .setTitle("Processing your request")
-        .setColor(waitColor)
+        .setColor(embedConfig.waitColor)
         .setDescription("Please wait..."),
     ],
   });

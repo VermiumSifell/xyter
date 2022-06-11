@@ -54,7 +54,7 @@ export default {
       embeds: [
         embed
           .setDescription(
-            `Below are the top 10 users in this guild.
+            `Below are the top ten members in this guild.
 
             ${topTen.map(entry).join("\n")}
          `
