@@ -1,8 +1,8 @@
 import crypto from "crypto";
 
-import { secretKey, algorithm } from "../config/encryption";
+import { secretKey, algorithm } from "../../config/encryption";
 
-import { IEncryptionData } from "../interfaces/EncryptionData";
+import { IEncryptionData } from "../../interfaces/EncryptionData";
 
 const iv = crypto.randomBytes(16);
 
