@@ -10,7 +10,8 @@ export const builder = new SlashCommandBuilder()
 
   .addSubcommand(modules.about.builder)
   .addSubcommand(modules.stats.builder)
-  .addSubcommand(modules.avatar.builder);
+  .addSubcommand(modules.avatar.builder)
+  .addSubcommand(modules.ping.builder);
 
 export const execute = async (interaction: CommandInteraction) => {
   switch (interaction.options.getSubcommand()) {
@@ -20,6 +21,8 @@ export const execute = async (interaction: CommandInteraction) => {
       return modules.stats.execute(interaction);
     case "avatar":
       return modules.avatar.execute(interaction);
+    case "ping":
+      return modules.ping.execute(interaction);
     default:
       throw new Error(
         `Unknown subcommand: ${interaction.options.getSubcommand()}`
