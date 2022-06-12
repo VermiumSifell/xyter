@@ -5,21 +5,15 @@ import modules from "./modules";
 export const moduleData = modules;
 
 export const builder = new SlashCommandBuilder()
-  .setName("utility")
-  .setDescription("Common utility.")
+  .setName("dns")
+  .setDescription("DNS commands.")
 
-  .addSubcommand(modules.about.builder)
-  .addSubcommand(modules.stats.builder)
-  .addSubcommand(modules.avatar.builder);
+  .addSubcommand(modules.lookup.builder);
 
 export const execute = async (interaction: CommandInteraction) => {
   switch (interaction.options.getSubcommand()) {
-    case "about":
-      return modules.about.execute(interaction);
-    case "stats":
-      return modules.stats.execute(interaction);
-    case "avatar":
-      return modules.avatar.execute(interaction);
+    case "lookup":
+      return modules.lookup.execute(interaction);
     default:
       throw new Error(
         `Unknown subcommand: ${interaction.options.getSubcommand()}`
