@@ -52,7 +52,7 @@ export default {
         ],
       })
       .then(async () => {
-        logger.info(
+        logger.debug(
           `Audit log sent for event interactionCreate in guild ${interaction?.guild?.name} (${interaction?.guild?.id})`
         );
       })
