@@ -14,9 +14,6 @@ export default {
     if (author.bot) return;
     if (channel?.type !== "GUILD_TEXT") return;
 
-    const { id: guildId } = guild;
-    const { id: userId } = author;
-
     const guildData = await fetchGuild(guild);
     const userData = await fetchUser(author, guild);
 

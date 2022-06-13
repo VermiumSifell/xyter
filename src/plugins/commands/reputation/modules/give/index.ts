@@ -37,8 +37,9 @@ export default {
   execute: async (interaction: CommandInteraction) => {
     const { options, user, guild } = interaction;
 
-    const { errorColor, successColor, footerText, footerIcon } =
-      await getEmbedConfig(guild); // Destructure
+    const { successColor, footerText, footerIcon } = await getEmbedConfig(
+      guild
+    ); // Destructure
 
     const optionTarget = options?.getUser("target");
     const optionType = options?.getString("type");

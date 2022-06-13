@@ -6,7 +6,6 @@ import { CommandInteraction } from "discord.js";
 import modules from "./modules";
 
 // Handlers
-import logger from "../../../logger";
 
 export const moduleData = modules;
 

@@ -1,14 +1,9 @@
 // Dependencies
-import {
-  CommandInteraction,
-  MessageActionRow,
-  MessageButton,
-} from "discord.js";
+import { CommandInteraction } from "discord.js";
 
 // Configurations
 import getEmbedConfig from "../../../../../helpers/getEmbedConfig";
 
-import { hosterName, hosterUrl } from "../../../../../config/other";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 
 // Function
