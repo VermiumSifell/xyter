@@ -29,7 +29,7 @@ export default async (message: Message) => {
       await channel?.send(`${author} said **${word}**.`);
       logger?.silly(`${author} said ${word} in ${channel}`);
     })
-    ?.catch(async (error: any) => {
+    ?.catch(async (error) => {
       logger?.error(error);
     });
 };
