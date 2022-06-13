@@ -3,7 +3,6 @@ import { CommandInteraction, ButtonInteraction, Message } from "discord.js";
 
 import logger from "../../logger";
 
-import getEmbedConfig from "../../helpers/getEmbedConfig";
 import timeoutSchema from "../../models/timeout";
 import addSeconds from "../../helpers/addSeconds";
 

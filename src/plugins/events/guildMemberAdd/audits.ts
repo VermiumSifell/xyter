@@ -1,5 +1,5 @@
 import logger from "../../../logger";
-import { GuildMember, MessageEmbed, TextChannel } from "discord.js";
+import { GuildMember, MessageEmbed } from "discord.js";
 
 import guildSchema from "../../../models/guild";
 

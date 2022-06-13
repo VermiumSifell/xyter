@@ -10,5 +10,5 @@ export const options: IEventOptions = {
 };
 
 export const execute = async (client: Client) => {
-  logger.warn("Discord's API client is rate-limited!");
+  logger.warn(`Discord's API client (${client?.user?.tag}) is rate-limited!`);
 };

@@ -16,7 +16,6 @@ import pluralize from "../../../../../helpers/pluralize";
 import apiSchema from "../../../../../models/api";
 import fetchUser from "../../../../../helpers/fetchUser";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import { message } from "../../../../../helpers/cooldown/index";
 
 export default {
   metadata: { guildOnly: true, ephemeral: true },
