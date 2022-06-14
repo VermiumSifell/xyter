@@ -1,5 +1,6 @@
 # Custom Dictionary Words
 Controlpanel
+cooldown
 cpgg
 dagen
 discordjs
@@ -22,6 +23,7 @@ pino
 Poäng
 Profil
 rando
+Repliable
 satta
 senaste
 Sifell
