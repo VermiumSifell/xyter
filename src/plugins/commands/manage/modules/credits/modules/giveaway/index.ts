@@ -64,7 +64,7 @@ export default {
     if (!channel) throw new Error("Channel is required.");
 
     const embed = new MessageEmbed()
-      .setTitle("[:toolbox:] Drop")
+      .setTitle("[:toolbox:] Giveaway")
       .setFooter({ text: footerText, iconURL: footerIcon });
 
     const code = uuidv4();
