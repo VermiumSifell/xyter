@@ -5,9 +5,10 @@ config.json
 package-lock.json
 
 
-**/config/*.ts
-!**/config/index.ts
-!**/config/example.*.ts
+config/
+
+# Build
+build/
 
 
 # Logs
