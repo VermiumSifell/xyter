@@ -58,7 +58,10 @@ export default {
         );
       })
       .catch(async (err) => {
-        throw new Error(`There was an error saving the counter: ${err}`);
+        logger.error(
+          `Error saving counter for guild ${guildId} and channel ${channelId}`,
+          err
+        );
       });
 
     logger.silly(

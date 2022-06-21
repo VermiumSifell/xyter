@@ -38,8 +38,8 @@ export default {
         );
       })
       .catch(async (err) => {
-        throw new Error(
-          `Error saving user ${userId} in guild ${guildId}: ${err}`
+        logger.error(
+          `Error saving credits for user ${userId} in guild ${guildId} - ${err}`
         );
       });
   },

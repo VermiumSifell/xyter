@@ -42,7 +42,7 @@ export default async (client: Client) => {
       logger.info(`Finished updating command list.`);
     })
     .catch(async (error) => {
-      throw new Error(`Could not update command list: ${error}`);
+      logger.error(`${error}`);
     });
 
   if (devMode) {
@@ -52,7 +52,7 @@ export default async (client: Client) => {
       })
       .then(async () => logger.info(`Finished updating guild command list.`))
       .catch(async (error) => {
-        throw new Error(`Could not update guild command list: ${error}`);
+        logger.error(`${error}`);
       });
   }
 };

@@ -60,7 +60,7 @@ export default {
         );
       })
       .catch(async () => {
-        throw new Error(
+        logger.error(
           `Audit log failed to send for event messageUpdate in guild ${newMessage?.guild?.name} (${newMessage?.guild?.id})`
         );
       });

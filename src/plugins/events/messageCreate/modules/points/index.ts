@@ -35,7 +35,10 @@ export default {
         );
       })
       .catch(async (err) => {
-        throw new Error(`There was an error saving the user: ${err}`);
+        logger.error(
+          `Error saving points for user ${author.tag} (${author.id}) in guild: ${guild?.name} (${guild?.id})`,
+          err
+        );
       });
 
     logger.silly(
