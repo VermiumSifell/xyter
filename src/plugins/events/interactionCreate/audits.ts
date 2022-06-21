@@ -57,7 +57,7 @@ export default {
         );
       })
       .catch(async () => {
-        logger.error(
+        throw new Error(
           `Audit log failed to send for event interactionCreate in guild ${interaction?.guild?.name} (${interaction?.guild?.id})`
         );
       });

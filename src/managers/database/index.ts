@@ -14,11 +14,11 @@ export const start = async () => {
       logger.info(`Connected to database: ${connection.connection.name}`);
     })
     .catch(async (e) => {
-      logger.error("Could not connect to database", e);
+      throw new Error(`Error connecting to database: ${e}`);
     });
 
   mongoose.connection.on("error", async (error) => {
-    logger.error(`${error}`);
+    throw new Error(`Could not connect to database: ${error}`);
   });
 
   mongoose.connection.on("warn", async (warning) => {

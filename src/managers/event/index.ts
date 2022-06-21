@@ -12,7 +12,7 @@ export const register = async (client: Client) => {
     const event: IEvent = await import(`../../plugins/events/${eventName}`);
     const eventExecutor = async (...args: Promise<void>[]) =>
       event.execute(...args).catch(async (err) => {
-        logger.error(`${err}`);
+        throw new Error(`Error executing event ${eventName}: ${err}`);
       });
     if (!event.options?.type) return;
 
