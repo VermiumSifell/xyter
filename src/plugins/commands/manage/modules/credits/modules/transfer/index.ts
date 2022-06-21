@@ -210,21 +210,9 @@ export default {
     } catch (error) {
       await session.abortTransaction();
       session.endSession();
-      logger.error(`${error}`);
-
-      return interaction.editReply({
-        embeds: [
-          new MessageEmbed()
-            .setTitle("[:toolbox:] Manage - Credits (Transfer)")
-            .setDescription(
-              "An error occurred while trying to gift credits. Please try again."
-            )
-            .setColor(errorColor)
-            .setTimestamp(new Date())
-            .setColor(successColor)
-            .setFooter({ text: footerText, iconURL: footerIcon }),
-        ],
-      });
+      throw new Error(
+        `There was an error while transferring credits. ${error}`
+      );
     } finally {
       // ending the session
       session.endSession();
