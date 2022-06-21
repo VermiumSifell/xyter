@@ -4,8 +4,7 @@ node_modules
 config.json
 package-lock.json
 
-
-config/
+src/config/
 
 # Build
 build/
