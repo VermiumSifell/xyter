@@ -58,7 +58,9 @@ export default {
         );
       })
       .catch(async () => {
-        throw new Error(`There was an error sending the audit log`);
+        logger.error(
+          `Audit log failed to send for event messageDelete in guild ${message?.guild?.name} (${message?.guild?.id})`
+        );
       });
   },
 };

@@ -201,9 +201,17 @@ export default {
     } catch (error) {
       await session.abortTransaction();
       session.endSession();
-      throw new Error(
-        `There was an error while saving the transaction: ${error}`
-      );
+      logger.error(`${error}`);
+
+      return interaction.editReply({
+        embeds: [
+          embed
+            .setDescription(
+              "An error occurred while trying to gift credits. Please try again."
+            )
+            .setColor(errorColor),
+        ],
+      });
     } finally {
       // ending the session
       session.endSession();
