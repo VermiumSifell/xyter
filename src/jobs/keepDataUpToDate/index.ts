@@ -6,7 +6,7 @@ import fetchGuild from "../../helpers/fetchGuild";
 import guildSchema from "../../models/guild";
 
 export const options = {
-  schedule: "*/5 * * * * *", // https://crontab.guru/
+  schedule: "0 0 1 * *", // https://crontab.guru/
 };
 
 export const execute = async (client: Client) => {
@@ -21,17 +21,14 @@ export const execute = async (client: Client) => {
     .filter((x) => !guildsDB.some((y) => y.guildId === x.id))
     .map((z) => z.id);
 
-  logger.silly(shouldNotExist);
-  logger.silly(shouldExist);
-
   if (shouldNotExist) {
-    shouldNotExist.map(async (x) => {
+    shouldNotExist.forEach(async (x) => {
       await dropGuild(x);
     });
   }
 
   if (shouldExist) {
-    shouldExist.map(async (x) => {
+    shouldExist.forEach(async (x) => {
       await fetchGuild(x);
     });
   }
