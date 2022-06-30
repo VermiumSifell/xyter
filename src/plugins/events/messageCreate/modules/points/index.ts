@@ -14,7 +14,7 @@ export default {
     if (author.bot) return;
     if (channel?.type !== "GUILD_TEXT") return;
 
-    const guildData = await fetchGuild(guild);
+    const guildData = await fetchGuild(guild.id);
     const userData = await fetchUser(author, guild);
 
     if (content.length < guildData.credits.minimumLength) return;

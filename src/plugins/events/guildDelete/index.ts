@@ -16,7 +16,7 @@ export const execute = async (guild: Guild) => {
 
   logger?.silly(`Deleted from guild: ${guild.name} (${guild.id})`);
 
-  await dropGuild(guild);
+  await dropGuild(guild.id);
   await updatePresence(client);
 
   logger.silly(`guildDelete: ${guild}`);

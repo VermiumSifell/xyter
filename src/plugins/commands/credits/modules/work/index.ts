@@ -43,7 +43,7 @@ export default {
       return logger?.silly(`Guild is null`);
     }
 
-    const guildDB = await fetchGuild(guild);
+    const guildDB = await fetchGuild(guild.id);
 
     await cooldown.command(interaction, guildDB?.credits?.workTimeout);
 
