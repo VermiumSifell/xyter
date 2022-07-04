@@ -21,6 +21,9 @@
     "url": "https://github.com/ZynerOrg/xyter.git"
   },
   "author": "Vermium Sifell <vermium@zyner.org> (https://zyner.org)",
+  "contributors": [
+    "Joshua Schmitt <me@jqshuv.xyz> (https://jqshuv.xyz)"
+  ],
   "license": "GPL-3.0-only",
   "bugs": {
     "url": "https://github.com/ZynerOrg/xyter/issues",

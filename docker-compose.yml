@@ -1,0 +1,33 @@
+services:
+  app:
+    depends_on:
+      - mongodb
+    build: .
+    restart: unless-stopped
+    environment:
+      # You can leave this as-is.
+      - DB_HOST=mongodb
+      - DB_USER=mongouser
+      - DB_PASSWORD=mongopasword
+      - DB_NAME=xyter
+      - DB_PORT=27017
+      # You have to set these values!
+      - DISCORD_TOKEN=YOUR_DISCORD_TOKEN
+      - DISCORD_CLIENT_ID=YOUR_CLIENT_ID
+      - DISCORD_DEV_GUILD_ID=YOUR_DEV_GUILD_ID
+      - HOSTER_NAME=YOUR_HOSTER_NAME
+      - NODE_ENV=development
+    stdin_open: true
+    tty: true
+  mongodb:
+    image: mongo:latest
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongouser
+      - MONGO_INITDB_ROOT_PASSWORD=mongopasword
+    ports:
+      - $MONGODB_LOCAL_PORT:27017
+    volumes:
+      - db:/data/db
+volumes:
+  db:
