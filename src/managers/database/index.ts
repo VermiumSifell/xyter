@@ -7,7 +7,7 @@ import logger from "../../logger";
 // Configuration
 import { url } from "../../config/database";
 
-export const start = async () => {
+export const connect = async () => {
   await mongoose
     .connect(url)
     .then(async (connection) => {
