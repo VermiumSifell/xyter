@@ -2,7 +2,7 @@ services:
   app:
     depends_on:
       - mongodb
-    image: zyner/xyter:2022.07.0
+    build: .
     restart: unless-stopped
     environment:
       - DISCORD_TOKEN=YOUR TOKEN
