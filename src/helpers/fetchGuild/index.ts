@@ -1,5 +1,5 @@
 // Dependencies
-import { Snowflake } from "discord.js";
+import { Guild } from "discord.js";
 
 // Models
 import guildSchema from "../../models/guild";
@@ -8,18 +8,18 @@ import guildSchema from "../../models/guild";
 import logger from "../../logger";
 
 // Function
-export default async (id: Snowflake) => {
-  const guildObj = await guildSchema?.findOne({ guildId: id });
+export default async (guild: Guild) => {
+  const guildObj = await guildSchema?.findOne({ guildId: guild.id });
   if (guildObj === null) {
-    const newGuildObj = new guildSchema({ guildId: id });
+    const newGuildObj = new guildSchema({ guildId: guild.id });
 
     await newGuildObj
       .save()
       .then(async () => {
-        logger?.silly(`Created guild: ${id}`);
+        logger?.silly(`Created guild: ${guild.id}`);
       })
       .catch(async (error) => {
-        logger?.error(`Error creating guild: ${id} - ${error}`);
+        logger?.error(`Error creating guild: ${guild.id} - ${error}`);
       });
 
     return newGuildObj;

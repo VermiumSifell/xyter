@@ -17,7 +17,7 @@ export default {
     const { id: guildId } = guild;
     const { id: userId } = author;
 
-    const guildData = await fetchGuild(guild.id);
+    const guildData = await fetchGuild(guild);
     const userData = await fetchUser(author, guild);
 
     if (content.length < guildData.credits.minimumLength) return;

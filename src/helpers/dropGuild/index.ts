@@ -7,60 +7,66 @@ import timeoutSchema from "../../models/timeout";
 
 import logger from "../../logger";
 
-import { Snowflake } from "discord.js";
+import { Guild } from "discord.js";
 
-export default async (id: Snowflake) => {
+export default async (guild: Guild) => {
   await guildSchema
-    .deleteMany({ guildId: id })
+    .deleteMany({ guildId: guild.id })
     .then(async () => {
-      return logger?.silly(`Deleted guild: ${id}`);
+      return logger?.silly(`Deleted guild: ${guild.id}`);
     })
     .catch(async (error) => {
-      logger?.error(`Error deleting guild: ${id} - ${error}`);
+      logger?.error(`Error deleting guild: ${guild.id} - ${error}`);
     });
 
   await userSchema
-    .deleteMany({ guildId: id })
+    .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger?.silly(`Deleted users for guild: ${id} from database`);
+      logger?.silly(`Deleted users for guild: ${guild.id} from database`);
     })
     .catch(async (error) => {
-      logger?.error(`Error deleting users for guild: ${id} - ${error}`);
+      logger?.error(`Error deleting users for guild: ${guild.id} - ${error}`);
     });
 
   await apiSchema
-    .deleteMany({ guildId: id })
+    .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger?.silly(`Deleted apis for guild: ${id} from database`);
+      logger?.silly(`Deleted apis for guild: ${guild.id} from database`);
     })
     .catch(async (error) => {
-      logger?.error(`Error deleting apis for guild: ${id} - ${error}`);
+      logger?.error(`Error deleting apis for guild: ${guild.id} - ${error}`);
     });
 
   await counterSchema
-    .deleteMany({ guildId: id })
+    .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger?.silly(`Deleted counters for guild: ${id} from database`);
+      logger?.silly(`Deleted counters for guild: ${guild.id} from database`);
     })
     .catch(async (error) => {
-      logger?.error(`Error deleting counters for guild: ${id} - ${error}`);
+      logger?.error(
+        `Error deleting counters for guild: ${guild.id} - ${error}`
+      );
     });
 
   await shopRoleSchema
-    .deleteMany({ guildId: id })
+    .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger?.silly(`Deleted shop roles for guild: ${id} from database`);
+      logger?.silly(`Deleted shop roles for guild: ${guild.id} from database`);
     })
     .catch(async (error) => {
-      logger?.error(`Error deleting shop roles for guild: ${id} - ${error}`);
+      logger?.error(
+        `Error deleting shop roles for guild: ${guild.id} - ${error}`
+      );
     });
 
   await timeoutSchema
-    .deleteMany({ guildId: id })
+    .deleteMany({ guildId: guild.id })
     .then(async () => {
-      logger?.silly(`Deleted timeouts for guild: ${id} from database`);
+      logger?.silly(`Deleted timeouts for guild: ${guild.id} from database`);
     })
     .catch(async (error) => {
-      logger?.error(`Error deleting timeouts for guild: ${id} - ${error}`);
+      logger?.error(
+        `Error deleting timeouts for guild: ${guild.id} - ${error}`
+      );
     });
 };
