@@ -11,13 +11,10 @@ export const options: IEventOptions = {
 export const execute = async (guild: Guild) => {
   const { client } = guild;
 
-  if (!client.user)
-    throw new Error("Discord API client user is not available.");
+  logger?.silly(`Added to guild: ${guild.name} (${guild.id})`);
 
-  logger.silly(
-    `${client.user.username} joined guild: ${guild.name} (${guild.id})`
-  );
-
-  await fetchGuild(guild.id);
+  await fetchGuild(guild);
   await updatePresence(client);
+
+  logger.silly(`guildCreate: ${guild}`);
 };
