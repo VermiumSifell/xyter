@@ -5,29 +5,31 @@ services:
     build: .
     restart: unless-stopped
     environment:
-      - DISCORD_TOKEN=YOUR TOKEN
-      - DISCORD_CLIENT_ID=YOUR CLIENT ID
-      - DISCORD_GUILD_ID=YOUR GUILD ID
-      ### LEAVE THIS AS IT IS! ###
-      - MONGO_URL=mongodb://mongodb:27017/xyter?retryWrites=true&w=majority
-      ############################
-      - ENCRYPTION_ALGORITHM=aes-256-ctr
-      - ENCRYPTION_SECRET=A RANDOM STRING WITH LENGTH OF 32
-      - EMEBD_COLOR_SUCCESS=#22bb33
-      - EMBED_COLOR_WAIT=#f0ad4e
-      - EMBED_COLOR_ERROR=#bb2124
-      - EMBED_FOOTER_TEXT=https://github.com/ZynerOrg/xyter
-      - EMBED_FOOTER_ICON=https://github.com/ZynerOrg.png
-      - LOG_LEVEL=silly
-      - REPUTATION_TIMEOUT=86400
-      - BOT_HOSTER_NAME=Zyner
-      - BOT_HOSTER_URL=https://xyter.zyner.org/customization/change-hoster
-      - NODE_ENV=production
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
+      - DISCORD_GUILD_ID=${DISCORD_GUILD_ID}
+      - MONGO_URL=mongodb://${MONGO_USER}:${MONGO_PASS}@mongodb:27017/admin?retryWrites=true&w=majority
+      - ENCRYPTION_ALGORITHM=${ENCRYPTION_ALGORITHM}
+      - ENCRYPTION_SECRET=${ENCRYPTION_SECRET}
+      - EMEBD_COLOR_SUCCESS=${EMEBD_COLOR_SUCCESS}
+      - EMBED_COLOR_WAIT=${EMBED_COLOR_WAIT}
+      - EMBED_COLOR_ERROR=${EMBED_COLOR_ERROR}
+      - EMBED_FOOTER_TEXT=${EMBED_FOOTER_TEXT}
+      - EMBED_FOOTER_ICON=${EMBED_FOOTER_ICON}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - REPUTATION_TIMEOUT=${REPUTATION_TIMEOUT}
+      - BOT_HOSTER_NAME=${BOT_HOSTER_NAME}
+      - BOT_HOSTER_URL=${BOT_HOSTER_URL}
+      - NODE_ENV=development
     stdin_open: true
     tty: true
-  mongodb:
-    image: mongo:4.2.21
-    restart: unless-stopped
     volumes:
-      - ./logs:/app/build/logs
+      - ./logs:/app/logs
+  mongodb:
+    image: mongo:latest
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+    volumes:
       - ./database:/data/db
