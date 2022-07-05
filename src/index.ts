@@ -1,6 +1,4 @@
-import { token, intents } from "./config/discord";
-
-import { Client } from "discord.js"; // discord.js
+import { Client, Collection } from "discord.js"; // discord.js
 
 import * as managers from "./managers";
 
@@ -8,13 +6,16 @@ import * as managers from "./managers";
 const main = async () => {
   // Initiate client object
   const client = new Client({
-    intents,
+    intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES"],
   });
+
+  // Create command collection
+  client.commands = new Collection();
 
   await managers.start(client);
 
   // Authorize with Discord's API
-  await client.login(token);
+  await client.login(process.env.DISCORD_TOKEN);
 };
 
 main();
