@@ -15,7 +15,7 @@ COPY . .
 RUN npx prisma generate && npm run build
 
 # Deploy
-FROM node:20-alpine3.20 as deploy
+FROM node:20-alpine3.21 as deploy
 
 WORKDIR /app
 
