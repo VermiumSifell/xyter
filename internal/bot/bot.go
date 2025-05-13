@@ -5,10 +5,11 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/knadh/koanf/v2"
+	"gorm.io/gorm"
 )
 
 // Start initializes the Discord session, registers interaction handlers, and creates commands.
-func Start(k *koanf.Koanf) (*discordgo.Session, error) {
+func Start(k *koanf.Koanf, db *gorm.DB) (*discordgo.Session, error) {
 	// Create a new Discord session using the provided bot token.
 	s, err := discordgo.New("Bot " + k.String("bot/token"))
 	if err != nil {

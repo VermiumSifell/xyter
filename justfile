@@ -2,6 +2,7 @@ alias b := build
 alias r := run
 
 dev:
+	rm main
 	reflex -r 'main' just run
 
 fmt:

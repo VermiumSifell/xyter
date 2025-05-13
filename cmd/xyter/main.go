@@ -8,12 +8,15 @@ import (
 
 	"git.zyner.org/meta/xyter/internal/bot"
 	"git.zyner.org/meta/xyter/internal/config"
+	"git.zyner.org/meta/xyter/internal/database"
 )
 
 func main() {
 	k := config.Load()
+	db := database.Open(k)
+	database.Migrate(db)
 
-	session, err := bot.Start(k)
+	session, err := bot.Start(k, db)
 	if err != nil {
 		log.Fatalf("Error starting bot: %v", err)
 	}
