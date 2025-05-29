@@ -9,7 +9,7 @@ import (
 )
 
 type Guild struct {
-	ID        uint64 `gorm:"primaryKey"`
+	ID        string `gorm:"primaryKey"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 
@@ -22,20 +22,20 @@ type Guild struct {
 }
 
 type User struct {
-	ID           uint64 `gorm:"primaryKey"`
+	ID           string `gorm:"primaryKey"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	GuildMembers []GuildMember
 	cooldowns    []Cooldown
 
-	userReputation *UserReputation
-	Qutoes         []Quote `gorm:"many2many:quotes;"`
-	PostedQutoes   []Quote `gorm:"many2many:posted_quotes;"`
+	userReputation *UserReputation `gorm:"foreignKey:UserID;references:ID;constraint:OnDelete:CASCADE"`
+	Qutoes         []Quote         `gorm:"many2many:quotes;"`
+	PostedQutoes   []Quote         `gorm:"many2many:posted_quotes;"`
 }
 
 type GuildMember struct {
-	GuildID   uint64    `gorm:"primaryKey"`
-	UserID    uint64    `gorm:"primaryKey"`
+	GuildID   string    `gorm:"primaryKey"`
+	UserID    string    `gorm:"primaryKey"`
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 
@@ -48,8 +48,8 @@ type GuildMember struct {
 }
 
 type GuildMemberCredit struct {
-	GuildID   uint64    `gorm:"primaryKey;index;index:guild_user_idx,unique;index:guild_idx;index:user_idx"`
-	UserID    uint64    `gorm:"primaryKey;index;index:guild_user_idx,unique;index:user_idx;index:guild_user_comp_idx"`
+	GuildID   string    `gorm:"primaryKey;index;index:guild_user_idx,unique;index:guild_idx;index:user_idx"`
+	UserID    string    `gorm:"primaryKey;index;index:guild_user_idx,unique;index:user_idx;index:guild_user_comp_idx"`
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 
@@ -57,14 +57,13 @@ type GuildMemberCredit struct {
 }
 
 type UserReputation struct {
-	ID        uint64    `gorm:"primaryKey;unique"`
+	UserID    string    `gorm:"primaryKey;unique"`
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 
-	User User `gorm:"constraint:OnDelete:CASCADE;foreignKey:ID;references:ID"`
-
-	Negative int `gorm:"default:0"`
-	Positive int `gorm:"default:0"`
+	Negative int  `gorm:"default:0"`
+	Positive int  `gorm:"default:0"`
+	User     User `gorm:"foreignKey:UserID;references:ID;constraint:OnDelete:CASCADE"`
 }
 
 type GuildSettings struct {
@@ -86,7 +85,7 @@ type GuildCreditsSettings struct {
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 
-	GuildID uint64
+	GuildID string `gorm:"uniqueIndex"`
 
 	// Settings
 	WorkBonusChance   int `gorm:"default:30"`
@@ -102,7 +101,7 @@ type GuildQuotesSettings struct {
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 
-	GuildID uint64
+	GuildID string
 
 	Status         bool `gorm:"default:false"`
 	QuoteChannelID string
@@ -113,15 +112,15 @@ type Quote struct {
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 
-	UserID uint64
+	UserID string
 	User   User `gorm:"foreignKey:UserID;references:ID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
 
-	GuildID uint64
+	GuildID string
 	Guild   Guild `gorm:"foreignKey:GuildID;references:ID;constraint:OnDelete:CASCADE"`
 
 	Message string
 
-	PosterUserID uint64
+	PosterUserID string
 	PosterUser   User `gorm:"foreignKey:PosterUserID;references:ID"`
 }
 
@@ -134,10 +133,10 @@ type Cooldown struct {
 	CooldownItem string
 
 	// Optional foreign keys
-	GuildID *uint64
+	GuildID *string
 	Guild   *Guild `gorm:"foreignKey:GuildID;references:ID;constraint:OnDelete:CASCADE"`
 
-	UserID *uint64
+	UserID *string
 	User   *User `gorm:"foreignKey:UserID;references:ID;constraint:OnDelete:CASCADE"`
 
 	// Optional composite foreign key to GuildMember
