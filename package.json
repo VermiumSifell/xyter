@@ -50,7 +50,7 @@
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/release-notes-generator": "^12.1.0",
     "@types/chance": "1.1.6",
-    "@types/node-schedule": "2.1.7",
+    "@types/node-schedule": "2.1.8",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
