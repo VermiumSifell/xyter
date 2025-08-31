@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.0.1",
-    "@semantic-release/gitlab": "^12.0.3",
+    "@semantic-release/gitlab": "^13.0.0",
     "axios": "^1.4.0",
     "chance": "^1.1.9",
     "date-fns": "^4.1.0",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/release-notes-generator": "^12.1.0",
+    "@semantic-release/release-notes-generator": "^14.0.0",
     "@types/chance": "1.1.6",
     "@types/node-schedule": "2.1.7",
     "@types/uuid": "^10.0.0",
