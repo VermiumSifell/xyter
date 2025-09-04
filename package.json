@@ -39,7 +39,7 @@
     "axios": "^1.4.0",
     "chance": "^1.1.9",
     "date-fns": "^4.1.0",
-    "discord.js": "^14.7.1",
+    "discord.js": "^14.22.1",
     "dotenv": "^16.0.3",
     "node-schedule": "^2.1.0",
     "uuid": "^11.0.3",
