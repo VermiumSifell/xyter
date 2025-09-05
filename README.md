@@ -4,12 +4,6 @@
   <br>
 </h1>
 
-<h3 align="center">
-  <br>
-  Please use <a href="https://s.zyner.org/xyter-code">git.zyner.org</a> instead for collaboration, this is due to mirroring!
-  <br>
-</h3>
-
 <h4 align="center"> A multi purpose Discord bot written in Typescript with Discord.js that tries to respects your privacy by making features <b>opt-in</b>.</h4>
 
   <br>
